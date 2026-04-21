@@ -44,60 +44,6 @@ const config = {
           { type: 'test', section: 'Tests' },
         ],
       },
-      writerOpts: {
-        transform(commit: {
-          hash?: string;
-          subject?: string;
-          raw: { committerDate?: string };
-        }) {
-          /*
-          console.log(commit);
-          {
-            merge: null,
-            revert: null,
-            header: 'build(release): add date and author to changelog line',
-            body: '',
-            footer: null,
-            notes: [],
-            mentions: [],
-            references: [],
-            type: 'build',
-            scope: 'release',
-            subject: 'add date and author to changelog line',
-            hash: '523a571d5c553fa1e6018f91bbde036d5bc2d37b',
-            gitTags: ' (HEAD -> main)',
-            committerDate: '2026-04-21',
-            raw: {
-              merge: null,
-              revert: null,
-              header: 'build(release): add date and author to changelog line',
-              body: '',
-              footer: null,
-              notes: [],
-              mentions: [],
-              references: [],
-              type: 'build',
-              scope: 'release',
-              subject: 'add date and author to changelog line',
-              hash: '523a571d5c553fa1e6018f91bbde036d5bc2d37b',
-              gitTags: ' (HEAD -> main)',
-              committerDate: '2026-04-21 13:25:07 +0700'
-            }
-          }
-          */
-          const subject = typeof commit.subject === 'string' ? commit.subject : '';
-
-          const date =
-            typeof commit.raw.committerDate === 'string'
-              ? commit.raw.committerDate
-              : '';
-
-          return {
-            ...commit,
-            subject: `${subject} (${date})`,
-          };
-        },
-      },
       whatBump(commits: Array<{ type?: string; notes?: unknown[] }>) {
         let level: 2 | 1 | 0 | null = null;
 
