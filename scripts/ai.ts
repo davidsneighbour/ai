@@ -5,7 +5,8 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import yaml from 'yaml';
-import { zodToJsonSchema } from 'zod-to-json-schema'; import {
+import { z } from 'zod';
+import {
   AllowedKeys,
   DocSchema,
   PromptSchema,
@@ -610,22 +611,16 @@ async function runDriftReport(options: CliOptions): Promise<void> {
 async function runExportSchemas(options: CliOptions): Promise<void> {
   await fs.mkdir(options.schemaDir, { recursive: true });
 
-  const promptSchemaJson = zodToJsonSchema(PromptSchema as any, {
-    name: 'PromptFrontmatter',
-    target: 'jsonSchema7',
-    $refStrategy: 'root',
+  const promptSchemaJson = z.toJSONSchema(PromptSchema, {
+    target: 'draft-7',
   });
 
-  const skillSchemaJson = zodToJsonSchema(SkillSchema as any, {
-    name: 'SkillFrontmatter',
-    target: 'jsonSchema7',
-    $refStrategy: 'root',
+  const skillSchemaJson = z.toJSONSchema(SkillSchema, {
+    target: 'draft-7',
   });
 
-  const docSchemaJson = zodToJsonSchema(DocSchema as any, {
-    name: 'DocFrontmatter',
-    target: 'jsonSchema7',
-    $refStrategy: 'root',
+  const docSchemaJson = z.toJSONSchema(DocSchema, {
+    target: 'draft-7',
   });
 
   addGeneratedComment(promptSchemaJson, 'Generated from scripts/ai.ts. Do not edit manually.');
@@ -1180,8 +1175,20 @@ function isStringArray(value: unknown): value is string[] {
  * @param comment Comment string.
  */
 function addGeneratedComment(schemaObject: unknown, comment: string): void {
-  if (isPlainObject(schemaObject)) {
-    schemaObject['$comment'] = comment;
+  if (!isPlainObject(schemaObject)) {
+    return;
+  }
+
+  const entries = Object.entries(schemaObject).filter(([key]) => key !== '$comment');
+
+  for (const key of Object.keys(schemaObject)) {
+    delete schemaObject[key];
+  }
+
+  schemaObject['$comment'] = comment;
+
+  for (const [key, value] of entries) {
+    schemaObject[key] = value;
   }
 }
 

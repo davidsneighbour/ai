@@ -13,43 +13,20 @@
     },
     "type": {
       "type": "string",
-      "enum": [
-        "agent",
-        "task",
-        "review",
-        "system"
-      ]
+      "const": "skill"
     },
     "description": {
       "type": "string",
       "minLength": 1
     },
-    "model": {
+    "version": {
       "type": "string"
-    },
-    "tools": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "skills": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "strict": {
-      "type": "boolean"
     },
     "tags": {
       "type": "array",
       "items": {
         "type": "string"
       }
-    },
-    "version": {
-      "type": "string"
     },
     "inputs": {
       "type": "object",
