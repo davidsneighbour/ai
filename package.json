@@ -16,7 +16,8 @@
     "ai:schemas": "node ./scripts/ai.ts export-schemas",
     "ai:check": "node ./scripts/ai.ts check",
     "ai:check:release": "node ./scripts/ai.ts check --release",
-    "hooks:install": "npx simple-git-hooks"
+    "hooks:install": "npx simple-git-hooks",
+    "release": "release-it"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
