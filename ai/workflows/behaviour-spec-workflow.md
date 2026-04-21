@@ -1,3 +1,9 @@
+---
+id: behaviour-spec-workflow
+title: Behaviour spec workflow
+description: Workflow for creating and validating behaviour specifications
+---
+
 # Behaviour spec workflow
 
 ```mermaid

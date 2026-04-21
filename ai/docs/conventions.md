@@ -1,3 +1,9 @@
+---
+id: docs-conventions
+title: Conventions
+description: Conventions for prompt and skill organization
+---
+
 # Conventions
 
 ## Prompt IDs

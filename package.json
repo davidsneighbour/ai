@@ -19,8 +19,10 @@
     "hooks:install": "npx simple-git-hooks"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
-    "pre-push": "npm run ai:check:release"
+    "pre-commit": "npx lint-staged"
+  },
+  "simple-git-hooks-bak": {
+    "pre-push-bak": "npm run ai:check:release"
   },
   "dependencies": {
     "@release-it/conventional-changelog": "10.0.6",

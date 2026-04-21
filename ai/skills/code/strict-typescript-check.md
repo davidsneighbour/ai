@@ -1,3 +1,9 @@
+---
+id: skills-code-strict-typescript-check
+title: Strict TypeScript check
+description: Guidelines for strict TypeScript checks in generated code
+---
+
 # Strict TypeScript check
 
 For generated TypeScript:
