@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/davidsneighbour/ai/compare/v0.0.2...v0.0.3) (2026-04-21)
+
+### build
+
+* **release:** add date and author to changelog line (2026-04-21 13:25:07 +0700) ([](https://github.com/davidsneighbour/ai/commit/523a571d5c553fa1e6018f91bbde036d5bc2d37b))
+* **release:** fix commit lines in changelog (2026-04-21 13:32:10 +0700) ([](https://github.com/davidsneighbour/ai/commit/9492b04f5e44a792aed2e1719043f41823631921))
+
 ## [0.0.2](https://github.com/davidsneighbour/ai/compare/v0.0.1...v0.0.2) (2026-04-21)
 
 ### build
