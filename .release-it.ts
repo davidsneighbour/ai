@@ -51,6 +51,7 @@ const config = {
           authorName?: string;
           committerName?: string;
         }) {
+          console.log(commit);
           const subject =
             typeof commit.subject === 'string' ? commit.subject : '';
 
