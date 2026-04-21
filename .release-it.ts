@@ -26,9 +26,9 @@ const config = {
       preset: {
         name: 'conventionalcommits',
         commitUrlFormat:
-          'https://github.com/davidsneighbour/kollitsch.dev/commit/{{hash}}',
+          'https://github.com/davidsneighbour/ai/commit/{{hash}}',
         compareUrlFormat:
-          'https://github.com/davidsneighbour/kollitsch.dev/compare/{{previousTag}}...{{currentTag}}',
+          'https://github.com/davidsneighbour/ai/compare/{{previousTag}}...{{currentTag}}',
         types: [
           { type: 'content', section: 'Content' },
           { type: 'feat', section: 'Features' },
@@ -43,6 +43,36 @@ const config = {
           { type: 'style', section: 'Styles' },
           { type: 'test', section: 'Tests' },
         ],
+      },
+      writerOpts: {
+        transform(commit: {
+          subject?: string;
+          committerDate?: string;
+          authorName?: string;
+          committerName?: string;
+        }) {
+          const subject =
+            typeof commit.subject === 'string' ? commit.subject : '';
+
+          const date =
+            typeof commit.committerDate === 'string'
+              ? commit.committerDate
+              : '';
+
+          const author =
+            typeof commit.authorName === 'string'
+              ? commit.authorName
+              : typeof commit.committerName === 'string'
+                ? commit.committerName
+                : '';
+
+          const extras = [date, author].filter(Boolean).join(' - ');
+
+          return {
+            ...commit,
+            subject: extras ? `${subject} (${extras})` : subject,
+          };
+        },
       },
       whatBump(commits: Array<{ type?: string; notes?: unknown[] }>) {
         let level: 2 | 1 | 0 | null = null;
