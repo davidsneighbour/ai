@@ -46,6 +46,7 @@ const config = {
       },
       writerOpts: {
         transform(commit: {
+          hash?: string;
           subject?: string;
           raw: { committerDate?: string };
         }) {
@@ -84,8 +85,7 @@ const config = {
             }
           }
           */
-          const subject =
-            typeof commit.subject === 'string' ? commit.subject : '';
+          const subject = typeof commit.subject === 'string' ? commit.subject : '';
 
           const date =
             typeof commit.raw.committerDate === 'string'
