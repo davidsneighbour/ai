@@ -24,7 +24,7 @@ export const PromptSchema = z
         strict: z.boolean().optional(),
         tags: z.array(z.string()).optional(),
         version: z.string().optional(),
-        inputs: z.record(InputFieldSchema).optional(),
+        inputs: z.record(z.string(), InputFieldSchema).optional(),
     })
     .strict();
 
@@ -39,7 +39,7 @@ export const SkillSchema = z
         description: z.string().min(1),
         version: z.string().optional(),
         tags: z.array(z.string()).optional(),
-        inputs: z.record(InputFieldSchema).optional(),
+        inputs: z.record(z.string(), InputFieldSchema).optional(),
     })
     .strict();
 

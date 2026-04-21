@@ -169,7 +169,7 @@ function parseArgs(argv: string[]): CliOptions {
     };
   }
 
-  const commandToken = argv[0];
+  const commandToken = argv[0] ?? 'help';
   const command = isCommandName(commandToken) ? commandToken : 'help';
 
   const options: CliOptions = {
@@ -580,7 +580,12 @@ async function runDriftReport(options: CliOptions): Promise<void> {
   console.log('Unknown frontmatter keys:');
   for (const key of unknownKeys) {
     console.log(`* ${key}`);
-    for (const file of report.unknownKeys[key]) {
+    const files = report.unknownKeys[key];
+    if (!files) {
+      continue;
+    }
+
+    for (const file of files) {
       console.log(`  * ${file}`);
     }
   }
@@ -605,19 +610,19 @@ async function runDriftReport(options: CliOptions): Promise<void> {
 async function runExportSchemas(options: CliOptions): Promise<void> {
   await fs.mkdir(options.schemaDir, { recursive: true });
 
-  const promptSchemaJson = zodToJsonSchema(PromptSchema, {
+  const promptSchemaJson = zodToJsonSchema(PromptSchema as any, {
     name: 'PromptFrontmatter',
     target: 'jsonSchema7',
     $refStrategy: 'root',
   });
 
-  const skillSchemaJson = zodToJsonSchema(SkillSchema, {
+  const skillSchemaJson = zodToJsonSchema(SkillSchema as any, {
     name: 'SkillFrontmatter',
     target: 'jsonSchema7',
     $refStrategy: 'root',
   });
 
-  const docSchemaJson = zodToJsonSchema(DocSchema, {
+  const docSchemaJson = zodToJsonSchema(DocSchema as any, {
     name: 'DocFrontmatter',
     target: 'jsonSchema7',
     $refStrategy: 'root',
@@ -802,10 +807,12 @@ function parseFrontmatter(content: string): {
     );
   }
 
+  const [, frontmatterRaw = '', body = ''] = match;
+
   let parsed: unknown;
 
   try {
-    parsed = yaml.parse(match[1]);
+    parsed = yaml.parse(frontmatterRaw);
   } catch (error: unknown) {
     throw new Error(`Invalid YAML frontmatter: ${getErrorMessage(error)}`);
   }
@@ -816,7 +823,7 @@ function parseFrontmatter(content: string): {
 
   return {
     frontmatter: parsed,
-    body: match[2] ?? '',
+    body,
   };
 }
 
@@ -1031,7 +1038,11 @@ function buildDriftReport(items: RegistryItem[]): DriftReport {
   }
 
   for (const key of Object.keys(unknownKeys)) {
-    unknownKeys[key].sort();
+    const entries = unknownKeys[key];
+    if (!entries) {
+      continue;
+    }
+    entries.sort();
   }
 
   return {
@@ -1170,7 +1181,7 @@ function isStringArray(value: unknown): value is string[] {
  */
 function addGeneratedComment(schemaObject: unknown, comment: string): void {
   if (isPlainObject(schemaObject)) {
-    schemaObject.$comment = comment;
+    schemaObject['$comment'] = comment;
   }
 }
 
