@@ -1,0 +1,37 @@
+{
+  "name": "@davidsneighbour/ai-starter-repo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI prompts, skills, templates, and workflows f(or|rom) @davidsneighbour.",
+  "engines": {
+    "node": ">=25"
+  },
+  "scripts": {
+    "ai:list": "node ./scripts/ai.ts list",
+    "ai:show": "node ./scripts/ai.ts show",
+    "ai:validate": "node ./scripts/ai.ts validate",
+    "ai:lint": "node ./scripts/ai.ts lint",
+    "ai:drift": "node ./scripts/ai.ts drift-report",
+    "ai:schemas": "node ./scripts/ai.ts export-schemas",
+    "ai:check": "node ./scripts/ai.ts check",
+    "ai:check:release": "node ./scripts/ai.ts check --release",
+    "hooks:install": "npx simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "pre-push": "npm run ai:check:release"
+  },
+  "dependencies": {
+    "@release-it/conventional-changelog": "10.0.6",
+    "release-it": ">=19",
+    "yaml": "2.8.3",
+    "zod": "4.3.6",
+    "zod-to-json-schema": "3.25.2"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.0",
+    "lint-staged": "16.4.0",
+    "simple-git-hooks": "2.13.1"
+  }
+}
