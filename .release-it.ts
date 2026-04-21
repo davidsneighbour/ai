@@ -47,31 +47,54 @@ const config = {
       writerOpts: {
         transform(commit: {
           subject?: string;
-          committerDate?: string;
-          authorName?: string;
-          committerName?: string;
+          raw: { committerDate?: string };
         }) {
+          /*
           console.log(commit);
+          {
+            merge: null,
+            revert: null,
+            header: 'build(release): add date and author to changelog line',
+            body: '',
+            footer: null,
+            notes: [],
+            mentions: [],
+            references: [],
+            type: 'build',
+            scope: 'release',
+            subject: 'add date and author to changelog line',
+            hash: '523a571d5c553fa1e6018f91bbde036d5bc2d37b',
+            gitTags: ' (HEAD -> main)',
+            committerDate: '2026-04-21',
+            raw: {
+              merge: null,
+              revert: null,
+              header: 'build(release): add date and author to changelog line',
+              body: '',
+              footer: null,
+              notes: [],
+              mentions: [],
+              references: [],
+              type: 'build',
+              scope: 'release',
+              subject: 'add date and author to changelog line',
+              hash: '523a571d5c553fa1e6018f91bbde036d5bc2d37b',
+              gitTags: ' (HEAD -> main)',
+              committerDate: '2026-04-21 13:25:07 +0700'
+            }
+          }
+          */
           const subject =
             typeof commit.subject === 'string' ? commit.subject : '';
 
           const date =
-            typeof commit.committerDate === 'string'
-              ? commit.committerDate
+            typeof commit.raw.committerDate === 'string'
+              ? commit.raw.committerDate
               : '';
-
-          const author =
-            typeof commit.authorName === 'string'
-              ? commit.authorName
-              : typeof commit.committerName === 'string'
-                ? commit.committerName
-                : '';
-
-          const extras = [date, author].filter(Boolean).join(' - ');
 
           return {
             ...commit,
-            subject: extras ? `${subject} (${extras})` : subject,
+            subject: `${subject} (${date})`,
           };
         },
       },
