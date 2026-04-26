@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.5](https://github.com/davidsneighbour/ai/compare/v0.0.4...v0.0.5) (2026-04-26)
+
+### Build
+
+* **deps:** update dependencies ([9182b3b](https://github.com/davidsneighbour/ai/commit/9182b3b206339ebae3de824282d4e80381d9216a))
+* **fix:** update tsconfig.json ([fe7a5c7](https://github.com/davidsneighbour/ai/commit/fe7a5c79280c0c3f94258c39dde590871326b858))
+
+### CI
+
+* **fix:** update dependabot configuration ([9ba147e](https://github.com/davidsneighbour/ai/commit/9ba147e5ee90985928d8193e54387336484628bc))
+* setup markdownlint and cspell dictionary ([f994c04](https://github.com/davidsneighbour/ai/commit/f994c042d6cd0a4638ac49cfed04ce1987d10aef))
+
 ## [0.0.4](https://github.com/davidsneighbour/ai/compare/v0.0.3...v0.0.4) (2026-04-26)
 
 ### Bug Fixes
