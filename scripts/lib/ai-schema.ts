@@ -87,7 +87,13 @@ export const AllowedKeys: Record<RegistryItemKind, Set<string>> = {
         'tags',
         'inputs',
     ]),
-    doc: new Set(['id', 'title', 'description', 'tags', 'version']),
+    doc: new Set([
+        'id',
+        'title',
+        'description',
+        'tags',
+        'version'
+    ]),
 };
 
 export type PromptFrontmatter = z.infer<typeof PromptSchema>;
