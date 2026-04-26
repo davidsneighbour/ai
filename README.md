@@ -1,6 +1,6 @@
 # AI starter repository
 
-This repository provides a portable structure for AI assets that can be shared across ChatGPT, Codex, and GitHub Copilot.
+This repository provides a portable structure for my AI assets that can be shared across ChatGPT, Codex, and GitHub Copilot.
 
 ## Structure
 
@@ -49,8 +49,3 @@ node ./scripts/ai.ts run --id test-from-behaviour-spec
 ```
 
 The `run` command does not call an external AI service. It resolves and prints the final composed prompt so that ChatGPT, Codex, or Copilot workflows can consume it.
-
-### ToDo
-
-- [ ] setup call for Ollama integration
-- [ ] fix schema validation for prompt files (currently broken by new front matter fields)
