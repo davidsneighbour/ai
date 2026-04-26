@@ -1,23 +1,56 @@
 {
   "name": "@davidsneighbour/ai-starter-repo",
+  "description": "AI prompts, skills, templates, and workflows f(or|rom) @davidsneighbour.",
   "version": "0.0.4",
   "private": true,
-  "type": "module",
-  "description": "AI prompts, skills, templates, and workflows f(or|rom) @davidsneighbour.",
+  "devDependencies": {
+    "@github/markdownlint-github": "0.8.0",
+    "@release-it/conventional-changelog": "11.0.0",
+    "@types/node": "25.6.0",
+    "lint-staged": "16.4.0",
+    "markdownlint": "0.40.0",
+    "markdownlint-cli2": "0.22.0",
+    "markdownlint-rule-extended-ascii": "0.2.1",
+    "markdownlint-rule-list-duplicates": "0.0.1",
+    "markdownlint-rule-relative-links": "5.1.0",
+    "markdownlint-rule-search-replace": "1.2.0",
+    "markdownlint-rule-title-case-style": "0.4.3",
+    "release-it": ">=20",
+    "simple-git-hooks": "2.13.1",
+    "yaml": "2.8.3",
+    "zod": "4.3.6",
+    "zod-to-json-schema": "3.25.2"
+  },
+  "scripts": {
+    "ai:check": "node ./scripts/ai.ts check",
+    "ai:check:release": "node ./scripts/ai.ts check --release",
+    "ai:drift": "node ./scripts/ai.ts drift-report",
+    "ai:lint": "node ./scripts/ai.ts lint",
+    "ai:list": "node ./scripts/ai.ts list",
+    "ai:schemas": "node ./scripts/ai.ts export-schemas",
+    "ai:show": "node ./scripts/ai.ts show",
+    "ai:validate": "node ./scripts/ai.ts validate",
+    "hooks:install": "npx simple-git-hooks",
+    "lint:markdown": "markdownlint-cli2 --config .markdownlint.jsonc s**/*.{md,mdx}",
+    "lint:markdown:fix": "markdownlint-cli2 --config .markdownlint.jsonc --fix s**/*.{md,mdx}",
+    "release": "release-it --ci"
+  },
   "engines": {
     "node": ">=25"
   },
-  "scripts": {
-    "ai:list": "node ./scripts/ai.ts list",
-    "ai:show": "node ./scripts/ai.ts show",
-    "ai:validate": "node ./scripts/ai.ts validate",
-    "ai:lint": "node ./scripts/ai.ts lint",
-    "ai:drift": "node ./scripts/ai.ts drift-report",
-    "ai:schemas": "node ./scripts/ai.ts export-schemas",
-    "ai:check": "node ./scripts/ai.ts check",
-    "ai:check:release": "node ./scripts/ai.ts check --release",
-    "hooks:install": "npx simple-git-hooks",
-    "release": "release-it --ci"
+  "cspell": {
+    "version": "0.2",
+    "language": "en-GB",
+    "dictionaryDefinitions": [
+      {
+        "name": "workspace-dictionary",
+        "path": "./.vscode/dictionary.txt",
+        "addWords": true
+      }
+    ],
+    "dictionaries": [
+      "workspace-dictionary"
+    ]
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
@@ -25,16 +58,5 @@
   "simple-git-hooks-bak": {
     "pre-push-bak": "npm run ai:check:release"
   },
-  "dependencies": {
-    "@release-it/conventional-changelog": "11.0.0",
-    "release-it": ">=20",
-    "yaml": "2.8.3",
-    "zod": "4.3.6",
-    "zod-to-json-schema": "3.25.2"
-  },
-  "devDependencies": {
-    "@types/node": "25.6.0",
-    "lint-staged": "16.4.0",
-    "simple-git-hooks": "2.13.1"
-  }
+  "type": "module"
 }
