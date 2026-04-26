@@ -17,7 +17,7 @@
     "ai:check": "node ./scripts/ai.ts check",
     "ai:check:release": "node ./scripts/ai.ts check --release",
     "hooks:install": "npx simple-git-hooks",
-    "release": "release-it"
+    "release": "release-it --ci"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
@@ -26,8 +26,8 @@
     "pre-push-bak": "npm run ai:check:release"
   },
   "dependencies": {
-    "@release-it/conventional-changelog": "10.0.6",
-    "release-it": ">=19",
+    "@release-it/conventional-changelog": "11.0.0",
+    "release-it": ">=20",
     "yaml": "2.8.3",
     "zod": "4.3.6",
     "zod-to-json-schema": "3.25.2"
