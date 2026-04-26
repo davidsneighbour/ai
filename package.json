@@ -1,6 +1,6 @@
 {
   "name": "@davidsneighbour/ai-starter-repo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "type": "module",
   "description": "AI prompts, skills, templates, and workflows f(or|rom) @davidsneighbour.",

@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.0.4](https://github.com/davidsneighbour/ai/compare/v0.0.3...v0.0.4) (2026-04-26)
+
+### Bug Fixes
+
+* empty schema exports ([8b23409](https://github.com/davidsneighbour/ai/commit/8b234098a873e1de87194b2d0dd0ddddf80797cd))
+
+### Build
+
+* **release:** fix hash in commit object ([d770e38](https://github.com/davidsneighbour/ai/commit/d770e38e557c631c1f21d220f89ad801bdcc89f3))
+* **release:** remove changes again ([1d60252](https://github.com/davidsneighbour/ai/commit/1d60252efe7d24134d63e4073dc514a13a1c84b7))
+
 ## [0.0.3](https://github.com/davidsneighbour/ai/compare/v0.0.2...v0.0.3) (2026-04-21)
 
 ### build
