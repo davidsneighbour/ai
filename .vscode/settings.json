@@ -66,5 +66,10 @@
   },
   "files.autoSave": "afterDelay",
   "editor.fontFamily": "JetBrains Mono",
-  "editor.formatOnPaste": true
+  "editor.formatOnPaste": true,
+  "markdown.updateLinksOnFileMove.enabled": "prompt",
+  "markdown.validate.enabled": true,
+  "markdown.extension.preview.autoShowPreviewToSide": false,
+  "markdown.extension.toc.levels": "2..6",
+  "markdown.extension.toc.unorderedList.marker": "*"
 }
