@@ -3,6 +3,13 @@
     "*.instructions.md": "markdown",
     "*.prompt.md": "markdown"
   },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "README.md": "CHANGELOG.md, CONTRIBUTING.md, LICENSE*",
+    "package.json": "package-lock.json, .release-it.ts, .markdownlint*, lint-staged.config.*, tsconfig.*"
+  },
   "cSpell.customDictionaries": {
     "workspace-dictionary": {
       "name": "workspace-dictionary",
@@ -10,5 +17,54 @@
       "addWords": true,
       "scope": "workspace"
     }
-  }
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#ffffb3",
+    "activityBar.background": "#ffffb3",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#00bfbf",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#ffffb3",
+    "statusBar.background": "#ffff80",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#ffff4d",
+    "statusBarItem.remoteBackground": "#ffff80",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#ffff80",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#ffff8099",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#FFFF80",
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[prompt]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    }
+  },
+  "editor.formatOnSave": true,
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.prompt\\.md$",
+        "cmd": "npx prettier --write \"${file}\""
+      }
+    ]
+  },
+  "yaml.schemas": {
+    "./schema/instructions.json": [
+      "instructions/*.instructions.md",
+    ]
+  },
+  "files.autoSave": "afterDelay",
+  "editor.fontFamily": "JetBrains Mono",
+  "editor.formatOnPaste": true
 }

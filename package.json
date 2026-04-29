@@ -32,7 +32,12 @@
     "hooks:install": "npx simple-git-hooks",
     "lint:markdown": "markdownlint-cli2 --config .markdownlint.jsonc s**/*.{md,mdx}",
     "lint:markdown:fix": "markdownlint-cli2 --config .markdownlint.jsonc --fix s**/*.{md,mdx}",
-    "release": "release-it --ci"
+    "release": "release-it --ci",
+    "install:skills": "npx skills add ai/skills --skill '*'",
+    "lint:skills": "node scripts/validate-skills.ts --root ai/skills",
+    "lint:skills:verbose": "node scripts/validate-skills.ts --root ai/skills --verbose",
+    "lint:skills:markdown": "markdownlint-cli2 \"ai/skills/**/*.md\"",
+    "lint": "npm run lint:skills && npm run lint:skills:markdown"
   },
   "engines": {
     "node": ">=25"
@@ -51,6 +56,10 @@
       "workspace-dictionary"
     ]
   },
+  "files": [
+    "ai",
+    "README.md"
+  ],
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
   },

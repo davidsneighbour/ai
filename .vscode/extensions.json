@@ -4,6 +4,7 @@
         "yzhang.markdown-all-in-one",
         "streetsidesoftware.code-spell-checker-cspell-bundled-dictionaries",
         "streetsidesoftware.code-spell-checker",
-        "tekumara.typos-vscode"
+        "tekumara.typos-vscode",
+        "bierner.markdown-mermaid",
     ]
 }
