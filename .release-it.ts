@@ -30,7 +30,8 @@ const config = {
         compareUrlFormat:
           'https://github.com/davidsneighbour/ai/compare/{{previousTag}}...{{currentTag}}',
         types: [
-          { type: 'content', section: 'Content' },
+          { type: 'skills', section: 'Skills' },
+          { type: 'prompts', section: 'Prompts' },
           { type: 'feat', section: 'Features' },
           { type: 'fix', section: 'Bug Fixes' },
           { type: 'build', section: 'Build' },
@@ -40,7 +41,6 @@ const config = {
           { type: 'perf', section: 'Performance' },
           { type: 'refactor', section: 'Refactoring' },
           { type: 'revert', section: 'Reverts' },
-          { type: 'style', section: 'Styles' },
           { type: 'test', section: 'Tests' },
         ],
       },
@@ -65,7 +65,7 @@ const config = {
 
           if (
             level === null &&
-            ['fix', 'build', 'chore', 'ci', 'docs', 'perf', 'refactor', 'revert', 'style', 'test'].includes(type)
+            ['skills', 'prompts', 'fix', 'build', 'chore', 'ci', 'docs', 'perf', 'refactor', 'revert', 'test'].includes(type)
           ) {
             level = 2;
           }
