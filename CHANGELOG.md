@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.0.6](https://github.com/davidsneighbour/ai/compare/v0.0.5...v0.0.6) (2026-04-29)
+
+### Build
+
+* **deps:** bump smol-toml and markdownlint-cli2 ([#1](https://github.com/davidsneighbour/ai/issues/1)) ([36623b2](https://github.com/davidsneighbour/ai/commit/36623b21c1a1f0e6795ce7fd1e5fe90c9cc16006))
+* **deps:** cleanup dependencies ([50a24bf](https://github.com/davidsneighbour/ai/commit/50a24bf124d27284aa1d6304afabaa4fab585710))
+
+### Chores
+
+* add linting and skills setup ([3326562](https://github.com/davidsneighbour/ai/commit/332656271f00e9a584389939f38ec0b441320dfa))
+
+### Documentation
+
+* update README.md ([26d9a97](https://github.com/davidsneighbour/ai/commit/26d9a97c11f259e5298810a6f3e124879474938d))
+
+### Refactoring
+
+* cleanup ([fd58210](https://github.com/davidsneighbour/ai/commit/fd58210ac9fef7b01e2a2586bc3768c968e8b4e7))
+
 ## [0.0.5](https://github.com/davidsneighbour/ai/compare/v0.0.4...v0.0.5) (2026-04-26)
 
 ### Build

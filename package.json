@@ -1,7 +1,7 @@
 {
   "name": "@davidsneighbour/ai-starter-repo",
   "description": "AI prompts, skills, templates, and workflows f(or|rom) @davidsneighbour.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "devDependencies": {
     "@github/markdownlint-github": "0.8.0",
