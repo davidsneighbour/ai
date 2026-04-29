@@ -1,5 +1,6 @@
 ---
-id: skills-validation-validate-rfc2119
+id: validate-rfc2119
+name: validate-rfc2119
 title: Validate RFC 2119 keywords
 description: Guidelines for validating the use of RFC 2119 keywords in prompts and skills
 ---

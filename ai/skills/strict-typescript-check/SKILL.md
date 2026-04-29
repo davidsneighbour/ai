@@ -1,5 +1,6 @@
 ---
-id: skills-code-strict-typescript-check
+id: strict-typescript-check
+name: strict-typescript-check
 title: Strict TypeScript check
 description: Guidelines for strict TypeScript checks in generated code
 ---
