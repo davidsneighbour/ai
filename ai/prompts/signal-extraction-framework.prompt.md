@@ -1,5 +1,5 @@
 ---
-id: signal-extraction-framework
+name: signal-extraction-framework
 title: Signal extraction framework
 type: task
 ---

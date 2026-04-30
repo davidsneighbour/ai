@@ -1,5 +1,5 @@
 ---
-id: rewrite-human
+name: rewrite-human
 title: Rewrite Human
 type: task
 ---
