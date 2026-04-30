@@ -1,17 +1,24 @@
 # AI
 
-![Oh look! It's AI!](.github/ai.png)
+![Oh look Ma! It's AI!!!!!111One](.github/ai.png)
 
 This repository provides a portable structure for my AI assets that can be shared across ChatGPT, Codex, and GitHub Copilot.
 
+* [Structure](#structure)
+* [Prompt model](#prompt-model)
+* [CLI](#cli)
+* [Skills](#skills)
+  * [Install patterns](#install-patterns)
+* [Licensed content](#licensed-content)
+
 ## Structure
 
-* `ai/prompts/` contains prompt files grouped by purpose.
-* `ai/skills/` contains reusable capability files.
-* `ai/templates/` contains output templates.
-* `ai/workflows/` contains multi-step process documents.
-* `schemas/` contains validation schemas.
-* `scripts/` contains the CLI runner and validators.
+* `ai/prompts/`    prompt files grouped by purpose.
+* `ai/skills/`     reusable capability files.
+* `ai/templates/`  output templates.
+* `ai/workflows/`  multi-step process documents.
+* `schemas/`       validation schemas.
+* `scripts/`       CLI runner and validators.
 
 ## Prompt model
 
@@ -85,3 +92,11 @@ Update all installed skills
 ```bash
 npx skills update -g -y
 ```
+
+## Licensed content
+
+These links into 404s are by design.
+
+* [Tailwind Plus UI-Blocks llms.txt](https://tailwindcss.com/plus/ui-blocks/documentation/llms.txt)
+* [Emil.md](https://animations.dev/learn/emil-skill)
+* [Animations.dev Skill](https://animations.dev/learn/animation-theory/animations-and-ai#installation)
