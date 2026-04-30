@@ -1,36 +1,37 @@
 #!/usr/bin/env -S node
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import process from 'node:process';
-import { fileURLToPath } from 'node:url';
-import yaml from 'yaml';
-import { z } from 'zod';
+import fs from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+import { fileURLToPath } from "node:url";
+import yaml from "yaml";
+import { z } from "zod";
 import {
   AllowedKeys,
   DocSchema,
+  InstructionSchema,
   PromptSchema,
-  SkillSchema,
   type RegistryItemKind,
-} from './lib/ai-schema.ts';
+  SkillSchema,
+} from "./lib/ai-schema.ts";
 
 /**
  * Supported CLI commands.
  */
 type CommandName =
-  | 'help'
-  | 'list'
-  | 'show'
-  | 'validate'
-  | 'lint'
-  | 'drift-report'
-  | 'export-schemas'
-  | 'check';
+  | "help"
+  | "list"
+  | "show"
+  | "validate"
+  | "lint"
+  | "drift-report"
+  | "export-schemas"
+  | "check";
 
 /**
  * Lint issue severity.
  */
-type LintSeverity = 'warning' | 'error';
+type LintSeverity = "warning" | "error";
 
 /**
  * Frontmatter data type.
@@ -69,7 +70,7 @@ interface RegistryItem {
  * Validation issue for a single file.
  */
 interface ValidationIssue {
-  severity: 'error';
+  severity: "error";
   code: string;
   message: string;
   file: string;
@@ -117,28 +118,28 @@ async function main(): Promise<void> {
     const options = parseArgs(process.argv.slice(2));
 
     switch (options.command) {
-      case 'help':
+      case "help":
         printHelp();
         return;
-      case 'list':
+      case "list":
         await runList(options);
         return;
-      case 'show':
+      case "show":
         await runShow(options);
         return;
-      case 'validate':
+      case "validate":
         await runValidate(options);
         return;
-      case 'lint':
+      case "lint":
         await runLint(options);
         return;
-      case 'drift-report':
+      case "drift-report":
         await runDriftReport(options);
         return;
-      case 'export-schemas':
+      case "export-schemas":
         await runExportSchemas(options);
         return;
-      case 'check':
+      case "check":
         await runCheck(options);
         return;
       default:
@@ -157,9 +158,9 @@ async function main(): Promise<void> {
  * @returns Parsed CLI options.
  */
 function parseArgs(argv: string[]): CliOptions {
-  if (argv.length === 0 || argv.includes('--help') || argv.includes('-h')) {
+  if (argv.length === 0 || argv.includes("--help") || argv.includes("-h")) {
     return {
-      command: 'help',
+      command: "help",
       rootDir: defaultAiRoot(),
       schemaDir: defaultSchemaRoot(),
       json: false,
@@ -170,52 +171,51 @@ function parseArgs(argv: string[]): CliOptions {
     };
   }
 
-  const commandToken = argv[0] ?? 'help';
-  const command = isCommandName(commandToken) ? commandToken : 'help';
+  const commandToken = argv[0] ?? "help";
+  const command = isCommandName(commandToken) ? commandToken : "help";
 
   const options: CliOptions = {
     command,
     rootDir: defaultAiRoot(),
     schemaDir: defaultSchemaRoot(),
-    json: argv.includes('--json'),
-    verbose: argv.includes('--verbose'),
-    includeContent: !argv.includes('--no-content'),
+    json: argv.includes("--json"),
+    verbose: argv.includes("--verbose"),
+    includeContent: !argv.includes("--no-content"),
     noExitOnError:
-      argv.includes('--no-exit-on-error') || argv.includes('--noExitOnError'),
-    release: argv.includes('--release'),
+      argv.includes("--no-exit-on-error") || argv.includes("--noExitOnError"),
+    release: argv.includes("--release"),
   };
 
   for (let index = 1; index < argv.length; index += 1) {
     const token = argv[index];
 
-    if (token === '--root') {
+    if (token === "--root") {
       const value = argv[index + 1];
       if (!value) {
-        throw new Error('Missing value for --root');
+        throw new Error("Missing value for --root");
       }
       options.rootDir = path.resolve(process.cwd(), value);
       index += 1;
       continue;
     }
 
-    if (token === '--schemas') {
+    if (token === "--schemas") {
       const value = argv[index + 1];
       if (!value) {
-        throw new Error('Missing value for --schemas');
+        throw new Error("Missing value for --schemas");
       }
       options.schemaDir = path.resolve(process.cwd(), value);
       index += 1;
       continue;
     }
 
-    if (token === '--id') {
+    if (token === "--id") {
       const value = argv[index + 1];
       if (!value) {
-        throw new Error('Missing value for --id');
+        throw new Error("Missing value for --id");
       }
       options.id = value;
       index += 1;
-      continue;
     }
   }
 
@@ -242,14 +242,14 @@ function formatFileError(filePath: string, error: unknown): string {
  */
 function isCommandName(value: string): value is CommandName {
   return (
-    value === 'help' ||
-    value === 'list' ||
-    value === 'show' ||
-    value === 'validate' ||
-    value === 'lint' ||
-    value === 'drift-report' ||
-    value === 'export-schemas' ||
-    value === 'check'
+    value === "help" ||
+    value === "list" ||
+    value === "show" ||
+    value === "validate" ||
+    value === "lint" ||
+    value === "drift-report" ||
+    value === "export-schemas" ||
+    value === "check"
   );
 }
 
@@ -259,7 +259,7 @@ function isCommandName(value: string): value is CommandName {
  * @returns Absolute path to `ai`.
  */
 function defaultAiRoot(): string {
-  return path.resolve(process.cwd(), 'ai');
+  return path.resolve(process.cwd(), "ai");
 }
 
 /**
@@ -268,14 +268,14 @@ function defaultAiRoot(): string {
  * @returns Absolute path to `schemas`.
  */
 function defaultSchemaRoot(): string {
-  return path.resolve(process.cwd(), 'schemas');
+  return path.resolve(process.cwd(), "schemas");
 }
 
 /**
  * Print CLI usage.
  */
 function printHelp(): void {
-  const scriptName = path.basename(process.argv[1] ?? 'ai.ts');
+  const scriptName = path.basename(process.argv[1] ?? "ai.ts");
 
   console.log(`Usage: node ./scripts/${scriptName} <command> [options]
 
@@ -344,11 +344,13 @@ async function runList(options: CliOptions): Promise<void> {
  */
 async function runShow(options: CliOptions): Promise<void> {
   if (!options.id) {
-    throw new Error('The show command requires --id <id>');
+    throw new Error("The show command requires --id <id>");
   }
 
   const items = await loadRegistryItems(options);
-  const matchingItems = items.filter((candidate) => candidate.id === options.id);
+  const matchingItems = items.filter(
+    (candidate) => candidate.id === options.id,
+  );
 
   if (matchingItems.length === 0) {
     throw new Error(`No item found with id: ${options.id}`);
@@ -358,7 +360,7 @@ async function runShow(options: CliOptions): Promise<void> {
     throw new Error(
       `Multiple items found with id "${options.id}": ${matchingItems
         .map((item) => item.relativePath)
-        .join(', ')}`
+        .join(", ")}`,
     );
   }
 
@@ -380,29 +382,29 @@ async function runShow(options: CliOptions): Promise<void> {
           body: options.includeContent ? item.body : undefined,
         },
         null,
-        2
-      )
+        2,
+      ),
     );
     return;
   }
 
   console.log(`# ${item.title}`);
-  console.log('');
+  console.log("");
   console.log(`* id: ${item.id}`);
   console.log(`* kind: ${item.kind}`);
   console.log(`* file: ${item.relativePath}`);
-  console.log('');
-  console.log('Frontmatter:');
-  console.log('```yaml');
+  console.log("");
+  console.log("Frontmatter:");
+  console.log("```yaml");
   console.log(yaml.stringify(item.frontmatter).trimEnd());
-  console.log('```');
+  console.log("```");
 
   if (options.includeContent) {
-    console.log('');
-    console.log('Body:');
-    console.log('```md');
+    console.log("");
+    console.log("Body:");
+    console.log("```md");
     console.log(item.body.trimEnd());
-    console.log('```');
+    console.log("```");
   }
 }
 
@@ -416,7 +418,10 @@ async function runShow(options: CliOptions): Promise<void> {
 async function runValidate(options: CliOptions): Promise<void> {
   const items = await loadRegistryItems(options);
   const results = items.map((item) => validateRegistryItem(item));
-  const errorCount = results.reduce((sum, result) => sum + result.issues.length, 0);
+  const errorCount = results.reduce(
+    (sum, result) => sum + result.issues.length,
+    0,
+  );
 
   if (options.json) {
     console.log(
@@ -429,8 +434,8 @@ async function runValidate(options: CliOptions): Promise<void> {
           results,
         },
         null,
-        2
-      )
+        2,
+      ),
     );
   } else {
     for (const result of results) {
@@ -445,8 +450,10 @@ async function runValidate(options: CliOptions): Promise<void> {
       }
     }
 
-    console.log('');
-    console.log(`Checked ${results.length} file(s), found ${errorCount} schema error(s).`);
+    console.log("");
+    console.log(
+      `Checked ${results.length} file(s), found ${errorCount} schema error(s).`,
+    );
   }
 
   if (errorCount > 0 && !options.noExitOnError) {
@@ -463,7 +470,7 @@ async function runValidate(options: CliOptions): Promise<void> {
  */
 function buildDuplicateIdIssues(
   items: RegistryItem[],
-  release: boolean
+  release: boolean,
 ): Map<string, LintIssue[]> {
   const idsToItems = new Map<string, RegistryItem[]>();
 
@@ -485,13 +492,15 @@ function buildDuplicateIdIssues(
       .sort((left, right) => left.localeCompare(right));
 
     for (const item of duplicateItems) {
-      const otherFiles = duplicateFiles.filter((file) => file !== item.relativePath);
+      const otherFiles = duplicateFiles.filter(
+        (file) => file !== item.relativePath,
+      );
       const issues = issuesByFile.get(item.relativePath) ?? [];
 
       issues.push({
-        severity: 'error',
-        code: 'duplicate-id',
-        message: `Duplicate id "${id}" also used in: ${otherFiles.join(', ')}`,
+        severity: "error",
+        code: "duplicate-id",
+        message: `Duplicate id "${id}" also used in: ${otherFiles.join(", ")}`,
         file: item.relativePath,
       });
 
@@ -527,8 +536,8 @@ async function runLint(options: CliOptions): Promise<void> {
           results,
         },
         null,
-        2
-      )
+        2,
+      ),
     );
   } else {
     for (const result of results) {
@@ -543,9 +552,9 @@ async function runLint(options: CliOptions): Promise<void> {
       }
     }
 
-    console.log('');
+    console.log("");
     console.log(
-      `Checked ${summary.files} file(s), found ${summary.errors} error(s), ${summary.warnings} warning(s), ${summary.total} total issue(s).`
+      `Checked ${summary.files} file(s), found ${summary.errors} error(s), ${summary.warnings} warning(s), ${summary.total} total issue(s).`,
     );
   }
 
@@ -568,17 +577,17 @@ async function runDriftReport(options: CliOptions): Promise<void> {
     return;
   }
 
-  console.log('# Schema drift report');
-  console.log('');
+  console.log("# Schema drift report");
+  console.log("");
 
   const unknownKeys = Object.keys(report.unknownKeys).sort();
 
   if (unknownKeys.length === 0) {
-    console.log('No unknown frontmatter keys found.');
+    console.log("No unknown frontmatter keys found.");
     return;
   }
 
-  console.log('Unknown frontmatter keys:');
+  console.log("Unknown frontmatter keys:");
   for (const key of unknownKeys) {
     console.log(`* ${key}`);
     const files = report.unknownKeys[key];
@@ -591,10 +600,10 @@ async function runDriftReport(options: CliOptions): Promise<void> {
     }
   }
 
-  console.log('');
-  console.log('Files with unknown keys:');
-  for (const [file, keys] of Object.entries(report.filesWithUnknownKeys).sort((a, b) =>
-    a[0].localeCompare(b[0])
+  console.log("");
+  console.log("Files with unknown keys:");
+  for (const [file, keys] of Object.entries(report.filesWithUnknownKeys).sort(
+    (a, b) => a[0].localeCompare(b[0]),
   )) {
     console.log(`* ${file}`);
     for (const key of keys) {
@@ -612,38 +621,80 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
   await fs.mkdir(options.schemaDir, { recursive: true });
 
   const promptSchemaJson = z.toJSONSchema(PromptSchema, {
-    target: 'draft-7',
+    target: "draft-7",
   });
 
   const skillSchemaJson = z.toJSONSchema(SkillSchema, {
-    target: 'draft-7',
+    target: "draft-7",
   });
 
   const docSchemaJson = z.toJSONSchema(DocSchema, {
-    target: 'draft-7',
+    target: "draft-7",
+  });
+  const instructionSchemaJson = z.toJSONSchema(InstructionSchema, {
+    target: "draft-7",
   });
 
-  addGeneratedComment(promptSchemaJson, 'Generated from scripts/ai.ts. Do not edit manually.');
-  addGeneratedComment(skillSchemaJson, 'Generated from scripts/ai.ts. Do not edit manually.');
-  addGeneratedComment(docSchemaJson, 'Generated from scripts/ai.ts. Do not edit manually.');
+  addGeneratedComment(
+    promptSchemaJson,
+    "Generated from scripts/ai.ts. Do not edit manually.",
+  );
+  addGeneratedComment(
+    skillSchemaJson,
+    "Generated from scripts/ai.ts. Do not edit manually.",
+  );
+  addGeneratedComment(
+    docSchemaJson,
+    "Generated from scripts/ai.ts. Do not edit manually.",
+  );
+  addGeneratedComment(
+    instructionSchemaJson,
+    "Generated from scripts/ai.ts. Do not edit manually.",
+  );
 
-  const promptOutputPath = path.join(options.schemaDir, 'prompt.schema.json');
-  const skillOutputPath = path.join(options.schemaDir, 'skill.schema.json');
-  const docOutputPath = path.join(options.schemaDir, 'doc.schema.json');
+  const promptOutputPath = path.join(options.schemaDir, "prompt.schema.json");
+  const skillOutputPath = path.join(options.schemaDir, "skill.schema.json");
+  const docOutputPath = path.join(options.schemaDir, "doc.schema.json");
+  const instructionOutputPath = path.join(
+    options.schemaDir,
+    "instruction.schema.json",
+  );
 
-  await fs.writeFile(promptOutputPath, `${JSON.stringify(promptSchemaJson, null, 2)}\n`, 'utf8');
-  await fs.writeFile(skillOutputPath, `${JSON.stringify(skillSchemaJson, null, 2)}\n`, 'utf8');
-  await fs.writeFile(docOutputPath, `${JSON.stringify(docSchemaJson, null, 2)}\n`, 'utf8');
+  await fs.writeFile(
+    promptOutputPath,
+    `${JSON.stringify(promptSchemaJson, null, 2)}\n`,
+    "utf8",
+  );
+  await fs.writeFile(
+    skillOutputPath,
+    `${JSON.stringify(skillSchemaJson, null, 2)}\n`,
+    "utf8",
+  );
+  await fs.writeFile(
+    docOutputPath,
+    `${JSON.stringify(docSchemaJson, null, 2)}\n`,
+    "utf8",
+  );
+  await fs.writeFile(
+    instructionOutputPath,
+    `${JSON.stringify(instructionSchemaJson, null, 2)}\n`,
+    "utf8",
+  );
 
   if (options.json) {
     console.log(
       JSON.stringify(
         {
-          written: [promptOutputPath, skillOutputPath, docOutputPath],
+          written: [
+            promptOutputPath,
+            skillOutputPath,
+            docOutputPath,
+            instructionOutputPath,
+          ],
         },
         null,
-        2
-      )
+        2,
+      ),
     );
     return;
   }
@@ -651,6 +702,7 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
   console.log(`[ok] ${path.relative(process.cwd(), promptOutputPath)}`);
   console.log(`[ok] ${path.relative(process.cwd(), skillOutputPath)}`);
   console.log(`[ok] ${path.relative(process.cwd(), docOutputPath)}`);
+  console.log(`[ok] ${path.relative(process.cwd(), instructionOutputPath)}`);
 }
 
 /**
@@ -665,7 +717,9 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 async function runCheck(options: CliOptions): Promise<void> {
   const items = await loadRegistryItems(options);
   const validationResults = items.map((item) => validateRegistryItem(item));
-  const lintResults = items.map((item) => lintRegistryItem(item, options.release));
+  const lintResults = items.map((item) =>
+    lintRegistryItem(item, options.release),
+  );
 
   const duplicateIdIssues = buildDuplicateIdIssues(items, options.release);
 
@@ -676,7 +730,7 @@ async function runCheck(options: CliOptions): Promise<void> {
 
   const validationErrorCount = validationResults.reduce(
     (sum, result) => sum + result.issues.length,
-    0
+    0,
   );
 
   const lintSummary = summariseLintResults(lintResults);
@@ -699,8 +753,8 @@ async function runCheck(options: CliOptions): Promise<void> {
           lintResults,
         },
         null,
-        2
-      )
+        2,
+      ),
     );
   } else {
     console.log(`Validation errors: ${validationErrorCount}`);
@@ -723,7 +777,7 @@ async function runCheck(options: CliOptions): Promise<void> {
  */
 async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
   const files = await walkDirectory(options.rootDir);
-  const markdownFiles = files.filter((filePath) => filePath.endsWith('.md'));
+  const markdownFiles = files.filter((filePath) => filePath.endsWith(".md"));
   const items: RegistryItem[] = [];
 
   for (const absolutePath of markdownFiles) {
@@ -739,7 +793,7 @@ async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
         console.error(`[verbose] absolute_path=${absolutePath}`);
 
         if (error instanceof Error && error.stack) {
-          console.error('[verbose] stack:');
+          console.error("[verbose] stack:");
           console.error(error.stack);
         }
       }
@@ -763,14 +817,16 @@ async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
  */
 async function loadRegistryItem(
   absolutePath: string,
-  rootDir: string
+  rootDir: string,
 ): Promise<RegistryItem> {
-  const content = await fs.readFile(absolutePath, 'utf8');
+  const content = await fs.readFile(absolutePath, "utf8");
   const { frontmatter, body } = parseFrontmatter(content);
   const kind = detectKind(absolutePath, frontmatter);
   const relativePath = path.relative(rootDir, absolutePath);
-  const id = getStringField(frontmatter, 'id') ?? deriveIdFromFilename(absolutePath);
-  const title = getStringField(frontmatter, 'title') ?? path.basename(absolutePath);
+  const id =
+    getStringField(frontmatter, "id") ?? deriveIdFromFilename(absolutePath);
+  const title =
+    getStringField(frontmatter, "title") ?? path.basename(absolutePath);
 
   return {
     id,
@@ -793,16 +849,16 @@ function parseFrontmatter(content: string): {
   frontmatter: FrontmatterRecord;
   body: string;
 } {
-  const normalized = content.replace(/^\uFEFF/u, '');
+  const normalized = content.replace(/^\uFEFF/u, "");
   const match = normalized.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/u);
 
   if (!match) {
     throw new Error(
-      'Missing or malformed YAML frontmatter block. Expected a leading --- block.'
+      "Missing or malformed YAML frontmatter block. Expected a leading --- block.",
     );
   }
 
-  const [, frontmatterRaw = '', body = ''] = match;
+  const [, frontmatterRaw = "", body = ""] = match;
 
   let parsed: unknown;
 
@@ -813,7 +869,7 @@ function parseFrontmatter(content: string): {
   }
 
   if (!isPlainObject(parsed)) {
-    throw new Error('Frontmatter must parse to an object.');
+    throw new Error("Frontmatter must parse to an object.");
   }
 
   return {
@@ -831,23 +887,27 @@ function parseFrontmatter(content: string): {
  */
 function detectKind(
   absolutePath: string,
-  frontmatter: FrontmatterRecord
+  frontmatter: FrontmatterRecord,
 ): RegistryItemKind {
-  const explicitType = getStringField(frontmatter, 'type');
+  const explicitType = getStringField(frontmatter, "type");
 
-  if (explicitType === 'skill') {
-    return 'skill';
+  if (explicitType === "skill") {
+    return "skill";
   }
 
   if (absolutePath.includes(`${path.sep}skills${path.sep}`)) {
-    return 'skill';
+    return "skill";
   }
 
   if (absolutePath.includes(`${path.sep}docs${path.sep}`)) {
-    return 'doc';
+    return "doc";
   }
 
-  return 'prompt';
+  if (absolutePath.includes(`${path.sep}instructions${path.sep}`)) {
+    return "instruction";
+  }
+
+  return "prompt";
 }
 
 /**
@@ -858,21 +918,23 @@ function detectKind(
  */
 function validateRegistryItem(item: RegistryItem): ValidationResult {
   const schema =
-    item.kind === 'skill'
+    item.kind === "skill"
       ? SkillSchema
-      : item.kind === 'doc'
+      : item.kind === "doc"
         ? DocSchema
-        : PromptSchema;
+        : item.kind === "instruction"
+          ? InstructionSchema
+          : PromptSchema;
 
   const result = schema.safeParse(item.frontmatter);
   const issues: ValidationIssue[] = [];
 
   if (!result.success) {
     for (const issue of result.error.issues) {
-      const issuePath = issue.path.length > 0 ? issue.path.join('.') : '<root>';
+      const issuePath = issue.path.length > 0 ? issue.path.join(".") : "<root>";
       issues.push({
-        severity: 'error',
-        code: 'schema-validation',
+        severity: "error",
+        code: "schema-validation",
         message: `${issuePath}: ${issue.message}`,
         file: item.relativePath,
       });
@@ -898,8 +960,8 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
   const unknownKeys = getUnknownFrontmatterKeys(item.frontmatter, item.kind);
   for (const key of unknownKeys) {
     issues.push({
-      severity: release ? 'error' : 'warning',
-      code: 'schema-drift',
+      severity: release ? "error" : "warning",
+      code: "schema-drift",
       message: `Unknown frontmatter key "${key}" detected.`,
       file: item.relativePath,
     });
@@ -907,96 +969,152 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 
   if (item.body.trim().length === 0) {
     issues.push({
-      severity: release ? 'error' : 'warning',
-      code: 'empty-body',
-      message: 'Body content is empty.',
+      severity: release ? "error" : "warning",
+      code: "empty-body",
+      message: "Body content is empty.",
       file: item.relativePath,
     });
   }
 
-  if (item.kind === 'doc' && !item.absolutePath.endsWith('.doc.md')) {
+  if (item.kind === "doc" && !item.absolutePath.endsWith(".doc.md")) {
     issues.push({
-      severity: release ? 'error' : 'warning',
-      code: 'naming',
-      message: 'Doc file should use the .doc.md suffix.',
+      severity: release ? "error" : "warning",
+      code: "naming",
+      message: "Doc file should use the .doc.md suffix.",
       file: item.relativePath,
     });
   }
 
-  if (item.kind === 'doc') {
-    if (
-      typeof item.frontmatter['description'] !== 'string' ||
-      item.frontmatter['description'].trim() === ''
-    ) {
-      issues.push({
-        severity: 'error',
-        code: 'missing-description',
-        message: 'Doc description is missing or empty.',
-        file: item.relativePath,
-      });
-    }
-  }
-
-  if (item.kind === 'prompt' && !item.absolutePath.endsWith('.prompt.md')) {
+  if (
+    item.kind === "instruction" &&
+    !item.absolutePath.endsWith(".instructions.md")
+  ) {
     issues.push({
-      severity: release ? 'error' : 'warning',
-      code: 'naming',
-      message: 'Prompt file should use the .prompt.md suffix.',
+      severity: release ? "error" : "warning",
+      code: "naming",
+      message: "Instruction file should use the .instructions.md suffix.",
       file: item.relativePath,
     });
   }
 
-  if (item.kind === 'skill' && !item.absolutePath.endsWith('.skill.md')) {
+  if (
+    item.kind === "instruction" &&
+    !item.absolutePath.includes(
+      `${path.sep}ai${path.sep}instructions${path.sep}`,
+    )
+  ) {
     issues.push({
-      severity: release ? 'error' : 'warning',
-      code: 'naming',
-      message: 'Skill file should use the .skill.md suffix.',
+      severity: release ? "error" : "warning",
+      code: "location",
+      message:
+        "Instruction file should be in the ai/instructions directory (subfolders are allowed).",
       file: item.relativePath,
     });
   }
 
-  if (item.kind === 'prompt') {
-    if (typeof item.frontmatter['description'] !== 'string' || item.frontmatter['description'].trim() === '') {
+  if (item.kind === "doc") {
+    if (
+      typeof item.frontmatter["description"] !== "string" ||
+      item.frontmatter["description"].trim() === ""
+    ) {
       issues.push({
-        severity: 'error',
-        code: 'missing-description',
-        message: 'Prompt description is missing or empty.',
+        severity: "error",
+        code: "missing-description",
+        message: "Doc description is missing or empty.",
+        file: item.relativePath,
+      });
+    }
+  }
+
+  if (item.kind === "instruction") {
+    if (
+      typeof item.frontmatter["description"] !== "string" ||
+      item.frontmatter["description"].trim() === ""
+    ) {
+      issues.push({
+        severity: "error",
+        code: "missing-description",
+        message: "Instruction description is missing or empty.",
         file: item.relativePath,
       });
     }
 
     if (
-      item.frontmatter['skills'] !== undefined &&
-      !isStringArray(item.frontmatter['skills'])
+      typeof item.frontmatter["applyTo"] !== "string" ||
+      item.frontmatter["applyTo"].trim() === ""
     ) {
       issues.push({
-        severity: 'error',
-        code: 'skills-type',
-        message: 'skills must be an array of strings.',
+        severity: "error",
+        code: "missing-apply-to",
+        message: "Instruction applyTo is missing or empty.",
+        file: item.relativePath,
+      });
+    }
+  }
+
+  if (item.kind === "prompt" && !item.absolutePath.endsWith(".prompt.md")) {
+    issues.push({
+      severity: release ? "error" : "warning",
+      code: "naming",
+      message: "Prompt file should use the .prompt.md suffix.",
+      file: item.relativePath,
+    });
+  }
+
+  if (item.kind === "skill" && !item.absolutePath.endsWith(".skill.md")) {
+    issues.push({
+      severity: release ? "error" : "warning",
+      code: "naming",
+      message: "Skill file should use the .skill.md suffix.",
+      file: item.relativePath,
+    });
+  }
+
+  if (item.kind === "prompt") {
+    if (
+      typeof item.frontmatter["description"] !== "string" ||
+      item.frontmatter["description"].trim() === ""
+    ) {
+      issues.push({
+        severity: "error",
+        code: "missing-description",
+        message: "Prompt description is missing or empty.",
         file: item.relativePath,
       });
     }
 
     if (
-      item.frontmatter['tools'] !== undefined &&
-      !isStringArray(item.frontmatter['tools'])
+      item.frontmatter["skills"] !== undefined &&
+      !isStringArray(item.frontmatter["skills"])
     ) {
       issues.push({
-        severity: 'error',
-        code: 'tools-type',
-        message: 'tools must be an array of strings.',
+        severity: "error",
+        code: "skills-type",
+        message: "skills must be an array of strings.",
         file: item.relativePath,
       });
     }
 
     if (
-      item.frontmatter['strict'] !== undefined &&
-      typeof item.frontmatter['strict'] !== 'boolean'
+      item.frontmatter["tools"] !== undefined &&
+      !isStringArray(item.frontmatter["tools"])
     ) {
       issues.push({
-        severity: 'error',
-        code: 'strict-type',
-        message: 'strict must be a boolean.',
+        severity: "error",
+        code: "tools-type",
+        message: "tools must be an array of strings.",
+        file: item.relativePath,
+      });
+    }
+
+    if (
+      item.frontmatter["strict"] !== undefined &&
+      typeof item.frontmatter["strict"] !== "boolean"
+    ) {
+      issues.push({
+        severity: "error",
+        code: "strict-type",
+        message: "strict must be a boolean.",
         file: item.relativePath,
       });
     }
@@ -1055,7 +1173,7 @@ function buildDriftReport(items: RegistryItem[]): DriftReport {
  */
 function getUnknownFrontmatterKeys(
   frontmatter: FrontmatterRecord,
-  kind: RegistryItemKind
+  kind: RegistryItemKind,
 ): string[] {
   const allowedKeys = AllowedKeys[kind];
   return Object.keys(frontmatter)
@@ -1080,7 +1198,7 @@ function summariseLintResults(results: LintResult[]): {
 
   for (const result of results) {
     for (const issue of result.issues) {
-      if (issue.severity === 'warning') {
+      if (issue.severity === "warning") {
         warnings += 1;
       } else {
         errors += 1;
@@ -1129,9 +1247,12 @@ async function walkDirectory(directory: string): Promise<string[]> {
  * @param key Field key.
  * @returns String value or undefined.
  */
-function getStringField(record: FrontmatterRecord, key: string): string | undefined {
+function getStringField(
+  record: FrontmatterRecord,
+  key: string,
+): string | undefined {
   const value = record[key];
-  return typeof value === 'string' ? value : undefined;
+  return typeof value === "string" ? value : undefined;
 }
 
 /**
@@ -1143,9 +1264,10 @@ function getStringField(record: FrontmatterRecord, key: string): string | undefi
 function deriveIdFromFilename(absolutePath: string): string {
   return path
     .basename(absolutePath)
-    .replace(/\.prompt\.md$/u, '')
-    .replace(/\.skill\.md$/u, '')
-    .replace(/\.md$/u, '');
+    .replace(/\.prompt\.md$/u, "")
+    .replace(/\.skill\.md$/u, "")
+    .replace(/\.instructions\.md$/u, "")
+    .replace(/\.md$/u, "");
 }
 
 /**
@@ -1155,7 +1277,7 @@ function deriveIdFromFilename(absolutePath: string): string {
  * @returns True if object-like and not an array.
  */
 function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /**
@@ -1165,7 +1287,9 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
  * @returns True if string array.
  */
 function isStringArray(value: unknown): value is string[] {
-  return Array.isArray(value) && value.every((entry) => typeof entry === 'string');
+  return (
+    Array.isArray(value) && value.every((entry) => typeof entry === "string")
+  );
 }
 
 /**
@@ -1179,13 +1303,15 @@ function addGeneratedComment(schemaObject: unknown, comment: string): void {
     return;
   }
 
-  const entries = Object.entries(schemaObject).filter(([key]) => key !== '$comment');
+  const entries = Object.entries(schemaObject).filter(
+    ([key]) => key !== "$comment",
+  );
 
   for (const key of Object.keys(schemaObject)) {
     delete schemaObject[key];
   }
 
-  schemaObject['$comment'] = comment;
+  schemaObject["$comment"] = comment;
 
   for (const [key, value] of entries) {
     schemaObject[key] = value;
@@ -1228,7 +1354,7 @@ function assertNever(value: never): never {
  * Run only when executed directly.
  */
 const currentFilePath = fileURLToPath(import.meta.url);
-const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : '';
+const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : "";
 
 if (currentFilePath === invokedPath) {
   await main();
