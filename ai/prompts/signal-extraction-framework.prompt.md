@@ -2,6 +2,7 @@
 name: signal-extraction-framework
 title: Signal extraction framework
 type: task
+version: 1.0.0
 ---
 
 You are acting as a rigorous analyst, editor, framework designer, and bullshit detector.
