@@ -1,35 +1,44 @@
 {
-    "compilerOptions": {
-        "target": "ES2022",
-        "lib": [
-            "ES2022",
-            "dom"
-        ],
-        "types": [
-            "node"
-        ],
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
-        "strict": true,
-        "noImplicitOverride": true,
-        "noUncheckedIndexedAccess": true,
-        "exactOptionalPropertyTypes": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "useUnknownInCatchVariables": true,
-        "noFallthroughCasesInSwitch": true,
-        "noEmit": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "moduleDetection": "force",
-        "verbatimModuleSyntax": true
-    },
-    "include": [
-        "scripts/**/*.ts"
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "dom"
     ],
-    "exclude": [
-        "node_modules",
-        "schemas"
-    ]
+    "types": [
+      "node"
+    ],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "useUnknownInCatchVariables": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": true,
+    "noUnusedLocals": true, // zookeeper, required
+    "noUnusedParameters": true, // zookeeper, required
+    "allowUnusedLabels": false, // zookeeper, required
+    "noUncheckedSideEffectImports": true, // zookeeper, required
+    "noFallthroughCasesInSwitch": true, // zookeeper, required
+    "allowUnreachableCode": false, /// zookeeper, required
+    "noUncheckedIndexedAccess": true, // zookeeper, optional, but recommended, call object[custom] instead of object.custom
+    "noPropertyAccessFromIndexSignature": true, // zookeeper, optional
+    "erasableSyntaxOnly": true, // zookeeper, optional
+    "noImplicitOverride": true, // zookeeper, preference
+    "noErrorTruncation": true, // zookeeper, preference, show full error type, good for debugging
+    "exactOptionalPropertyTypes": true, // zookeeper, preference, complains about undefined properties if they are optional
+    "allowJS": true, // zookeeper, for migration
+    "checkJS": true, // zookeeper, or use @ts-check
+  },
+  "include": [
+    "scripts/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "schemas"
+  ]
 }

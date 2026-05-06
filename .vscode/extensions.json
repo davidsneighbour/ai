@@ -6,5 +6,9 @@
         "streetsidesoftware.code-spell-checker",
         "tekumara.typos-vscode",
         "bierner.markdown-mermaid",
+        "chwoerz.type-buddy",
+        "mattpocock.ts-error-translator",
+        "biomejs.biome",
+        "editorconfig.editorconfig",
     ]
 }

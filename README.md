@@ -4,21 +4,20 @@
 
 This repository provides a portable structure for my AI assets that can be shared across ChatGPT, Codex, and GitHub Copilot.
 
-* [Structure](#structure)
-* [Prompt model](#prompt-model)
-* [CLI](#cli)
-* [Skills](#skills)
-  * [Install patterns](#install-patterns)
-* [Licensed content](#licensed-content)
+- [Structure](#structure)
+- [Prompt model](#prompt-model)
+- [CLI](#cli)
+- [Skills](#skills)
+  - [Install patterns](#install-patterns)
+- [Licensed content](#licensed-content)
 
 ## Structure
 
-* `ai/prompts/`    prompt files grouped by purpose.
-* `ai/skills/`     reusable capability files.
-* `ai/templates/`  output templates.
-* `ai/workflows/`  multi-step process documents.
-* `schemas/`       validation schemas.
-* `scripts/`       CLI runner and validators.
+- `ai/prompts/`    prompt files grouped by purpose.
+- `ai/skills/`     reusable capability files.
+- `ai/templates/`  output templates (obsolete, should be part of the skill).
+- `schemas/`       validation schemas.
+- `scripts/`       CLI runner and validators.
 
 ## Prompt model
 
@@ -26,10 +25,10 @@ All prompt files use front matter plus Markdown body content.
 
 Supported `type` values:
 
-* `agent`
-* `task`
-* `review`
-* `system`
+- `agent`
+- `task`
+- `review`
+- `system`
 
 ## CLI
 
@@ -97,6 +96,6 @@ npx skills update -g -y
 
 These links into 404s are by design.
 
-* [Tailwind Plus UI-Blocks llms.txt](https://tailwindcss.com/plus/ui-blocks/documentation/llms.txt)
-* [Emil.md](https://animations.dev/learn/emil-skill)
-* [Animations.dev Skill](https://animations.dev/learn/animation-theory/animations-and-ai#installation)
+- [Tailwind Plus UI-Blocks llms.txt](https://tailwindcss.com/plus/ui-blocks/documentation/llms.txt)
+- [Emil.md](https://animations.dev/learn/emil-skill)
+- [Animations.dev Skill](https://animations.dev/learn/animation-theory/animations-and-ai#installation)

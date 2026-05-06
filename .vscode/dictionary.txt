@@ -1,4 +1,9 @@
+agentic
+CRISPE
+DALL-E
 frontmatter
 infile
 inspectable
 Ollama
+SDXL
+timezone

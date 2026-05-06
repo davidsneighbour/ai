@@ -8,6 +8,7 @@
     "@github/markdownlint-github": "0.8.0",
     "@release-it/conventional-changelog": "11.0.0",
     "@types/node": "25.6.0",
+    "cspell": "9.7.0",
     "lint-staged": "16.4.0",
     "markdownlint-cli2": "0.22.1",
     "markdownlint-rule-extended-ascii": "0.2.1",
@@ -38,6 +39,8 @@
     "lint:skills": "node scripts/validate-skills.ts --root ai/skills",
     "lint:skills:markdown": "markdownlint-cli2 \"ai/skills/**/*.md\"",
     "lint:skills:verbose": "node scripts/validate-skills.ts --root ai/skills --verbose",
+    "lint:system": "osv-scanner scan -r .",
+    "lint:system:fix": "osv-scanner fix -M package.json -L package-lock.json",
     "release": "release-it --ci"
   },
   "files": [

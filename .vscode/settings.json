@@ -1,8 +1,8 @@
 {
-  "files.associations": {
-    "*.instructions.md": "markdown",
-    "*.prompt.md": "markdown"
-  },
+  // "files.associations": {
+  //   "*.instructions.md": "markdown",
+  //   "*.prompt.md": "markdown"
+  // },
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js",
@@ -71,5 +71,16 @@
   "markdown.validate.enabled": true,
   "markdown.extension.preview.autoShowPreviewToSide": false,
   "markdown.extension.toc.levels": "2..6",
-  "markdown.extension.toc.unorderedList.marker": "-"
+  "markdown.extension.toc.unorderedList.marker": "-",
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 120,
+  "editor.rulers": [
+    80,
+    100,
+    120
+  ],
+  "editor.wrappingIndent": "indent",
+  "editor.wrappingStrategy": "advanced",
+  "diffEditor.wordWrap": "on",
+  "notebook.output.wordWrap": false
 }
