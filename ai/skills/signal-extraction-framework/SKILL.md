@@ -42,7 +42,6 @@ The goal is not summarisation.
 
 The goal is to convert noisy content into reusable systems.
 
----
 
 # When to use
 
@@ -68,7 +67,6 @@ Use when the source material may contain:
 - recycled concepts
 - unclear reasoning
 
----
 
 # When NOT to use
 
@@ -85,7 +83,6 @@ Do not use this skill for:
 
 These require different analytical frameworks.
 
----
 
 # Behaviour rules
 
@@ -99,7 +96,6 @@ The skill must assume:
 
 The skill must remain sceptical.
 
----
 
 # Mandatory workflow
 
@@ -118,7 +114,6 @@ Preserve:
 
 Do not rewrite.
 
----
 
 ## 2. OCR limitations
 
@@ -131,7 +126,6 @@ Explicitly identify:
 
 Never guess missing text.
 
----
 
 ## 3. Sanity analysis
 
@@ -150,7 +144,6 @@ Separate:
 - weak claims
 - manipulative framing
 
----
 
 ## 4. Structural analysis
 
@@ -163,7 +156,6 @@ Identify:
 - surface complexity
 - real operational layers
 
----
 
 ## 5. Framework extraction
 
@@ -178,7 +170,6 @@ Each framework should include:
 - failure conditions
 - trade-offs
 
----
 
 ## 6. Reusable prompt extraction
 
@@ -189,8 +180,6 @@ Prompts must:
 - be reusable
 - remain topic agnostic
 - prioritise depth
-
----
 
 ## 7. Final verdict
 
@@ -204,7 +193,27 @@ Classify the source as:
 
 Then explain why.
 
----
+8. Clean notes draft
+
+Create a concise, copy-pastable notes draft that explains the useful core concept without preserving the source material's weak, misleading, exaggerated, manipulative, or incorrect parts.
+
+The draft must:
+
+- explain the concept plainly
+- keep only defensible and useful ideas
+- remove hype, slogans, moral theatre, fake certainty, and engagement bait
+- avoid repeating the creator's framing when it is misleading
+- distinguish the useful core from overreach
+- include necessary nuance
+- be reusable as personal notes
+- use clear headings and short paragraphs
+- avoid unnecessary examples unless they clarify the concept
+- avoid motivational language
+- avoid social-media phrasing
+
+Do not include critique in this section unless a warning is necessary to prevent misunderstanding.
+
+The output should be clean enough to paste directly into a notes system.
 
 # Reset behaviour
 
@@ -220,7 +229,6 @@ This includes:
 - multi-image uploads
 - image-only messages
 
----
 
 # Output format
 
@@ -233,8 +241,8 @@ Always output in this order:
 5. Framework extraction
 6. Reusable prompts
 7. Final verdict
+8. Clean notes draft
 
----
 
 # Success criteria
 

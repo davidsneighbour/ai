@@ -99,7 +99,7 @@ Do NOT:
 
 Treat transcription as forensic work.
 
-1. OCR / visual limitations
+2. OCR / visual limitations
 
 Explicitly state:
 
@@ -122,7 +122,7 @@ If everything was readable:
 
 state that clearly.
 
-1. Sanity / bullshit analysis
+3. Sanity / bullshit analysis
 
 Assess whether the content actually makes sense.
 
@@ -156,7 +156,7 @@ Call this out directly.
 
 Do not soften critique.
 
-1. Structural analysis
+4. Structural analysis
 
 Identify what the content is REALLY trying to do underneath the formatting.
 
@@ -179,7 +179,7 @@ Separate:
 
 Focus on underlying systems.
 
-1. Framework synthesis
+5. Framework synthesis
 
 If useful ideas exist:
 
@@ -213,7 +213,7 @@ If the source material is too weak to create a framework:
 
 state that clearly.
 
-1. Reusable prompt extraction
+6. Reusable prompt extraction
 
 Create one or more reusable prompts that extract the useful core of the content.
 
@@ -229,7 +229,7 @@ They should help analyse future content, not create shallow content.
 
 Prefer one strong prompt over ten weak prompts.
 
-1. Final verdict
+7. Final verdict
 
 Give a direct final assessment:
 
@@ -250,6 +250,28 @@ Also include:
 - what requires real-world testing
 - what is dangerously misleading
 
+8. Clean notes draft
+
+Create a concise, copy-pastable notes draft that explains the useful core concept without preserving the source material's weak, misleading, exaggerated, manipulative, or incorrect parts.
+
+The draft must:
+
+- explain the concept plainly
+- keep only defensible and useful ideas
+- remove hype, slogans, moral theatre, fake certainty, and engagement bait
+- avoid repeating the creator's framing when it is misleading
+- distinguish the useful core from overreach
+- include necessary nuance
+- be reusable as personal notes
+- use clear headings and short paragraphs
+- avoid unnecessary examples unless they clarify the concept
+- avoid motivational language
+- avoid social-media phrasing
+
+Do not include critique in this section unless a warning is necessary to prevent misunderstanding.
+
+The output should be clean enough to paste directly into a notes system.
+
 ## OUTPUT FORMAT
 
 Always return results in this order:
@@ -261,6 +283,7 @@ Always return results in this order:
 5. Framework synthesis
 6. Reusable prompt(s)
 7. Final verdict
+8. Clean notes draft
 
 ## STYLE RULES
 
