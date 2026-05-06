@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.1.0](https://github.com/davidsneighbour/ai/compare/v0.0.6...v0.1.0) (2026-05-06)
+
+### Skills
+
+* fix frontmatter to conform to linting and standards ([52d89f0](https://github.com/davidsneighbour/ai/commit/52d89f0f68e50ff42169817768201f30665c466c))
+
+### Prompts
+
+* add tasks for signal extraction framework and rewrite human text ([bd64403](https://github.com/davidsneighbour/ai/commit/bd644038beb80a09facafeaa7d6e86cbacedb931))
+* some restructuring of prompts ([d6e7c86](https://github.com/davidsneighbour/ai/commit/d6e7c86f6c89c372da61a92f35be387861f060da))
+
+### Features
+
+* add instruction schema and document prompt schema ([172a3d2](https://github.com/davidsneighbour/ai/commit/172a3d22479d5082063376b3905062f8486306f3))
+
+### Bug Fixes
+
+* add instructions schema to ai.ts ([33be22f](https://github.com/davidsneighbour/ai/commit/33be22f35642de6f9b9a365377fc8c9ce77aa670))
+* linting and configuration updates ([684358e](https://github.com/davidsneighbour/ai/commit/684358e0996effdf5aaf404ea768800ee975c31d))
+
+### Build
+
+* add .nvmrc ([ecfc017](https://github.com/davidsneighbour/ai/commit/ecfc01725f382f1911abf0cb0abee0875621f345))
+* **deps:** add biome and biome configuration ([a0c159d](https://github.com/davidsneighbour/ai/commit/a0c159d138fe13a41789df449b8d49d7bff78019))
+* **deps:** update dependencies and fix lockfile-lint ([6816cd1](https://github.com/davidsneighbour/ai/commit/6816cd154bb94ae33ab2c184500291722d724c3c))
+* **vscode:** set up formatting for markdown documents ([021d590](https://github.com/davidsneighbour/ai/commit/021d59097ff7a1ab0f7e4d64ee7109ccbe2132f8))
+* **vscode:** update workspace configuration ([a6cb312](https://github.com/davidsneighbour/ai/commit/a6cb3124a114c3b35af10112e7394fde3f2ad092))
+
+### CI
+
+* **fix:** cleanup scripts and release-it config ([1cb2aa5](https://github.com/davidsneighbour/ai/commit/1cb2aa5c7d3436078ab5f2f2d4a4f2bbc3170c47))
+
+### Documentation
+
+* **fix:** ai image after ai image re-touch ([d205132](https://github.com/davidsneighbour/ai/commit/d205132d080f7e034dd751d9041847ae8c2fd46d))
+* lint and restructure documentation ([4838a9d](https://github.com/davidsneighbour/ai/commit/4838a9db58283723225a2ad9e8f08ac6eb8c2e95))
+
 ## [0.0.6](https://github.com/davidsneighbour/ai/compare/v0.0.5...v0.0.6) (2026-04-29)
 
 ### Build
