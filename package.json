@@ -4,12 +4,13 @@
   "version": "0.0.6",
   "private": true,
   "devDependencies": {
-    "@biomejs/biome": "2.4.13",
+    "@biomejs/biome": "2.4.14",
     "@github/markdownlint-github": "0.8.0",
     "@release-it/conventional-changelog": "11.0.0",
     "@types/node": "25.6.0",
-    "cspell": "9.7.0",
+    "cspell": "10.0.0",
     "lint-staged": "16.4.0",
+    "lockfile-lint": "5.0.0",
     "markdownlint-cli2": "0.22.1",
     "markdownlint-rule-extended-ascii": "0.2.1",
     "markdownlint-rule-list-duplicates": "0.0.1",
@@ -18,8 +19,8 @@
     "markdownlint-rule-title-case-style": "0.4.3",
     "release-it": ">=20",
     "simple-git-hooks": "2.13.1",
-    "yaml": "2.8.3",
-    "zod": "4.3.6",
+    "yaml": "2.8.4",
+    "zod": "4.4.3",
     "zod-to-json-schema": "3.25.2"
   },
   "scripts": {

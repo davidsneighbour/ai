@@ -18,7 +18,7 @@ This repository provides a portable structure for my AI assets that can be share
 - `ai/templates/`  output templates (obsolete, should be part of the skill).
 - `schemas/`       validation schemas.
 - `scripts/`       CLI runner and validators.
-
+  
 ## Prompt model
 
 All prompt files use front matter plus Markdown body content.
