@@ -1,6 +1,9 @@
-# Token-wasting patterns
+---
+id: skills-prompt-creation-patterns
+title: Token-wasting patterns
+description: A catalog of common prompt patterns that lead to token waste, along with fixes for each
+---
 
-## Task Patterns
 
 | # | Type | Pattern | Bad Example | Fixed |
 | --- | --- | --- | --- | --- |

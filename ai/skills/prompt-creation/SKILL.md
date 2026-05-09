@@ -1,4 +1,5 @@
 ---
+id: prompt-creation
 name: prompt-creation
 title: Prompt Creation
 description: Generates optimized prompts for any AI tool. Use when writing, fixing, improving, or adapting a prompt for LLM, Cursor, Midjourney, image AI, video AI, coding agents, or any other AI tool.

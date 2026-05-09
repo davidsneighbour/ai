@@ -1,6 +1,10 @@
-# Prompt Templates Reference
+---
+id: skills-prompt-creation-templates
+title: Prompt Templates Reference
+description: A collection of template structures for different types of prompts, organized by use case. Each template includes a breakdown of when to use it, how to structure the prompt, and an example. Use these as starting points for your own prompts — adapt as needed but keep the core structure intact for best results.
+---
 
-Full template library for Prompt Master. Read the relevant template when the user's task type matches. Do not load all templates at once — only the one you need.
+A collection of template structures for different types of prompts, organized by use case. Each template includes a breakdown of when to use it, how to structure the prompt, and an example. Use these as starting points for your own prompts — adapt as needed but keep the core structure intact for best results.
 
 ## Table of Contents
 
@@ -23,7 +27,7 @@ Full template library for Prompt Master. Read the relevant template when the use
 
 *Role, Task, Format. Use for fast one-shot tasks where the request is clear and simple.*
 
-````markdown`
+```markdown
 Role: [One sentence defining who the AI is]
 Task: [Precise verb + what to produce]
 Format: [Exact output format and length]
