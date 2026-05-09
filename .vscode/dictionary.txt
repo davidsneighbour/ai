@@ -1,9 +1,12 @@
 agentic
 CRISPE
-DALL-E
 frontmatter
 infile
 inspectable
-Ollama
 SDXL
 timezone
+
+# library and brand names
+smol-toml
+Ollama
+DALL-E
