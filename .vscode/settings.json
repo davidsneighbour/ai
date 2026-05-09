@@ -79,5 +79,7 @@
   "editor.wrappingStrategy": "advanced",
   "diffEditor.wordWrap": "on",
   "notebook.output.wordWrap": false,
-  "chat.promptFilesLocations": {}
+  "chat.promptFilesLocations": {
+    ".github/prompts/**/*.prompt.md": true
+  }
 }
