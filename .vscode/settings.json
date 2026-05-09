@@ -1,8 +1,4 @@
 {
-  // "files.associations": {
-  //   "*.instructions.md": "markdown",
-  //   "*.prompt.md": "markdown"
-  // },
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js",
@@ -61,7 +57,7 @@
   },
   "yaml.schemas": {
     "./schema/instructions.json": [
-      "instructions/*.instructions.md",
+      "instructions/*.instructions.md"
     ]
   },
   "files.autoSave": "afterDelay",
@@ -82,5 +78,6 @@
   "editor.wrappingIndent": "indent",
   "editor.wrappingStrategy": "advanced",
   "diffEditor.wordWrap": "on",
-  "notebook.output.wordWrap": false
+  "notebook.output.wordWrap": false,
+  "chat.promptFilesLocations": {}
 }
