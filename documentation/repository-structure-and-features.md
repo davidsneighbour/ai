@@ -49,6 +49,8 @@ node ./scripts/ai.ts lint
 node ./scripts/ai.ts validate-skills
 node ./scripts/ai.ts drift-report
 node ./scripts/ai.ts export-schemas
+node ./scripts/ai.ts build-documentation
+node ./scripts/ai.ts setup --prompts --mode glob
 node ./scripts/ai.ts check --release
 ```
 
@@ -61,6 +63,8 @@ node ./scripts/ai.ts check --release
 * `validate-skills` checks direct child directories under `ai/skills/` for Codex-style `SKILL.md` files
 * `drift-report` lists unknown frontmatter keys across the registry
 * `export-schemas` writes JSON Schema files from the shared Zod schemas
+* `build-documentation` refreshes generated README prompt-file configuration guidance
+* `setup --prompts` writes VS Code prompt file locations into the configured workspace settings file
 * `check` runs validation and linting together
 
 ## Validation vs linting
@@ -101,4 +105,6 @@ flowchart TD
 * prefer explicit `id`, `title`, and `description`
 * use the correct folder and filename suffix for each item type
 * run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
+* run `node ./scripts/ai.ts build-documentation` after prompt folder or prompt setting changes
+* run `node ./scripts/ai.ts setup --prompts --mode glob` to configure local VS Code prompt file locations
 * run `node ./scripts/ai.ts check --release` before considering changes clean

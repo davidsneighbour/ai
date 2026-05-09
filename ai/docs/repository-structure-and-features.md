@@ -164,7 +164,7 @@ That file provides the shared schema definitions and allowed-key lists used by `
 The current design intentionally separates concerns:
 
 * `scripts/lib/ai-schema.ts` defines the data model
-* `scripts/ai.ts` loads, validates, lints, inspects, and exports data based on that model
+* `scripts/ai.ts` loads, validates, lints, inspects, exports data, generates prompt-location documentation, and configures local VS Code prompt settings based on that model
 
 This keeps the system maintainable. Schema changes happen in one central place rather than being scattered across the runtime script.
 
@@ -276,6 +276,18 @@ This bridges the gap between TypeScript runtime validation and external tooling.
 * documentation tooling
 * future automation around frontmatter authoring
 
+### `build-documentation`
+
+Refreshes the generated prompt file settings section in `README.md`. It reads markers, prompt roots, and setting names from `config.toml`, then writes examples for one recursive prompt glob and for individual prompt folders.
+
+Run this after changing prompt folder layout or prompt setting configuration. The npm alias is `npm run build:documentation`.
+
+### `setup --prompts`
+
+Configures VS Code prompt file locations in the workspace settings file configured by `config.toml`. The command preserves existing settings, creates the settings file when needed, and writes the configured prompt locations under the configured VS Code setting key.
+
+Use `--mode glob` to write one recursive prompt entry. Use `--mode folders` to write one entry per direct prompt folder. The default comes from `config.toml`. The npm aliases are `npm run setup:prompts`, `npm run setup:prompts:glob`, and `npm run setup:prompts:folders`.
+
 ### `check`
 
 Runs validation and linting together.
@@ -297,6 +309,10 @@ Overrides the output directory for exported JSON schemas. The default is `./sche
 ### `--id <id>`
 
 Used with `show` to select a single registry item.
+
+### `--mode glob|folders`
+
+Used with `setup --prompts` to choose between a single recursive prompt-file glob and individual direct-folder prompt-file globs.
 
 ### `--json`
 
@@ -425,6 +441,8 @@ Contributors working in the registry should follow these rules:
 * place skills in `ai/skills/`
 * use `.doc.md`, `.skill.md`, and `.prompt.md` suffixes consistently
 * run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
+* run `node ./scripts/ai.ts build-documentation` after prompt folder or VS Code prompt setting documentation changes
+* run `node ./scripts/ai.ts setup --prompts --mode glob` when configuring local VS Code prompt file locations
 * run `node ./scripts/ai.ts check --release` before considering the registry clean
 
 ## Practical examples
@@ -457,6 +475,18 @@ node ./scripts/ai.ts lint
 
 ```bash
 node ./scripts/ai.ts validate-skills --verbose
+```
+
+### Refresh generated prompt settings documentation
+
+```bash
+node ./scripts/ai.ts build-documentation
+```
+
+### Configure VS Code prompt settings
+
+```bash
+node ./scripts/ai.ts setup --prompts --mode glob
 ```
 
 ### Run the full check in release mode

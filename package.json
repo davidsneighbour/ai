@@ -41,7 +41,7 @@
 		"ai:schemas": "node ./scripts/ai.ts export-schemas",
 		"ai:show": "node ./scripts/ai.ts show",
 		"ai:validate": "node ./scripts/ai.ts validate",
-		"build:documentation": "node ./scripts/build-documentation.ts",
+		"build:documentation": "node ./scripts/ai.ts build-documentation",
 		"hooks:install": "npx simple-git-hooks",
 		"install:skills": "npx skills add ai/skills --skill '*'",
 		"lint": "npm run lint:skills && npm run lint:skills:markdown",
@@ -53,10 +53,10 @@
 		"lint:system": "osv-scanner scan -r .",
 		"lint:system:fix": "osv-scanner fix -M package.json -L package-lock.json",
 		"release": "release-it --ci",
-		"setup": "node ./scripts/setup.ts",
-		"setup:prompts": "node ./scripts/setup.ts --setup-prompts",
-		"setup:prompts:folders": "node ./scripts/setup.ts --setup-prompts --mode folders",
-		"setup:prompts:glob": "node ./scripts/setup.ts --setup-prompts --mode glob"
+		"setup": "node ./scripts/ai.ts setup --prompts",
+		"setup:prompts": "node ./scripts/ai.ts setup --prompts",
+		"setup:prompts:folders": "node ./scripts/ai.ts setup --prompts --mode folders",
+		"setup:prompts:glob": "node ./scripts/ai.ts setup --prompts --mode glob"
 	},
 	"files": [
 		"ai",
