@@ -19,6 +19,7 @@
     "markdownlint-rule-title-case-style": "0.4.3",
     "release-it": ">=20",
     "simple-git-hooks": "2.13.1",
+    "smol-toml": "1.6.1",
     "yaml": "2.8.4",
     "zod": "4.4.3",
     "zod-to-json-schema": "3.25.2"
@@ -42,7 +43,12 @@
     "lint:skills:verbose": "node scripts/validate-skills.ts --root ai/skills --verbose",
     "lint:system": "osv-scanner scan -r .",
     "lint:system:fix": "osv-scanner fix -M package.json -L package-lock.json",
-    "release": "release-it --ci"
+    "release": "release-it --ci",
+    "build:documentation": "node ./scripts/build-documentation.ts",
+    "setup": "node ./scripts/setup.ts",
+    "setup:prompts": "node ./scripts/setup.ts --setup-prompts",
+    "setup:prompts:glob": "node ./scripts/setup.ts --setup-prompts --mode glob",
+    "setup:prompts:folders": "node ./scripts/setup.ts --setup-prompts --mode folders"
   },
   "files": [
     "ai",
