@@ -1,0 +1,14 @@
+[paths]
+readme = "README.md"
+vscodeSettings = ".vscode/settings.json"
+promptFilesRoot = ".github/prompts"
+
+[prompts]
+settingKey = "chat.promptFilesLocations"
+filePattern = "*.prompt.md"
+recursiveGlob = "**/*.prompt.md"
+defaultSetupMode = "glob"
+
+[readme.promptFilesSettings]
+startMarker = "<!-- ai:prompt-files-settings:start -->"
+endMarker = "<!-- ai:prompt-files-settings:end -->"
