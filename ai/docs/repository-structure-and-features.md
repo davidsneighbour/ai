@@ -236,6 +236,23 @@ This currently includes checks such as:
 
 `lint` answers the question: "Is this item acceptable according to project policy and maintenance conventions?"
 
+### `validate-skills`
+
+Validates installable skill directories under `ai/skills/`. Unlike registry validation, this command treats each direct child directory as one skill and checks for a required `SKILL.md` file.
+
+The command enforces these rules:
+
+* the skills root exists
+* every direct child directory contains `SKILL.md`
+* `SKILL.md` starts with non-empty YAML frontmatter
+* `SKILL.md` has a non-empty Markdown body
+* frontmatter includes `id`
+* `id` matches `/^[a-z0-9-]+$/`
+* the directory name matches `id`
+* optional `name` matches `id` when present
+
+Use `--root <path>` to validate a different skills root. Use `--verbose` to print each validated `SKILL.md` path.
+
 ### `drift-report`
 
 Aggregates unknown frontmatter keys across the whole registry.
@@ -391,9 +408,10 @@ A sensible day-to-day workflow looks like this:
 flowchart TD
     A[Create or edit a file in ai/] --> B[Run node ./scripts/ai.ts validate]
     B --> C[Run node ./scripts/ai.ts lint]
-    C --> D[Fix schema or convention issues]
-    D --> E[Run node ./scripts/ai.ts check --release]
-    E --> F[Optional: export schemas if the data model changed]
+    C --> D[Run node ./scripts/ai.ts validate-skills when editing ai/skills/]
+    D --> E[Fix schema or convention issues]
+    E --> F[Run node ./scripts/ai.ts check --release]
+    F --> G[Optional: export schemas if the data model changed]
 ```
 
 ## Recommended contributor rules
@@ -406,6 +424,7 @@ Contributors working in the registry should follow these rules:
 * place docs in `ai/docs/`
 * place skills in `ai/skills/`
 * use `.doc.md`, `.skill.md`, and `.prompt.md` suffixes consistently
+* run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
 * run `node ./scripts/ai.ts check --release` before considering the registry clean
 
 ## Practical examples
@@ -432,6 +451,12 @@ node ./scripts/ai.ts validate
 
 ```bash
 node ./scripts/ai.ts lint
+```
+
+### Validate installable skill directories
+
+```bash
+node ./scripts/ai.ts validate-skills --verbose
 ```
 
 ### Run the full check in release mode

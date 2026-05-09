@@ -46,6 +46,7 @@ node ./scripts/ai.ts list
 node ./scripts/ai.ts show --id some-id
 node ./scripts/ai.ts validate
 node ./scripts/ai.ts lint
+node ./scripts/ai.ts validate-skills
 node ./scripts/ai.ts drift-report
 node ./scripts/ai.ts export-schemas
 node ./scripts/ai.ts check --release
@@ -57,6 +58,7 @@ node ./scripts/ai.ts check --release
 * `show` prints one item in detail
 * `validate` checks frontmatter against the schema
 * `lint` checks naming, descriptions, empty bodies, and metadata conventions
+* `validate-skills` checks direct child directories under `ai/skills/` for Codex-style `SKILL.md` files
 * `drift-report` lists unknown frontmatter keys across the registry
 * `export-schemas` writes JSON Schema files from the shared Zod schemas
 * `check` runs validation and linting together
@@ -68,7 +70,7 @@ This distinction matters:
 * validation checks schema correctness
 * linting checks project policy and maintenance quality
 
-Examples of lint-only checks include wrong file suffixes, missing descriptions, empty bodies, and unknown frontmatter keys.
+Examples of lint-only checks include wrong file suffixes, missing descriptions, empty bodies, and unknown frontmatter keys. Skill directory validation is separate because it validates installable `SKILL.md` directories instead of registry Markdown files.
 
 ## Why this setup is useful
 
@@ -87,8 +89,9 @@ This system gives the repository:
 flowchart TD
     A[Create or edit ai/*.md] --> B[Run validate]
     B --> C[Run lint]
-    C --> D[Fix issues]
-    D --> E[Run check --release]
+    C --> D[Run validate-skills when editing ai/skills/]
+    D --> E[Fix issues]
+    E --> F[Run check --release]
 ```
 
 ## Contributor rules
@@ -97,4 +100,5 @@ flowchart TD
 * always use YAML frontmatter
 * prefer explicit `id`, `title`, and `description`
 * use the correct folder and filename suffix for each item type
+* run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
 * run `node ./scripts/ai.ts check --release` before considering changes clean

@@ -42,25 +42,29 @@ List assets:
 node ./scripts/ai.ts list
 ```
 
-Validate prompt files:
+Validate registry files:
 
 ```bash
 node ./scripts/ai.ts validate
 ```
 
-Show one resolved prompt:
+Show one registry item:
 
 ```bash
 node ./scripts/ai.ts show --id test-from-behaviour-spec
 ```
 
-Run one prompt in assembled form:
+Validate installable skill directories:
 
 ```bash
-node ./scripts/ai.ts run --id test-from-behaviour-spec
+node ./scripts/ai.ts validate-skills --verbose
 ```
 
-The `run` command does not call an external AI service. It resolves and prints the final composed prompt so that ChatGPT, Codex, or Copilot workflows can consume it.
+Run the standard repository AI checks:
+
+```bash
+node ./scripts/ai.ts check --release
+```
 
 ## Skills
 

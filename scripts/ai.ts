@@ -24,6 +24,7 @@ type CommandName =
   | "show"
   | "validate"
   | "lint"
+  | "validate-skills"
   | "drift-report"
   | "export-schemas"
   | "check";
@@ -111,6 +112,31 @@ interface DriftReport {
 }
 
 /**
+ * Standalone skill frontmatter accepted by SKILL.md-based skill directories.
+ */
+const SkillDirectoryFrontmatterSchema = z
+  .object({
+    id: z.string().min(1),
+    name: z.string().min(1).optional(),
+    description: z.string().min(1).max(1024).optional(),
+  })
+  .passthrough();
+
+type SkillDirectoryFrontmatter = z.infer<
+  typeof SkillDirectoryFrontmatterSchema
+>;
+
+/**
+ * Validation result for a SKILL.md skill directory.
+ */
+interface SkillDirectoryValidationResult {
+  skillDirectory: string;
+  skillName: string;
+  skillFile: string;
+  frontmatter: SkillDirectoryFrontmatter;
+}
+
+/**
  * Main entrypoint.
  */
 async function main(): Promise<void> {
@@ -132,6 +158,9 @@ async function main(): Promise<void> {
         return;
       case "lint":
         await runLint(options);
+        return;
+      case "validate-skills":
+        await runValidateSkills(options);
         return;
       case "drift-report":
         await runDriftReport(options);
@@ -176,7 +205,7 @@ function parseArgs(argv: string[]): CliOptions {
 
   const options: CliOptions = {
     command,
-    rootDir: defaultAiRoot(),
+    rootDir: command === "validate-skills" ? defaultSkillsRoot() : defaultAiRoot(),
     schemaDir: defaultSchemaRoot(),
     json: argv.includes("--json"),
     verbose: argv.includes("--verbose"),
@@ -247,6 +276,7 @@ function isCommandName(value: string): value is CommandName {
     value === "show" ||
     value === "validate" ||
     value === "lint" ||
+    value === "validate-skills" ||
     value === "drift-report" ||
     value === "export-schemas" ||
     value === "check"
@@ -260,6 +290,15 @@ function isCommandName(value: string): value is CommandName {
  */
 function defaultAiRoot(): string {
   return path.resolve(process.cwd(), "ai");
+}
+
+/**
+ * Default SKILL.md skill root directory.
+ *
+ * @returns Absolute path to `ai/skills`.
+ */
+function defaultSkillsRoot(): string {
+  return path.resolve(process.cwd(), "ai", "skills");
 }
 
 /**
@@ -285,12 +324,13 @@ Commands:
   show --id <id>
   validate
   lint
+  validate-skills
   drift-report
   export-schemas
   check
 
 Options:
-  --root <path>           Root AI directory (default: ./ai)
+  --root <path>           Root AI directory (default: ./ai); for validate-skills, skills root (default: ./ai/skills)
   --schemas <path>        Schema output directory (default: ./schemas)
   --id <id>               Item id for show
   --json                  Output JSON
@@ -306,9 +346,20 @@ Examples:
   node ./scripts/${scriptName} show --id test-from-behaviour-spec
   node ./scripts/${scriptName} validate
   node ./scripts/${scriptName} lint
+  node ./scripts/${scriptName} validate-skills --verbose
   node ./scripts/${scriptName} drift-report
   node ./scripts/${scriptName} export-schemas
   node ./scripts/${scriptName} check --release
+
+validate-skills rules:
+  - The skills root must exist.
+  - Each direct child directory is treated as one skill.
+  - Each skill directory must contain SKILL.md.
+  - SKILL.md must start with non-empty YAML frontmatter and a non-empty body.
+  - Frontmatter must contain an id field.
+  - The skill directory name must match the frontmatter id.
+  - If name exists, it must match id.
+  - id must match /^[a-z0-9-]+$/.
 `);
 }
 
@@ -560,6 +611,210 @@ async function runLint(options: CliOptions): Promise<void> {
 
   if (summary.errors > 0 && !options.noExitOnError) {
     process.exit(1);
+  }
+}
+
+/**
+ * Run the validate-skills command.
+ *
+ * This validates direct child directories that use Codex-style SKILL.md files.
+ *
+ * @param options CLI options.
+ */
+async function runValidateSkills(options: CliOptions): Promise<void> {
+  const results = await validateSkillDirectories(options.rootDir, options.verbose);
+
+  if (options.json) {
+    console.log(
+      JSON.stringify(
+        {
+          summary: {
+            skills: results.length,
+            root: path.relative(process.cwd(), options.rootDir),
+          },
+          results: results.map((result) => ({
+            skillName: result.skillName,
+            skillDirectory: path.relative(process.cwd(), result.skillDirectory),
+            skillFile: path.relative(process.cwd(), result.skillFile),
+            frontmatter: result.frontmatter,
+          })),
+        },
+        null,
+        2,
+      ),
+    );
+    return;
+  }
+
+  console.log(
+    `Validated ${results.length} skill(s) in ${path.relative(
+      process.cwd(),
+      options.rootDir,
+    )}.`,
+  );
+}
+
+/**
+ * Validate all direct child skill directories in a skills root.
+ *
+ * @param rootDirectory Skills root directory.
+ * @param verbose Whether to print validated paths.
+ * @returns Validated skill directory results.
+ */
+async function validateSkillDirectories(
+  rootDirectory: string,
+  verbose: boolean,
+): Promise<SkillDirectoryValidationResult[]> {
+  const absoluteRoot = path.resolve(process.cwd(), rootDirectory);
+  const rootStat = await fs.stat(absoluteRoot).catch((error: unknown) => {
+    throw new Error(
+      `Skills root does not exist: ${absoluteRoot}. ${getErrorMessage(error)}`,
+    );
+  });
+
+  if (!rootStat.isDirectory()) {
+    throw new Error(`Skills root is not a directory: ${absoluteRoot}`);
+  }
+
+  const entries = await fs.readdir(absoluteRoot, {
+    withFileTypes: true,
+  });
+
+  const skillDirectories = entries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(absoluteRoot, entry.name))
+    .sort((left, right) => left.localeCompare(right));
+
+  if (skillDirectories.length === 0) {
+    throw new Error(`No skill directories found in: ${absoluteRoot}`);
+  }
+
+  const seenIds = new Set<string>();
+  const results: SkillDirectoryValidationResult[] = [];
+
+  for (const skillDirectory of skillDirectories) {
+    const result = await validateSkillDirectory(skillDirectory);
+
+    if (seenIds.has(result.frontmatter.id)) {
+      throw new Error(`Duplicate skill id found: ${result.frontmatter.id}`);
+    }
+
+    seenIds.add(result.frontmatter.id);
+    results.push(result);
+
+    if (verbose) {
+      console.log(`Validated: ${path.relative(process.cwd(), result.skillFile)}`);
+    }
+  }
+
+  return results;
+}
+
+/**
+ * Validate one SKILL.md skill directory.
+ *
+ * @param skillDirectory Absolute path to the skill directory.
+ * @returns Validated skill metadata.
+ */
+async function validateSkillDirectory(
+  skillDirectory: string,
+): Promise<SkillDirectoryValidationResult> {
+  const skillName = path.basename(skillDirectory);
+  const skillFile = path.join(skillDirectory, "SKILL.md");
+  const skillFileStat = await fs.stat(skillFile).catch((error: unknown) => {
+    throw new Error(
+      `${skillDirectory}: Missing SKILL.md. ${getErrorMessage(error)}`,
+    );
+  });
+
+  if (!skillFileStat.isFile()) {
+    throw new Error(`${skillFile}: SKILL.md must be a file.`);
+  }
+
+  const content = await fs.readFile(skillFile, "utf8");
+  const extracted = extractSkillFrontmatter(content, skillFile);
+  const parsed = SkillDirectoryFrontmatterSchema.safeParse(extracted.frontmatter);
+
+  if (!parsed.success) {
+    throw new Error(
+      `${skillFile}: Invalid frontmatter: ${z.prettifyError(parsed.error)}`,
+    );
+  }
+
+  const frontmatter = parsed.data;
+
+  if (!/^[a-z0-9-]+$/u.test(frontmatter.id)) {
+    throw new Error(
+      `${skillFile}: Frontmatter id "${frontmatter.id}" must match /^[a-z0-9-]+$/.`,
+    );
+  }
+
+  if (skillName !== frontmatter.id) {
+    throw new Error(
+      `${skillFile}: Skill directory "${skillName}" must match frontmatter id "${frontmatter.id}".`,
+    );
+  }
+
+  if (frontmatter.name !== undefined && frontmatter.name !== frontmatter.id) {
+    throw new Error(
+      `${skillFile}: Optional frontmatter name "${frontmatter.name}" must match id "${frontmatter.id}".`,
+    );
+  }
+
+  return {
+    skillDirectory,
+    skillName,
+    skillFile,
+    frontmatter,
+  };
+}
+
+/**
+ * Extract YAML frontmatter and Markdown body from a SKILL.md file.
+ *
+ * @param content Raw SKILL.md content.
+ * @param filePath File path used for error messages.
+ * @returns Parsed frontmatter and Markdown body.
+ */
+function extractSkillFrontmatter(
+  content: string,
+  filePath: string,
+): {
+  frontmatter: unknown;
+  body: string;
+} {
+  if (!content.startsWith("---\n")) {
+    throw new Error(`${filePath}: SKILL.md must start with YAML frontmatter.`);
+  }
+
+  const closingFenceIndex = content.indexOf("\n---", 4);
+
+  if (closingFenceIndex === -1) {
+    throw new Error(
+      `${filePath}: YAML frontmatter is missing its closing --- fence.`,
+    );
+  }
+
+  const yamlContent = content.slice(4, closingFenceIndex).trim();
+  const body = content.slice(closingFenceIndex + 4).trim();
+
+  if (yamlContent.length === 0) {
+    throw new Error(`${filePath}: YAML frontmatter must not be empty.`);
+  }
+
+  if (body.length === 0) {
+    throw new Error(`${filePath}: Markdown body must not be empty.`);
+  }
+
+  try {
+    return {
+      frontmatter: yaml.parse(yamlContent),
+      body,
+    };
+  } catch (error: unknown) {
+    throw new Error(
+      `${filePath}: Failed to parse YAML frontmatter: ${getErrorMessage(error)}`,
+    );
   }
 }
 
