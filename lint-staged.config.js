@@ -60,45 +60,18 @@ export default {
     return commands;
   },
 
-  // '*.{json,jsonc}': ['biome check --staged'],
-  // '.github/workflows/**/*.y(a?)ml': [
-  //   'zizmor --no-exit-codes',
-  // ],
-
+  '*.{json,jsonc}': ['biome check --write --staged'],
+  '.github/workflows/**/*.y(a?)ml': ['zizmor --no-exit-codes --fix'],
   'package-lock.json': [
     'lockfile-lint --path package-lock.json --validate-https --allowed-hosts npm',
   ],
-
-  '*.{ts,tsx,(m|c)js,jsx}': (/** @type {string[]} */ files) => {
-    return [`biome check --no-errors-on-unmatched ${files.join(' ')}`]
-  },
-
-  '*.yaml': ['yamllint -c .yamllint.yml'],
-
-  // '*.{scss,css}': ['stylelint --fix', "prettier --write"],
-
-  // '*.{png,jpeg,jpg,gif,svg}': [
-  //   'imagemin-lint-staged' // @davidsneighbour/imagemin-lint-staged
-  // ],
-
-  // '!(CHANGELOG)**/*.{md,markdown}': [
-  //   'markdownlint-cli2',
-  //   'npm run lint:vale'
-  // ],
-
-  // '**/*.ts?(x)': () => [
-  //   'tsc -p tsconfig.json --noEmit', "prettier --write"
-  // ],
-
-  // 'layouts/**/*.*': [
-  //   './bin/hugo/refactor layouts'
-  // ],
-
-  // '**/*.*': [
-  //   'npx secretlint'
-  // ]
-
-  '*.jsonnet': [
-    'jsonnetfmt -i *.jsonnet',
+  '*.{ts,tsx,(m|c)js,jsx}': [
+    'biome check --write --staged --no-errors-on-unmatched',
   ],
+  '*.y(a?)ml': ['yamllint -c .yamllint.yml'],
+  '*.{scss,css}': ['stylelint --fix'],
+
+  '!(CHANGELOG)**/*.{md,markdown}': ['markdownlint-cli2'],
+  '**/*.ts?(x)': () => ['tsc-files --noEmit --pretty'],
+  '**/*.*': ['secretlint --no-glob'],
 }
