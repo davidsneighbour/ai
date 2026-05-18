@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.2.0](https://github.com/davidsneighbour/ai/compare/v0.1.0...v0.2.0) (2026-05-18)
+
+### Features
+
+* add clean notes draft to output of signal extraction framework ([00906cd](https://github.com/davidsneighbour/ai/commit/00906cd7f38dac6c2359cbc5c6edf972094b16fb))
+* add clean notes draft to output of signal extraction framework ([c80e5b2](https://github.com/davidsneighbour/ai/commit/c80e5b2d08a8ab79cc25b5789cfe072cdfc676bd))
+* add documentation and setup preparation for README.md ([ec120f5](https://github.com/davidsneighbour/ai/commit/ec120f54ee9b483c3992452e291a4ad5849c248c))
+* adding AGENTS.md ([e4e7031](https://github.com/davidsneighbour/ai/commit/e4e7031825849c2556c7c381ce26074d6be038ee))
+
+### Bug Fixes
+
+* merge build-documentation and setup into ai script ([2733468](https://github.com/davidsneighbour/ai/commit/2733468a88e7ddb607dc1444fa9c3ed3052f3c66))
+
+### Build
+
+* **deps:** update dependencies ([2384aa9](https://github.com/davidsneighbour/ai/commit/2384aa98b3e0a52a5ffc0a2200981b0acfc57497))
+* fix typo in filename ([a3b7b38](https://github.com/davidsneighbour/ai/commit/a3b7b3892d17ca9d315b7d52cf960ad9404583e1))
+
+### Chores
+
+* smaller fixes and refactoring ([51cfa06](https://github.com/davidsneighbour/ai/commit/51cfa0639875e6fc121981126944fc3058e70a9a))
+
+### CI
+
+* **biome:** disable default useLiteralKeys ([82af61f](https://github.com/davidsneighbour/ai/commit/82af61f76937f031d48aebe24e3a00f9fa7cafe1))
+* **fix:** update renovate to use dnbhq config ([e991fbe](https://github.com/davidsneighbour/ai/commit/e991fbe92f5f60480accd183ec14a01c0ddc3ada))
+* merge validation of skills into ai.ts ([7aaffdc](https://github.com/davidsneighbour/ai/commit/7aaffdcc10d9553460e73d73f3dd98d935a04e5b))
+* set up secretlint, update lint-staged ([745ca91](https://github.com/davidsneighbour/ai/commit/745ca917b1c3c6e26befbd4904cd34808735634d))
+
 ## [0.1.0](https://github.com/davidsneighbour/ai/compare/v0.0.6...v0.1.0) (2026-05-06)
 
 ### Skills
