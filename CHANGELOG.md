@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.2](https://github.com/davidsneighbour/ai/compare/v0.2.1...v0.2.2) (2026-05-20)
+
+### Build
+
+* **fix:** open browser after release creation ([694231b](https://github.com/davidsneighbour/ai/commit/694231b854bfc95cfb9584bd27313ae5e0cf0b97))
+
 ## [0.2.1](https://github.com/davidsneighbour/ai/compare/v0.2.0...v0.2.1) (2026-05-20)
 
 ### Build
