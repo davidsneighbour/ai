@@ -16,6 +16,7 @@ const config = {
   },
   github: {
     release: true,
+    web: true,
     releaseName: 'v${version}',
     skipChecks: true,
     tokenRef: 'GITHUB_TOKEN_CONTENT_PRIVATE',
