@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.3](https://github.com/davidsneighbour/ai/compare/v0.2.2...v0.2.3) (2026-05-20)
+
+### Build
+
+* **fix:** release web config (not working as expected) and add comments config for GH release ([a2004b3](https://github.com/davidsneighbour/ai/commit/a2004b3212b22c8f8ab577cf53aab04194965633))
+
 ## [0.2.2](https://github.com/davidsneighbour/ai/compare/v0.2.1...v0.2.2) (2026-05-20)
 
 ### Build
