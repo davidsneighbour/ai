@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.1](https://github.com/davidsneighbour/ai/compare/v0.2.0...v0.2.1) (2026-05-20)
+
+### Build
+
+* **deps:** update dependencies ([dd9d7a3](https://github.com/davidsneighbour/ai/commit/dd9d7a3940bfc6abae2896f0e2354f3849a60bc8))
+
 ## [0.2.0](https://github.com/davidsneighbour/ai/compare/v0.1.0...v0.2.0) (2026-05-18)
 
 ### Features
