@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/davidsneighbour/ai/compare/v0.3.0...v0.4.0) (2026-06-07)
+
+### Instructions
+
+* add DESIGN.md system ([98d01a6](https://github.com/davidsneighbour/ai/commit/98d01a6f131438138858bb51cb9e5be0d2c6254a))
+* tailwind css plus elements ([58cca07](https://github.com/davidsneighbour/ai/commit/58cca07e3044f4afe866537885bcbaf194751f00))
+
 ## [0.3.0](https://github.com/davidsneighbour/ai/compare/v0.2.6...v0.3.0) (2026-06-07)
 
 ### Prompts
