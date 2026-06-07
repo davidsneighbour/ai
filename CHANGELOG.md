@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.0](https://github.com/davidsneighbour/ai/compare/v0.2.6...v0.3.0) (2026-06-07)
+
+### Prompts
+
+* add raindrop.io tag evaluation prompt ([e6798e1](https://github.com/davidsneighbour/ai/commit/e6798e1b1ed715d249d493865dc6427144388131))
+
 ## [0.2.6](https://github.com/davidsneighbour/ai/compare/v0.2.5...v0.2.6) (2026-06-07)
 
 ### Prompts
