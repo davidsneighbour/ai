@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.5](https://github.com/davidsneighbour/ai/compare/v0.2.4...v0.2.5) (2026-06-07)
+
+### Build
+
+* **fix:** property names in tsconfig ([a978e17](https://github.com/davidsneighbour/ai/commit/a978e17a23ba0d98c17f58af7372413df0ab9958))
+* **fix:** update release-it configuration ([3189faf](https://github.com/davidsneighbour/ai/commit/3189faf0b8d814e82ba4aebf6d2e6faa8024db19))
+* **vscode:** update workspace configuration ([96770e2](https://github.com/davidsneighbour/ai/commit/96770e2a849a88db7610db732be0607d44ae3aac))
+
 ## [0.2.4](https://github.com/davidsneighbour/ai/compare/v0.2.3...v0.2.4) (2026-06-07)
 
 ### Documentation
