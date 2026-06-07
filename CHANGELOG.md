@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.6](https://github.com/davidsneighbour/ai/compare/v0.2.5...v0.2.6) (2026-06-07)
+
+### Prompts
+
+* **fix:** update rewrite-agents ([467815e](https://github.com/davidsneighbour/ai/commit/467815ee7deb3e346c95b16bfcfe0e59a73cd868))
+
 ## [0.2.5](https://github.com/davidsneighbour/ai/compare/v0.2.4...v0.2.5) (2026-06-07)
 
 ### Build
