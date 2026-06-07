@@ -1,5 +1,28 @@
 import type { Config } from 'release-it';
 
+interface ConventionalCommit {
+  type?: string;
+  scope?: string;
+  notes?: unknown[];
+}
+
+const minorTypes = new Set(['feat', 'prompt', 'instructions', 'skill']);
+
+const patchTypes = new Set([
+  'build',
+  'chore',
+  'ci',
+  'docs',
+  'fix',
+  'perf',
+  'refactor',
+  'revert',
+  'test',
+  'prompt',
+  'instructions',
+  'skill',
+]);
+
 const config = {
   npm: {
     publish: false,
@@ -33,26 +56,27 @@ const config = {
         compareUrlFormat:
           'https://github.com/davidsneighbour/ai/compare/{{previousTag}}...{{currentTag}}',
         types: [
-          { type: 'skills', section: 'Skills' },
-          { type: 'prompts', section: 'Prompts' },
-          { type: 'feat', section: 'Features' },
-          { type: 'fix', section: 'Bug Fixes' },
+          { type: 'prompt', section: 'Prompts' },
+          { type: 'instructions', section: 'Instructions' },
+          { type: 'skill', section: 'Skills' },
           { type: 'build', section: 'Build' },
+          { type: 'ci', section: 'Linting and Maintenance' },
           { type: 'chore', section: 'Chores' },
-          { type: 'ci', section: 'CI' },
           { type: 'docs', section: 'Documentation' },
-          { type: 'perf', section: 'Performance' },
           { type: 'refactor', section: 'Refactoring' },
           { type: 'revert', section: 'Reverts' },
           { type: 'test', section: 'Tests' },
+          { type: 'feat', section: 'Features' },
+          { type: 'fix', section: 'Bug Fixes' },
         ],
       },
-      whatBump(commits: Array<{ type?: string; notes?: unknown[] }>) {
+      whatBump(commits: ConventionalCommit[]) {
         let level: 2 | 1 | 0 | null = null;
 
         for (const commit of commits) {
           const notes = Array.isArray(commit.notes) ? commit.notes : [];
           const type = typeof commit.type === 'string' ? commit.type : '';
+          const scope = typeof commit.scope === 'string' ? commit.scope : '';
 
           if (notes.length > 0) {
             return {
@@ -61,15 +85,12 @@ const config = {
             };
           }
 
-          if (type === 'feat' || type === 'content') {
+          if (minorTypes.has(type) && scope !== 'fix') {
             level = 1;
             continue;
           }
 
-          if (
-            level === null &&
-            ['skills', 'prompts', 'fix', 'build', 'chore', 'ci', 'docs', 'perf', 'refactor', 'revert', 'test'].includes(type)
-          ) {
+          if (level === null && patchTypes.has(type)) {
             level = 2;
           }
         }
@@ -82,7 +103,7 @@ const config = {
           level,
           reason:
             level === 1
-              ? 'There are feat/content commits.'
+              ? 'There are minor-level commits.'
               : 'There are patch-level changes.',
         };
       },
