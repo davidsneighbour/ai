@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.4](https://github.com/davidsneighbour/ai/compare/v0.2.3...v0.2.4) (2026-06-07)
+
+### Documentation
+
+* **ai:** add typescript programing rules and extension system ([58b219d](https://github.com/davidsneighbour/ai/commit/58b219d90f5ffb05ba865abc7a9a970a757d9cf6))
+
 ## [0.2.3](https://github.com/davidsneighbour/ai/compare/v0.2.2...v0.2.3) (2026-05-20)
 
 ### Build
