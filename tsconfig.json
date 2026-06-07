@@ -31,8 +31,8 @@
     "noImplicitOverride": true, // zookeeper, preference
     "noErrorTruncation": true, // zookeeper, preference, show full error type, good for debugging
     "exactOptionalPropertyTypes": true, // zookeeper, preference, complains about undefined properties if they are optional
-    "allowJS": true, // zookeeper, for migration
-    "checkJS": true, // zookeeper, or use @ts-check
+    "allowJs": true, // zookeeper, for migration
+    "checkJs": true, // zookeeper, or use @ts-check
   },
   "include": [
     "scripts/**/*.ts"
