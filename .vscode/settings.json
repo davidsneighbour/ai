@@ -35,7 +35,7 @@
   },
   "peacock.color": "#FFFF80",
   "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
     "editor.formatOnSave": true
   },
   "[prompt]": {

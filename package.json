@@ -4,9 +4,9 @@
 	"version": "0.2.4",
 	"private": true,
 	"devDependencies": {
-		"@biomejs/biome": "2.4.15",
-		"@github/markdownlint-github": "0.8.0",
-		"@release-it/conventional-changelog": "11.0.0",
+		"@biomejs/biome": "2.4.16",
+		"@github/markdownlint-github": "0.8.1",
+		"@release-it/conventional-changelog": "11.0.1",
 		"@secretlint/secretlint-rule-no-dotenv": "13.0.2",
 		"@secretlint/secretlint-rule-no-homedir": "13.0.2",
 		"@secretlint/secretlint-rule-no-k8s-kind-secret": "13.0.2",
@@ -14,9 +14,9 @@
 		"@secretlint/secretlint-rule-pattern": "13.0.2",
 		"@secretlint/secretlint-rule-preset-recommend": "13.0.2",
 		"@secretlint/secretlint-rule-secp256k1-privatekey": "13.0.2",
-		"@types/node": "25.8.0",
-		"cspell": "10.0.0",
-		"lint-staged": "17.0.5",
+		"@types/node": "25.9.2",
+		"cspell": "10.0.1",
+		"lint-staged": "17.0.7",
 		"lockfile-lint": "5.0.0",
 		"markdownlint-cli2": "0.22.1",
 		"markdownlint-rule-extended-ascii": "0.2.1",
@@ -28,6 +28,7 @@
 		"secretlint": "13.0.2",
 		"simple-git-hooks": "2.13.1",
 		"smol-toml": "1.6.1",
+		"typescript": "6.0.3",
 		"yaml": "2.9.0",
 		"zod": "4.4.3",
 		"zod-to-json-schema": "3.25.2"
@@ -85,5 +86,10 @@
 	"simple-git-hooks-bak": {
 		"pre-push-bak": "npm run ai:check:release"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"remark-parse": "11.0.0",
+		"remark-stringify": "11.0.0",
+		"unified": "11.0.5"
+	}
 }

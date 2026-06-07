@@ -22,3 +22,18 @@ intent_style = space
 [*.json(c?)]
 indent_style = tab
 indent_size = 2
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+[*.js]
+indent_style = tab
+
+[*.{html,md}]
+indent_style = space
+indent_size = 2
+
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2

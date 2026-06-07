@@ -1,12 +1,6 @@
-agentic
-CRISPE
-frontmatter
-infile
-inspectable
-SDXL
-timezone
-
-# library and brand names
-smol-toml
-Ollama
 DALL-E
+listicle
+listicles
+Ollama
+smol-toml
+unrepresentable
