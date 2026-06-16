@@ -1,7 +1,7 @@
 ---
-id: docs-content-youtube-embed
-title: Embedding YouTube videos in blog posts
-description: How to embed YouTube videos in blog posts using the Youtube Astro component via MDX.
+id: instructions-systems-kollitsch-dev-youtube-embed
+title: "kollitsch.dev: Embedding YouTube videos in blog posts"
+description: How to embed YouTube videos in kollitsch.dev blog posts using the Youtube Astro component via MDX.
 ---
 
 YouTube videos in blog posts MUST use the `Youtube` Astro component (`src/components/content/media/Youtube.astro`). Raw `<lite-youtube>` custom elements in Markdown are no longer allowed.
