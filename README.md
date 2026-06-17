@@ -14,6 +14,9 @@ This repository provides a portable structure for my AI assets that can be share
   - [Option 1: one recursive glob](#option-1-one-recursive-glob)
   - [Option 2: individual folder entries](#option-2-individual-folder-entries)
 - [Licensed content](#licensed-content)
+- [Shared config onboarding prompts](#shared-config-onboarding-prompts)
+  - [Available config prompt pairs](#available-config-prompt-pairs)
+  - [Adding another shared config](#adding-another-shared-config)
 
 ## Structure
 
@@ -160,3 +163,42 @@ These links into 404s are by design.
 - [Tailwind Plus UI-Blocks llms.txt](https://tailwindcss.com/plus/ui-blocks/documentation/llms.txt)
 - [Emil.md](https://animations.dev/learn/emil-skill)
 - [Animations.dev Skill](https://animations.dev/learn/animation-theory/animations-and-ai#installation)
+
+## Shared config onboarding prompts
+
+This repository uses a two-step prompt pattern for applying shared DNBHQ configuration packages to other projects.
+
+The workflow starts with one generator prompt:
+
+- [`ai/prompts/prompt-management/config-prompt-pair-generator.prompt.md`](./ai/prompts/prompt-management/config-prompt-pair-generator.prompt.md)
+
+That prompt analyses a shared configuration repository and creates a pair of reusable prompts:
+
+1. an onboarding prompt that applies the shared config to the current project
+2. an optimisation prompt that improves the onboarding prompt after real-world usage
+
+The onboarding prompt is used inside a target repository. It inspects the current project, applies the shared configuration, migrates existing setup where possible, removes obsolete fragments, adds useful scripts, validates the result, and reports the completed changes.
+
+The optimisation prompt is used after testing the onboarding prompt in one or more repositories. It takes follow-up changes, mistakes, failed commands, or manual corrections and turns them into a better version of the onboarding prompt.
+
+### Available config prompt pairs
+
+| Config              | Onboarding prompt                                                                                                | Optimisation prompt                                                                                                        |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Release config      | [`release-config-onboarding.prompt.md`](./ai/prompts/repo-operations/release-config-onboarding.prompt.md)           | [`release-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/release-config-prompt-optimise.prompt.md)           |
+| TypeScript config   | [`tsconfig-onboarding.prompt.md`](./ai/prompts/repo-operations/tsconfig-onboarding.prompt.md)                       | [`tsconfig-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/tsconfig-prompt-optimise.prompt.md)                       |
+| Renovate config     | [`renovate-config-onboarding.prompt.md`](./ai/prompts/repo-operations/renovate-config-onboarding.prompt.md)         | [`renovate-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/renovate-config-prompt-optimise.prompt.md)         |
+| Markdownlint config | [`markdownlint-config-onboarding.prompt.md`](./ai/prompts/repo-operations/markdownlint-config-onboarding.prompt.md) | [`markdownlint-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/markdownlint-config-prompt-optimise.prompt.md) |
+| Biome config        | [`biome-config-onboarding.prompt.md`](./ai/prompts/repo-operations/biome-config-onboarding.prompt.md)               | [`biome-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/biome-config-prompt-optimise.prompt.md)               |
+
+### Adding another shared config
+
+To add another shared configuration workflow:
+
+1. run [`config-prompt-pair-generator.prompt.md`](./ai/prompts/prompt-management/config-prompt-pair-generator.prompt.md) with the shared config repository or package
+2. save the generated onboarding prompt in `ai/prompts/repo-operations/`
+3. save the generated optimisation prompt in `prompts/repo-operations/`
+4. test the onboarding prompt in real repositories
+5. use the optimisation prompt to fold lessons from those runs back into the onboarding prompt
+
+This keeps shared configuration rollouts repeatable while still allowing each prompt to improve from actual repository usage.
