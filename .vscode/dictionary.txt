@@ -4,3 +4,4 @@ listicles
 Ollama
 smol-toml
 unrepresentable
+VSCode

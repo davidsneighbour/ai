@@ -3,8 +3,8 @@
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js",
     "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-    "README.md": "CHANGELOG.md, CONTRIBUTING.md, LICENSE*",
-    "package.json": "package-lock.json, .release-it.ts, .markdownlint*, lint-staged.config.*, tsconfig.*"
+    "README.md": "CHANGELOG.md, CONTRIBUTING.md, LICENSE*, AGENTS*",
+    "package.json": "package-lock.json, .release-it.ts, .markdownlint*, lint-staged.config.*, tsconfig.*, .editorconfig, .nvmrc,biome.json, .secretlint*"
   },
   "cSpell.customDictionaries": {
     "workspace-dictionary": {
@@ -67,7 +67,7 @@
   "markdown.validate.enabled": true,
   "markdown.extension.preview.autoShowPreviewToSide": false,
   "markdown.extension.toc.levels": "2..6",
-  "markdown.extension.toc.unorderedList.marker": "-",
+  "markdown.extension.toc.unorderedList.marker": "*",
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 120,
   "editor.rulers": [
@@ -80,6 +80,11 @@
   "diffEditor.wordWrap": "on",
   "notebook.output.wordWrap": false,
   "chat.promptFilesLocations": {
-    ".github/prompts/**/*.prompt.md": true
+    "ai/prompts": true
+  },
+  "markdownlint.configFile": "./node_modules/@dnbhq/markdownlint-config/.markdownlint-cli2.jsonc",
+  "markdown.extension.tableFormatter.enabled": false,
+  "chat.agentSkillsLocations": {
+    "ai/skills": true
   }
 }
