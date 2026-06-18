@@ -2,7 +2,13 @@
 description: Incrementally clean up a scratch/ directory by surveying content, detecting duplicates, grouping into smallest sensible tasks, and tracking progress across sessions.
 ---
 
-You are cleaning up a `scratch/` directory that has grown organically — files were dropped in from many sources at different times, references may be stale, and the same content often appears in multiple places.
+You are analysing a `scratch/` directory that has grown organically — files were dropped in from many sources at different times, references may be stale, and the same content often appears in multiple places.
+
+**Important constraints:**
+
+- `scratch/` is gitignored. Never run any git commands inside it or referring to it.
+- Do not move, copy, or delete any files during the survey phases. Only read and analyze.
+- After completing the survey (phases 1–4), present the task table and wait for the user to choose what to work on next.
 
 The goal is to reach an empty `scratch/` directory, one focused task group at a time. Every run either reduces the directory or records why something must stay.
 
@@ -10,7 +16,7 @@ The goal is to reach an empty `scratch/` directory, one focused task group at a 
 
 Read `scratch/CLEANUP.md` if it exists. That file is the persistent state of this cleanup. If it does not exist, create it now following the structure described in the "Tracking file" section below.
 
-The `CLEANUP.md` records previously agreed groupings, completed tasks, and the preferred order of work. Do not re-derive groupings that are already in `CLEANUP.md` — pick up from where the last session left off.
+The `CLEANUP.md` records previously agreed groupings, completed tasks, and the preferred order of work. Do not re-derive groupings that are already in `CLEANUP.md` — pick up from where the last session left off. If there are already agreed groupings, skip phases 1–3 and go straight to phase 4 to present the current task table.
 
 ## Phase 1: survey
 
@@ -56,10 +62,10 @@ Rules for grouping:
 - planning/process documents (PLANS, ExecPlan format) together
 - files that need a human decision together as a single "needs review" task
 
-For each task, write:
+For each task, record this in `scratch/CLEANUP.md`:
 
 ```
-### Task N: <short name>
+### Task N: <slug>
 
 Files:
 - scratch/path/to/file1
@@ -70,26 +76,40 @@ Action: promote to <target> | delete (duplicate/obsolete) | review needed
 Notes: <anything relevant>
 ```
 
-## Phase 4: offer the work queue
+## Phase 4: present the task table
 
-At the end of the survey, list the next 3–5 tasks in order of simplest-first:
-1. Start with obvious deletes (duplicates, empty files, superseded copies).
-2. Then small promotions (a single file with a clear destination).
-3. Save large skill directories and external sources for later.
+After completing the survey, output a Markdown table with all pending tasks:
 
-Ask the user which task to start with, or proceed with the first item if they say to continue.
+| # | Slug | Description | Action | Priority | Suggested? |
+|---|------|-------------|--------|----------|------------|
+| 1 | `prose-instructions` | 9 prose/writing instruction files | promote to `ai/instructions/writing/` | high | ✓ |
+| 2 | `typescript-instructions` | 6 TypeScript instruction files | promote to `ai/instructions/programming-languages/typescript/` | medium | ✓ |
+| … | … | … | … | … | … |
+
+Priority rules:
+- **high**: pure deletes (confirmed duplicates, clearly obsolete) — zero risk, zero judgement needed
+- **medium**: small promotions (1–3 files, clear destination, complete content)
+- **low**: large clusters, external sources, binary-heavy directories, or anything needing a human decision
+
+Mark up to 3 tasks as **Suggested** (✓) — these are the simplest, safest starting points.
+
+After presenting the table, stop and ask: **"Which task would you like to work on?"**
+
+Do not proceed until the user picks a task.
 
 ## Phase 5: execute one task at a time
+
+Only enter this phase when the user has explicitly chosen a task from the table.
 
 For each task:
 1. State exactly what you will do before doing it.
 2. For promotions: move or copy the file(s) to their target location in `ai/`, add required frontmatter if missing, run `node ./scripts/ai.ts validate` to confirm the registry accepts them.
 3. For deletes: remove the file(s) or directory.
 4. Update `scratch/CLEANUP.md`: mark the task done, note what was done and why.
-5. Commit: stage only the files changed in this task and create a focused commit.
-6. Then stop and report what was done and what is next.
+5. Commit to the **main repo** (not scratch): stage only the `ai/` files changed in this task and create a focused commit. Do not stage or reference anything under `scratch/`.
+6. Report what was done and what is next, then stop.
 
-Do not combine multiple task groups into one step. Do not move on until the current task is committed and `CLEANUP.md` is updated.
+Do not combine multiple task groups into one step. Do not move on to the next task without being asked.
 
 ## Tracking file
 
@@ -119,12 +139,14 @@ Last updated: YYYY-MM-DD
 <items that are unclear and require input>
 ```
 
-Update this file at the end of every session before committing.
+Update this file at the end of every session.
 
 ## Invariants
 
+- Never run git commands inside `scratch/` or with paths that include `scratch/`.
 - Never delete a file without recording the reason in `CLEANUP.md`.
 - Never promote a file without verifying it passes `node ./scripts/ai.ts validate`.
 - Never batch-delete without reading each file first.
-- Commit after each completed task — never accumulate multiple tasks in one commit.
+- Commit only `ai/` changes — scratch is gitignored, its state is not tracked.
 - If a task turns out to be larger than expected, split it and update `CLEANUP.md`.
+- Always stop after presenting the task table (phase 4) and wait for user input before executing anything.

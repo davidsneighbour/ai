@@ -1480,7 +1480,17 @@ async function runCheck(options: CliOptions): Promise<void> {
  */
 async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
 	const files = await walkDirectory(options.rootDir);
-	const markdownFiles = files.filter((filePath) => filePath.endsWith(".md"));
+	const markdownFiles = files.filter((filePath) => {
+		if (!filePath.endsWith(".md")) return false;
+		// Inside ai/skills/, only SKILL.md at depth 1 is a registry item.
+		// Ancillary files in subdirs (references/, examples/, etc.) are not.
+		const rel = path.relative(options.rootDir, filePath);
+		const parts = rel.split(path.sep);
+		if (parts[0] === "skills" && parts.length >= 3 && parts[2] !== "SKILL.md") {
+			return false;
+		}
+		return true;
+	});
 	const items: RegistryItem[] = [];
 
 	for (const absolutePath of markdownFiles) {
