@@ -1,3 +1,7 @@
+---
+description: Generate a comprehensive set of relevant hashtags for a given URL to use in a Raindrop.io bookmark collection.
+---
+
 Create a list of hashtags for the URL I provide.
 
 Instructions:

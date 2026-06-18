@@ -1,3 +1,7 @@
+---
+description: Refactor AGENTS.md using progressive disclosure principles to remove contradictions, extract grouped rules, and flag redundant instructions.
+---
+
 Refactor the AGENTS.md file to follow progressive disclosure principles.
 
 Follow these steps:

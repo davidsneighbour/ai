@@ -2,6 +2,7 @@
 name: rewrite-human
 title: Rewrite Human
 type: task
+description: Rewrite text in plain, direct language without jargon, hedging, or unnecessary filler.
 ---
 
 Act as a plain-language editor.

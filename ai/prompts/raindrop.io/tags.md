@@ -1,3 +1,7 @@
+---
+description: Running reference list of tags produced in Raindrop.io tagging sessions for consistency across future bookmark runs.
+---
+
 10-second-rule
 11ty
 48-hour-rule

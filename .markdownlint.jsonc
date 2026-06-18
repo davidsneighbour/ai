@@ -144,7 +144,8 @@
     //
     // string[] (default: [])
     "ignore": [
-      "JavaScript"
+      "JavaScript",
+      "md"
     ],
   },
 }

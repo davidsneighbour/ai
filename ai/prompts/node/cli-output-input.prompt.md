@@ -1,3 +1,7 @@
+---
+description: Implement a reusable CLI UI layer using picocolors for colour output and @clack/prompts for interactive prompts, centralised behind a single module.
+---
+
 ````markdown
 # Implement CLI UI helpers with picocolors and @clack/prompts
 

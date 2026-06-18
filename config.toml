@@ -12,3 +12,23 @@ defaultSetupMode = "glob"
 [readme.promptFilesSettings]
 startMarker = "<!-- ai:prompt-files-settings:start -->"
 endMarker = "<!-- ai:prompt-files-settings:end -->"
+
+# File location shorthands
+#
+# Maps qualifier + asset-type pairs to filesystem paths.
+# Used by Claude Code to resolve phrases like:
+#   "local instruction file in PATH" → .vscode/instructions/PATH
+#   "instruction file in PATH"       → ai/instructions/PATH
+#
+# To add a new asset type, add a key under [locations.types].
+# To add a new qualifier, add a key under [locations.qualifiers].
+
+[locations.qualifiers]
+local    = ".vscode"
+registry = "ai"
+
+[locations.types]
+instructions = "instructions"
+prompts      = "prompts"
+skills       = "skills"
+docs         = "docs"
