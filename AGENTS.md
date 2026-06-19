@@ -45,4 +45,9 @@ Name new skills as `ai/skills/<skill-id>/SKILL.md`, where `<skill-id>` is lowerc
 
 Git history uses concise conventional-style prefixes such as `feat:`, `fix:`, `build(deps):`, `chore(release):`, `prompts:`, and `ai(instructions):`. Keep commits scoped and imperative.
 
+All commits must follow Conventional Commits, including merge commits. Do not use
+Git's default merge subject. Format merge subjects as
+`chore(git): merge <source> into <target>` and add a body explaining why the merge
+was needed and how conflicts were resolved.
+
 Pull requests should describe the changed asset type, list validation commands run, link related issues when available, and include before/after examples for prompt or workflow behavior changes.
