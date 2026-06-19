@@ -15,7 +15,7 @@
     "@secretlint/secretlint-rule-pattern": "13.0.2",
     "@secretlint/secretlint-rule-preset-recommend": "13.0.2",
     "@secretlint/secretlint-rule-secp256k1-privatekey": "13.0.2",
-    "@types/node": "25.9.2",
+    "@types/node": "25.9.3",
     "cspell": "10.0.1",
     "lint-staged": "17.0.7",
     "lockfile-lint": "5.0.0",
