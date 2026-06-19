@@ -1,17 +1,15 @@
 ---
-id: dnb-post-into-voice
-name: dnb-post-into-voice
-title: DNB Post Into Voice
+id: dnb-post-session-into-void
+name: dnb-post-session-into-void
+title: DNB Post Session Into Void
 description: Draft and publish a confirmed Mastodon post from the current AI session context using @humanwhocodes/crosspost.
 ---
-
-# DNB Post Into Voice
 
 Use this skill when the user wants to turn the current AI session context into a Mastodon post and publish it only after explicit confirmation.
 
 Typical trigger phrases:
 
-- `/dnb-post-into-voice write about this on mastodon`
+- `/dnb-post-session-into-void write about this on mastodon`
 - `write about this on Mastodon`
 - `post this to Mastodon`
 - `turn this into a social post`
@@ -39,7 +37,7 @@ The user stores environment variables in:
 
 ```text
 ~/.env
-````
+```
 
 The resource script also sets:
 
@@ -69,14 +67,14 @@ The limits are configurable. If the user gives a different range, use that range
 
 The post should:
 
-* be clear, concrete, and grounded in the session context
-* avoid hype, vague claims, and engagement bait
-* avoid hashtags unless they are genuinely useful
-* avoid unsupported claims
-* avoid mentioning private implementation details unless the user wants them public
-* avoid implying work is finished if the session only explored or planned it
-* preserve the user's preferred tone when known
-* use British English unless the user requests otherwise
+- be clear, concrete, and grounded in the session context
+- avoid hype, vague claims, and engagement bait
+- avoid hashtags unless they are genuinely useful
+- avoid unsupported claims
+- avoid mentioning private implementation details unless the user wants them public
+- avoid implying work is finished if the session only explored or planned it
+- preserve the user's preferred tone when known
+- use British English unless the user requests otherwise
 
 If the source context is thin, ask one concise context question before drafting.
 
@@ -88,8 +86,8 @@ Always ask whether the user wants to include an image.
 
 If yes, request:
 
-* local image path
-* image alt text
+- local image path
+- image alt text
 
 Do not invent alt text for a real image unless the user asks for help writing it.
 
@@ -101,11 +99,11 @@ If the user says no image, publish text-only.
 
 After drafting, ask the user to confirm one of these actions:
 
-* `post` / `publish` / `send it`
-* `post option 1`
-* `post option 2`
-* `revise ...`
-* `cancel`
+- `post` / `publish` / `send it`
+- `post option 1`
+- `post option 2`
+- `revise ...`
+- `cancel`
 
 Only confirmation that clearly requests publishing may trigger the resource script.
 
@@ -116,14 +114,14 @@ Before publishing, restate the exact final post text and image details, if any.
 Use the TypeScript resource script:
 
 ```bash
-tsx ai/skills/dnb-post-into-voice/resources/post-mastodon.ts \
+tsx ai/skills/dnb-post-session-into-void/resources/post-mastodon.ts \
   --message-file /path/to/message.txt
 ```
 
 With image:
 
 ```bash
-tsx ai/skills/dnb-post-into-voice/resources/post-mastodon.ts \
+tsx ai/skills/dnb-post-session-into-void/resources/post-mastodon.ts \
   --message-file /path/to/message.txt \
   --image /path/to/image.jpg \
   --image-alt "Concise image description"
@@ -132,7 +130,7 @@ tsx ai/skills/dnb-post-into-voice/resources/post-mastodon.ts \
 With custom limits:
 
 ```bash
-tsx ai/skills/dnb-post-into-voice/resources/post-mastodon.ts \
+tsx ai/skills/dnb-post-session-into-void/resources/post-mastodon.ts \
   --message-file /path/to/message.txt \
   --min-chars 300 \
   --max-chars 500
@@ -152,11 +150,11 @@ If the script cannot find a URL in the Crosspost output, return the raw Crosspos
 
 Before posting, verify:
 
-* the post is within the configured character range
-* the post does not expose secrets, private paths, tokens, unpublished credentials, or private client details
-* the post does not imply endorsement by a third party
-* the image path exists if provided
-* image alt text is present if an image is provided
-* the user explicitly confirmed publishing
+- the post is within the configured character range
+- the post does not expose secrets, private paths, tokens, unpublished credentials, or private client details
+- the post does not imply endorsement by a third party
+- the image path exists if provided
+- image alt text is present if an image is provided
+- the user explicitly confirmed publishing
 
 If any check fails, do not publish. Ask for correction or provide a revised draft.
