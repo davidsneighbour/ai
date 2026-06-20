@@ -2,31 +2,35 @@
 applyTo: "**/package.json"
 ---
 
-# package.json maintenance instructions
+# package.json instructions
 
-When editing any `package.json`, treat it as an npm package manifest and keep it normalised, sorted, and lockfile-synchronised.
+When editing `package.json`, keep the manifest deterministic, sorted, and synchronised with `package-lock.json`.
 
 ## Package manager
 
-* Use npm only.
-* After changing `package.json`, run `npm install` to update `package-lock.json`.
-* Do not leave `package.json` and `package-lock.json` out of sync.
-* Fix any install issues that are directly caused by the manifest changes.
+Use npm only.
 
-## Required package fields
+Do not use Yarn, pnpm, Bun, or mixed package-manager lockfiles unless explicitly instructed.
 
-Ensure these fields are present and set to appropriate project values:
+After any meaningful `package.json` change, run `npm install` so `package-lock.json` is updated.
 
+## Required fields
+
+Ensure these fields are present and set to correct project values:
+
+* `name`
+* `description`
+* `version`
 * `license`
 * `type`
-* `version`
-* `description`
 
-Do not invent misleading values. If the correct value is unknown, report that the field needs a project decision instead of guessing.
+Do not invent misleading values.
+
+If a required value is unknown, stop and report the missing field instead of guessing.
 
 ## Dependency version policy
 
-Use fixed static versions for npm dependencies.
+Use fixed static versions for npm dependency versions.
 
 Allowed:
 
@@ -46,67 +50,70 @@ Not allowed:
 "some-package": "latest"
 ```
 
-Apply this to dependency sections such as:
+Apply this policy to:
 
 * `dependencies`
 * `devDependencies`
 * `optionalDependencies`
-* `peerDependencies`
 
-When adding or updating packages, pin the exact installed version.
+For `peerDependencies`, do not change existing ranges unless explicitly instructed. If adding a new peer dependency, report whether the project wants a fixed peer version or a compatibility range.
+
+When installing packages, prefer exact versions:
+
+```bash
+npm install --save-exact package-name@1.0.0
+npm install --save-dev --save-exact package-name@1.0.0
+```
 
 ## fixpack workflow
 
-After every change to `package.json`, run `fixpack` twice.
+After any `package.json` change, run `fixpack` twice.
 
-Preferred command:
+Use:
 
 ```bash
 npx fixpack package.json
 npx fixpack package.json
 ```
 
-If a local script or local binary is available, using `fixpack` directly is also acceptable:
+The first run is allowed to modify `package.json`.
 
-```bash
-fixpack package.json
-fixpack package.json
-```
+A non-zero exit code on the first run does not automatically mean the task failed. It can mean `fixpack` found and corrected manifest ordering, formatting, or required-field issues.
 
-The first run may modify `package.json` by sorting, formatting, or linting the manifest. If the first run exits with an error code because it changed the file, do not treat that alone as a failure.
-
-The second run is the validation run. It should pass without further changes.
+The second run is the validation run.
 
 If the second run fails:
 
-1. Inspect the reported `package.json` issue.
-2. Fix manifest ordering, formatting, missing required fields, invalid values, or dependency version ranges as needed.
-3. Run `fixpack` again twice.
-4. If the second run still fails, report the exact issue and the relevant error output.
+1. Inspect the `fixpack` output.
+2. Identify the exact manifest issue.
+3. Fix the issue.
+4. Run `fixpack` twice again.
+5. If the second run still fails, report the exact failure and include the relevant error output.
 
-## Required validation sequence
+## Required sequence after changes
 
-After modifying `package.json`, run this sequence:
-
-```bash
-npx fixpack package.json
-npx fixpack package.json
-npm install
-```
-
-If `npm install` changes `package.json` again, rerun:
+After editing `package.json`, run:
 
 ```bash
 npx fixpack package.json
 npx fixpack package.json
 npm install
+npx fixpack package.json
+npx fixpack package.json
 ```
 
-Final state must include:
+If `npm install` fails, fix only issues directly related to the package manifest or lockfile change.
 
-* `package.json` sorted and normalised by `fixpack`
-* fixed dependency versions, not ranges
-* required fields present
-* `package-lock.json` updated
-* no unresolved `fixpack` failure on the second run
-* no unresolved `npm install` failure
+If `npm install` changes `package.json`, repeat the full sequence.
+
+## Final state
+
+Before finishing, verify:
+
+* `package.json` has been normalised by `fixpack`
+* the second `fixpack` run passes
+* dependency versions are fixed static versions where required
+* required fields are present and meaningful
+* `package-lock.json` is updated
+* `npm install` succeeds
+* no unrelated manifest, dependency, or lockfile changes were introduced
