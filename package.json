@@ -57,6 +57,7 @@
     "lint:skills:verbose": "node ./scripts/ai.ts validate-skills --root ai/skills --verbose",
     "lint:system": "osv-scanner scan -r .",
     "lint:system:fix": "osv-scanner fix -M package.json -L package-lock.json",
+    "postinstall": "node scripts/ai-symlink.ts",
     "release": "release-it --ci",
     "setup": "node ./scripts/ai.ts setup --prompts",
     "setup:prompts": "node ./scripts/ai.ts setup --prompts",
