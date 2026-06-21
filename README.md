@@ -9,6 +9,9 @@ This repository provides a portable structure for my AI assets that can be share
 - [CLI](#cli)
 - [Skills](#skills)
   - [Install patterns](#install-patterns)
+  - [Issue handling skills](#issue-handling-skills)
+  - [Project management skills](#project-management-skills)
+  - [Social media posting](#social-media-posting)
 - [Configure vSCode](#configure-vscode)
 - [VS code prompt file recommendations](#vs-code-prompt-file-recommendations)
   - [Option 1: one recursive glob](#option-1-one-recursive-glob)
@@ -80,6 +83,23 @@ Update all installed skills
 ```bash
 npx skills update -g -y
 ```
+
+### Issue handling skills
+
+- [dnb-select-next-issue](ai/skills/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance, without implementing it.
+- [dnb-work-on-issue](ai/skills/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue by number, implement the required change, validate, and commit with a Conventional Commits message that closes the issue.
+- [dnb-work-on-next-issue](ai/skills/dnb-work-on-next-issue/SKILL.md) — Orchestrate selecting and implementing the next suitable open GitHub issue without a specific issue number provided.
+- [dnb-work-through-issues](ai/skills/dnb-work-through-issues/SKILL.md) — Continuously work through open GitHub issues until no suitable actionable issues remain, committing each fix individually.
+
+### Project management skills
+
+- [dnb-dependency-maintenance](ai/skills/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
+- [dnb-project-task-triage](ai/skills/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
+
+### Social media posting
+
+- [dnb-post-into-void](ai/skills/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from text supplied with the request or collected through questions.
+- [dnb-post-session-into-void](ai/skills/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
 
 ## Configure vSCode
 
