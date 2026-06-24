@@ -48,12 +48,65 @@
         },
         "additionalProperties": false
       }
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string"
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "input_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "output_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "strict": {
+      "type": "boolean"
+    },
+    "references": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "src": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?:\\/\\/"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "src"
+        ],
+        "additionalProperties": false
+      }
     }
   },
   "required": [
     "id",
     "title",
-    "type",
     "description"
   ],
   "additionalProperties": false

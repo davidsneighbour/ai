@@ -3,25 +3,28 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "id": {
+    "name": {
+      "description": "Display name shown in the UI. Defaults to the file name.",
       "type": "string",
       "minLength": 1
+    },
+    "description": {
+      "description": "Short description shown on hover in the Chat view.",
+      "type": "string",
+      "minLength": 1
+    },
+    "applyTo": {
+      "description": "Glob pattern that defines which files the instructions apply to automatically, relative to the workspace root. Use ** to apply to all files. If not specified, the instructions are not applied automatically, but you can still add them manually to a chat request.",
+      "type": "string"
     },
     "title": {
       "type": "string",
       "minLength": 1
     },
-    "description": {
-      "type": "string",
-      "minLength": 1
-    },
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
     "version": {
+      "type": "string"
+    },
+    "source": {
       "type": "string"
     },
     "references": {
@@ -51,10 +54,5 @@
       }
     }
   },
-  "required": [
-    "id",
-    "title",
-    "description"
-  ],
   "additionalProperties": false
 }

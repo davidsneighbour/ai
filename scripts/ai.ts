@@ -11,6 +11,7 @@ import {
 	DocSchema,
 	InstructionSchema,
 	PromptSchema,
+	ReferencesSchema,
 	type RegistryItemKind,
 	SkillSchema,
 } from "./lib/ai-schema.ts";
@@ -149,6 +150,7 @@ const SkillDirectoryFrontmatterSchema = z
 		id: z.string().min(1),
 		name: z.string().min(1).optional(),
 		description: z.string().min(1).max(1024).optional(),
+		references: ReferencesSchema,
 	})
 	.passthrough();
 
