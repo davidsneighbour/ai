@@ -1,5 +1,57 @@
 # Changelog
 
+## [0.5.0](https://github.com/davidsneighbour/ai/compare/v0.4.0...v0.5.0) (2026-06-28)
+
+### Build
+
+* **deps-dev:** bump release-it from 20.0.1 to 20.2.0 ([#2](https://github.com/davidsneighbour/ai/issues/2)) ([c7d3f13](https://github.com/davidsneighbour/ai/commit/c7d3f13efef9ed22e611b3dbc6f1d1ea1ebfe1ba))
+* **deps:** add @dnbhq/markdownlint-config, move remark to devDeps, restore pre-push hook ([30965ef](https://github.com/davidsneighbour/ai/commit/30965eff5f3904666400614c556eeea95932bf21))
+* **deps:** update dependencies ([61e5020](https://github.com/davidsneighbour/ai/commit/61e50201768a364b5d884de1d076711d9f583e62))
+* **deps:** update dependencies ([9296ce5](https://github.com/davidsneighbour/ai/commit/9296ce5911c9b8e6aba151e91bdcd6e81f7a9f17))
+* **vscode:** update workspace configuration ([bfe59d0](https://github.com/davidsneighbour/ai/commit/bfe59d02041bd59ea26cfc604abf9c9fe7207b72))
+* **vscode:** update workspace configuration ([2d52aa2](https://github.com/davidsneighbour/ai/commit/2d52aa2b26089ac7e45761c1afe69524a6139b39))
+
+### Linting and Maintenance
+
+* add dnb.toml flags configuration ([8e60c72](https://github.com/davidsneighbour/ai/commit/8e60c720bfd604d8bfb5eab095e953acf282c8fd))
+* **fix:** update dependabot cooldown configuration ([3c2f9c5](https://github.com/davidsneighbour/ai/commit/3c2f9c5f94d0f3d3ca10f69804e6b81d17201cee))
+
+### Chores
+
+* gitignore .claude/ directory ([b23ed7b](https://github.com/davidsneighbour/ai/commit/b23ed7bdeb1e10e831435634f5a57a4ba7f0eae1))
+* **project:** update project plan ([eb057ee](https://github.com/davidsneighbour/ai/commit/eb057ee76fafe46bb32b70ebb85df51ad88a4d6f)), closes [#9](https://github.com/davidsneighbour/ai/issues/9) [#10](https://github.com/davidsneighbour/ai/issues/10) [#5](https://github.com/davidsneighbour/ai/issues/5) [#6](https://github.com/davidsneighbour/ai/issues/6) [#7](https://github.com/davidsneighbour/ai/issues/7)
+* **project:** update project plan ([70267ab](https://github.com/davidsneighbour/ai/commit/70267ab849c72ea81dc01ee0f41b69c4134d731a)), closes [#11](https://github.com/davidsneighbour/ai/issues/11) [#12](https://github.com/davidsneighbour/ai/issues/12) [#13](https://github.com/davidsneighbour/ai/issues/13) [#14](https://github.com/davidsneighbour/ai/issues/14) [#15](https://github.com/davidsneighbour/ai/issues/15) [#9](https://github.com/davidsneighbour/ai/issues/9) [#10](https://github.com/davidsneighbour/ai/issues/10)
+* **project:** update project plan ([ea129c4](https://github.com/davidsneighbour/ai/commit/ea129c4767678dcf0c6eb76c1e033e2d6811035e)), closes [#7](https://github.com/davidsneighbour/ai/issues/7) [#7](https://github.com/davidsneighbour/ai/issues/7)
+* **project:** update project plan ([3db3e77](https://github.com/davidsneighbour/ai/commit/3db3e771095117b7a742480ff39e7434ec85c971)), closes [#8](https://github.com/davidsneighbour/ai/issues/8) [#8](https://github.com/davidsneighbour/ai/issues/8)
+* **skills:** move installable skills to root ([2f24d58](https://github.com/davidsneighbour/ai/commit/2f24d5807a8c43d431ba47660be2320b840f84ca))
+* **vscode:** update editor config and extension recommendations ([22882c4](https://github.com/davidsneighbour/ai/commit/22882c4fe34d0372d3264b9fb163d51d375bddaa))
+
+### Documentation
+
+* **ai:** promote ExecPlans/PLANS from scratch to ai/docs and ai/instructions ([af14512](https://github.com/davidsneighbour/ai/commit/af145129d1a42bc1834b66e119f20556ea18035e))
+* **content:** add YouTube embed authoring guide for kollitsch.dev ([031094f](https://github.com/davidsneighbour/ai/commit/031094f36e9526b3aaee583b4325d9e33502b1dd))
+* **readme:** add dnb-* skill sections ([ec766aa](https://github.com/davidsneighbour/ai/commit/ec766aaaaa81cc49512191a1f5997adb0b1decd6))
+* **readme:** condense CLI section to inline bullet list ([cfc65dd](https://github.com/davidsneighbour/ai/commit/cfc65dd7068fd830e021881e5fc1ca97a52532fa))
+
+### Features
+
+* add references frontmatter schema ([fb08cd3](https://github.com/davidsneighbour/ai/commit/fb08cd37f70fed5068185e03bd9d5b2e7ba9ff65))
+* **claude:** add CLAUDE.md, location shorthand system, and fix registry ([c26975a](https://github.com/davidsneighbour/ai/commit/c26975ab8fc4ada675f05cd27560ed8cc336907c))
+* **prompts:** add onboarding, creation and optimization prompts for dnbhq config packages ([3f22342](https://github.com/davidsneighbour/ai/commit/3f223429de13dcd04fe079f1a9261a23f8fd7f46))
+* **prompts:** add scratch-cleanup prompt and gitignore scratch/ ([b595221](https://github.com/davidsneighbour/ai/commit/b595221c8cb65ea253c04eafbf33a618297c5ad7))
+* **scripts:** add postinstall symlink script for ~/.ai ([d097226](https://github.com/davidsneighbour/ai/commit/d097226580e1e8e89d611ac51680b42cb2ef1746))
+* **skills:** add dependency maintenance workflow ([a22d5ad](https://github.com/davidsneighbour/ai/commit/a22d5ad636fc842c461449dc06f24a6c0ec5c7b6))
+* **skills:** promote 10 polished skills from scratch (Task 15) ([07e6173](https://github.com/davidsneighbour/ai/commit/07e61736b065d5e51c76a49fec1601793d1c3d15))
+* **skills:** promote Obsidian skills cluster from scratch (Task 16) ([b71ec7e](https://github.com/davidsneighbour/ai/commit/b71ec7ec0e22a2654bf14fc46bd0cc23fb5ce198))
+* **skills:** promote three standalone skills from scratch ([cc33f69](https://github.com/davidsneighbour/ai/commit/cc33f695608f0526088a5ca3294457f85e00c7a6))
+* **skills:** split Mastodon posting workflows ([cd85436](https://github.com/davidsneighbour/ai/commit/cd8543658e7429f578e74ad49e4391e120990601))
+
+### Bug Fixes
+
+* **docs:** move kollitsch.dev YouTube embed guide to correct location ([2247a5d](https://github.com/davidsneighbour/ai/commit/2247a5d87377089b6570245b695f3de7186e472b))
+* **docs:** remove misplaced kollitsch.dev-specific instruction ([ba9cbbb](https://github.com/davidsneighbour/ai/commit/ba9cbbb5c52dbe0796bdbb2bdb0433a3c64ad61f))
+* **registry:** skip ancillary files inside skill dirs during validation ([e06f6cb](https://github.com/davidsneighbour/ai/commit/e06f6cb4f425d008c9e5128be8ece0ee8ea1f513))
+
 ## [0.4.0](https://github.com/davidsneighbour/ai/compare/v0.3.0...v0.4.0) (2026-06-07)
 
 ### Instructions
