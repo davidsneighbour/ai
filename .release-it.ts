@@ -9,18 +9,18 @@ interface ConventionalCommit {
 const minorTypes = new Set(['feat', 'prompt', 'instructions', 'skill']);
 
 const patchTypes = new Set([
+  'prompt',
+  'instructions',
+  'skill',
+  'fix',
+  'docs',
   'build',
   'chore',
   'ci',
-  'docs',
-  'fix',
   'perf',
   'refactor',
   'revert',
   'test',
-  'prompt',
-  'instructions',
-  'skill',
 ]);
 
 const config = {
@@ -56,18 +56,18 @@ const config = {
         compareUrlFormat:
           'https://github.com/davidsneighbour/ai/compare/{{previousTag}}...{{currentTag}}',
         types: [
+          { type: 'feat', section: 'Features' },
+          { type: 'fix', section: 'Bug Fixes' },
           { type: 'prompt', section: 'Prompts' },
           { type: 'instructions', section: 'Instructions' },
           { type: 'skill', section: 'Skills' },
+          { type: 'docs', section: 'Documentation' },
           { type: 'build', section: 'Build' },
           { type: 'ci', section: 'Linting and Maintenance' },
           { type: 'chore', section: 'Chores' },
-          { type: 'docs', section: 'Documentation' },
           { type: 'refactor', section: 'Refactoring' },
           { type: 'revert', section: 'Reverts' },
           { type: 'test', section: 'Tests' },
-          { type: 'feat', section: 'Features' },
-          { type: 'fix', section: 'Bug Fixes' },
         ],
       },
       whatBump(commits: ConventionalCommit[]) {
