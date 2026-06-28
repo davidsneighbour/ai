@@ -4,9 +4,10 @@
 
 This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot.
 
-- `ai/prompts/` contains prompt Markdown files with YAML front matter.
+- `prompts/` contains prompt Markdown files with YAML front matter.
 - `skills/` contains installable reusable skills. Each skill lives in its own directory and must include `SKILL.md`.
-- `ai/instructions/`, `ai/templates/`, and `ai/workflows/` contain shared instructions, templates, and workflow documents.
+- `instructions/` contains shared instruction files.
+- `ai/templates/` and `ai/workflows/` contain shared templates and workflow documents.
 - `schemas/` contains JSON schemas for prompts, skills, and docs.
 - `scripts/` contains the TypeScript CLI and validators.
 - `documentation/` and `ai/docs/` contain repository notes and conventions.
@@ -43,7 +44,9 @@ Name new skills as `skills/<skill-id>/SKILL.md`, where `<skill-id>` is lowercase
 
 ## Commit and pull request guidelines
 
-Git history uses concise conventional-style prefixes such as `feat:`, `fix:`, `build(deps):`, `chore(release):`, `prompts:`, and `ai(instructions):`. Keep commits scoped and imperative.
+Git history uses concise Conventional Commit subjects such as `feat:`, `fix:`, `build(deps):`, `chore(release):`, `prompts:`, and `instructions:`. Keep commits scoped and imperative.
+
+Release notes are generated with conventional changelog, but the allowed release scopes are defined in `.release-it.ts`. Check `const minorTypes = new Set([` and `const patchTypes = new Set([` before choosing a subject. Use scopes such as `skills`, `instructions`, and `prompts` when work should appear in its own release-note section.
 
 All commits must follow Conventional Commits, including merge commits. Do not use
 Git's default merge subject. Format merge subjects as
