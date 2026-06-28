@@ -1,6 +1,6 @@
 # AI folder layout and `scripts/ai.ts`
 
-The `ai/` directory is a structured registry for AI-facing assets in this repository. Instead of storing prompts, skills, and documentation as loose Markdown files, the project treats them as typed content items with frontmatter, validation rules, naming conventions, and command-line tooling.
+The `ai/` directory is a structured registry for AI-facing prompts, instructions, templates, workflows, and documentation. Installable skills live in the root `skills/` directory so they can be installed from `davidsneighbour/ai/skills`.
 
 ## Folder layout
 
@@ -9,15 +9,17 @@ Recommended structure:
 ```text
 ai/
 ├── docs/
-├── skills/
 ├── prompts/
 └── shared/
+skills/
+└── <skill-id>/
+    └── SKILL.md
 ```
 
 Practical meaning:
 
 * files under `ai/docs/` are treated as docs
-* files under `ai/skills/` are treated as skills
+* installable skills live under `skills/`
 * everything else defaults to prompt content unless frontmatter says otherwise
 
 Expected filename suffixes:
@@ -60,7 +62,7 @@ node ./scripts/ai.ts check --release
 * `show` prints one item in detail
 * `validate` checks frontmatter against the schema
 * `lint` checks naming, descriptions, empty bodies, and metadata conventions
-* `validate-skills` checks direct child directories under `ai/skills/` for Codex-style `SKILL.md` files
+* `validate-skills` checks direct child directories under `skills/` for Codex-style `SKILL.md` files
 * `drift-report` lists unknown frontmatter keys across the registry
 * `export-schemas` writes JSON Schema files from the shared Zod schemas
 * `build-documentation` refreshes generated README prompt-file configuration guidance
@@ -93,14 +95,15 @@ This system gives the repository:
 flowchart TD
     A[Create or edit ai/*.md] --> B[Run validate]
     B --> C[Run lint]
-    C --> D[Run validate-skills when editing ai/skills/]
+    C --> D[Run validate-skills when editing skills/]
     D --> E[Fix issues]
     E --> F[Run check --release]
 ```
 
 ## Contributor rules
 
-* keep AI files inside `ai/`
+* keep registry files inside `ai/`
+* keep installable skills inside `skills/`
 * always use YAML frontmatter
 * prefer explicit `id`, `title`, and `description`
 * use the correct folder and filename suffix for each item type

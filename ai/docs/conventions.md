@@ -17,7 +17,7 @@ description: Conventions for prompt and skill organization
 - `ai/prompts/reviews/` for validation prompts
 - `ai/prompts/system/`  for shared rules
 - `ai/prompts/tasks/`   for repeatable execution prompts
-- `ai/skills/`          for reusable capability files
+- `skills/`             for installable reusable capability files
 
 ## Resolution order
 

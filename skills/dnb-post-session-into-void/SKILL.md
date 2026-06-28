@@ -114,14 +114,14 @@ Before publishing, restate the exact final post text and image details, if any.
 Use the TypeScript resource script:
 
 ```bash
-tsx ai/skills/dnb-post-session-into-void/resources/post-mastodon.ts \
+tsx skills/dnb-post-session-into-void/resources/post-mastodon.ts \
   --message-file /path/to/message.txt
 ```
 
 With image:
 
 ```bash
-tsx ai/skills/dnb-post-session-into-void/resources/post-mastodon.ts \
+tsx skills/dnb-post-session-into-void/resources/post-mastodon.ts \
   --message-file /path/to/message.txt \
   --image /path/to/image.jpg \
   --image-alt "Concise image description"
@@ -130,7 +130,7 @@ tsx ai/skills/dnb-post-session-into-void/resources/post-mastodon.ts \
 With custom limits:
 
 ```bash
-tsx ai/skills/dnb-post-session-into-void/resources/post-mastodon.ts \
+tsx skills/dnb-post-session-into-void/resources/post-mastodon.ts \
   --message-file /path/to/message.txt \
   --min-chars 300 \
   --max-chars 500

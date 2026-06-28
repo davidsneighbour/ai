@@ -4,7 +4,7 @@
 
 A structured registry of portable AI assets (prompts, skills, instructions, docs) for use with Claude Code and other AI tools. The `scripts/ai.ts` CLI manages validation, linting, schema export, and VS Code integration.
 
-The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts check --release`) is the release gate. As of 2026-06-28, the release gate still **fails** and stops first on the missing frontmatter in `ai/prompts/project-health-check.prompt.md` (#9). The skill-only validator separately stops first on `ai/skills/dnb-create-js-documentation/SKILL.md` (#10). Additional tracked validation and lint issues are likely still hidden behind these early exits.
+The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts check --release`) is the release gate. As of 2026-06-28, the release gate still **fails** and stops first on the missing frontmatter in `ai/prompts/project-health-check.prompt.md` (#9). The skill-only validator now passes against the root `skills/` directory. Additional tracked validation and lint issues may still be hidden behind the prompt parse failure.
 
 ## Project health
 
@@ -13,8 +13,8 @@ The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts
 | Release gate | Fails: `npm run ai:check:release` stops at #9 |
 | Validation | Fails: `npm run ai:validate` stops at #9 |
 | AI lint | Fails: `npm run ai:lint` stops at #9 |
-| Skill validation | Fails: `npm run lint:skills` stops at #10 |
-| Known hidden issues | #5, #6, and #7 remain tracked behind early exits |
+| Skill validation | Passes: `npm run lint:skills` validates 12 root skills |
+| Known hidden issues | #6 and #7 remain tracked behind early exits |
 | Open issues | 11 |
 | CI | not configured |
 
@@ -26,10 +26,10 @@ The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts
   The file is missing its `---` frontmatter block entirely. The linter exits early on this, hiding all other lint errors and warnings. Fix first — it unblocks visibility into the rest of the lint output.
 
 - **[#5](https://github.com/davidsneighbour/ai/issues/5) — Fix missing `id` and `title` in `dnb-project-task-triage/SKILL.md`**
-  Validation error: the SKILL.md uses `name` instead of `id` and lacks a `title` field. Blocks `check --release`.
+  Locally resolved by adding `id` and `title` after moving installable skills to the root `skills/` directory. Close once the structure commit is pushed.
 
 - **[#10](https://github.com/davidsneighbour/ai/issues/10) — Fix missing `id` in `dnb-create-js-documentation/SKILL.md`**
-  New skill file uses `name` instead of `id`. Same class of problem as #5. Fix alongside #5.
+  Locally resolved by adding `id` and `title` after moving installable skills to the root `skills/` directory. Close once the structure commit is pushed.
 
 - **[#6](https://github.com/davidsneighbour/ai/issues/6) — Fix lint errors in instruction files**
   Two instruction files have errors: `exec-plans.instructions.md` is missing `applyTo`; `package-json.instructions.md` is missing `description`. Both block `check --release`.
@@ -37,7 +37,7 @@ The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts
 ### Warnings / quality
 
 - **[#7](https://github.com/davidsneighbour/ai/issues/7) — Resolve 38+ naming lint warnings**
-  Most warnings come from `SKILL.md` files inside installable skill directories — the linter should skip `SKILL.md` when it lives inside `ai/skills/<id>/`. Additionally, several non-skill files need suffix renames. See issue for full file list. Option A (fix the linter) is confirmed as the preferred approach.
+  Most warnings come from `SKILL.md` files inside installable skill directories — the linter should skip `SKILL.md` when it lives inside `skills/<id>/`. Additionally, several non-skill files need suffix renames. See issue for full file list. Option A (fix the linter) is confirmed as the preferred approach.
 
 ### Schema / model
 
@@ -66,17 +66,16 @@ The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts
 ## Suggested order of work
 
 1. **#9** — Fix missing frontmatter in `project-health-check.prompt.md` (unblocks lint visibility)
-2. **#5 + #10** — Fix `name` → `id` in `dnb-project-task-triage` and `dnb-create-js-documentation` SKILL.md (fix both together)
-3. **#6** — Fix lint errors in instruction files (unblocks release gate)
-4. **#7** — Update linter to skip `SKILL.md` in installable skill dirs + rename non-skill files
-5. **#8** — Add external skill documentation (standalone, 15 min)
-6. **#12** — Decide on `title` vs `name` rename strategy; implement
-7. **#13** — Add remaining VS Code prompt fields to schema (after #12)
-8. **#11** — Add `EXTERNAL.md` (standalone)
-9. **#14** — Add agents support (larger feature)
-10. **#15** — Create `skills.sh.json` (standalone after reviewing skills.sh docs)
+2. **#6** — Fix lint errors in instruction files (unblocks release gate after #9)
+3. **#7** — Update linter to skip `SKILL.md` in installable skill dirs + rename non-skill files
+4. **#8** — Add external skill documentation (standalone, 15 min)
+5. **#12** — Decide on `title` vs `name` rename strategy; implement
+6. **#13** — Add remaining VS Code prompt fields to schema (after #12)
+7. **#11** — Add `EXTERNAL.md` (standalone)
+8. **#14** — Add agents support (larger feature)
+9. **#15** — Create `skills.sh.json` (standalone after reviewing skills.sh docs)
 
-After #9, #5/#10, and #6, `check --release` should exit cleanly. After #7, warnings will also be resolved.
+After #9 and #6, `check --release` should exit cleanly. After #7, warnings will also be resolved.
 
 ## Open clarification questions
 

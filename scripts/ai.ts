@@ -360,10 +360,10 @@ function defaultAiRoot(): string {
 /**
  * Default SKILL.md skill root directory.
  *
- * @returns Absolute path to `ai/skills`.
+ * @returns Absolute path to `skills`.
  */
 function defaultSkillsRoot(): string {
-	return path.resolve(process.cwd(), "ai", "skills");
+	return path.resolve(process.cwd(), "skills");
 }
 
 /**
@@ -397,7 +397,7 @@ Commands:
   check
 
 Options:
-  --root <path>           Root AI directory (default: ./ai); for validate-skills, skills root (default: ./ai/skills)
+  --root <path>           Root AI directory (default: ./ai); for validate-skills, skills root (default: ./skills)
   --schemas <path>        Schema output directory (default: ./schemas)
   --id <id>               Item id for show
   --mode glob|folders     Prompt setup mode for setup --prompts
@@ -1484,7 +1484,7 @@ async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
 	const files = await walkDirectory(options.rootDir);
 	const markdownFiles = files.filter((filePath) => {
 		if (!filePath.endsWith(".md")) return false;
-		// Inside ai/skills/, only SKILL.md at depth 1 is a registry item.
+		// Inside a nested skills directory, only SKILL.md at depth 1 is a registry item.
 		// Ancillary files in subdirs (references/, examples/, etc.) are not.
 		const rel = path.relative(options.rootDir, filePath);
 		const parts = rel.split(path.sep);

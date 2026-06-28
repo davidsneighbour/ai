@@ -9,8 +9,11 @@ This repository provides a portable structure for my AI assets that can be share
 - [CLI](#cli)
 - [Skills](#skills)
   - [Install patterns](#install-patterns)
+  - [Updating installed skills](#updating-installed-skills)
+  - [Available skills](#available-skills)
   - [Issue handling skills](#issue-handling-skills)
   - [Project management skills](#project-management-skills)
+  - [Reference and documentation skills](#reference-and-documentation-skills)
   - [Social media posting](#social-media-posting)
 - [Configure vSCode](#configure-vscode)
 - [VS code prompt file recommendations](#vs-code-prompt-file-recommendations)
@@ -24,7 +27,7 @@ This repository provides a portable structure for my AI assets that can be share
 ## Structure
 
 - `ai/prompts/`    prompt files grouped by purpose.
-- `ai/skills/`     reusable capability files.
+- `skills/`        installable skill directories. Each skill lives in its own directory with a `SKILL.md`.
 - `ai/templates/`  output templates (obsolete, should be part of the skill).
 - `schemas/`       validation schemas.
 - `scripts/`       CLI runner and validators.
@@ -52,54 +55,100 @@ Supported `type` values:
 
 ## Skills
 
+Skills are engineering knowledge packaged into reusable instructions. My own skills start with `dnb-` and are opinionated and based on my own experience and used tools.
+
 ### Install patterns
 
-Install all skills from the repo:
+Install all skills from the repository without an interactive selector:
 
 ```bash
-npx skills add davidsneighbour/ai/ai/skills --skill '*'
+npx skills add davidsneighbour/ai/skills --skill '*' --yes
 ```
 
-Install one skill:
+Install one selected skill by id:
 
 ```bash
-npx skills add davidsneighbour/ai/ai/skills --skill signal-extraction-framework
+npx skills add davidsneighbour/ai/skills --skill dnb-project-task-triage --yes
 ```
 
-Install globally for Codex and Claude Code:
+List the available skills without installing them:
 
 ```bash
-npx skills add davidsneighbour/ai/ai/skills --skill '*' --global --agent codex --agent claude-code
+npx skills add davidsneighbour/ai/skills --list
 ```
 
-Install project-local:
+Install globally for Codex and Claude Code when the skills should be available outside the current project:
 
 ```bash
-npx skills add davidsneighbour/ai/ai/skills --skill '*'
+npx skills add davidsneighbour/ai/skills --skill '*' --global --agent codex claude-code --yes
 ```
 
-Update all installed skills
+Install project-local skills when they should be available only in the current repository:
 
 ```bash
-npx skills update -g -y
+npx skills add davidsneighbour/ai/skills --skill '*' --yes
 ```
+
+From a local checkout of this repository, use the root `skills/` directory directly:
+
+```bash
+npx skills add ./skills --skill '*' --yes
+```
+
+### Updating installed skills
+
+Update globally installed skills to the latest version:
+
+```bash
+npx skills update --global --yes
+```
+
+For project-local skills, run the update command from that project:
+
+```bash
+npx skills update --project --yes
+```
+
+Re-run `npx skills add davidsneighbour/ai/skills --skill <id>` when you want to install a newly added skill that is not already present locally.
+
+### Available skills
+
+- [dnb-create-js-documentation](skills/dnb-create-js-documentation/SKILL.md) — Add or improve generated API documentation for JavaScript or TypeScript npm projects.
+- [dnb-dependency-maintenance](skills/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
+- [dnb-post-into-void](skills/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from user-supplied text.
+- [dnb-post-session-into-void](skills/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
+- [dnb-project-task-triage](skills/dnb-project-task-triage/SKILL.md) — Maintain project tracking by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
+- [dnb-quality-gate-organisation](skills/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
+- [dnb-reference](skills/dnb-reference/SKILL.md) — Add or update strict references frontmatter on AI asset files.
+- [dnb-select-next-issue](skills/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance.
+- [dnb-voice](skills/dnb-voice/SKILL.md) — Edit, rewrite, or review prose so it reads in Patrick's own voice.
+- [dnb-work-on-issue](skills/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue, implement the change, validate, and commit.
+- [dnb-work-on-next-issue](skills/dnb-work-on-next-issue/SKILL.md) — Select and implement the next suitable open GitHub issue.
+- [dnb-work-through-issues](skills/dnb-work-through-issues/SKILL.md) — Continuously work through suitable open GitHub issues.
 
 ### Issue handling skills
 
-- [dnb-select-next-issue](ai/skills/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance, without implementing it.
-- [dnb-work-on-issue](ai/skills/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue by number, implement the required change, validate, and commit with a Conventional Commits message that closes the issue.
-- [dnb-work-on-next-issue](ai/skills/dnb-work-on-next-issue/SKILL.md) — Orchestrate selecting and implementing the next suitable open GitHub issue without a specific issue number provided.
-- [dnb-work-through-issues](ai/skills/dnb-work-through-issues/SKILL.md) — Continuously work through open GitHub issues until no suitable actionable issues remain, committing each fix individually.
+- [dnb-select-next-issue](skills/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance, without implementing it.
+- [dnb-work-on-issue](skills/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue by number, implement the required change, validate, and commit with a Conventional Commits message that closes the issue.
+- [dnb-work-on-next-issue](skills/dnb-work-on-next-issue/SKILL.md) — Orchestrate selecting and implementing the next suitable open GitHub issue without a specific issue number provided.
+- [dnb-work-through-issues](skills/dnb-work-through-issues/SKILL.md) — Continuously work through open GitHub issues until no suitable actionable issues remain, committing each fix individually.
 
 ### Project management skills
 
-- [dnb-dependency-maintenance](ai/skills/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
-- [dnb-project-task-triage](ai/skills/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
+- [dnb-dependency-maintenance](skills/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
+- [dnb-project-task-triage](skills/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
+- [dnb-quality-gate-organisation](skills/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
+
+### Reference and documentation skills
+
+- [dnb-create-js-documentation](skills/dnb-create-js-documentation/SKILL.md) — Add or improve generated API documentation for JavaScript or TypeScript npm projects.
+- [dnb-reference](skills/dnb-reference/SKILL.md) — Add or update strict references frontmatter on AI asset files.
+- [dnb-voice](skills/dnb-voice/SKILL.md) — Edit, rewrite, or review prose so it reads in Patrick's own voice.
 
 ### Social media posting
 
-- [dnb-post-into-void](ai/skills/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from text supplied with the request or collected through questions.
-- [dnb-post-session-into-void](ai/skills/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
+- [dnb-post-into-void](skills/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from text supplied with the request or collected through questions.
+- [dnb-post-session-into-void](skills/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
 
 ## Configure vSCode
 
@@ -169,13 +218,13 @@ The optimisation prompt is used after testing the onboarding prompt in one or mo
 
 ### Available config prompt pairs
 
-| Config              | Onboarding prompt                                                                                                | Optimisation prompt                                                                                                        |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Release config      | [`release-config-onboarding.prompt.md`](./ai/prompts/repo-operations/release-config-onboarding.prompt.md)           | [`release-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/release-config-prompt-optimise.prompt.md)           |
-| TypeScript config   | [`tsconfig-onboarding.prompt.md`](./ai/prompts/repo-operations/tsconfig-onboarding.prompt.md)                       | [`tsconfig-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/tsconfig-prompt-optimise.prompt.md)                       |
-| Renovate config     | [`renovate-config-onboarding.prompt.md`](./ai/prompts/repo-operations/renovate-config-onboarding.prompt.md)         | [`renovate-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/renovate-config-prompt-optimise.prompt.md)         |
+| Config | Onboarding prompt | Optimisation prompt |
+| --- | --- | --- |
+| Release config | [`release-config-onboarding.prompt.md`](./ai/prompts/repo-operations/release-config-onboarding.prompt.md) | [`release-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/release-config-prompt-optimise.prompt.md) |
+| TypeScript config | [`tsconfig-onboarding.prompt.md`](./ai/prompts/repo-operations/tsconfig-onboarding.prompt.md) | [`tsconfig-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/tsconfig-prompt-optimise.prompt.md) |
+| Renovate config | [`renovate-config-onboarding.prompt.md`](./ai/prompts/repo-operations/renovate-config-onboarding.prompt.md) | [`renovate-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/renovate-config-prompt-optimise.prompt.md) |
 | Markdownlint config | [`markdownlint-config-onboarding.prompt.md`](./ai/prompts/repo-operations/markdownlint-config-onboarding.prompt.md) | [`markdownlint-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/markdownlint-config-prompt-optimise.prompt.md) |
-| Biome config        | [`biome-config-onboarding.prompt.md`](./ai/prompts/repo-operations/biome-config-onboarding.prompt.md)               | [`biome-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/biome-config-prompt-optimise.prompt.md)               |
+| Biome config | [`biome-config-onboarding.prompt.md`](./ai/prompts/repo-operations/biome-config-onboarding.prompt.md) | [`biome-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/biome-config-prompt-optimise.prompt.md) |
 
 ### Adding another shared config
 

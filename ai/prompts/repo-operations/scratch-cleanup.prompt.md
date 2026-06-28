@@ -35,7 +35,7 @@ Record every file. No file should be invisible in the inventory.
 For each scratch item, check whether equivalent content already exists in the committed tree:
 - `ai/instructions/` for instruction files
 - `ai/prompts/` for prompt files
-- `ai/skills/` for skill directories
+- `skills/` for skill directories
 - `ai/workflows/`, `ai/templates/`, `ai/docs/` for structured documents
 
 Check for identical or near-identical content, not just identical filenames. A scratch file with the same substance as a committed file is a candidate for deletion, not promotion.

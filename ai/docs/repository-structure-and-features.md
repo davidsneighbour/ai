@@ -238,7 +238,7 @@ This currently includes checks such as:
 
 ### `validate-skills`
 
-Validates installable skill directories under `ai/skills/`. Unlike registry validation, this command treats each direct child directory as one skill and checks for a required `SKILL.md` file.
+Validates installable skill directories under `skills/`. Unlike registry validation, this command treats each direct child directory as one skill and checks for a required `SKILL.md` file.
 
 The command enforces these rules:
 
@@ -424,7 +424,7 @@ A sensible day-to-day workflow looks like this:
 flowchart TD
     A[Create or edit a file in ai/] --> B[Run node ./scripts/ai.ts validate]
     B --> C[Run node ./scripts/ai.ts lint]
-    C --> D[Run node ./scripts/ai.ts validate-skills when editing ai/skills/]
+    C --> D[Run node ./scripts/ai.ts validate-skills when editing skills/]
     D --> E[Fix schema or convention issues]
     E --> F[Run node ./scripts/ai.ts check --release]
     F --> G[Optional: export schemas if the data model changed]
@@ -438,7 +438,7 @@ Contributors working in the registry should follow these rules:
 * always include YAML frontmatter
 * prefer explicit `id`, `title`, and `description`
 * place docs in `ai/docs/`
-* place skills in `ai/skills/`
+* place installable skills in `skills/`
 * use `.doc.md`, `.skill.md`, and `.prompt.md` suffixes consistently
 * run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
 * run `node ./scripts/ai.ts build-documentation` after prompt folder or VS Code prompt setting documentation changes

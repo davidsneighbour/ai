@@ -138,14 +138,14 @@ already set.
 Publish text with:
 
 ```bash
-tsx ai/skills/dnb-post-into-void/resources/post-mastodon.ts \
+tsx skills/dnb-post-into-void/resources/post-mastodon.ts \
   --message-file /path/to/message.txt
 ```
 
 Publish with an image:
 
 ```bash
-tsx ai/skills/dnb-post-into-void/resources/post-mastodon.ts \
+tsx skills/dnb-post-into-void/resources/post-mastodon.ts \
   --message-file /path/to/message.txt \
   --image /path/to/image.jpg \
   --image-alt "Concise image description"

@@ -5,7 +5,7 @@
 This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot.
 
 - `ai/prompts/` contains prompt Markdown files with YAML front matter.
-- `ai/skills/` contains reusable skills. Each skill lives in its own directory and must include `SKILL.md`.
+- `skills/` contains installable reusable skills. Each skill lives in its own directory and must include `SKILL.md`.
 - `ai/instructions/`, `ai/templates/`, and `ai/workflows/` contain shared instructions, templates, and workflow documents.
 - `schemas/` contains JSON schemas for prompts, skills, and docs.
 - `scripts/` contains the TypeScript CLI and validators.
@@ -39,7 +39,7 @@ Markdown should use ATX headings, dash bullets, fenced backtick code blocks, ASC
 
 For prompt, schema, or CLI changes, run `npm run ai:validate` and `npm run ai:check`. For skill changes, run `npm run lint:skills` or `npm run lint:skills:verbose`, plus `npm run lint:skills:markdown`.
 
-Name new skills as `ai/skills/<skill-id>/SKILL.md`, where `<skill-id>` is lowercase kebab-case.
+Name new skills as `skills/<skill-id>/SKILL.md`, where `<skill-id>` is lowercase kebab-case.
 
 ## Commit and pull request guidelines
 

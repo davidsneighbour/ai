@@ -1,5 +1,7 @@
 ---
+id: dnb-project-task-triage
 name: dnb-project-task-triage
+title: DNB Project Task Triage
 description: "Maintains the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md. Use when asked to check project status, update task tracking, sync todos with GitHub, regenerate the roadmap, or recommend next steps. Triggers on: 'check status', 'project status', 'sync todos', 'update roadmap', 'triage tasks', 'what's next', 'next steps'."
 ---
 

@@ -73,7 +73,7 @@ The data model lives in `scripts/lib/ai-schema.ts` (Zod schemas). The CLI in `sc
 
 - Prompts: `<name>.prompt.md`
 - Skills (registry entries): `<name>.skill.md`
-- Installable skills: `ai/skills/<skill-id>/SKILL.md` where the directory name matches the `id` field
+- Installable skills: `skills/<skill-id>/SKILL.md` where the directory name matches the `id` field
 - Docs: `<name>.doc.md`
 
 Suffixes are enforced by the linter, not the classifier — a misnamed file may still be classified correctly but will fail `lint`.
@@ -84,14 +84,14 @@ Every file needs YAML frontmatter with at minimum `id`, `title`, and `descriptio
 
 Prompt-specific optional fields: `skills` (string array), `tools` (string array), `strict` (boolean).
 
-### Installable skills (`ai/skills/<id>/`)
+### Installable skills (`skills/<id>/`)
 
 Each installable skill is a directory with a `SKILL.md`. The directory name must match the `id` in frontmatter. Install patterns:
 
 ```bash
-npx skills add davidsneighbour/ai/ai/skills --skill '*'          # all skills
-npx skills add davidsneighbour/ai/ai/skills --skill <id>         # one skill
-npx skills add davidsneighbour/ai/ai/skills --skill '*' --global # globally
+npx skills add davidsneighbour/ai/skills --skill '*' --yes          # all skills
+npx skills add davidsneighbour/ai/skills --skill <id> --yes         # one skill
+npx skills add davidsneighbour/ai/skills --skill '*' --global --yes # globally
 ```
 
 ### Config-driven paths (`config.toml`)
@@ -124,7 +124,7 @@ Current mappings:
 | "local prompt file in `<path>`" | `.vscode/prompts/<path>` |
 | "prompt file in `<path>`" | `ai/prompts/<path>` |
 | "local skills file in `<path>`" | `.vscode/skills/<path>` |
-| "skills file in `<path>`" | `ai/skills/<path>` |
+| "skills file in `<path>`" | `skills/<path>` |
 | "local docs file in `<path>`" | `.vscode/docs/<path>` |
 | "docs file in `<path>`" | `ai/docs/<path>` |
 
