@@ -3,7 +3,7 @@
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js",
     "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-    "README.md": "CHANGELOG.md, CONTRIBUTING.md, LICENSE*, AGENTS*",
+    "README.md": "CHANGELOG.md, CONTRIBUTING.md, LICENSE*, AGENTS*, ROADMAP.md, TODO.md",
     "package.json": "package-lock.json, .release-it.ts, .markdownlint*, lint-staged.config.*, tsconfig.*, .editorconfig, .nvmrc,biome.json, .secretlint*"
   },
   "cSpell.customDictionaries": {
@@ -15,25 +15,25 @@
     }
   },
   "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#ffffb3",
-    "activityBar.background": "#ffffb3",
+    "activityBar.activeBackground": "#ffdc33",
+    "activityBar.background": "#ffdc33",
     "activityBar.foreground": "#15202b",
     "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#00bfbf",
-    "activityBarBadge.foreground": "#15202b",
+    "activityBarBadge.background": "#009f84",
+    "activityBarBadge.foreground": "#e7e7e7",
     "commandCenter.border": "#15202b99",
-    "sash.hoverBorder": "#ffffb3",
-    "statusBar.background": "#ffff80",
+    "sash.hoverBorder": "#ffdc33",
+    "statusBar.background": "#ffd300",
     "statusBar.foreground": "#15202b",
-    "statusBarItem.hoverBackground": "#ffff4d",
-    "statusBarItem.remoteBackground": "#ffff80",
+    "statusBarItem.hoverBackground": "#cca900",
+    "statusBarItem.remoteBackground": "#ffd300",
     "statusBarItem.remoteForeground": "#15202b",
-    "titleBar.activeBackground": "#ffff80",
+    "titleBar.activeBackground": "#ffd300",
     "titleBar.activeForeground": "#15202b",
-    "titleBar.inactiveBackground": "#ffff8099",
+    "titleBar.inactiveBackground": "#ffd30099",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.color": "#FFFF80",
+  "peacock.color": "FFD300",
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one",
     "editor.formatOnSave": true
