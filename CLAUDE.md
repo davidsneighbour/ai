@@ -145,4 +145,4 @@ To extend this system, add new entries to `config.toml [locations.qualifiers]` o
 
 ## Commit style
 
-Conventional commits with scoped prefixes: `feat:`, `fix:`, `build(deps):`, `chore(release):`, `prompts:`, `ai(instructions):`. Keep commits scoped and imperative.
+Conventional commits with scoped prefixes: `feat:`, `fix:`, `build(deps):`, `chore(release):`, `prompts:`, `instructions:`, and `skills:`. Keep commits scoped and imperative. Check `.release-it.ts` before choosing asset-specific commit types so release notes land in the intended section.

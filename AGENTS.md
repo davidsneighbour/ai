@@ -44,7 +44,7 @@ Name new skills as `skills/<skill-id>/SKILL.md`, where `<skill-id>` is lowercase
 
 ## Commit and pull request guidelines
 
-Git history uses concise Conventional Commit subjects such as `feat:`, `fix:`, `build(deps):`, `chore(release):`, `prompts:`, and `instructions:`. Keep commits scoped and imperative.
+Git history uses concise Conventional Commit subjects such as `feat:`, `fix:`, `build(deps):`, `chore(release):`, `prompts:`, `instructions:`, and `skills:`. Keep commits scoped and imperative.
 
 Release notes are generated with conventional changelog, but the allowed release scopes are defined in `.release-it.ts`. Check `const minorTypes = new Set([` and `const patchTypes = new Set([` before choosing a subject. Use scopes such as `skills`, `instructions`, and `prompts` when work should appear in its own release-note section.
 

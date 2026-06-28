@@ -121,13 +121,13 @@ If the user provides commit types, use them.
 If not, use the `@dnbhq/release-config` defaults:
 
 ```ts
-minorTypes: ["feat", "prompt", "instructions", "skill"]
+minorTypes: ["feat", "prompts", "instructions", "skills"]
 patchTypes: ["fix", "perf", "refactor", "docs", "style", "test", "build", "ci", "chore"]
 minorExclusionSubscopes: {
   feat: ["fix"],
-  prompt: ["fix"],
+  prompts: ["fix"],
   instructions: ["fix"],
-  skill: ["fix"]
+  skills: ["fix"]
 }
 ```
 
@@ -212,7 +212,7 @@ import type { Config } from "release-it";
 const config: Config = createReleaseConfig({
   githubTokenRef: "GITHUB_TOKEN_CONTENT_PRIVATE",
   scopes: {
-    minorTypes: ["feat", "prompt", "instructions", "skill"],
+    minorTypes: ["feat", "prompts", "instructions", "skills"],
     patchTypes: [
       "fix",
       "perf",
@@ -226,9 +226,9 @@ const config: Config = createReleaseConfig({
     ],
     minorExclusionSubscopes: {
       feat: ["fix"],
-      prompt: ["fix"],
+      prompts: ["fix"],
       instructions: ["fix"],
-      skill: ["fix"],
+      skills: ["fix"],
     },
   },
 });
