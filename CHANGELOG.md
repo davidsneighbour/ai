@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.1](https://github.com/davidsneighbour/ai/compare/v0.6.0...v0.6.1) (2026-06-28)
+
+### Build
+
+* **release:** use plural asset commit types ([6fd90b0](https://github.com/davidsneighbour/ai/commit/6fd90b034c55b8184a6ea705f89eba8b848da8ae))
+
 ## [0.6.0](https://github.com/davidsneighbour/ai/compare/v0.5.0...v0.6.0) (2026-06-28)
 
 ### Instructions
