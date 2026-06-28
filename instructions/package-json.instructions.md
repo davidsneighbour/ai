@@ -1,4 +1,5 @@
 ---
+description: Instructions for keeping package.json deterministic and synchronised with npm lockfiles.
 applyTo: "**/package.json"
 ---
 
