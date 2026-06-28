@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.0](https://github.com/davidsneighbour/ai/compare/v0.5.0...v0.6.0) (2026-06-28)
+
+### Instructions
+
+* move instruction assets to repo root ([00b1e78](https://github.com/davidsneighbour/ai/commit/00b1e7862c182b644ee9f97beeda7fbdcceda8ca))
+
+### Documentation
+
+* document release note commit types ([08f9afd](https://github.com/davidsneighbour/ai/commit/08f9afd07f9d644d26c364610a025e244c0fb449))
+
+### Build
+
+* **fix:** change order of items in CHANGELOG.md (maybe) ([66197f5](https://github.com/davidsneighbour/ai/commit/66197f508f39052701d8778472050d227dccca50))
+
 ## [0.5.0](https://github.com/davidsneighbour/ai/compare/v0.4.0...v0.5.0) (2026-06-28)
 
 ### Build
