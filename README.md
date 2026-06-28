@@ -55,7 +55,7 @@ Supported `type` values:
 
 ## Skills
 
-Skills are engineering knowledge packaged into reusable instructions. My own skills start with `dnb-` and are opinionated and based on my own experience and used tools.
+Skills are engineering knowledge packaged into reusable instructions. My own skills start with `dnb-` and are opinionated and based on my own experience and used tools. The fact that they are published here under a MIT license does not mean it's a released and supported end product. It's work in progress, and will expand as my experience will do over time.
 
 ### Install patterns
 
