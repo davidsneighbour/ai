@@ -4,15 +4,17 @@
 
 A structured registry of portable AI assets (prompts, skills, instructions, docs) for use with Claude Code and other AI tools. The `scripts/ai.ts` CLI manages validation, linting, schema export, and VS Code integration.
 
-The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts check --release`) is the release gate. The gate currently **fails** due to at least 3 validation errors and multiple lint errors. The linter exits early on parse failures, so the full error count may be higher than what is currently visible.
+The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts check --release`) is the release gate. As of 2026-06-28, the release gate still **fails** and stops first on the missing frontmatter in `ai/prompts/project-health-check.prompt.md` (#9). The skill-only validator separately stops first on `ai/skills/dnb-create-js-documentation/SKILL.md` (#10). Additional tracked validation and lint issues are likely still hidden behind these early exits.
 
 ## Project health
 
 | Indicator | Status |
 | --- | --- |
-| Validation errors | ≥3 (blocks release) |
-| Lint errors | ≥1 visible; more hidden behind parse failure |
-| Lint warnings | 38+ (hidden by early exit) |
+| Release gate | Fails: `npm run ai:check:release` stops at #9 |
+| Validation | Fails: `npm run ai:validate` stops at #9 |
+| AI lint | Fails: `npm run ai:lint` stops at #9 |
+| Skill validation | Fails: `npm run lint:skills` stops at #10 |
+| Known hidden issues | #5, #6, and #7 remain tracked behind early exits |
 | Open issues | 11 |
 | CI | not configured |
 
