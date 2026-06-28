@@ -28,7 +28,7 @@
 
 ### Documentation
 
-* **ai:** promote ExecPlans/PLANS from scratch to ai/docs and ai/instructions ([af14512](https://github.com/davidsneighbour/ai/commit/af145129d1a42bc1834b66e119f20556ea18035e))
+* **ai:** promote ExecPlans/PLANS from scratch to ai/docs and instructions ([af14512](https://github.com/davidsneighbour/ai/commit/af145129d1a42bc1834b66e119f20556ea18035e))
 * **content:** add YouTube embed authoring guide for kollitsch.dev ([031094f](https://github.com/davidsneighbour/ai/commit/031094f36e9526b3aaee583b4325d9e33502b1dd))
 * **readme:** add dnb-* skill sections ([ec766aa](https://github.com/davidsneighbour/ai/commit/ec766aaaaa81cc49512191a1f5997adb0b1decd6))
 * **readme:** condense CLI section to inline bullet list ([cfc65dd](https://github.com/davidsneighbour/ai/commit/cfc65dd7068fd830e021881e5fc1ca97a52532fa))

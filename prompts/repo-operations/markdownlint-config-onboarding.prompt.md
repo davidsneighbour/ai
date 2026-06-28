@@ -87,6 +87,8 @@ Before changing files, inspect the repository and report what you find:
    - `src/**/*.md`
    - `src/**/*.mdx`
    - `.github/**/*.md`
+   - `prompts/**/*.md`
+   - `instructions/**/*.md`
    - `ai/**/*.md`
 
 7. Inspect whether generated/vendor folders should be excluded:

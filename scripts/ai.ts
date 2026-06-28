@@ -58,6 +58,7 @@ interface CliOptions {
 	command: CommandName;
 	rootDir: string;
 	schemaDir: string;
+	useRepositoryAssetFilter: boolean;
 	id?: string;
 	json: boolean;
 	verbose: boolean;
@@ -141,6 +142,14 @@ type SettingsJson = Record<string, unknown>;
  * Prompt files location setting value.
  */
 type PromptFilesLocations = Record<string, boolean>;
+
+const REPOSITORY_ASSET_DIRECTORIES = [
+	"prompts",
+	"instructions",
+	path.join("ai", "docs"),
+	path.join("ai", "templates"),
+	path.join("ai", "workflows"),
+];
 
 /**
  * Standalone skill frontmatter accepted by SKILL.md-based skill directories.
@@ -228,8 +237,9 @@ function parseArgs(argv: string[]): CliOptions {
 	if (argv.length === 0 || argv.includes("--help") || argv.includes("-h")) {
 		return {
 			command: "help",
-			rootDir: defaultAiRoot(),
+			rootDir: defaultRegistryRoot(),
 			schemaDir: defaultSchemaRoot(),
+			useRepositoryAssetFilter: true,
 			json: false,
 			verbose: false,
 			includeContent: true,
@@ -244,8 +254,11 @@ function parseArgs(argv: string[]): CliOptions {
 	const options: CliOptions = {
 		command,
 		rootDir:
-			command === "validate-skills" ? defaultSkillsRoot() : defaultAiRoot(),
+			command === "validate-skills"
+				? defaultSkillsRoot()
+				: defaultRegistryRoot(),
 		schemaDir: defaultSchemaRoot(),
+		useRepositoryAssetFilter: command !== "validate-skills",
 		json: argv.includes("--json"),
 		verbose: argv.includes("--verbose"),
 		includeContent: !argv.includes("--no-content"),
@@ -263,6 +276,7 @@ function parseArgs(argv: string[]): CliOptions {
 				throw new Error("Missing value for --root");
 			}
 			options.rootDir = path.resolve(process.cwd(), value);
+			options.useRepositoryAssetFilter = false;
 			index += 1;
 			continue;
 		}
@@ -349,12 +363,12 @@ function parsePromptSetupMode(value: string): PromptSetupMode {
 }
 
 /**
- * Default AI root directory.
+ * Default registry root directory.
  *
- * @returns Absolute path to `ai`.
+ * @returns Absolute path to the repository root.
  */
-function defaultAiRoot(): string {
-	return path.resolve(process.cwd(), "ai");
+function defaultRegistryRoot(): string {
+	return process.cwd();
 }
 
 /**
@@ -397,7 +411,7 @@ Commands:
   check
 
 Options:
-  --root <path>           Root AI directory (default: ./ai); for validate-skills, skills root (default: ./skills)
+  --root <path>           Registry root (default: current repository); for validate-skills, skills root (default: ./skills)
   --schemas <path>        Schema output directory (default: ./schemas)
   --id <id>               Item id for show
   --mode glob|folders     Prompt setup mode for setup --prompts
@@ -1481,9 +1495,12 @@ async function runCheck(options: CliOptions): Promise<void> {
  * @returns Loaded items.
  */
 async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
-	const files = await walkDirectory(options.rootDir);
+	const files = options.useRepositoryAssetFilter
+		? await walkRepositoryAssetDirectories(options.rootDir)
+		: await walkDirectory(options.rootDir);
 	const markdownFiles = files.filter((filePath) => {
 		if (!filePath.endsWith(".md")) return false;
+
 		// Inside a nested skills directory, only SKILL.md at depth 1 is a registry item.
 		// Ancillary files in subdirs (references/, examples/, etc.) are not.
 		const rel = path.relative(options.rootDir, filePath);
@@ -1521,6 +1538,27 @@ async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
 
 	items.sort((left, right) => left.id.localeCompare(right.id));
 	return items;
+}
+
+/**
+ * Walk the managed repository-level AI asset directories.
+ *
+ * @param rootDir Repository root directory.
+ * @returns Absolute file paths from existing asset directories.
+ */
+async function walkRepositoryAssetDirectories(
+	rootDir: string,
+): Promise<string[]> {
+	const files: string[] = [];
+
+	for (const relativeDirectory of REPOSITORY_ASSET_DIRECTORIES) {
+		const absoluteDirectory = path.join(rootDir, relativeDirectory);
+		if (await directoryExists(absoluteDirectory)) {
+			files.push(...(await walkDirectory(absoluteDirectory)));
+		}
+	}
+
+	return files;
 }
 
 /**
@@ -1714,15 +1752,13 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 
 	if (
 		item.kind === "instruction" &&
-		!item.absolutePath.includes(
-			`${path.sep}ai${path.sep}instructions${path.sep}`,
-		)
+		!item.absolutePath.includes(`${path.sep}instructions${path.sep}`)
 	) {
 		issues.push({
 			severity: release ? "error" : "warning",
 			code: "location",
 			message:
-				"Instruction file should be in the ai/instructions directory (subfolders are allowed).",
+				"Instruction file should be in the instructions directory (subfolders are allowed).",
 			file: item.relativePath,
 		});
 	}
@@ -1953,6 +1989,25 @@ async function walkDirectory(directory: string): Promise<string[]> {
 	}
 
 	return files;
+}
+
+/**
+ * Check whether a directory exists.
+ *
+ * @param directory Absolute directory path.
+ * @returns True when the path exists and is a directory.
+ */
+async function directoryExists(directory: string): Promise<boolean> {
+	try {
+		const stats = await fs.lstat(directory);
+		return stats.isDirectory();
+	} catch (error: unknown) {
+		if (isNodeError(error) && error.code === "ENOENT") {
+			return false;
+		}
+
+		throw error;
+	}
 }
 
 /**

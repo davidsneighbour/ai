@@ -1,16 +1,18 @@
-# AI folder layout and `scripts/ai.ts`
+# AI asset layout and `scripts/ai.ts`
 
-The `ai/` directory is a structured registry for AI-facing prompts, instructions, templates, workflows, and documentation. Installable skills live in the root `skills/` directory so they can be installed from `davidsneighbour/ai/skills`.
+The repository keeps prompts and instructions at the root in `prompts/` and `instructions/`. Supporting AI docs, templates, and workflows stay under `ai/`. Installable skills live in the root `skills/` directory so they can be installed from `davidsneighbour/ai/skills`.
 
 ## Folder layout
 
 Recommended structure:
 
 ```text
+prompts/
+instructions/
 ai/
 ├── docs/
-├── prompts/
-└── shared/
+├── templates/
+└── workflows/
 skills/
 └── <skill-id>/
     └── SKILL.md
@@ -18,9 +20,10 @@ skills/
 
 Practical meaning:
 
+* files under `prompts/` are treated as prompts
+* files under `instructions/` are treated as instructions
 * files under `ai/docs/` are treated as docs
 * installable skills live under `skills/`
-* everything else defaults to prompt content unless frontmatter says otherwise
 
 Expected filename suffixes:
 
@@ -30,7 +33,7 @@ Expected filename suffixes:
 
 ## What `scripts/ai.ts` does
 
-The script scans `ai/` recursively and turns each Markdown file into a registry item with:
+The script scans the managed asset directories and turns each Markdown file into a registry item with:
 
 * `id`
 * `title`
@@ -93,7 +96,7 @@ This system gives the repository:
 
 ```mermaid
 flowchart TD
-    A[Create or edit ai/*.md] --> B[Run validate]
+    A[Create or edit an asset Markdown file] --> B[Run validate]
     B --> C[Run lint]
     C --> D[Run validate-skills when editing skills/]
     D --> E[Fix issues]
@@ -102,7 +105,9 @@ flowchart TD
 
 ## Contributor rules
 
-* keep registry files inside `ai/`
+* keep prompts in `prompts/`
+* keep instructions in `instructions/`
+* keep docs, templates, and workflows under `ai/`
 * keep installable skills inside `skills/`
 * always use YAML frontmatter
 * prefer explicit `id`, `title`, and `description`

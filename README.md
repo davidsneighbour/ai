@@ -4,29 +4,30 @@
 
 This repository provides a portable structure for my AI assets that can be shared across ChatGPT, Codex, and GitHub Copilot.
 
-- [Structure](#structure)
-- [Prompt model](#prompt-model)
-- [CLI](#cli)
-- [Skills](#skills)
-  - [Install patterns](#install-patterns)
-  - [Updating installed skills](#updating-installed-skills)
-  - [Available skills](#available-skills)
-  - [Issue handling skills](#issue-handling-skills)
-  - [Project management skills](#project-management-skills)
-  - [Reference and documentation skills](#reference-and-documentation-skills)
-  - [Social media posting](#social-media-posting)
-- [Configure vSCode](#configure-vscode)
-- [VS code prompt file recommendations](#vs-code-prompt-file-recommendations)
-  - [Option 1: one recursive glob](#option-1-one-recursive-glob)
-  - [Option 2: individual folder entries](#option-2-individual-folder-entries)
-- [Licensed content](#licensed-content)
-- [Shared config onboarding prompts](#shared-config-onboarding-prompts)
-  - [Available config prompt pairs](#available-config-prompt-pairs)
-  - [Adding another shared config](#adding-another-shared-config)
+* [Structure](#structure)
+* [Prompt model](#prompt-model)
+* [CLI](#cli)
+* [Skills](#skills)
+  * [Install patterns](#install-patterns)
+  * [Updating installed skills](#updating-installed-skills)
+  * [Available skills](#available-skills)
+  * [Issue handling skills](#issue-handling-skills)
+  * [Project management skills](#project-management-skills)
+  * [Reference and documentation skills](#reference-and-documentation-skills)
+  * [Social media posting](#social-media-posting)
+* [Configure vSCode](#configure-vscode)
+* [VS code prompt file recommendations](#vs-code-prompt-file-recommendations)
+  * [Option 1: one recursive glob](#option-1-one-recursive-glob)
+  * [Option 2: individual folder entries](#option-2-individual-folder-entries)
+* [Licensed content](#licensed-content)
+* [Shared config onboarding prompts](#shared-config-onboarding-prompts)
+  * [Available config prompt pairs](#available-config-prompt-pairs)
+  * [Adding another shared config](#adding-another-shared-config)
 
 ## Structure
 
-- `ai/prompts/`    prompt files grouped by purpose.
+- `prompts/`       prompt files grouped by purpose.
+- `instructions/`  reusable instruction files.
 - `skills/`        installable skill directories. Each skill lives in its own directory with a `SKILL.md`.
 - `ai/templates/`  output templates (obsolete, should be part of the skill).
 - `schemas/`       validation schemas.
@@ -55,7 +56,8 @@ Supported `type` values:
 
 ## Skills
 
-Skills are engineering knowledge packaged into reusable instructions. My own skills start with `dnb-` and are opinionated and based on my own experience and used tools. The fact that they are published here under a MIT license does not mean it's a released and supported end product. It's work in progress, and will expand as my experience will do over time.
+> [!CAUTION]
+> Skills are engineering knowledge packaged into reusable instructions. My own skills start with `dnb-` and are opinionated and based on my own experience and used tools. The fact that they are published here under a MIT license does not mean it's a released and supported end product. It's work in progress, and will expand as my experience will do over time. If you wish to pay for a supported product, feel free to contact me.
 
 ### Install patterns
 
@@ -205,7 +207,7 @@ This repository uses a two-step prompt pattern for applying shared DNBHQ configu
 
 The workflow starts with one generator prompt:
 
-- [`ai/prompts/prompt-management/config-prompt-pair-generator.prompt.md`](./ai/prompts/prompt-management/config-prompt-pair-generator.prompt.md)
+- [`prompts/prompt-management/config-prompt-pair-generator.prompt.md`](./prompts/prompt-management/config-prompt-pair-generator.prompt.md)
 
 That prompt analyses a shared configuration repository and creates a pair of reusable prompts:
 
@@ -220,18 +222,18 @@ The optimisation prompt is used after testing the onboarding prompt in one or mo
 
 | Config | Onboarding prompt | Optimisation prompt |
 | --- | --- | --- |
-| Release config | [`release-config-onboarding.prompt.md`](./ai/prompts/repo-operations/release-config-onboarding.prompt.md) | [`release-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/release-config-prompt-optimise.prompt.md) |
-| TypeScript config | [`tsconfig-onboarding.prompt.md`](./ai/prompts/repo-operations/tsconfig-onboarding.prompt.md) | [`tsconfig-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/tsconfig-prompt-optimise.prompt.md) |
-| Renovate config | [`renovate-config-onboarding.prompt.md`](./ai/prompts/repo-operations/renovate-config-onboarding.prompt.md) | [`renovate-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/renovate-config-prompt-optimise.prompt.md) |
-| Markdownlint config | [`markdownlint-config-onboarding.prompt.md`](./ai/prompts/repo-operations/markdownlint-config-onboarding.prompt.md) | [`markdownlint-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/markdownlint-config-prompt-optimise.prompt.md) |
-| Biome config | [`biome-config-onboarding.prompt.md`](./ai/prompts/repo-operations/biome-config-onboarding.prompt.md) | [`biome-config-prompt-optimise.prompt.md`](./ai/prompts/repo-operations/biome-config-prompt-optimise.prompt.md) |
+| Release config | [`release-config-onboarding.prompt.md`](./prompts/repo-operations/release-config-onboarding.prompt.md) | [`release-config-prompt-optimise.prompt.md`](./prompts/repo-operations/release-config-prompt-optimise.prompt.md) |
+| TypeScript config | [`tsconfig-onboarding.prompt.md`](./prompts/repo-operations/tsconfig-onboarding.prompt.md) | [`tsconfig-prompt-optimise.prompt.md`](./prompts/repo-operations/tsconfig-prompt-optimise.prompt.md) |
+| Renovate config | [`renovate-config-onboarding.prompt.md`](./prompts/repo-operations/renovate-config-onboarding.prompt.md) | [`renovate-config-prompt-optimise.prompt.md`](./prompts/repo-operations/renovate-config-prompt-optimise.prompt.md) |
+| Markdownlint config | [`markdownlint-config-onboarding.prompt.md`](./prompts/repo-operations/markdownlint-config-onboarding.prompt.md) | [`markdownlint-config-prompt-optimise.prompt.md`](./prompts/repo-operations/markdownlint-config-prompt-optimise.prompt.md) |
+| Biome config | [`biome-config-onboarding.prompt.md`](./prompts/repo-operations/biome-config-onboarding.prompt.md) | [`biome-config-prompt-optimise.prompt.md`](./prompts/repo-operations/biome-config-prompt-optimise.prompt.md) |
 
 ### Adding another shared config
 
 To add another shared configuration workflow:
 
-1. run [`config-prompt-pair-generator.prompt.md`](./ai/prompts/prompt-management/config-prompt-pair-generator.prompt.md) with the shared config repository or package
-2. save the generated onboarding prompt in `ai/prompts/repo-operations/`
+1. run [`config-prompt-pair-generator.prompt.md`](./prompts/prompt-management/config-prompt-pair-generator.prompt.md) with the shared config repository or package
+2. save the generated onboarding prompt in `prompts/repo-operations/`
 3. save the generated optimisation prompt in `prompts/repo-operations/`
 4. test the onboarding prompt in real repositories
 5. use the optimisation prompt to fold lessons from those runs back into the onboarding prompt

@@ -24,7 +24,7 @@ Add one external source to an AI asset file by editing its YAML front matter.
 Require both:
 
 - `url`: an absolute URL beginning with `http://` or `https://`
-- `ai_file`: a Markdown file under `ai/`
+- `ai_file`: a Markdown file in a managed AI asset directory, such as `prompts/`, `instructions/`, or `ai/docs/`
 
 If either value is missing, ask for the missing value before editing.
 

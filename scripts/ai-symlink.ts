@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 
 const CONFIG = {
-	sourcePath: path.join(os.homedir(), "github.com/davidsneighbour/ai/ai"),
+	sourcePath: path.join(os.homedir(), "github.com/davidsneighbour/ai"),
 	targetPath: path.join(os.homedir(), ".ai"),
 	expectedSourceType: "directory",
 	allowRoot: process.env.ALLOW_ROOT_POSTINSTALL_SYMLINK === "1",

@@ -4,7 +4,7 @@
 
 A structured registry of portable AI assets (prompts, skills, instructions, docs) for use with Claude Code and other AI tools. The `scripts/ai.ts` CLI manages validation, linting, schema export, and VS Code integration.
 
-The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts check --release`) is the release gate. As of 2026-06-28, the release gate still **fails** and stops first on the missing frontmatter in `ai/prompts/project-health-check.prompt.md` (#9). The skill-only validator now passes against the root `skills/` directory. Additional tracked validation and lint issues may still be hidden behind the prompt parse failure.
+The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts check --release`) is the release gate. As of 2026-06-28, the release gate still **fails** and stops first on the missing frontmatter in `prompts/project-health-check.prompt.md` (#9). The skill-only validator now passes against the root `skills/` directory. Additional tracked validation and lint issues may still be hidden behind the prompt parse failure.
 
 ## Project health
 
@@ -22,7 +22,7 @@ The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts
 
 ### Bugs / errors (release-blocking)
 
-- **[#9](https://github.com/davidsneighbour/ai/issues/9) — Add YAML frontmatter to `ai/prompts/project-health-check.prompt.md`**
+- **[#9](https://github.com/davidsneighbour/ai/issues/9) — Add YAML frontmatter to `prompts/project-health-check.prompt.md`**
   The file is missing its `---` frontmatter block entirely. The linter exits early on this, hiding all other lint errors and warnings. Fix first — it unblocks visibility into the rest of the lint output.
 
 - **[#5](https://github.com/davidsneighbour/ai/issues/5) — Fix missing `id` and `title` in `dnb-project-task-triage/SKILL.md`**

@@ -9,7 +9,7 @@ You are updating the TypeScript programming instructions file.
 
 Target file:
 
-`ai/instructions/typescript-programming.instructions.md`
+`instructions/typescript-programming.instructions.md`
 
 ## Task
 

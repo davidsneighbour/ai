@@ -61,10 +61,17 @@ Install hooks after cloning: `npm run hooks:install`.
 
 ### Registry classification (`scripts/ai.ts`)
 
-Every `.md` file under `ai/` is scanned and classified by path:
+Registry Markdown files are scanned from the managed asset directories:
+
+- root `prompts/`
+- root `instructions/`
+- `ai/docs/`, `ai/templates/`, and `ai/workflows/`
+
+Files are classified by path:
 
 - **skill** — path contains `/skills/` or frontmatter says `type: skill`
 - **doc** — path contains `/docs/`
+- **instruction** — path contains `/instructions/`
 - **prompt** — everything else (the fallback)
 
 The data model lives in `scripts/lib/ai-schema.ts` (Zod schemas). The CLI in `scripts/ai.ts` reads, validates, lints, and exports based on that model. Keep schema changes in `ai-schema.ts`; keep runtime logic in `ai.ts`.
@@ -80,7 +87,7 @@ Suffixes are enforced by the linter, not the classifier — a misnamed file may 
 
 ### Frontmatter requirements
 
-Every file needs YAML frontmatter with at minimum `id`, `title`, and `description`. The `id` must be lowercase kebab-case matching `^([a-z][a-z0-9]*)(-[a-z0-9]+)*$` and unique across the registry. Prompt names should be derived from the file path inside `ai/`, e.g. `prompts-hugo-upgrade` for `ai/prompts/hugo/upgrade.prompt.md`.
+Every file needs YAML frontmatter with at minimum `id`, `title`, and `description`. The `id` must be lowercase kebab-case matching `^([a-z][a-z0-9]*)(-[a-z0-9]+)*$` and unique across the registry. Prompt names should be derived from the file path, e.g. `prompts-hugo-upgrade` for `prompts/hugo/upgrade.prompt.md`.
 
 Prompt-specific optional fields: `skills` (string array), `tools` (string array), `strict` (boolean).
 
@@ -104,7 +111,7 @@ Strict mode throughout (`tsconfig.json`). Biome for formatting: tabs, double quo
 
 ## Workflow for registry changes
 
-1. Create/edit file in `ai/` with correct suffix and frontmatter.
+1. Create/edit a file in a managed asset directory with the correct suffix and frontmatter.
 2. Run `node ./scripts/ai.ts validate` then `node ./scripts/ai.ts lint`.
 3. For skill directory changes: `node ./scripts/ai.ts validate-skills`.
 4. Run `node ./scripts/ai.ts check --release` before committing.
@@ -120,9 +127,9 @@ Current mappings:
 | Phrase | Resolved path |
 | --- | --- |
 | "local instruction file in `<path>`" | `.vscode/instructions/<path>` |
-| "instruction file in `<path>`" | `ai/instructions/<path>` |
+| "instruction file in `<path>`" | `instructions/<path>` |
 | "local prompt file in `<path>`" | `.vscode/prompts/<path>` |
-| "prompt file in `<path>`" | `ai/prompts/<path>` |
+| "prompt file in `<path>`" | `prompts/<path>` |
 | "local skills file in `<path>`" | `.vscode/skills/<path>` |
 | "skills file in `<path>`" | `skills/<path>` |
 | "local docs file in `<path>`" | `.vscode/docs/<path>` |
@@ -130,7 +137,7 @@ Current mappings:
 
 The resolution rule is: `<qualifier-prefix>/<type-subdir>/<path>` where:
 
-- **no qualifier** → `registry` prefix (`ai/`)
+- **no qualifier** → `registry` prefix (`./`)
 - **"local"** qualifier → `local` prefix (`.vscode/`)
 - the asset type word maps to a subdir via `[locations.types]`
 

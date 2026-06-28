@@ -1,14 +1,14 @@
 ---
 id: docs-repository-structure-and-features
-title: AI folder layout and the ai.ts script
-description: Deep documentation of the ai folder structure, file conventions, front matter model, and the functionality of the scripts/ai.ts registry, validation, linting, and schema export workflow.
+title: AI asset layout and the ai.ts script
+description: Deep documentation of the AI asset folder structure, file conventions, front matter model, and the functionality of the scripts/ai.ts registry, validation, linting, and schema export workflow.
 ---
 
-This document explains the purpose, structure, and working model of the `ai/` directory and the `scripts/ai.ts` tool that manages it. It is intended as the main reference for contributors who add, edit, validate, or reorganise AI-related files in this repository.
+This document explains the purpose, structure, and working model of the AI asset directories and the `scripts/ai.ts` tool that manages them. It is intended as the main reference for contributors who add, edit, validate, or reorganise AI-related files in this repository.
 
 ## Why this system exists
 
-The `ai/` directory is a structured registry of AI-facing assets. Each file inside that registry is expected to be understandable to humans, machine-validated, and predictable enough to be inspected by scripts and editors.
+The managed asset directories are a structured registry of AI-facing assets. Each file inside that registry is expected to be understandable to humans, machine-validated, and predictable enough to be inspected by scripts and editors.
 
 The overall goals are:
 
@@ -19,36 +19,36 @@ The overall goals are:
 * export JSON schemas for tooling and editor integrations
 * reduce drift as the registry grows over time
 
-In short, the `ai/` folder is meant to be both readable content and structured project data.
+In short, the asset folders are meant to be both readable content and structured project data.
 
 ## High-level layout
 
-The script scans the `ai/` directory recursively. It does not require a completely flat structure and it does not hardcode every possible subfolder. Instead, it applies a small number of conventions to determine what each Markdown file represents.
+The script scans the managed asset directories. It does not require a completely flat structure and it applies a small number of conventions to determine what each Markdown file represents.
 
 A recommended layout looks like this:
 
 ```text
+prompts/
+├── review-spec.prompt.md
+└── generate-tests.prompt.md
+instructions/
+└── typescript-programming.instructions.md
 ai/
 ├── docs/
 │   ├── folder-layout-and-ai-script.doc.md
 │   └── workflow-overview.doc.md
-├── skills/
-│   ├── review-behaviour-spec.skill.md
-│   └── test-from-behaviour-spec.skill.md
-├── prompts/
-│   ├── review-spec.prompt.md
-│   └── generate-tests.prompt.md
-└── shared/
-    └── reusable-helper.prompt.md
+├── templates/
+└── workflows/
 ```
 
 This is a recommendation rather than a fully rigid technical requirement, but it matches the behaviour of the script and keeps the registry readable.
 
 ## How files are classified
 
-The `scripts/ai.ts` script classifies every Markdown file under `ai/` into one of three kinds:
+The `scripts/ai.ts` script classifies every Markdown file in managed asset directories into one of four kinds:
 
 * `prompt`
+* `instruction`
 * `skill`
 * `doc`
 
@@ -61,6 +61,10 @@ A file is treated as a skill when one of these is true:
 * its front matter explicitly says `type: skill`
 * its path contains `/skills/`
 
+### `instruction`
+
+A file is treated as an instruction when its path contains `/instructions/`.
+
 ### `doc`
 
 A file is treated as a document when its path contains `/docs/`.
@@ -69,7 +73,7 @@ A file is treated as a document when its path contains `/docs/`.
 
 Everything else defaults to `prompt`.
 
-That means prompt is the fallback category. If a Markdown file lives under `ai/` but is not recognised as a skill or doc, it will be treated as a prompt.
+That means prompt is the fallback category. If a managed Markdown file is not recognised as an instruction, skill, or doc, it will be treated as a prompt.
 
 This is practical, but it also means placement matters. A misplaced file can change meaning simply because it sits in the wrong folder.
 
@@ -77,10 +81,11 @@ This is practical, but it also means placement matters. A misplaced file can cha
 
 ```mermaid
 flowchart TD
-    A[Markdown file under ai/] --> B{Classification}
+    A[Managed Markdown file] --> B{Classification}
     B -->|type: skill| C[skill]
     B -->|path contains /skills/| C
     B -->|path contains /docs/| D[doc]
+    B -->|path contains /instructions/| F[instruction]
     B -->|otherwise| E[prompt]
 ```
 
@@ -91,6 +96,7 @@ In addition to kind detection, the script enforces naming conventions through li
 Expected suffixes:
 
 * prompts use `.prompt.md`
+* instructions use `.instructions.md`
 * skills use `.skill.md`
 * docs use `.doc.md`
 
@@ -178,7 +184,7 @@ Shows command usage and available options.
 
 ### `list`
 
-Lists all registry items under `ai/`.
+Lists all registry items from the managed asset directories.
 
 Plain output is compact and useful for quick overviews. JSON output is available for automation.
 
@@ -422,7 +428,7 @@ A sensible day-to-day workflow looks like this:
 
 ```mermaid
 flowchart TD
-    A[Create or edit a file in ai/] --> B[Run node ./scripts/ai.ts validate]
+    A[Create or edit an asset Markdown file] --> B[Run node ./scripts/ai.ts validate]
     B --> C[Run node ./scripts/ai.ts lint]
     C --> D[Run node ./scripts/ai.ts validate-skills when editing skills/]
     D --> E[Fix schema or convention issues]
@@ -434,7 +440,8 @@ flowchart TD
 
 Contributors working in the registry should follow these rules:
 
-* keep all AI registry files inside `ai/`
+* keep prompts in `prompts/`
+* keep instructions in `instructions/`
 * always include YAML frontmatter
 * prefer explicit `id`, `title`, and `description`
 * place docs in `ai/docs/`
@@ -539,7 +546,7 @@ Because docs and skills are partly path-classified, moving a file can change how
 
 ### Prompt is the fallback
 
-This is practical, but it means stray files under `ai/` are treated as prompts unless clearly marked otherwise.
+This is practical, but it means stray files in managed asset directories are treated as prompts unless clearly marked otherwise.
 
 ### Naming is policy, not classification
 

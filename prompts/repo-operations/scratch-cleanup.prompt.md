@@ -26,15 +26,15 @@ Useful grouping signals:
 - same tool, technology, or domain (e.g. all Obsidian-related, all prose-style, all TypeScript)
 - same asset type across folders (e.g. all agents, all instruction files, all skill directories)
 - same original source (e.g. files cloned from an external repo all together)
-- duplicates of each other or of files already committed to `ai/`
+- duplicates of each other or of files already committed to the main repository asset directories
 
 Record every file. No file should be invisible in the inventory.
 
 ## Phase 2: cross-check against the main repository
 
 For each scratch item, check whether equivalent content already exists in the committed tree:
-- `ai/instructions/` for instruction files
-- `ai/prompts/` for prompt files
+- `instructions/` for instruction files
+- `prompts/` for prompt files
 - `skills/` for skill directories
 - `ai/workflows/`, `ai/templates/`, `ai/docs/` for structured documents
 
@@ -50,7 +50,7 @@ Mark each item with one of:
 
 ## Phase 3: group into tasks
 
-Group the remaining non-duplicate, non-obsolete items into the smallest tasks that still make coherent sense together. Items that depend on each other or that belong in the same target location in `ai/` should be one task.
+Group the remaining non-duplicate, non-obsolete items into the smallest tasks that still make coherent sense together. Items that depend on each other or that belong in the same target asset location should be one task.
 
 Rules for grouping:
 - all Obsidian-related skills together
@@ -82,8 +82,8 @@ After completing the survey, output a Markdown table with all pending tasks:
 
 | # | Slug | Description | Action | Priority | Suggested? |
 |---|------|-------------|--------|----------|------------|
-| 1 | `prose-instructions` | 9 prose/writing instruction files | promote to `ai/instructions/writing/` | high | ✓ |
-| 2 | `typescript-instructions` | 6 TypeScript instruction files | promote to `ai/instructions/programming-languages/typescript/` | medium | ✓ |
+| 1 | `prose-instructions` | 9 prose/writing instruction files | promote to `instructions/writing/` | high | ✓ |
+| 2 | `typescript-instructions` | 6 TypeScript instruction files | promote to `instructions/programming-languages/typescript/` | medium | ✓ |
 | … | … | … | … | … | … |
 
 Priority rules:
@@ -103,10 +103,10 @@ Only enter this phase when the user has explicitly chosen a task from the table.
 
 For each task:
 1. State exactly what you will do before doing it.
-2. For promotions: move or copy the file(s) to their target location in `ai/`, add required frontmatter if missing, run `node ./scripts/ai.ts validate` to confirm the registry accepts them.
+2. For promotions: move or copy the file(s) to their target asset location, add required frontmatter if missing, run `node ./scripts/ai.ts validate` to confirm the registry accepts them.
 3. For deletes: remove the file(s) or directory.
 4. Update `scratch/CLEANUP.md`: mark the task done, note what was done and why.
-5. Commit to the **main repo** (not scratch): stage only the `ai/` files changed in this task and create a focused commit. Do not stage or reference anything under `scratch/`.
+5. Commit to the **main repo** (not scratch): stage only the asset files changed in this task and create a focused commit. Do not stage or reference anything under `scratch/`.
 6. Report what was done and what is next, then stop.
 
 Do not combine multiple task groups into one step. Do not move on to the next task without being asked.
@@ -147,6 +147,6 @@ Update this file at the end of every session.
 - Never delete a file without recording the reason in `CLEANUP.md`.
 - Never promote a file without verifying it passes `node ./scripts/ai.ts validate`.
 - Never batch-delete without reading each file first.
-- Commit only `ai/` changes — scratch is gitignored, its state is not tracked.
+- Commit only main repository asset changes — scratch is gitignored, its state is not tracked.
 - If a task turns out to be larger than expected, split it and update `CLEANUP.md`.
 - Always stop after presenting the task table (phase 4) and wait for user input before executing anything.
