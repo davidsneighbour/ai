@@ -4,25 +4,24 @@
 
 This repository provides a portable structure for my AI assets that can be shared across ChatGPT, Codex, and GitHub Copilot.
 
-* [Structure](#structure)
-* [Prompt model](#prompt-model)
-* [CLI](#cli)
-* [Skills](#skills)
-  * [Install patterns](#install-patterns)
-  * [Updating installed skills](#updating-installed-skills)
-  * [Available skills](#available-skills)
-  * [Issue handling skills](#issue-handling-skills)
-  * [Project management skills](#project-management-skills)
-  * [Reference and documentation skills](#reference-and-documentation-skills)
-  * [Social media posting](#social-media-posting)
-* [Configure vSCode](#configure-vscode)
-* [VS code prompt file recommendations](#vs-code-prompt-file-recommendations)
-  * [Option 1: one recursive glob](#option-1-one-recursive-glob)
-  * [Option 2: individual folder entries](#option-2-individual-folder-entries)
-* [Licensed content](#licensed-content)
-* [Shared config onboarding prompts](#shared-config-onboarding-prompts)
-  * [Available config prompt pairs](#available-config-prompt-pairs)
-  * [Adding another shared config](#adding-another-shared-config)
+- [Structure](#structure)
+- [Prompt model](#prompt-model)
+- [CLI](#cli)
+- [Skills](#skills)
+  - [Install patterns](#install-patterns)
+  - [Updating installed skills](#updating-installed-skills)
+  - [Issue handling skills](#issue-handling-skills)
+  - [Project management skills](#project-management-skills)
+  - [Reference and documentation skills](#reference-and-documentation-skills)
+  - [Social media posting](#social-media-posting)
+- [Configure vSCode](#configure-vscode)
+- [VS code prompt file recommendations](#vs-code-prompt-file-recommendations)
+  - [Option 1: one recursive glob](#option-1-one-recursive-glob)
+  - [Option 2: individual folder entries](#option-2-individual-folder-entries)
+- [Licensed content](#licensed-content)
+- [Shared config onboarding prompts](#shared-config-onboarding-prompts)
+  - [Available config prompt pairs](#available-config-prompt-pairs)
+  - [Adding another shared config](#adding-another-shared-config)
 
 ## Structure
 
@@ -122,21 +121,6 @@ npx skills update --project --yes
 ```
 
 Re-run `npx skills add davidsneighbour/ai/skills --skill <id>` when you want to install a newly added skill that is not already present locally.
-
-### Available skills
-
-- [dnb-create-js-documentation](skills/dnb-create-js-documentation/SKILL.md) — Add or improve generated API documentation for JavaScript or TypeScript npm projects.
-- [dnb-dependency-maintenance](skills/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
-- [dnb-post-into-void](skills/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from user-supplied text.
-- [dnb-post-session-into-void](skills/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
-- [dnb-project-task-triage](skills/dnb-project-task-triage/SKILL.md) — Maintain project tracking by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
-- [dnb-quality-gate-organisation](skills/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
-- [dnb-reference](skills/dnb-reference/SKILL.md) — Add or update strict references frontmatter on AI asset files.
-- [dnb-select-next-issue](skills/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance.
-- [dnb-voice](skills/dnb-voice/SKILL.md) — Edit, rewrite, or review prose so it reads in Patrick's own voice.
-- [dnb-work-on-issue](skills/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue, implement the change, validate, and commit.
-- [dnb-work-on-next-issue](skills/dnb-work-on-next-issue/SKILL.md) — Select and implement the next suitable open GitHub issue.
-- [dnb-work-through-issues](skills/dnb-work-through-issues/SKILL.md) — Continuously work through suitable open GitHub issues.
 
 ### Issue handling skills
 

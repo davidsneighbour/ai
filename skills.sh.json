@@ -4,7 +4,7 @@
   "groupings": [
     {
       "title": "Issue Workflows",
-      "description": "Skills for selecting, triaging, and working through GitHub issues.",
+      "description": "Skills for triaging, selecting, and working through GitHub issues.",
       "skills": [
         "dnb-project-task-triage",
         "dnb-select-next-issue",
@@ -15,7 +15,7 @@
     },
     {
       "title": "Repository Maintenance",
-      "description": "Skills for documentation, dependencies, references, and quality gates.",
+      "description": "Skills for documentation, dependencies, references, and code quality.",
       "skills": [
         "dnb-create-js-documentation",
         "dnb-dependency-maintenance",
@@ -25,7 +25,7 @@
     },
     {
       "title": "Writing and Publishing",
-      "description": "Skills for voice editing and Mastodon post preparation.",
+      "description": "Skills for voice editing and Social Media post preparation.",
       "skills": [
         "dnb-voice",
         "dnb-post-into-void",
