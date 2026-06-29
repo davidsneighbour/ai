@@ -1,4 +1,6 @@
 ---
+id: prompts-project-health-check
+title: Project Health Check
 description: Run the repository health-check commands and report pass or fail status for each step.
 ---
 
