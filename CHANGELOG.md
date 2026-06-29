@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.7.0](https://github.com/davidsneighbour/ai/compare/v0.6.1...v0.7.0) (2026-06-29)
+
+### Features
+
+* **agents:** add VS Code agent registry support ([e4a537f](https://github.com/davidsneighbour/ai/commit/e4a537f0d13536c7aaf632f74841d2fc9d265bd1))
+* **skills:** add skills.sh grouping config ([b0c4c02](https://github.com/davidsneighbour/ai/commit/b0c4c02ec87cabbe91bbde9c87a596d6453ce446))
+
+### Bug Fixes
+
+* **prompts:** add health check metadata ([c63cc6d](https://github.com/davidsneighbour/ai/commit/c63cc6dee918d62c1f4713eff881c12343798c4d))
+* **registry:** normalize asset filename suffixes ([17d3881](https://github.com/davidsneighbour/ai/commit/17d388180481fbde311f5cd5ef38104cf2e58300))
+
+### Documentation
+
+* add Netlify agent partial ([76dbc67](https://github.com/davidsneighbour/ai/commit/76dbc675bbccc2d3a47bd44b5db361e08b336476))
+* document external AI tools ([ded651d](https://github.com/davidsneighbour/ai/commit/ded651de54498015cd909e22842a22854de2d886))
+* record roadmap issue clarifications ([1a76f31](https://github.com/davidsneighbour/ai/commit/1a76f31248e3893f1c19f79e56c1b8c0e69715b7))
+
 ## [0.6.1](https://github.com/davidsneighbour/ai/compare/v0.6.0...v0.6.1) (2026-06-28)
 
 ### Build
