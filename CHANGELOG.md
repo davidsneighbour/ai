@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.7.1](https://github.com/davidsneighbour/ai/compare/v0.7.0...v0.7.1) (2026-06-29)
+
+### Bug Fixes
+
+* **prompts:** make name the canonical identifier ([5d75cb9](https://github.com/davidsneighbour/ai/commit/5d75cb9c56910fd80e002842396ac4784c0e3514)), closes [#12](https://github.com/davidsneighbour/ai/issues/12)
+
+### Documentation
+
+* changes to README.md and skills configuration ([d715765](https://github.com/davidsneighbour/ai/commit/d7157657920cafc071369ba72777d2aaa23d34d1))
+
+### Build
+
+* **deps:** update dependencies ([bc38216](https://github.com/davidsneighbour/ai/commit/bc382169d6423561d5920a47c6db08d72bb34fd7))
+
+### Chores
+
+* **project:** update project plan ([7258ad5](https://github.com/davidsneighbour/ai/commit/7258ad538a1fe2ee5da2465ce44d27f2935aeeb4)), closes [#6](https://github.com/davidsneighbour/ai/issues/6) [#7](https://github.com/davidsneighbour/ai/issues/7) [#8](https://github.com/davidsneighbour/ai/issues/8) [#9](https://github.com/davidsneighbour/ai/issues/9) [#11](https://github.com/davidsneighbour/ai/issues/11) [#13](https://github.com/davidsneighbour/ai/issues/13) [#14](https://github.com/davidsneighbour/ai/issues/14) [#12](https://github.com/davidsneighbour/ai/issues/12)
+
 ## [0.7.0](https://github.com/davidsneighbour/ai/compare/v0.6.1...v0.7.0) (2026-06-29)
 
 ### Features
