@@ -1,12 +1,12 @@
 # ROADMAP
 
-## Project State
+## Project state
 
 This repository is a structured registry of portable AI assets for prompts, skills, instructions, docs, and VS Code custom agents. The `scripts/ai.ts` CLI manages registry listing, validation, linting, schema export, and VS Code prompt-file integration.
 
 As of 2026-06-29, the release gate is clean and the issue tracker has one open issue. The recent issue batch closed the previous release blockers, naming cleanup, external-tool documentation, VS Code prompt-field support, agent registry support, and skills.sh configuration work.
 
-## Project Health
+## Project health
 
 | Indicator | Status |
 | --- | --- |
@@ -18,18 +18,18 @@ As of 2026-06-29, the release gate is clean and the issue tracker has one open i
 | Open issues | 1 |
 | CI | Not configured |
 
-## Open Issues
+## Open issues
 
-### Schema / Model
+### Schema / model
 
 - **[#12](https://github.com/davidsneighbour/ai/issues/12) - Rename `title` to `name` in prompt frontmatter and add validation**
   VS Code prompt files use `name` as the canonical field. The schema already accepts and validates `name`, but the repository still allows legacy `title` and several prompt files still use it. Decide whether to fully migrate prompt frontmatter to `name` or keep `title` as a separate human-readable display field.
 
-## Suggested Order Of Work
+## Suggested order of work
 
 1. **#12** - Finish the prompt `name` strategy. Recommended path: treat `name` as canonical for VS Code prompt identity, keep `title` only if the registry still needs a human-readable label, migrate existing prompt frontmatter accordingly, regenerate schemas, and run the release gate.
 
-## Recent Triage Outcomes
+## Recent triage outcomes
 
 Closed as completed during this triage run:
 
@@ -42,10 +42,12 @@ Closed as completed during this triage run:
 - **#14** - `ai/agents/` is recognized, `.agent.md` files validate, and an example agent exists.
 - **#15** - `skills.sh.json` exists at the repository root and lists the current `dnb-*` skills.
 
-## TODO Inbox
+## TODO inbox
 
 `TODO.md` currently has no actionable items. New rough notes should stay there only until they are clear enough to become GitHub Issues.
 
-## Open Clarification Questions
+## Open clarification questions
 
 - **#12**: Should `title` be removed from prompt frontmatter entirely, or retained as an optional display label while `name` becomes the canonical VS Code prompt identifier?
+
+  name should become the canonical prompt identifier
