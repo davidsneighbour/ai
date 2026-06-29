@@ -1,0 +1,36 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Issue Workflows",
+      "description": "Skills for selecting, triaging, and working through GitHub issues.",
+      "skills": [
+        "dnb-project-task-triage",
+        "dnb-select-next-issue",
+        "dnb-work-on-issue",
+        "dnb-work-on-next-issue",
+        "dnb-work-through-issues"
+      ]
+    },
+    {
+      "title": "Repository Maintenance",
+      "description": "Skills for documentation, dependencies, references, and quality gates.",
+      "skills": [
+        "dnb-create-js-documentation",
+        "dnb-dependency-maintenance",
+        "dnb-quality-gate-organisation",
+        "dnb-reference"
+      ]
+    },
+    {
+      "title": "Writing and Publishing",
+      "description": "Skills for voice editing and Mastodon post preparation.",
+      "skills": [
+        "dnb-voice",
+        "dnb-post-into-void",
+        "dnb-post-session-into-void"
+      ]
+    }
+  ]
+}
