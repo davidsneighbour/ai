@@ -23,6 +23,50 @@ export const ReferenceSchema = z
 export const ReferencesSchema = z.array(ReferenceSchema).min(1).optional();
 
 /**
+ * VS Code custom agent schema.
+ */
+export const AgentSchema = z
+	.object({
+		description: z
+			.string()
+			.min(1)
+			.describe("Short description shown in the Chat view agent picker."),
+		name: z
+			.string()
+			.min(1)
+			.regex(/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/)
+			.optional()
+			.describe("Display name shown in the Chat view agent picker."),
+		"argument-hint": z
+			.string()
+			.min(1)
+			.optional()
+			.describe("Hint text shown in the chat input field for this agent."),
+		tools: z
+			.array(z.string())
+			.optional()
+			.describe("Tools or tool sets available to this agent."),
+		agents: z
+			.array(z.string())
+			.optional()
+			.describe("Subagents that can be delegated to by this agent."),
+		model: z.string().optional().describe("Language model used by this agent."),
+		handoffs: z
+			.array(z.string())
+			.optional()
+			.describe("Agents this agent can hand off to."),
+		target: z
+			.string()
+			.optional()
+			.describe("Target surface where this agent is available."),
+		id: z.string().min(1).optional(),
+		title: z.string().min(1).optional(),
+		version: z.string().optional(),
+		references: ReferencesSchema,
+	})
+	.strict();
+
+/**
  * Prompt schema.
  */
 export const PromptSchema = z
@@ -148,12 +192,31 @@ export const DocSchema = z
 /**
  * Registry item kinds.
  */
-export type RegistryItemKind = "prompt" | "skill" | "instruction" | "doc";
+export type RegistryItemKind =
+	| "agent"
+	| "prompt"
+	| "skill"
+	| "instruction"
+	| "doc";
 
 /**
  * Allowed frontmatter keys per kind.
  */
 export const AllowedKeys: Record<RegistryItemKind, Set<string>> = {
+	agent: new Set([
+		"description",
+		"name",
+		"argument-hint",
+		"tools",
+		"agents",
+		"model",
+		"handoffs",
+		"target",
+		"id",
+		"title",
+		"version",
+		"references",
+	]),
 	prompt: new Set([
 		"description",
 		"name",
@@ -199,6 +262,7 @@ export const AllowedKeys: Record<RegistryItemKind, Set<string>> = {
 	doc: new Set(["id", "title", "description", "tags", "version", "references"]),
 };
 
+export type AgentFrontmatter = z.infer<typeof AgentSchema>;
 export type PromptFrontmatter = z.infer<typeof PromptSchema>;
 export type SkillFrontmatter = z.infer<typeof SkillSchema>;
 export type DocFrontmatter = z.infer<typeof DocSchema>;

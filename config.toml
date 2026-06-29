@@ -28,6 +28,7 @@ local    = ".vscode"
 registry = "."
 
 [locations.types]
+agents       = "ai/agents"
 instructions = "instructions"
 prompts      = "prompts"
 skills       = "skills"

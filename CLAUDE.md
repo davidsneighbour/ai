@@ -65,11 +65,12 @@ Registry Markdown files are scanned from the managed asset directories:
 
 - root `prompts/`
 - root `instructions/`
-- `ai/docs/`, `ai/templates/`, and `ai/workflows/`
+- `ai/agents/`, `ai/docs/`, `ai/templates/`, and `ai/workflows/`
 
 Files are classified by path:
 
 - **skill** — path contains `/skills/` or frontmatter says `type: skill`
+- **agent** — path contains `/agents/`
 - **doc** — path contains `/docs/`
 - **instruction** — path contains `/instructions/`
 - **prompt** — everything else (the fallback)
@@ -81,6 +82,7 @@ The data model lives in `scripts/lib/ai-schema.ts` (Zod schemas). The CLI in `sc
 - Prompts: `<name>.prompt.md`
 - Skills (registry entries): `<name>.skill.md`
 - Installable skills: `skills/<skill-id>/SKILL.md` where the directory name matches the `id` field
+- Agents: `<name>.agent.md`
 - Docs: `<name>.doc.md`
 
 Suffixes are enforced by the linter, not the classifier — a misnamed file may still be classified correctly but will fail `lint`.
@@ -91,6 +93,8 @@ Every file needs YAML frontmatter with at minimum `id`, `title`, and `descriptio
 
 Prompt-specific optional fields: `skills` (string array), `tools` (string array), `strict` (boolean).
 
+Agent-specific optional fields follow the VS Code custom agent format: `name`, `argument-hint`, `tools`, `agents`, `model`, `handoffs`, and `target`.
+
 ### Installable skills (`skills/<id>/`)
 
 Each installable skill is a directory with a `SKILL.md`. The directory name must match the `id` in frontmatter. Install patterns:
@@ -99,6 +103,7 @@ Each installable skill is a directory with a `SKILL.md`. The directory name must
 npx skills add davidsneighbour/ai/skills --skill '*' --yes          # all skills
 npx skills add davidsneighbour/ai/skills --skill <id> --yes         # one skill
 npx skills add davidsneighbour/ai/skills --skill '*' --global --yes # globally
+npx skills add emilkowalski/skill --yes                             # external repository
 ```
 
 ### Config-driven paths (`config.toml`)

@@ -1,0 +1,93 @@
+{
+  "$comment": "Generated from scripts/ai.ts. Do not edit manually.",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short description shown in the Chat view agent picker."
+    },
+    "name": {
+      "description": "Display name shown in the Chat view agent picker.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+    },
+    "argument-hint": {
+      "description": "Hint text shown in the chat input field for this agent.",
+      "type": "string",
+      "minLength": 1
+    },
+    "tools": {
+      "description": "Tools or tool sets available to this agent.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "agents": {
+      "description": "Subagents that can be delegated to by this agent.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "model": {
+      "description": "Language model used by this agent.",
+      "type": "string"
+    },
+    "handoffs": {
+      "description": "Agents this agent can hand off to.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target": {
+      "description": "Target surface where this agent is available.",
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string"
+    },
+    "references": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "src": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?:\\/\\/"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "src"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "description"
+  ],
+  "additionalProperties": false
+}

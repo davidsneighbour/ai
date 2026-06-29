@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import yaml from "yaml";
 import { z } from "zod";
 import {
+	AgentSchema,
 	AllowedKeys,
 	DocSchema,
 	InstructionSchema,
@@ -146,6 +147,7 @@ type PromptFilesLocations = Record<string, boolean>;
 const REPOSITORY_ASSET_DIRECTORIES = [
 	"prompts",
 	"instructions",
+	path.join("ai", "agents"),
 	path.join("ai", "docs"),
 	path.join("ai", "templates"),
 	path.join("ai", "workflows"),
@@ -970,6 +972,10 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 		target: "draft-7",
 	});
 
+	const agentSchemaJson = z.toJSONSchema(AgentSchema, {
+		target: "draft-7",
+	});
+
 	const skillSchemaJson = z.toJSONSchema(SkillSchema, {
 		target: "draft-7",
 	});
@@ -986,6 +992,10 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 		"Generated from scripts/ai.ts. Do not edit manually.",
 	);
 	addGeneratedComment(
+		agentSchemaJson,
+		"Generated from scripts/ai.ts. Do not edit manually.",
+	);
+	addGeneratedComment(
 		skillSchemaJson,
 		"Generated from scripts/ai.ts. Do not edit manually.",
 	);
@@ -999,6 +1009,7 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 	);
 
 	const promptOutputPath = path.join(options.schemaDir, "prompt.schema.json");
+	const agentOutputPath = path.join(options.schemaDir, "agent.schema.json");
 	const skillOutputPath = path.join(options.schemaDir, "skill.schema.json");
 	const docOutputPath = path.join(options.schemaDir, "doc.schema.json");
 	const instructionOutputPath = path.join(
@@ -1009,6 +1020,11 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 	await fs.writeFile(
 		promptOutputPath,
 		`${JSON.stringify(promptSchemaJson, null, 2)}\n`,
+		"utf8",
+	);
+	await fs.writeFile(
+		agentOutputPath,
+		`${JSON.stringify(agentSchemaJson, null, 2)}\n`,
 		"utf8",
 	);
 	await fs.writeFile(
@@ -1033,6 +1049,7 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 				{
 					written: [
 						promptOutputPath,
+						agentOutputPath,
 						skillOutputPath,
 						docOutputPath,
 						instructionOutputPath,
@@ -1046,6 +1063,7 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 	}
 
 	console.log(`[ok] ${path.relative(process.cwd(), promptOutputPath)}`);
+	console.log(`[ok] ${path.relative(process.cwd(), agentOutputPath)}`);
 	console.log(`[ok] ${path.relative(process.cwd(), skillOutputPath)}`);
 	console.log(`[ok] ${path.relative(process.cwd(), docOutputPath)}`);
 	console.log(`[ok] ${path.relative(process.cwd(), instructionOutputPath)}`);
@@ -1652,6 +1670,10 @@ function detectKind(
 		return "skill";
 	}
 
+	if (absolutePath.includes(`${path.sep}agents${path.sep}`)) {
+		return "agent";
+	}
+
 	if (absolutePath.includes(`${path.sep}docs${path.sep}`)) {
 		return "doc";
 	}
@@ -1671,13 +1693,15 @@ function detectKind(
  */
 function validateRegistryItem(item: RegistryItem): ValidationResult {
 	const schema =
-		item.kind === "skill"
-			? SkillSchema
-			: item.kind === "doc"
-				? DocSchema
-				: item.kind === "instruction"
-					? InstructionSchema
-					: PromptSchema;
+		item.kind === "agent"
+			? AgentSchema
+			: item.kind === "skill"
+				? SkillSchema
+				: item.kind === "doc"
+					? DocSchema
+					: item.kind === "instruction"
+						? InstructionSchema
+						: PromptSchema;
 
 	const result = schema.safeParse(item.frontmatter);
 	const issues: ValidationIssue[] = [];
@@ -1812,13 +1836,53 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 		});
 	}
 
-	if (item.kind === "skill" && !item.absolutePath.endsWith(".skill.md")) {
+	if (item.kind === "agent" && !item.absolutePath.endsWith(".agent.md")) {
 		issues.push({
 			severity: release ? "error" : "warning",
 			code: "naming",
-			message: "Skill file should use the .skill.md suffix.",
+			message: "Agent file should use the .agent.md suffix.",
 			file: item.relativePath,
 		});
+	}
+
+	if (
+		item.kind === "skill" &&
+		!item.absolutePath.endsWith(".skill.md") &&
+		path.basename(item.absolutePath) !== "SKILL.md"
+	) {
+		issues.push({
+			severity: release ? "error" : "warning",
+			code: "naming",
+			message:
+				"Skill file should use the .skill.md suffix unless it is an installable skills/<id>/SKILL.md file.",
+			file: item.relativePath,
+		});
+	}
+
+	if (item.kind === "agent") {
+		if (
+			typeof item.frontmatter["description"] !== "string" ||
+			item.frontmatter["description"].trim() === ""
+		) {
+			issues.push({
+				severity: "error",
+				code: "missing-description",
+				message: "Agent description is missing or empty.",
+				file: item.relativePath,
+			});
+		}
+
+		if (
+			item.frontmatter["tools"] !== undefined &&
+			!isStringArray(item.frontmatter["tools"])
+		) {
+			issues.push({
+				severity: "error",
+				code: "tools-type",
+				message: "tools must be an array of strings.",
+				file: item.relativePath,
+			});
+		}
 	}
 
 	if (item.kind === "prompt") {
@@ -2035,6 +2099,7 @@ function deriveIdFromFilename(absolutePath: string): string {
 	return path
 		.basename(absolutePath)
 		.replace(/\.prompt\.md$/u, "")
+		.replace(/\.agent\.md$/u, "")
 		.replace(/\.skill\.md$/u, "")
 		.replace(/\.instructions\.md$/u, "")
 		.replace(/\.md$/u, "");

@@ -1,18 +1,19 @@
 # AI asset layout and `scripts/ai.ts`
 
-The repository keeps prompts and instructions at the root in `prompts/` and `instructions/`. Supporting AI docs, templates, and workflows stay under `ai/`. Installable skills live in the root `skills/` directory so they can be installed from `davidsneighbour/ai/skills`.
+The repository keeps prompts and instructions at the root in `prompts/` and `instructions/`. Supporting AI agents, docs, templates, and workflows stay under `ai/`. Installable skills live in the root `skills/` directory so they can be installed from `davidsneighbour/ai/skills`.
 
 ## Folder layout
 
 Recommended structure:
 
 ```text
-prompts/
 instructions/
 ai/
+├── agents/
 ├── docs/
 ├── templates/
 └── workflows/
+prompts/
 skills/
 └── <skill-id>/
     └── SKILL.md
@@ -22,14 +23,17 @@ Practical meaning:
 
 * files under `prompts/` are treated as prompts
 * files under `instructions/` are treated as instructions
+* files under `ai/agents/` are treated as VS Code custom agents
 * files under `ai/docs/` are treated as docs
 * installable skills live under `skills/`
 
 Expected filename suffixes:
 
 * `.doc.md`
-* `.skill.md`
+* `.agent.md`
 * `.prompt.md`
+
+Installable skills are the exception: each skill uses `skills/<skill-id>/SKILL.md`, and the directory name must match the frontmatter `id`.
 
 ## What `scripts/ai.ts` does
 
