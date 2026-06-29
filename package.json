@@ -61,7 +61,8 @@
     "setup": "node ./scripts/ai.ts setup --prompts",
     "setup:prompts": "node ./scripts/ai.ts setup --prompts",
     "setup:prompts:folders": "node ./scripts/ai.ts setup --prompts --mode folders",
-    "setup:prompts:glob": "node ./scripts/ai.ts setup --prompts --mode glob"
+    "setup:prompts:glob": "node ./scripts/ai.ts setup --prompts --mode glob",
+    "test:ai-symlink": "node --test ./scripts/ai-symlink.test.ts"
   },
   "engines": {
     "node": ">=25"

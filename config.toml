@@ -13,6 +13,12 @@ defaultSetupMode = "glob"
 startMarker = "<!-- ai:prompt-files-settings:start -->"
 endMarker = "<!-- ai:prompt-files-settings:end -->"
 
+[linking.global]
+skills = ".agents/skills"
+
+[linking.local]
+skills = ".agents/skills"
+
 # File location shorthands
 #
 # Maps qualifier + asset-type pairs to filesystem paths.
