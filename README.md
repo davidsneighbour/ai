@@ -28,6 +28,7 @@ This repository provides a portable structure for my AI assets that can be share
 
 - `prompts/`       prompt files grouped by purpose.
 - `instructions/`  reusable instruction files.
+- `ai/agents/`     VS Code custom agent files.
 - `skills/`        installable skill directories. Each skill lives in its own directory with a `SKILL.md`.
 - `ai/templates/`  output templates (obsolete, should be part of the skill).
 - `schemas/`       validation schemas.
@@ -96,6 +97,15 @@ From a local checkout of this repository, use the root `skills/` directory direc
 ```bash
 npx skills add ./skills --skill '*' --yes
 ```
+
+The same `npx skills add` command works with other GitHub repositories that follow the skill convention. Use `<author>/<repo>` when skills live at the repository root, or `<author>/<repo>/<path>` when they live in a subdirectory:
+
+```bash
+npx skills add emilkowalski/skill --yes
+npx skills add author/repository/path/to/skills --skill <id> --yes
+```
+
+See [emilkowal.ski/skill](https://emilkowal.ski/skill) for the external skill installer documentation.
 
 ### Updating installed skills
 
