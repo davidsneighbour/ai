@@ -97,7 +97,8 @@ Expected suffixes:
 
 * prompts use `.prompt.md`
 * instructions use `.instructions.md`
-* skills use `.skill.md`
+* agents use `.agent.md`
+* installable skills use `skills/<skill-id>/SKILL.md`
 * docs use `.doc.md`
 
 These suffixes do not perform the primary classification, but they are important conventions because they:
@@ -442,11 +443,13 @@ Contributors working in the registry should follow these rules:
 
 * keep prompts in `prompts/`
 * keep instructions in `instructions/`
+* keep agents in `ai/agents/`
 * always include YAML frontmatter
 * prefer explicit `id`, `title`, and `description`
 * place docs in `ai/docs/`
 * place installable skills in `skills/`
-* use `.doc.md`, `.skill.md`, and `.prompt.md` suffixes consistently
+* use `.agent.md`, `.doc.md`, and `.prompt.md` suffixes consistently
+* use `skills/<skill-id>/SKILL.md` for installable skills
 * run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
 * run `node ./scripts/ai.ts build-documentation` after prompt folder or VS Code prompt setting documentation changes
 * run `node ./scripts/ai.ts setup --prompts --mode glob` when configuring local VS Code prompt file locations
