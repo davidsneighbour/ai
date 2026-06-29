@@ -251,7 +251,13 @@ function parseArgs(argv: string[]): CliOptions {
 	}
 
 	const commandToken = argv[0] ?? "help";
-	const command = isCommandName(commandToken) ? commandToken : "help";
+	if (!isCommandName(commandToken)) {
+		throw new Error(
+			`I do not know what to do with "${commandToken}". Run "ai help" for available commands.`,
+		);
+	}
+
+	const command = commandToken;
 
 	const options: CliOptions = {
 		command,
@@ -370,7 +376,7 @@ function parsePromptSetupMode(value: string): PromptSetupMode {
  * @returns Absolute path to the repository root.
  */
 function defaultRegistryRoot(): string {
-	return process.cwd();
+	return getScriptRepoRoot();
 }
 
 /**
@@ -379,7 +385,7 @@ function defaultRegistryRoot(): string {
  * @returns Absolute path to `skills`.
  */
 function defaultSkillsRoot(): string {
-	return path.resolve(process.cwd(), "skills");
+	return path.resolve(getScriptRepoRoot(), "skills");
 }
 
 /**
@@ -388,7 +394,18 @@ function defaultSkillsRoot(): string {
  * @returns Absolute path to `schemas`.
  */
 function defaultSchemaRoot(): string {
-	return path.resolve(process.cwd(), "schemas");
+	return path.resolve(getScriptRepoRoot(), "schemas");
+}
+
+/**
+ * Resolve the repository root from this script location.
+ *
+ * @returns Absolute path to the repository root.
+ */
+function getScriptRepoRoot(): string {
+	const scriptPath = fileURLToPath(import.meta.url);
+
+	return path.dirname(path.dirname(scriptPath));
 }
 
 /**
@@ -396,8 +413,11 @@ function defaultSchemaRoot(): string {
  */
 function printHelp(): void {
 	const scriptName = path.basename(process.argv[1] ?? "ai.ts");
+	const commandName = scriptName.endsWith(".ts")
+		? `node ./scripts/${scriptName}`
+		: scriptName;
 
-	console.log(`Usage: node ./scripts/${scriptName} <command> [options]
+	console.log(`Usage: ${commandName} <command> [options]
 
 Commands:
   help
@@ -426,16 +446,16 @@ Options:
   --help, -h              Show this help
 
 Examples:
-  node ./scripts/${scriptName} list
-  node ./scripts/${scriptName} show --id test-from-behaviour-spec
-  node ./scripts/${scriptName} validate
-  node ./scripts/${scriptName} lint
-  node ./scripts/${scriptName} validate-skills --verbose
-  node ./scripts/${scriptName} drift-report
-  node ./scripts/${scriptName} export-schemas
-  node ./scripts/${scriptName} build-documentation --verbose
-  node ./scripts/${scriptName} setup --prompts --mode glob
-  node ./scripts/${scriptName} check --release
+  ${commandName} list
+  ${commandName} show --id test-from-behaviour-spec
+  ${commandName} validate
+  ${commandName} lint
+  ${commandName} validate-skills --verbose
+  ${commandName} drift-report
+  ${commandName} export-schemas
+  ${commandName} build-documentation --verbose
+  ${commandName} setup --prompts --mode glob
+  ${commandName} check --release
 
 validate-skills rules:
   - The skills root must exist.
@@ -1075,7 +1095,7 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
  * @param options CLI options.
  */
 async function runBuildDocumentation(options: CliOptions): Promise<void> {
-	const rootDir = process.cwd();
+	const rootDir = options.rootDir;
 	const config = await loadRepositoryConfig(rootDir);
 	const readmePath = resolveConfiguredPath(rootDir, config.paths.readme);
 	const promptsRoot = resolveConfiguredPath(
@@ -1105,7 +1125,7 @@ async function runBuildDocumentation(options: CliOptions): Promise<void> {
  * @param options CLI options.
  */
 async function runSetup(options: CliOptions): Promise<void> {
-	const rootDir = process.cwd();
+	const rootDir = options.rootDir;
 	const config = await loadRepositoryConfig(rootDir);
 
 	await setupPromptFilesLocation({
@@ -2207,6 +2227,23 @@ function assertNever(value: never): never {
 const currentFilePath = fileURLToPath(import.meta.url);
 const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : "";
 
-if (currentFilePath === invokedPath) {
+async function isDirectRun(): Promise<boolean> {
+	if (invokedPath === "") {
+		return false;
+	}
+
+	try {
+		const [currentRealPath, invokedRealPath] = await Promise.all([
+			fs.realpath(currentFilePath),
+			fs.realpath(invokedPath),
+		]);
+
+		return currentRealPath === invokedRealPath;
+	} catch (_error: unknown) {
+		return currentFilePath === invokedPath;
+	}
+}
+
+if (await isDirectRun()) {
 	await main();
 }

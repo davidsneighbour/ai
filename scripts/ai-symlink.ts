@@ -3,7 +3,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 import { parse } from "smol-toml";
 
 type LinkMode = "global" | "local";
@@ -119,6 +119,7 @@ export function parseArgs(argv: readonly string[]): CliOptions {
 	let force = false;
 	let mode: LinkMode | undefined;
 	let verbose = false;
+	const commandName = getCommandName();
 
 	for (let index = 0; index < argv.length; index += 1) {
 		const argument = argv[index];
@@ -170,8 +171,7 @@ export function parseArgs(argv: readonly string[]): CliOptions {
 		}
 
 		throw new SymlinkError(`Unknown option: ${argument}`, {
-			usage:
-				"node scripts/ai-symlink.ts [global|local|--mode global|--mode local] [--force] [--verbose]",
+			usage: `${commandName} [global|local|--mode global|--mode local] [--force] [--verbose]`,
 		});
 	}
 
@@ -180,6 +180,12 @@ export function parseArgs(argv: readonly string[]): CliOptions {
 		mode: mode ?? "global",
 		verbose,
 	};
+}
+
+function getCommandName(): string {
+	const scriptName = path.basename(process.argv[1] ?? "ai-symlink.ts");
+
+	return scriptName.endsWith(".ts") ? "node scripts/ai-symlink.ts" : scriptName;
 }
 
 function parseMode(value: string, label: string): LinkMode {
@@ -594,8 +600,28 @@ async function main(): Promise<void> {
 	reportSummary(results, targetBasePath, options.verbose);
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
-	main().catch((error: unknown) => {
+async function isDirectRun(): Promise<boolean> {
+	const currentFilePath = fileURLToPath(import.meta.url);
+	const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : "";
+
+	if (invokedPath === "") {
+		return false;
+	}
+
+	try {
+		const [currentRealPath, invokedRealPath] = await Promise.all([
+			fs.realpath(currentFilePath),
+			fs.realpath(invokedPath),
+		]);
+
+		return currentRealPath === invokedRealPath;
+	} catch (_error: unknown) {
+		return currentFilePath === invokedPath;
+	}
+}
+
+if (await isDirectRun()) {
+	await main().catch((error: unknown) => {
 		reportError(error);
 		process.exitCode = 1;
 	});

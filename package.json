@@ -3,6 +3,10 @@
   "description": "AI prompts, skills, templates, and workflows f(or|rom) @davidsneighbour.",
   "version": "0.7.1",
   "private": true,
+  "bin": {
+    "ai": "./scripts/ai.ts",
+    "ai-symlink": "./scripts/ai-symlink.ts"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.5.1",
     "@dnbhq/markdownlint-config": "0.2.8",
@@ -59,6 +63,7 @@
     "lint:system:fix": "osv-scanner fix -M package.json -L package-lock.json",
     "release": "release-it --ci",
     "setup": "node ./scripts/ai.ts setup --prompts",
+    "setup:cli": "npm install -g .",
     "setup:prompts": "node ./scripts/ai.ts setup --prompts",
     "setup:prompts:folders": "node ./scripts/ai.ts setup --prompts --mode folders",
     "setup:prompts:glob": "node ./scripts/ai.ts setup --prompts --mode glob",
