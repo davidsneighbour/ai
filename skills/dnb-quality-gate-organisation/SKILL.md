@@ -5,8 +5,6 @@ title: DNB Quality Gate Organisation
 description: Name repository quality-check commands consistently. Use when deciding npm script names or documenting check, lint, validate, format, test, and audit command conventions.
 ---
 
-# Quality Gate Naming Skill
-
 ## Purpose
 
 Use this skill to name repository quality-check commands consistently.
@@ -29,14 +27,14 @@ Do not use `lint`, `validate`, `format`, `test`, and `audit` as interchangeable 
 
 They describe different kinds of checks:
 
-| Term       | Meaning                                                                  |
-| ---------- | ------------------------------------------------------------------------ |
-| `check`    | Umbrella command for non-mutating quality gates                          |
-| `lint`     | Static analysis for style, conventions, maintainability, likely mistakes |
-| `validate` | Contract/schema/policy conformance                                       |
-| `format`   | Canonical file formatting                                                |
-| `test`     | Behavioural correctness                                                  |
-| `audit`    | Security, dependency, performance, or risk inspection                    |
+| Term | Meaning |
+| --- | --- |
+| `check` | Umbrella command for non-mutating quality gates |
+| `lint` | Static analysis for style, conventions, maintainability, likely mistakes |
+| `validate` | Contract/schema/policy conformance |
+| `format` | Canonical file formatting |
+| `test` | Behavioural correctness |
+| `audit` | Security, dependency, performance, or risk inspection |
 
 `validate` is not simply “stricter lint”.
 `lint` is not simply “technical validation”.
@@ -94,14 +92,14 @@ Good:
 
 Examples:
 
-| Tool         | Recommended script |
-| ------------ | ------------------ |
-| ESLint       | `lint:code`        |
-| Biome lint   | `lint:code`        |
-| markdownlint | `lint:markdown`    |
-| Vale         | `lint:prose`       |
-| cspell       | `lint:spelling`    |
-| typos        | `lint:typos`       |
+| Tool | Recommended script |
+| --- | --- |
+| ESLint | `lint:code` |
+| Biome lint | `lint:code` |
+| markdownlint | `lint:markdown` |
+| Vale | `lint:prose` |
+| cspell | `lint:spelling` |
+| typos | `lint:typos` |
 
 Use `lint` when the command answers:
 
@@ -128,15 +126,15 @@ Good:
 
 Examples:
 
-| Check                          | Recommended script                  |
-| ------------------------------ | ----------------------------------- |
-| TypeScript type checking       | `validate:types`                    |
-| Astro content collections      | `validate:content` or `check:astro` |
-| JSON schema                    | `validate:json`                     |
-| package.json policy            | `validate:package`                  |
-| frontmatter description length | `validate:frontmatter`              |
-| Node engine policy             | `validate:engines`                  |
-| required metadata              | `validate:metadata`                 |
+| Check | Recommended script |
+| --- | --- |
+| TypeScript type checking | `validate:types` |
+| Astro content collections | `validate:content` or `check:astro` |
+| JSON schema | `validate:json` |
+| package.json policy | `validate:package` |
+| frontmatter description length | `validate:frontmatter` |
+| Node engine policy | `validate:engines` |
+| required metadata | `validate:metadata` |
 
 Use `validate` when the command answers:
 
@@ -252,10 +250,10 @@ A command named `check`, `lint`, `validate`, `test`, or `audit` must not intenti
 
 Use explicit mutating suffixes:
 
-| Suffix    | Meaning                                                       |
-| --------- | ------------------------------------------------------------- |
-| `:fix`    | Applies safe automatic fixes                                  |
-| `:write`  | Writes generated or formatted output                          |
+| Suffix | Meaning |
+| --- | --- |
+| `:fix` | Applies safe automatic fixes |
+| `:write` | Writes generated or formatted output |
 | `:update` | Updates dependencies, generated data, caches, or policy files |
 
 Examples:
@@ -358,25 +356,25 @@ When naming a command, ask these questions in order:
 
 1. Does it intentionally change files?
 
-   * Use `format`, `*:fix`, `*:write`, or `*:update`.
+   - Use `format`, `*:fix`, `*:write`, or `*:update`.
 2. Is it the top-level non-mutating gate?
 
-   * Use `check`.
+   - Use `check`.
 3. Does it inspect style, conventions, spelling, prose, maintainability, or likely mistakes?
 
-   * Use `lint`.
+   - Use `lint`.
 4. Does it verify a strict contract, schema, required metadata, type contract, or project policy?
 
-   * Use `validate`.
+   - Use `validate`.
 5. Does it verify runtime or behavioural correctness?
 
-   * Use `test`.
+   - Use `test`.
 6. Does it inspect risk, security, dependencies, performance, accessibility, or workflows?
 
-   * Use `audit`.
+   - Use `audit`.
 7. Is it genuinely mixed?
 
-   * Use `check:*`.
+   - Use `check:*`.
 
 ## Anti-patterns
 
@@ -414,16 +412,16 @@ This skill only defines command naming and quality-gate taxonomy.
 
 Tool-specific behaviour belongs in separate skills or instructions, for example:
 
-* Biome configuration
-* ESLint rules
-* markdownlint rules
-* Vale editorial rules
-* cspell dictionaries
-* typos configuration
-* Prettier formatting policy
-* Astro checks
-* TypeScript strictness
-* GitHub Actions security audits
-* dependency audit policy
+- Biome configuration
+- ESLint rules
+- markdownlint rules
+- Vale editorial rules
+- cspell dictionaries
+- typos configuration
+- Prettier formatting policy
+- Astro checks
+- TypeScript strictness
+- GitHub Actions security audits
+- dependency audit policy
 
 Those sub-skills may define exact commands, config files, ignores, severity levels, and CI behaviour, but they should preserve the naming model defined here.

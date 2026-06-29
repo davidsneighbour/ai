@@ -6,8 +6,6 @@ type: skill
 description: Inspect a specific GitHub issue by number, implement the required change, validate, and commit with a Conventional Commits message that closes the issue.
 ---
 
-# Work on Given GitHub Issue
-
 ## Description
 
 Use this skill when the user asks to work on a specific GitHub issue by number.
@@ -18,12 +16,12 @@ The goal is to inspect the specified issue, implement the required change, valid
 
 Use this skill for requests such as:
 
-* "work on issue #123"
-* "fix issue 123"
-* "solve GitHub issue #123"
-* "implement issue 123"
-* "take care of #123"
-* "work on this issue: 123"
+- "work on issue #123"
+- "fix issue 123"
+- "solve GitHub issue #123"
+- "implement issue 123"
+- "take care of #123"
+- "work on this issue: 123"
 
 This skill may also be called by `~/.ai/skills/dnb-work-on-next-issue/SKILL.md` after issue selection.
 
@@ -76,12 +74,12 @@ Before changing files:
 
 6. Read local project instructions before working, especially:
 
-   * `AGENTS.md`
-   * `CLAUDE.md`
-   * `.github/copilot-instructions.md`
-   * `.vscode/instructions/**/*.md`
-   * `README.md`
-   * `CONTRIBUTING.md`
+   - `AGENTS.md`
+   - `CLAUDE.md`
+   - `.github/copilot-instructions.md`
+   - `.vscode/instructions/**/*.md`
+   - `README.md`
+   - `CONTRIBUTING.md`
 
 7. If the repository has its own issue, branch, commit, test, or release rules, follow those rules over this generic skill.
 
@@ -109,11 +107,11 @@ test -f ROADMAP.md && sed -n '1,240p' ROADMAP.md
 
 Use `ROADMAP.md` to understand:
 
-* related milestones
-* project priorities
-* linked topics
-* implementation direction
-* constraints or sequencing notes
+- related milestones
+- project priorities
+- linked topics
+- implementation direction
+- constraints or sequencing notes
 
 Do not switch to another issue based on `ROADMAP.md`.
 
@@ -127,21 +125,21 @@ Before implementation, check whether the specified issue is actionable.
 
 Proceed when the issue has at least one of:
 
-* a clear bug report
-* a clear feature request
-* acceptance criteria
-* linked failing behaviour
-* documentation task
-* maintenance task
-* enough context in comments, labels, or linked files to infer the required change safely
+- a clear bug report
+- a clear feature request
+- acceptance criteria
+- linked failing behaviour
+- documentation task
+- maintenance task
+- enough context in comments, labels, or linked files to infer the required change safely
 
 Stop and report the blocker when the issue is:
 
-* labelled `blocked`, `waiting`, `wontfix`, `duplicate`, `invalid`, or similar
-* too vague to implement safely
-* dependent on secrets, production systems, private credentials, or external accounts
-* mostly a product, strategy, or design decision
-* unrelated to the current repository
+- labelled `blocked`, `waiting`, `wontfix`, `duplicate`, `invalid`, or similar
+- too vague to implement safely
+- dependent on secrets, production systems, private credentials, or external accounts
+- mostly a product, strategy, or design decision
+- unrelated to the current repository
 
 Do not invent requirements to force a commit.
 
@@ -197,16 +195,16 @@ git diff
 
 Detect the project tooling from files such as:
 
-* `package.json`
-* `pnpm-lock.yaml`
-* `package-lock.json`
-* `yarn.lock`
-* `bun.lockb`
-* `go.mod`
-* `composer.json`
-* `pyproject.toml`
-* `Cargo.toml`
-* `Makefile`
+- `package.json`
+- `pnpm-lock.yaml`
+- `package-lock.json`
+- `yarn.lock`
+- `bun.lockb`
+- `go.mod`
+- `composer.json`
+- `pyproject.toml`
+- `Cargo.toml`
+- `Makefile`
 
 Run the most relevant available validation commands.
 
@@ -265,14 +263,14 @@ Use a Conventional Commits message.
 
 Choose the type based on the actual change:
 
-* `fix` for bug fixes
-* `feat` for user-facing features
-* `docs` for documentation-only changes
-* `test` for tests-only changes
-* `refactor` for behaviour-preserving code changes
-* `chore` for maintenance
-* `ci` for workflow changes
-* `build` for build-system changes
+- `fix` for bug fixes
+- `feat` for user-facing features
+- `docs` for documentation-only changes
+- `test` for tests-only changes
+- `refactor` for behaviour-preserving code changes
+- `chore` for maintenance
+- `ci` for workflow changes
+- `build` for build-system changes
 
 Use a concise scope when obvious.
 
@@ -328,9 +326,9 @@ Keep the summary factual and concise.
 
 If the specified issue cannot be completed, report:
 
-* issue number and title, when available
-* why work could not proceed
-* what was inspected
-* what would be needed next
+- issue number and title, when available
+- why work could not proceed
+- what was inspected
+- what would be needed next
 
 Do not choose another issue unless the user explicitly asks.

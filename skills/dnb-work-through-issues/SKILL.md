@@ -6,8 +6,6 @@ type: skill
 description: Continuously work through open GitHub issues until no suitable actionable issues remain, committing each fix individually. Orchestrates dnb-select-next-issue and dnb-work-on-issue in a loop.
 ---
 
-# Work through GitHub Issues
-
 ## Description
 
 Use this skill when the user asks to continuously work through open GitHub issues until no suitable actionable issues remain.

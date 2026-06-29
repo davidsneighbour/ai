@@ -14,17 +14,15 @@ tags:
 - generated-docs
 ---
 
-# API Documentation Setup
-
 Add generated API documentation to the current JavaScript or TypeScript project.
 
 The goal is to document the public API surface with maintainable generated documentation, not to create general project documentation.
 
 Prefer:
 
-* JSDoc for JavaScript projects.
-* TypeDoc for TypeScript projects.
-* Existing project conventions over the defaults in this skill.
+- JSDoc for JavaScript projects.
+- TypeDoc for TypeScript projects.
+- Existing project conventions over the defaults in this skill.
 
 Do not document internal implementation details unless they are exported as part of the public API.
 
@@ -32,23 +30,23 @@ Do not document internal implementation details unless they are exported as part
 
 Use this skill when the user asks for any of the following:
 
-* Add API documentation.
-* Add JSDoc documentation.
-* Add TypeDoc documentation.
-* Generate public API docs.
-* Add a `docs:api` script.
-* Document exported functions, classes, modules, or constants.
-* Set up generated documentation for a JavaScript or TypeScript package.
+- Add API documentation.
+- Add JSDoc documentation.
+- Add TypeDoc documentation.
+- Generate public API docs.
+- Add a `docs:api` script.
+- Document exported functions, classes, modules, or constants.
+- Set up generated documentation for a JavaScript or TypeScript package.
 
 Do not use this skill for:
 
-* README rewrites.
-* Tutorial documentation.
-* Architecture documentation.
-* User guides.
-* Marketing pages.
-* Changelogs.
-* Inline comments that are not related to exported/public API documentation.
+- README rewrites.
+- Tutorial documentation.
+- Architecture documentation.
+- User guides.
+- Marketing pages.
+- Changelogs.
+- Inline comments that are not related to exported/public API documentation.
 
 ## Project inspection
 
@@ -73,20 +71,20 @@ Use the actual repository structure. Do not blindly use example paths.
 
 Treat these as likely public API entry points:
 
-* Files referenced by `package.json` fields:
+- Files referenced by `package.json` fields:
 
-  * `exports`
-  * `main`
-  * `module`
-  * `types`
-  * `typings`
-  * `bin`
-* `src/index.js`
-* `src/index.ts`
-* Files re-exported from the main entry point.
-* Files documented as public in the README.
-* CLI entry files when the package exposes a command.
-* Public library files explicitly exported by the package.
+  - `exports`
+  - `main`
+  - `module`
+  - `types`
+  - `typings`
+  - `bin`
+- `src/index.js`
+- `src/index.ts`
+- Files re-exported from the main entry point.
+- Files documented as public in the README.
+- CLI entry files when the package exposes a command.
+- Public library files explicitly exported by the package.
 
 Do not include every source file by default.
 
@@ -268,12 +266,12 @@ Do not add `@type` in TypeScript unless the annotation adds useful documentation
 
 For public classes, document:
 
-* Constructor purpose.
-* Constructor parameters.
-* Public methods.
-* Public properties.
-* Expected usage.
-* Thrown errors where relevant.
+- Constructor purpose.
+- Constructor parameters.
+- Public methods.
+- Public properties.
+- Expected usage.
+- Thrown errors where relevant.
 
 ### TypeScript comments
 
@@ -281,13 +279,13 @@ For TypeScript, keep comments concise.
 
 Prefer explaining:
 
-* Intent.
-* Constraints.
-* Usage.
-* Parameters when not obvious.
-* Return semantics.
-* Errors.
-* Examples.
+- Intent.
+- Constraints.
+- Usage.
+- Parameters when not obvious.
+- Return semantics.
+- Errors.
+- Examples.
 
 Do not duplicate obvious type information.
 
@@ -408,24 +406,24 @@ Follow the project’s existing conventions.
 
 For npm projects:
 
-* Use `npm`.
-* Do not introduce yarn, pnpm, or bun unless the project already uses them.
-* Respect existing lock files.
-* If `package-lock.json` exists, allow it to update after installing dependencies.
-* Do not delete lock files.
+- Use `npm`.
+- Do not introduce yarn, pnpm, or bun unless the project already uses them.
+- Respect existing lock files.
+- If `package-lock.json` exists, allow it to update after installing dependencies.
+- Do not delete lock files.
 
 For Node projects:
 
-* Respect the existing Node engine policy in `package.json`.
-* Do not downgrade syntax or module style.
-* Preserve ESM/CommonJS conventions.
+- Respect the existing Node engine policy in `package.json`.
+- Do not downgrade syntax or module style.
+- Preserve ESM/CommonJS conventions.
 
 For TypeScript projects:
 
-* Preserve strictness.
-* Do not introduce `any`.
-* Do not weaken compiler settings.
-* Do not add redundant JSDoc types for already typed APIs.
+- Preserve strictness.
+- Do not introduce `any`.
+- Do not weaken compiler settings.
+- Do not add redundant JSDoc types for already typed APIs.
 
 ## Validation
 
@@ -462,17 +460,17 @@ If a validation command fails:
 
 Do not:
 
-* Document private/internal files unless exported publicly.
-* Add both JSDoc and TypeDoc without a clear reason.
-* Replace existing docs tooling without justification.
-* Commit generated `docs/api` output unless this repository already commits generated docs.
-* Overwrite hand-written documentation.
-* Ignore all of `docs/` if it contains source documentation.
-* Destructively rewrite build scripts.
-* Change package manager.
-* Weaken lint, type-checking, or test configuration.
-* Add broad ignore rules that hide important source files.
-* Make unrelated refactors.
+- Document private/internal files unless exported publicly.
+- Add both JSDoc and TypeDoc without a clear reason.
+- Replace existing docs tooling without justification.
+- Commit generated `docs/api` output unless this repository already commits generated docs.
+- Overwrite hand-written documentation.
+- Ignore all of `docs/` if it contains source documentation.
+- Destructively rewrite build scripts.
+- Change package manager.
+- Weaken lint, type-checking, or test configuration.
+- Add broad ignore rules that hide important source files.
+- Make unrelated refactors.
 
 ## Completion report
 

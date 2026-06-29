@@ -6,8 +6,6 @@ type: skill
 description: Select one suitable open GitHub issue by priority and roadmap relevance, without implementing it. Use as a subskill before dnb-work-on-issue.
 ---
 
-# Select Next GitHub Issue
-
 ## Description
 
 Use this skill when an instruction needs one suitable open GitHub issue to be selected, but not implemented yet.
@@ -16,13 +14,13 @@ This skill is selection-only.
 
 It must:
 
-* inspect open GitHub issues through the GitHub CLI
-* read `ROADMAP.md` when present
-* rank issues by priority, roadmap relevance, clarity, and suitability
-* return exactly one issue number
-* make no code changes
-* create no branch
-* create no commit
+- inspect open GitHub issues through the GitHub CLI
+- read `ROADMAP.md` when present
+- rank issues by priority, roadmap relevance, clarity, and suitability
+- return exactly one issue number
+- make no code changes
+- create no branch
+- create no commit
 
 This skill is usually called by `~/.ai/skills/dnb-work-on-next-issue/SKILL.md`.
 
@@ -30,11 +28,11 @@ This skill is usually called by `~/.ai/skills/dnb-work-on-next-issue/SKILL.md`.
 
 Use this skill as a subskill for requests such as:
 
-* "work on open issues"
-* "pick the next issue"
-* "select the next issue"
-* "find a suitable open issue"
-* "choose one issue from the backlog"
+- "work on open issues"
+- "pick the next issue"
+- "select the next issue"
+- "find a suitable open issue"
+- "choose one issue from the backlog"
 
 Do not use this skill directly when the user already provided a specific issue number. In that case, use `~/.ai/skills/dnb-work-on-issue/SKILL.md`.
 
@@ -62,12 +60,12 @@ Before selecting an issue:
 
 4. Inspect local project instructions when they exist, especially:
 
-   * `AGENTS.md`
-   * `CLAUDE.md`
-   * `.github/copilot-instructions.md`
-   * `.vscode/instructions/**/*.md`
-   * `README.md`
-   * `CONTRIBUTING.md`
+   - `AGENTS.md`
+   - `CLAUDE.md`
+   - `.github/copilot-instructions.md`
+   - `.vscode/instructions/**/*.md`
+   - `README.md`
+   - `CONTRIBUTING.md`
 
 5. Do not modify files.
 
@@ -90,12 +88,12 @@ test -f ROADMAP.md && sed -n '1,240p' ROADMAP.md
 
 Use `ROADMAP.md` to identify:
 
-* explicit recommendations
-* priority sections
-* current milestones
-* issue numbers
-* topics marked as next, active, urgent, important, planned, or deferred
-* repeated topics that match open issues
+- explicit recommendations
+- priority sections
+- current milestones
+- issue numbers
+- topics marked as next, active, urgent, important, planned, or deferred
+- repeated topics that match open issues
 
 Do not edit `ROADMAP.md`.
 
@@ -118,14 +116,14 @@ Prefer one issue that can be completed safely and fully.
 
 Do not select issues that are:
 
-* closed
-* labelled `blocked`, `waiting`, `wontfix`, `duplicate`, `invalid`, or similar
-* vague epics without a clear implementation path
-* dependent on unavailable secrets, production systems, private credentials, or external accounts
-* mostly product, strategy, or design decisions
-* unrelated to the current repository
-* likely to require broad unrelated refactoring
-* impossible to validate locally
+- closed
+- labelled `blocked`, `waiting`, `wontfix`, `duplicate`, `invalid`, or similar
+- vague epics without a clear implementation path
+- dependent on unavailable secrets, production systems, private credentials, or external accounts
+- mostly product, strategy, or design decisions
+- unrelated to the current repository
+- likely to require broad unrelated refactoring
+- impossible to validate locally
 
 If no suitable issue exists, report that no safe actionable issue was found.
 
