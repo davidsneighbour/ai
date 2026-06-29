@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-tsconfig-onboarding
 description: Onboard the current repository to @dnbhq/tsconfig
 ---
 

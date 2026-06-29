@@ -1,4 +1,5 @@
 ---
+name: prompts-node-configuration-setup
 agent: agent
 model: GPT-5.5 Thinking
 tools:

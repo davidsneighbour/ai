@@ -1,6 +1,5 @@
 ---
-id: behaviour-spec-template
-title: Behaviour specification template
+name: ai-templates-behaviour-spec
 description: Template for defining behaviour specifications for features or components
 ---
 

@@ -1,6 +1,5 @@
 ---
-id: behaviour-spec-workflow
-title: Behaviour spec workflow
+name: ai-workflows-behaviour-spec-workflow
 description: Workflow for creating and validating behaviour specifications
 ---
 

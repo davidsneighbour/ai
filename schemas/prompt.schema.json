@@ -9,10 +9,10 @@
       "minLength": 1
     },
     "name": {
-      "description": "The name of the prompt, used after typing / in chat. If not specified, the file name is used.",
       "type": "string",
       "minLength": 1,
-      "pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+      "pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      "description": "The canonical prompt identifier, used after typing / in chat."
     },
     "argument-hint": {
       "description": "Hint text shown in the chat input field to guide users on how to interact with the prompt.",
@@ -34,14 +34,6 @@
       "items": {
         "type": "string"
       }
-    },
-    "id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "title": {
-      "type": "string",
-      "minLength": 1
     },
     "type": {
       "type": "string",
@@ -118,5 +110,8 @@
       }
     }
   },
+  "required": [
+    "name"
+  ],
   "additionalProperties": false
 }

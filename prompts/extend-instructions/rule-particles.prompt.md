@@ -1,4 +1,5 @@
 ---
+name: prompts-extend-instructions-rule-particles
 agent: agent
 description: Add or maintain stable rule identifiers in an instruction document
 ---

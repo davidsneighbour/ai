@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-renovate-config-prompt-optimise
 description: Improve the Renovate config onboarding prompt from real repository usage
 ---
 

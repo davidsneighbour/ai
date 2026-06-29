@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-renovate-config-onboarding
 description: Onboard the current repository to the shared DNBHQ Renovate config
 ---
 

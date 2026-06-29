@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-scratch-cleanup
 description: Incrementally clean up a scratch/ directory by surveying content, detecting duplicates, grouping into smallest sensible tasks, and tracking progress across sessions.
 ---
 

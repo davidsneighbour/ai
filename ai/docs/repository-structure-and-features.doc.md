@@ -126,13 +126,13 @@ This object is the runtime representation used by listing, validation, linting, 
 
 ### `id`
 
-The `id` is taken from frontmatter if present. If it is missing, the script derives it from the filename by removing known suffixes such as `.prompt.md`, `.skill.md`, or `.md`.
+For prompt files, the internal registry `id` is the prompt frontmatter `name`. For other item kinds, `id` is taken from frontmatter if present. If it is missing, the script derives it from the filename by removing known suffixes such as `.prompt.md`, `.skill.md`, or `.md`.
 
-Explicit IDs are preferred. Filename fallback exists for convenience, not as the best long-term pattern.
+Explicit prompt `name` values are required. Explicit IDs are preferred for docs and skills. Filename fallback exists for convenience, not as the best long-term pattern.
 
 ### `title`
 
-The `title` is taken from frontmatter if present. If it is missing, the script falls back to the file basename.
+The `title` is taken from frontmatter if present. Prompt files no longer use `title`, so prompt display falls back to `name`. If neither field exists, the script falls back to the file basename.
 
 ### `kind`
 
@@ -150,8 +150,7 @@ The expected structure is:
 
 ```md
 ---
-id: some-id
-title: Some title
+name: prompts-example-some-prompt
 description: What this file is for
 ---
 
@@ -239,7 +238,7 @@ This currently includes checks such as:
 * empty body content
 * wrong filename suffix for the detected kind
 * missing or empty descriptions where required
-* wrong types for prompt-specific optional fields such as `skills`, `tools`, or `strict`
+* wrong types for prompt-specific optional fields such as `agent`, `skills`, `tools`, or `strict`
 
 `lint` answers the question: "Is this item acceptable according to project policy and maintenance conventions?"
 
@@ -379,6 +378,10 @@ This split is useful because it lets you distinguish between hard invalidity and
 
 Prompt files may include additional structured metadata such as:
 
+* `name`
+* `argument-hint`
+* `agent`
+* `model`
 * `skills`
 * `tools`
 * `strict`
@@ -387,6 +390,7 @@ The linter checks these for type correctness.
 
 Expected patterns are:
 
+* `name` is a required lowercase kebab-case string and is the canonical prompt identifier
 * `skills` is an array of strings
 * `tools` is an array of strings
 * `strict` is a boolean
@@ -445,7 +449,8 @@ Contributors working in the registry should follow these rules:
 * keep instructions in `instructions/`
 * keep agents in `ai/agents/`
 * always include YAML frontmatter
-* prefer explicit `id`, `title`, and `description`
+* use explicit prompt `name` and `description`
+* use explicit `id`, `title`, and `description` for docs and skills
 * place docs in `ai/docs/`
 * place installable skills in `skills/`
 * use `.agent.md`, `.doc.md`, and `.prompt.md` suffixes consistently

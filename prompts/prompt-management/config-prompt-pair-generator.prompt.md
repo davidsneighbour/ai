@@ -1,4 +1,5 @@
 ---
+name: prompts-prompt-management-config-prompt-pair-generator
 description: Create an onboarding prompt and optimisation prompt for a shared configuration repository
 ---
 

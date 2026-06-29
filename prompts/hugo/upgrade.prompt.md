@@ -1,6 +1,5 @@
 ---
-name: hugo-upgrade
-title: Hugo Upgrade
+name: prompts-hugo-upgrade
 type: task
 description: Upgrade a Hugo site using versioned migration instructions from bep/myhugofixer fixes
 ---

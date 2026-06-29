@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-tsconfig-prompt-optimise
 description: Improve the tsconfig onboarding prompt from real repository usage
 ---
 

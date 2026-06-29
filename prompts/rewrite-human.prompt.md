@@ -1,6 +1,5 @@
 ---
-name: rewrite-human
-title: Rewrite Human
+name: prompts-rewrite-human
 type: task
 description: Rewrite text in plain, direct language without jargon, hedging, or unnecessary filler.
 ---

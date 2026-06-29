@@ -1595,9 +1595,15 @@ async function loadRegistryItem(
 	const kind = detectKind(absolutePath, frontmatter);
 	const relativePath = path.relative(rootDir, absolutePath);
 	const id =
-		getStringField(frontmatter, "id") ?? deriveIdFromFilename(absolutePath);
+		kind === "prompt"
+			? (getStringField(frontmatter, "name") ??
+				deriveIdFromFilename(absolutePath))
+			: (getStringField(frontmatter, "id") ??
+				deriveIdFromFilename(absolutePath));
 	const title =
-		getStringField(frontmatter, "title") ?? path.basename(absolutePath);
+		getStringField(frontmatter, "title") ??
+		getStringField(frontmatter, "name") ??
+		path.basename(absolutePath);
 
 	return {
 		id,

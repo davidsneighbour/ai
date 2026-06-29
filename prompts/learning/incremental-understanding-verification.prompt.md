@@ -1,4 +1,5 @@
 ---
+name: prompts-learning-incremental-understanding-verification
 description: Teaching assistant prompt that builds understanding incrementally with staged explanation, restatement checks, and gap filling.
 ---
 

@@ -80,9 +80,8 @@ export const PromptSchema = z
 			.string()
 			.min(1)
 			.regex(/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/)
-			.optional()
 			.describe(
-				"The name of the prompt, used after typing / in chat. If not specified, the file name is used.",
+				"The canonical prompt identifier, used after typing / in chat.",
 			),
 		"argument-hint": z
 			.string()
@@ -111,9 +110,6 @@ export const PromptSchema = z
 				"A list of tool or tool set names that are available for this prompt. Can include built-in tools, tool sets, MCP tools, or tools contributed by extensions. To include all tools of an MCP server, use the <server name>/* format.",
 			),
 
-		id: z.string().min(1).optional(),
-		// legacy fields — kept optional for back-compat
-		title: z.string().min(1).optional(),
 		type: z.enum(["agent", "task", "review", "system"]).optional(),
 		skills: z.array(z.string()).optional(),
 		strict: z.boolean().optional(),
@@ -224,8 +220,6 @@ export const AllowedKeys: Record<RegistryItemKind, Set<string>> = {
 		"agent",
 		"model",
 		"tools",
-		"id",
-		"title",
 		"type",
 		"skills",
 		"strict",

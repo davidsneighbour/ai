@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-biome-config-prompt-optimise
 description: Improve the Biome config onboarding prompt from real repository usage
 ---
 

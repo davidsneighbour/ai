@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-release-config-prompt-optimise
 description: Improve the release-config setup prompt from real repository usage
 ---
 

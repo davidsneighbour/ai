@@ -1,4 +1,5 @@
 ---
+name: prompts-extend-instructions-extend-typescript-programming
 agent: agent
 description: Extend the TypeScript programming instructions with a new rule
 ---

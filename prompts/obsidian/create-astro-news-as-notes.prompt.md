@@ -1,4 +1,5 @@
 ---
+name: prompts-obsidian-create-astro-news-as-notes
 agent: 'agent'
 model: Auto
 tools: ['execute/getTerminalOutput', 'execute/runInTerminal', 'read/readFile', 'read/terminalSelection', 'read/terminalLastCommand', 'edit/createFile', 'edit/editFiles', 'web/fetch', 'todo']

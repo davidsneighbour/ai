@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-release-config-setup
 description: Add or update release-it release procedures using @dnbhq/release-config
 ---
 

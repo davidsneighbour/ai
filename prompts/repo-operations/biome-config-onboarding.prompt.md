@@ -1,4 +1,5 @@
 ---
+name: prompts-repo-operations-biome-config-onboarding
 description: Onboard the current repository to the shared DNBHQ Biome config
 ---
 

@@ -89,9 +89,11 @@ Suffixes are enforced by the linter, not the classifier — a misnamed file may 
 
 ### Frontmatter requirements
 
-Every file needs YAML frontmatter with at minimum `id`, `title`, and `description`. The `id` must be lowercase kebab-case matching `^([a-z][a-z0-9]*)(-[a-z0-9]+)*$` and unique across the registry. Prompt names should be derived from the file path, e.g. `prompts-hugo-upgrade` for `prompts/hugo/upgrade.prompt.md`.
+Every file needs YAML frontmatter and a non-empty Markdown body. Prompt files use `name` as their canonical identifier. Prompt `name` values must be lowercase kebab-case matching `^([a-z][a-z0-9]*)(-[a-z0-9]+)*$`, unique across the registry, and derived from the repository-relative file path, e.g. `prompts-hugo-upgrade` for `prompts/hugo/upgrade.prompt.md`.
 
-Prompt-specific optional fields: `skills` (string array), `tools` (string array), `strict` (boolean).
+Prompt-specific optional fields: `argument-hint` (string), `agent` (string), `model` (string), `skills` (string array), `tools` (string array), and `strict` (boolean). Do not use `id` or `title` in prompt frontmatter.
+
+Docs and installable skills still use `id`, `title`, and `description` according to their schemas.
 
 Agent-specific optional fields follow the VS Code custom agent format: `name`, `argument-hint`, `tools`, `agents`, `model`, `handoffs`, and `target`.
 

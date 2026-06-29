@@ -1,7 +1,5 @@
 ---
-id: prompts-signal-extraction-framework
-name: signal-extraction-framework
-title: Signal extraction framework
+name: prompts-signal-extraction-framework
 type: task
 version: 1.0.0
 description: Extract signal, frameworks, and reusable systems from externally sourced content while filtering hype, noise, and weak reasoning.

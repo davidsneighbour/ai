@@ -21,17 +21,17 @@ skills/
 
 Practical meaning:
 
-* files under `prompts/` are treated as prompts
-* files under `instructions/` are treated as instructions
-* files under `ai/agents/` are treated as VS Code custom agents
-* files under `ai/docs/` are treated as docs
-* installable skills live under `skills/`
+- files under `prompts/` are treated as prompts
+- files under `instructions/` are treated as instructions
+- files under `ai/agents/` are treated as VS Code custom agents
+- files under `ai/docs/` are treated as docs
+- installable skills live under `skills/`
 
 Expected filename suffixes:
 
-* `.doc.md`
-* `.agent.md`
-* `.prompt.md`
+- `.doc.md`
+- `.agent.md`
+- `.prompt.md`
 
 Installable skills are the exception: each skill uses `skills/<skill-id>/SKILL.md`, and the directory name must match the frontmatter `id`.
 
@@ -39,12 +39,12 @@ Installable skills are the exception: each skill uses `skills/<skill-id>/SKILL.m
 
 The script scans the managed asset directories and turns each Markdown file into a registry item with:
 
-* `id`
-* `title`
-* `kind`
-* file paths
-* parsed frontmatter
-* Markdown body
+- `id`
+- `title`
+- `kind`
+- file paths
+- parsed frontmatter
+- Markdown body
 
 It then provides commands to inspect and enforce the registry.
 
@@ -65,23 +65,23 @@ node ./scripts/ai.ts check --release
 
 ## What each command is for
 
-* `list` shows all recognised AI items
-* `show` prints one item in detail
-* `validate` checks frontmatter against the schema
-* `lint` checks naming, descriptions, empty bodies, and metadata conventions
-* `validate-skills` checks direct child directories under `skills/` for Codex-style `SKILL.md` files
-* `drift-report` lists unknown frontmatter keys across the registry
-* `export-schemas` writes JSON Schema files from the shared Zod schemas
-* `build-documentation` refreshes generated README prompt-file configuration guidance
-* `setup --prompts` writes VS Code prompt file locations into the configured workspace settings file
-* `check` runs validation and linting together
+- `list` shows all recognised AI items
+- `show` prints one item in detail
+- `validate` checks frontmatter against the schema
+- `lint` checks naming, descriptions, empty bodies, and metadata conventions
+- `validate-skills` checks direct child directories under `skills/` for Codex-style `SKILL.md` files
+- `drift-report` lists unknown frontmatter keys across the registry
+- `export-schemas` writes JSON Schema files from the shared Zod schemas
+- `build-documentation` refreshes generated README prompt-file configuration guidance
+- `setup --prompts` writes VS Code prompt file locations into the configured workspace settings file
+- `check` runs validation and linting together
 
 ## Validation vs linting
 
 This distinction matters:
 
-* validation checks schema correctness
-* linting checks project policy and maintenance quality
+- validation checks schema correctness
+- linting checks project policy and maintenance quality
 
 Examples of lint-only checks include wrong file suffixes, missing descriptions, empty bodies, and unknown frontmatter keys. Skill directory validation is separate because it validates installable `SKILL.md` directories instead of registry Markdown files.
 
@@ -89,12 +89,12 @@ Examples of lint-only checks include wrong file suffixes, missing descriptions, 
 
 This system gives the repository:
 
-* a single place for AI-related content
-* predictable metadata
-* safer refactors
-* CLI inspection and automation support
-* exportable schemas for tooling
-* protection against schema drift
+- a single place for AI-related content
+- predictable metadata
+- safer refactors
+- CLI inspection and automation support
+- exportable schemas for tooling
+- protection against schema drift
 
 ## Recommended workflow
 
@@ -109,14 +109,15 @@ flowchart TD
 
 ## Contributor rules
 
-* keep prompts in `prompts/`
-* keep instructions in `instructions/`
-* keep docs, templates, and workflows under `ai/`
-* keep installable skills inside `skills/`
-* always use YAML frontmatter
-* prefer explicit `id`, `title`, and `description`
-* use the correct folder and filename suffix for each item type
-* run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
-* run `node ./scripts/ai.ts build-documentation` after prompt folder or prompt setting changes
-* run `node ./scripts/ai.ts setup --prompts --mode glob` to configure local VS Code prompt file locations
-* run `node ./scripts/ai.ts check --release` before considering changes clean
+- keep prompts in `prompts/`
+- keep instructions in `instructions/`
+- keep docs, templates, and workflows under `ai/`
+- keep installable skills inside `skills/`
+- always use YAML frontmatter
+- use `name` as the canonical identifier for prompts
+- use `id`, `title`, and `description` where required by doc and skill schemas
+- use the correct folder and filename suffix for each item type
+- run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
+- run `node ./scripts/ai.ts build-documentation` after prompt folder or prompt setting changes
+- run `node ./scripts/ai.ts setup --prompts --mode glob` to configure local VS Code prompt file locations
+- run `node ./scripts/ai.ts check --release` before considering changes clean

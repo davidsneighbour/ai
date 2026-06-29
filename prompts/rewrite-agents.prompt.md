@@ -1,4 +1,5 @@
 ---
+name: prompts-rewrite-agents
 description: Refactor AGENTS.md using progressive disclosure principles to remove contradictions, extract grouped rules, and flag redundant instructions.
 ---
 
