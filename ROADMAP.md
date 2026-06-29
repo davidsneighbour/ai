@@ -80,6 +80,13 @@ After #9 and #6, `check --release` should exit cleanly. After #7, warnings will 
 ## Open clarification questions
 
 - **#11**: Should the external tools file live at `EXTERNAL.md` (repo root) or `ai/docs/external-tools.doc.md`?
+  at `documentation/external-tools.md`
+
 - **#12**: Should `title` be replaced by `name`, or should both coexist as separate fields?
+  use `name` as it's the default way
+
 - **#14**: What frontmatter fields does the VS Code custom agent format require?
+  use the standards explained at [https://code.visualstudio.com/docs/agent-customization/custom-agents#_custom-agent-file-structure](https://code.visualstudio.com/docs/agent-customization/custom-agents#_custom-agent-file-structure)
+
 - **#15**: Where exactly should `skills.sh.json` be placed?
+  skills.sh.json in the repo root
