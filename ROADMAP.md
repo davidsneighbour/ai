@@ -1,92 +1,51 @@
 # ROADMAP
 
-## Project state
+## Project State
 
-A structured registry of portable AI assets (prompts, skills, instructions, docs) for use with Claude Code and other AI tools. The `scripts/ai.ts` CLI manages validation, linting, schema export, and VS Code integration.
+This repository is a structured registry of portable AI assets for prompts, skills, instructions, docs, and VS Code custom agents. The `scripts/ai.ts` CLI manages registry listing, validation, linting, schema export, and VS Code prompt-file integration.
 
-The project has no test suite; `npm run ai:check:release` (`node ./scripts/ai.ts check --release`) is the release gate. As of 2026-06-28, the release gate still **fails** and stops first on the missing frontmatter in `prompts/project-health-check.prompt.md` (#9). The skill-only validator now passes against the root `skills/` directory. Additional tracked validation and lint issues may still be hidden behind the prompt parse failure.
+As of 2026-06-29, the release gate is clean and the issue tracker has one open issue. The recent issue batch closed the previous release blockers, naming cleanup, external-tool documentation, VS Code prompt-field support, agent registry support, and skills.sh configuration work.
 
-## Project health
+## Project Health
 
 | Indicator | Status |
 | --- | --- |
-| Release gate | Fails: `npm run ai:check:release` stops at #9 |
-| Validation | Fails: `npm run ai:validate` stops at #9 |
-| AI lint | Fails: `npm run ai:lint` stops at #9 |
-| Skill validation | Passes: `npm run lint:skills` validates 12 root skills |
-| Known hidden issues | #6 and #7 remain tracked behind early exits |
-| Open issues | 11 |
-| CI | not configured |
+| Release gate | Passes: `node ./scripts/ai.ts check --release` |
+| Registry validation | Passes: included in release gate |
+| Registry lint | Passes: included in release gate with 0 warnings |
+| Skill validation | Passes: `node ./scripts/ai.ts validate-skills --root skills` validates 12 skills |
+| Script formatting | Passes for changed script files: `npx biome check scripts/ai.ts scripts/lib/ai-schema.ts` |
+| Open issues | 1 |
+| CI | Not configured |
 
-## Open issues
+## Open Issues
 
-### Bugs / errors (release-blocking)
+### Schema / Model
 
-- **[#9](https://github.com/davidsneighbour/ai/issues/9) — Add YAML frontmatter to `prompts/project-health-check.prompt.md`**
-  The file is missing its `---` frontmatter block entirely. The linter exits early on this, hiding all other lint errors and warnings. Fix first — it unblocks visibility into the rest of the lint output.
+- **[#12](https://github.com/davidsneighbour/ai/issues/12) - Rename `title` to `name` in prompt frontmatter and add validation**
+  VS Code prompt files use `name` as the canonical field. The schema already accepts and validates `name`, but the repository still allows legacy `title` and several prompt files still use it. Decide whether to fully migrate prompt frontmatter to `name` or keep `title` as a separate human-readable display field.
 
-- **[#5](https://github.com/davidsneighbour/ai/issues/5) — Fix missing `id` and `title` in `dnb-project-task-triage/SKILL.md`**
-  Locally resolved by adding `id` and `title` after moving installable skills to the root `skills/` directory. Close once the structure commit is pushed.
+## Suggested Order Of Work
 
-- **[#10](https://github.com/davidsneighbour/ai/issues/10) — Fix missing `id` in `dnb-create-js-documentation/SKILL.md`**
-  Locally resolved by adding `id` and `title` after moving installable skills to the root `skills/` directory. Close once the structure commit is pushed.
+1. **#12** - Finish the prompt `name` strategy. Recommended path: treat `name` as canonical for VS Code prompt identity, keep `title` only if the registry still needs a human-readable label, migrate existing prompt frontmatter accordingly, regenerate schemas, and run the release gate.
 
-- **[#6](https://github.com/davidsneighbour/ai/issues/6) — Fix lint errors in instruction files**
-  Two instruction files have errors: `exec-plans.instructions.md` is missing `applyTo`; `package-json.instructions.md` is missing `description`. Both block `check --release`.
+## Recent Triage Outcomes
 
-### Warnings / quality
+Closed as completed during this triage run:
 
-- **[#7](https://github.com/davidsneighbour/ai/issues/7) — Resolve 38+ naming lint warnings**
-  Most warnings come from `SKILL.md` files inside installable skill directories — the linter should skip `SKILL.md` when it lives inside `skills/<id>/`. Additionally, several non-skill files need suffix renames. See issue for full file list. Option A (fix the linter) is confirmed as the preferred approach.
+- **#6** - Instruction frontmatter lint errors are fixed and the release gate passes.
+- **#7** - Registry asset suffix warnings are resolved; installable `skills/<id>/SKILL.md` remains the documented convention.
+- **#8** - README documents external `npx skills add <author>/<repo>` install patterns.
+- **#9** - `prompts/project-health-check.prompt.md` has valid frontmatter and validates.
+- **#11** - `documentation/external-tools.md` exists with the Understand Anything entry.
+- **#13** - VS Code prompt fields `argument-hint`, `agent`, and `tools` are present in the prompt schema and exported schema.
+- **#14** - `ai/agents/` is recognized, `.agent.md` files validate, and an example agent exists.
+- **#15** - `skills.sh.json` exists at the repository root and lists the current `dnb-*` skills.
 
-### Schema / model
+## TODO Inbox
 
-- **[#12](https://github.com/davidsneighbour/ai/issues/12) — Rename `title` to `name` in prompt frontmatter and add validation**
-  VS Code uses `name` as the official frontmatter field for prompts. The current schema uses `title`. Needs decision on migration strategy before implementation.
+`TODO.md` currently has no actionable items. New rough notes should stay there only until they are clear enough to become GitHub Issues.
 
-- **[#13](https://github.com/davidsneighbour/ai/issues/13) — Add VS Code prompt file format fields to prompt schema**
-  Missing fields: `argument-hint`, `agent` (not yet in schema), and `tools` (verify current impl matches VS Code spec). Depends on #12 decision. Reference: VS Code prompt file format docs.
+## Open Clarification Questions
 
-### New features
-
-- **[#11](https://github.com/davidsneighbour/ai/issues/11) — Add `EXTERNAL.md` — curated list of external AI tools**
-  Tracked list of external tools, plugins, and CLI programs used in the AI workflow. First entry: [Understand Anything](https://github.com/Egonex-AI/Understand-Anything). Decision needed: repo root vs `ai/docs/external-tools.doc.md`.
-
-- **[#14](https://github.com/davidsneighbour/ai/issues/14) — Add agents subfolder with validation and schema**
-  VS Code custom agents are not yet managed by this registry. Needs new `ai/agents/` directory, naming convention, Zod schema, classifier, validator, and linter support. Review VS Code custom agents docs before implementing.
-
-- **[#15](https://github.com/davidsneighbour/ai/issues/15) — Create `skills.sh.json` config for `dnb-*` skills**
-  The skills.sh ecosystem supports per-repo configuration. Create `skills.sh.json` that includes only `dnb-*` prefixed skills. Review [skills.sh/docs/customize](https://www.skills.sh/docs/customize) before implementing.
-
-### Documentation
-
-- **[#8](https://github.com/davidsneighbour/ai/issues/8) — Document external skill install pattern (emilkowalski/skill)**
-  README only shows install patterns for this repo. Add a note about the broader `npx skills add <author>/<repo>` pattern and reference emilkowal.ski/skill.
-
-## Suggested order of work
-
-1. **#9** — Fix missing frontmatter in `project-health-check.prompt.md` (unblocks lint visibility)
-2. **#6** — Fix lint errors in instruction files (unblocks release gate after #9)
-3. **#7** — Update linter to skip `SKILL.md` in installable skill dirs + rename non-skill files
-4. **#8** — Add external skill documentation (standalone, 15 min)
-5. **#12** — Decide on `title` vs `name` rename strategy; implement
-6. **#13** — Add remaining VS Code prompt fields to schema (after #12)
-7. **#11** — Add `EXTERNAL.md` (standalone)
-8. **#14** — Add agents support (larger feature)
-9. **#15** — Create `skills.sh.json` (standalone after reviewing skills.sh docs)
-
-After #9 and #6, `check --release` should exit cleanly. After #7, warnings will also be resolved.
-
-## Open clarification questions
-
-- **#11**: Should the external tools file live at `EXTERNAL.md` (repo root) or `ai/docs/external-tools.doc.md`?
-  at `documentation/external-tools.md`
-
-- **#12**: Should `title` be replaced by `name`, or should both coexist as separate fields?
-  use `name` as it's the default way
-
-- **#14**: What frontmatter fields does the VS Code custom agent format require?
-  use the standards explained at [https://code.visualstudio.com/docs/agent-customization/custom-agents#_custom-agent-file-structure](https://code.visualstudio.com/docs/agent-customization/custom-agents#_custom-agent-file-structure)
-
-- **#15**: Where exactly should `skills.sh.json` be placed?
-  skills.sh.json in the repo root
+- **#12**: Should `title` be removed from prompt frontmatter entirely, or retained as an optional display label while `name` becomes the canonical VS Code prompt identifier?
