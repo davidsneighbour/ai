@@ -11,23 +11,23 @@ export type PromptSetupMode = "glob" | "folders";
  * Repository configuration loaded from config.toml.
  */
 export interface RepositoryConfig {
-  readonly paths: {
-    readonly readme: string;
-    readonly vscodeSettings: string;
-    readonly promptFilesRoot: string;
-  };
-  readonly prompts: {
-    readonly settingKey: string;
-    readonly filePattern: string;
-    readonly recursiveGlob: string;
-    readonly defaultSetupMode: PromptSetupMode;
-  };
-  readonly readme: {
-    readonly promptFilesSettings: {
-      readonly startMarker: string;
-      readonly endMarker: string;
-    };
-  };
+	readonly paths: {
+		readonly readme: string;
+		readonly vscodeSettings: string;
+		readonly promptFilesRoot: string;
+	};
+	readonly prompts: {
+		readonly settingKey: string;
+		readonly filePattern: string;
+		readonly recursiveGlob: string;
+		readonly defaultSetupMode: PromptSetupMode;
+	};
+	readonly readme: {
+		readonly promptFilesSettings: {
+			readonly startMarker: string;
+			readonly endMarker: string;
+		};
+	};
 }
 
 /**
@@ -37,20 +37,20 @@ export interface RepositoryConfig {
  * @returns Parsed repository config.
  */
 export async function loadRepositoryConfig(
-  rootDir: string,
+	rootDir: string,
 ): Promise<RepositoryConfig> {
-  const configPath = path.join(rootDir, "config.toml");
+	const configPath = path.join(rootDir, "config.toml");
 
-  try {
-    const content = await fs.readFile(configPath, "utf8");
-    const parsed: unknown = parse(content);
+	try {
+		const content = await fs.readFile(configPath, "utf8");
+		const parsed: unknown = parse(content);
 
-    return parseRepositoryConfig(parsed, configPath);
-  } catch (error: unknown) {
-    throw new Error(
-      `Could not load ${path.relative(rootDir, configPath)}: ${getErrorMessage(error)}`,
-    );
-  }
+		return parseRepositoryConfig(parsed, configPath);
+	} catch (error: unknown) {
+		throw new Error(
+			`Could not load ${path.relative(rootDir, configPath)}: ${getErrorMessage(error)}`,
+		);
+	}
 }
 
 /**
@@ -60,12 +60,9 @@ export async function loadRepositoryConfig(
  * @returns VS Code setting key for all prompt files recursively.
  */
 export function buildRecursivePromptGlob(config: RepositoryConfig): string {
-  return toPosixPath(
-    path.posix.join(
-      config.paths.promptFilesRoot,
-      config.prompts.recursiveGlob,
-    ),
-  );
+	return toPosixPath(
+		path.posix.join(config.paths.promptFilesRoot, config.prompts.recursiveGlob),
+	);
 }
 
 /**
@@ -76,12 +73,12 @@ export function buildRecursivePromptGlob(config: RepositoryConfig): string {
  * @returns VS Code setting key for prompt files in that folder.
  */
 export function buildFolderPromptGlob(
-  config: RepositoryConfig,
-  folderRelativePath: string,
+	config: RepositoryConfig,
+	folderRelativePath: string,
 ): string {
-  return toPosixPath(
-    path.posix.join(folderRelativePath, config.prompts.filePattern),
-  );
+	return toPosixPath(
+		path.posix.join(folderRelativePath, config.prompts.filePattern),
+	);
 }
 
 /**
@@ -92,10 +89,10 @@ export function buildFolderPromptGlob(
  * @returns Absolute path.
  */
 export function resolveConfiguredPath(
-  rootDir: string,
-  configuredPath: string,
+	rootDir: string,
+	configuredPath: string,
 ): string {
-  return path.resolve(rootDir, configuredPath);
+	return path.resolve(rootDir, configuredPath);
 }
 
 /**
@@ -105,7 +102,7 @@ export function resolveConfiguredPath(
  * @returns POSIX-normalised path.
  */
 export function toPosixPath(value: string): string {
-  return value.split(path.sep).join("/");
+	return value.split(path.sep).join("/");
 }
 
 /**
@@ -116,58 +113,58 @@ export function toPosixPath(value: string): string {
  * @returns Repository config.
  */
 function parseRepositoryConfig(
-  value: unknown,
-  configPath: string,
+	value: unknown,
+	configPath: string,
 ): RepositoryConfig {
-  const root = requirePlainObject(value, configPath);
+	const root = requirePlainObject(value, configPath);
 
-  const paths = requirePlainObject(root["paths"], "paths");
-  const prompts = requirePlainObject(root["prompts"], "prompts");
-  const readme = requirePlainObject(root["readme"], "readme");
-  const promptFilesSettings = requirePlainObject(
-    readme["promptFilesSettings"],
-    "readme.promptFilesSettings",
-  );
+	const paths = requirePlainObject(root["paths"], "paths");
+	const prompts = requirePlainObject(root["prompts"], "prompts");
+	const readme = requirePlainObject(root["readme"], "readme");
+	const promptFilesSettings = requirePlainObject(
+		readme["promptFilesSettings"],
+		"readme.promptFilesSettings",
+	);
 
-  const defaultSetupMode = requirePromptSetupMode(
-    prompts["defaultSetupMode"],
-    "prompts.defaultSetupMode",
-  );
+	const defaultSetupMode = requirePromptSetupMode(
+		prompts["defaultSetupMode"],
+		"prompts.defaultSetupMode",
+	);
 
-  return {
-    paths: {
-      readme: requireString(paths["readme"], "paths.readme"),
-      vscodeSettings: requireString(
-        paths["vscodeSettings"],
-        "paths.vscodeSettings",
-      ),
-      promptFilesRoot: requireString(
-        paths["promptFilesRoot"],
-        "paths.promptFilesRoot",
-      ),
-    },
-    prompts: {
-      settingKey: requireString(prompts["settingKey"], "prompts.settingKey"),
-      filePattern: requireString(prompts["filePattern"], "prompts.filePattern"),
-      recursiveGlob: requireString(
-        prompts["recursiveGlob"],
-        "prompts.recursiveGlob",
-      ),
-      defaultSetupMode,
-    },
-    readme: {
-      promptFilesSettings: {
-        startMarker: requireString(
-          promptFilesSettings["startMarker"],
-          "readme.promptFilesSettings.startMarker",
-        ),
-        endMarker: requireString(
-          promptFilesSettings["endMarker"],
-          "readme.promptFilesSettings.endMarker",
-        ),
-      },
-    },
-  };
+	return {
+		paths: {
+			readme: requireString(paths["readme"], "paths.readme"),
+			vscodeSettings: requireString(
+				paths["vscodeSettings"],
+				"paths.vscodeSettings",
+			),
+			promptFilesRoot: requireString(
+				paths["promptFilesRoot"],
+				"paths.promptFilesRoot",
+			),
+		},
+		prompts: {
+			settingKey: requireString(prompts["settingKey"], "prompts.settingKey"),
+			filePattern: requireString(prompts["filePattern"], "prompts.filePattern"),
+			recursiveGlob: requireString(
+				prompts["recursiveGlob"],
+				"prompts.recursiveGlob",
+			),
+			defaultSetupMode,
+		},
+		readme: {
+			promptFilesSettings: {
+				startMarker: requireString(
+					promptFilesSettings["startMarker"],
+					"readme.promptFilesSettings.startMarker",
+				),
+				endMarker: requireString(
+					promptFilesSettings["endMarker"],
+					"readme.promptFilesSettings.endMarker",
+				),
+			},
+		},
+	};
 }
 
 /**
@@ -178,14 +175,14 @@ function parseRepositoryConfig(
  * @returns Plain object.
  */
 function requirePlainObject(
-  value: unknown,
-  label: string,
+	value: unknown,
+	label: string,
 ): Record<string, unknown> {
-  if (!isPlainObject(value)) {
-    throw new Error(`${label} must be an object.`);
-  }
+	if (!isPlainObject(value)) {
+		throw new Error(`${label} must be an object.`);
+	}
 
-  return value;
+	return value;
 }
 
 /**
@@ -196,11 +193,11 @@ function requirePlainObject(
  * @returns String value.
  */
 function requireString(value: unknown, label: string): string {
-  if (typeof value !== "string" || value.trim() === "") {
-    throw new Error(`${label} must be a non-empty string.`);
-  }
+	if (typeof value !== "string" || value.trim() === "") {
+		throw new Error(`${label} must be a non-empty string.`);
+	}
 
-  return value;
+	return value;
 }
 
 /**
@@ -211,14 +208,14 @@ function requireString(value: unknown, label: string): string {
  * @returns Prompt setup mode.
  */
 function requirePromptSetupMode(
-  value: unknown,
-  label: string,
+	value: unknown,
+	label: string,
 ): PromptSetupMode {
-  if (value === "glob" || value === "folders") {
-    return value;
-  }
+	if (value === "glob" || value === "folders") {
+		return value;
+	}
 
-  throw new Error(`${label} must be "glob" or "folders".`);
+	throw new Error(`${label} must be "glob" or "folders".`);
 }
 
 /**
@@ -228,7 +225,7 @@ function requirePromptSetupMode(
  * @returns True when the value is a non-array object.
  */
 function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /**
@@ -238,9 +235,9 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
  * @returns Error message.
  */
 function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
+	if (error instanceof Error) {
+		return error.message;
+	}
 
-  return String(error);
+	return String(error);
 }
