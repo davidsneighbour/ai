@@ -1,4 +1,8 @@
-# External AI tools
+---
+id: docs-external-tools
+title: External AI tools
+description: External tools that are useful alongside this repository.
+---
 
 This file lists external tools that are useful alongside this repository. Keep entries short and link to the upstream project for details.
 

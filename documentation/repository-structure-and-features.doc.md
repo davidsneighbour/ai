@@ -12,12 +12,12 @@ The managed asset directories are a structured registry of AI-facing assets. Eac
 
 The overall goals are:
 
-* keep prompts, skills, and supporting documents in one clearly defined place
-* make each item self-describing through front matter
-* validate metadata and file naming consistently
-* make the registry inspectable from the command line
-* export JSON schemas for tooling and editor integrations
-* reduce drift as the registry grows over time
+- keep prompts, skills, and supporting documents in one clearly defined place
+- make each item self-describing through front matter
+- validate metadata and file naming consistently
+- make the registry inspectable from the command line
+- export JSON schemas for tooling and editor integrations
+- reduce drift as the registry grows over time
 
 In short, the asset folders are meant to be both readable content and structured project data.
 
@@ -33,10 +33,10 @@ prompts/
 └── generate-tests.prompt.md
 instructions/
 └── typescript-programming.instructions.md
+documentation/
+├── folder-layout-and-ai-script.doc.md
+└── workflow-overview.doc.md
 ai/
-├── docs/
-│   ├── folder-layout-and-ai-script.doc.md
-│   └── workflow-overview.doc.md
 ├── templates/
 └── workflows/
 ```
@@ -47,10 +47,10 @@ This is a recommendation rather than a fully rigid technical requirement, but it
 
 The `scripts/ai.ts` script classifies every Markdown file in managed asset directories into one of four kinds:
 
-* `prompt`
-* `instruction`
-* `skill`
-* `doc`
+- `prompt`
+- `instruction`
+- `skill`
+- `doc`
 
 The logic is intentionally simple.
 
@@ -58,8 +58,8 @@ The logic is intentionally simple.
 
 A file is treated as a skill when one of these is true:
 
-* its front matter explicitly says `type: skill`
-* its path contains `/skills/`
+- its front matter explicitly says `type: skill`
+- its path contains `/skills/`
 
 ### `instruction`
 
@@ -67,7 +67,7 @@ A file is treated as an instruction when its path contains `/instructions/`.
 
 ### `doc`
 
-A file is treated as a document when its path contains `/docs/`.
+A file is treated as a document when its path contains `/documentation/`.
 
 ### `prompt`
 
@@ -84,7 +84,7 @@ flowchart TD
     A[Managed Markdown file] --> B{Classification}
     B -->|type: skill| C[skill]
     B -->|path contains /skills/| C
-    B -->|path contains /docs/| D[doc]
+    B -->|path contains /documentation/| D[doc]
     B -->|path contains /instructions/| F[instruction]
     B -->|otherwise| E[prompt]
 ```
@@ -95,18 +95,18 @@ In addition to kind detection, the script enforces naming conventions through li
 
 Expected suffixes:
 
-* prompts use `.prompt.md`
-* instructions use `.instructions.md`
-* agents use `.agent.md`
-* installable skills use `skills/<skill-id>/SKILL.md`
-* docs use `.doc.md`
+- prompts use `.prompt.md`
+- instructions use `.instructions.md`
+- agents use `.agent.md`
+- installable skills use `skills/<skill-id>/SKILL.md`
+- docs use `.doc.md`
 
 These suffixes do not perform the primary classification, but they are important conventions because they:
 
-* make file purpose obvious at a glance
-* reduce ambiguity during refactors
-* make searching and grepping easier
-* keep the registry consistent for humans and tools
+- make file purpose obvious at a glance
+- reduce ambiguity during refactors
+- make searching and grepping easier
+- keep the registry consistent for humans and tools
 
 A file may still be classified correctly even if it uses the wrong suffix, but linting will report that as a problem.
 
@@ -114,13 +114,13 @@ A file may still be classified correctly even if it uses the wrong suffix, but l
 
 Each parsed file becomes an internal registry item with the following fields:
 
-* `id`
-* `title`
-* `kind`
-* `absolutePath`
-* `relativePath`
-* `body`
-* `frontmatter`
+- `id`
+- `title`
+- `kind`
+- `absolutePath`
+- `relativePath`
+- `body`
+- `frontmatter`
 
 This object is the runtime representation used by listing, validation, linting, display, and schema export.
 
@@ -169,8 +169,8 @@ That file provides the shared schema definitions and allowed-key lists used by `
 
 The current design intentionally separates concerns:
 
-* `scripts/lib/ai-schema.ts` defines the data model
-* `scripts/ai.ts` loads, validates, lints, inspects, exports data, generates prompt-location documentation, and configures local VS Code prompt settings based on that model
+- `scripts/lib/ai-schema.ts` defines the data model
+- `scripts/ai.ts` loads, validates, lints, inspects, exports data, generates prompt-location documentation, and configures local VS Code prompt settings based on that model
 
 This keeps the system maintainable. Schema changes happen in one central place rather than being scattered across the runtime script.
 
@@ -190,10 +190,10 @@ Plain output is compact and useful for quick overviews. JSON output is available
 
 Typical uses:
 
-* checking which items the registry currently sees
-* verifying IDs
-* confirming classification
-* quick inspection during refactors
+- checking which items the registry currently sees
+- verifying IDs
+- confirming classification
+- quick inspection during refactors
 
 ### `show --id <id>`
 
@@ -201,18 +201,18 @@ Shows one registry item in detail.
 
 It includes:
 
-* title
-* id
-* kind
-* file path
-* parsed frontmatter
-* body content, unless suppressed with `--no-content`
+- title
+- id
+- kind
+- file path
+- parsed frontmatter
+- body content, unless suppressed with `--no-content`
 
 Typical uses:
 
-* debugging one specific file
-* checking how the parser sees the frontmatter
-* reviewing an item without opening the raw Markdown file
+- debugging one specific file
+- checking how the parser sees the frontmatter
+- reviewing an item without opening the raw Markdown file
 
 ### `validate`
 
@@ -220,9 +220,9 @@ Validates frontmatter against the schema for the detected kind.
 
 That means:
 
-* skills are validated against the skill schema
-* docs are validated against the doc schema
-* prompts are validated against the prompt schema
+- skills are validated against the skill schema
+- docs are validated against the doc schema
+- prompts are validated against the prompt schema
 
 `validate` answers the question: "Is this item structurally valid according to the declared rules?"
 
@@ -234,11 +234,11 @@ Runs repository-specific checks that go beyond schema validity.
 
 This currently includes checks such as:
 
-* unknown frontmatter keys
-* empty body content
-* wrong filename suffix for the detected kind
-* missing or empty descriptions where required
-* wrong types for prompt-specific optional fields such as `agent`, `skills`, `tools`, or `strict`
+- unknown frontmatter keys
+- empty body content
+- wrong filename suffix for the detected kind
+- missing or empty descriptions where required
+- wrong types for prompt-specific optional fields such as `agent`, `skills`, `tools`, or `strict`
 
 `lint` answers the question: "Is this item acceptable according to project policy and maintenance conventions?"
 
@@ -248,14 +248,14 @@ Validates installable skill directories under `skills/`. Unlike registry validat
 
 The command enforces these rules:
 
-* the skills root exists
-* every direct child directory contains `SKILL.md`
-* `SKILL.md` starts with non-empty YAML frontmatter
-* `SKILL.md` has a non-empty Markdown body
-* frontmatter includes `id`
-* `id` matches `/^[a-z0-9-]+$/`
-* the directory name matches `id`
-* optional `name` matches `id` when present
+- the skills root exists
+- every direct child directory contains `SKILL.md`
+- `SKILL.md` starts with non-empty YAML frontmatter
+- `SKILL.md` has a non-empty Markdown body
+- frontmatter includes `id`
+- `id` matches `/^[a-z0-9-]+$/`
+- the directory name matches `id`
+- optional `name` matches `id` when present
 
 Use `--root <path>` to validate a different skills root. Use `--verbose` to print each validated `SKILL.md` path.
 
@@ -267,9 +267,9 @@ This is useful for spotting schema drift, one-off experiments, stale keys, or ac
 
 It is especially valuable during refactors because it answers questions such as:
 
-* which unsupported keys exist
-* how widely they are used
-* which files need migration first
+- which unsupported keys exist
+- how widely they are used
+- which files need migration first
 
 ### `export-schemas`
 
@@ -277,10 +277,10 @@ Exports the Zod-based schemas as JSON Schema files.
 
 This bridges the gap between TypeScript runtime validation and external tooling. It is useful for:
 
-* editor integrations
-* external validators
-* documentation tooling
-* future automation around frontmatter authoring
+- editor integrations
+- external validators
+- documentation tooling
+- future automation around frontmatter authoring
 
 ### `build-documentation`
 
@@ -352,9 +352,9 @@ Validation checks whether the frontmatter matches the schema exactly.
 
 Examples:
 
-* required fields exist
-* optional fields have the right type
-* the metadata structure matches the Zod contract
+- required fields exist
+- optional fields have the right type
+- the metadata structure matches the Zod contract
 
 ### Linting
 
@@ -362,15 +362,15 @@ Linting checks whether the file follows project rules and maintenance expectatio
 
 Examples:
 
-* the file uses the correct suffix
-* the body is not empty
-* descriptions exist where required
-* frontmatter keys do not drift away from the supported model
+- the file uses the correct suffix
+- the body is not empty
+- descriptions exist where required
+- frontmatter keys do not drift away from the supported model
 
 In other words:
 
-* validation is about correctness
-* linting is about quality and consistency
+- validation is about correctness
+- linting is about quality and consistency
 
 This split is useful because it lets you distinguish between hard invalidity and softer policy violations.
 
@@ -378,22 +378,22 @@ This split is useful because it lets you distinguish between hard invalidity and
 
 Prompt files may include additional structured metadata such as:
 
-* `name`
-* `argument-hint`
-* `agent`
-* `model`
-* `skills`
-* `tools`
-* `strict`
+- `name`
+- `argument-hint`
+- `agent`
+- `model`
+- `skills`
+- `tools`
+- `strict`
 
 The linter checks these for type correctness.
 
 Expected patterns are:
 
-* `name` is a required lowercase kebab-case string and is the canonical prompt identifier
-* `skills` is an array of strings
-* `tools` is an array of strings
-* `strict` is a boolean
+- `name` is a required lowercase kebab-case string and is the canonical prompt identifier
+- `skills` is an array of strings
+- `tools` is an array of strings
+- `strict` is a boolean
 
 This suggests an intentional content model where prompts may declare dependencies, expected tool usage, or stricter behavioural expectations.
 
@@ -403,11 +403,11 @@ Docs and prompts are expected to have a non-empty `description`.
 
 This is a strong rule and worth keeping because descriptions are often the most useful field for:
 
-* listings
-* editor hints
-* generated indexes
-* search results
-* contributor orientation
+- listings
+- editor hints
+- generated indexes
+- search results
+- contributor orientation
 
 A registry with titles but no descriptions tends to become harder to navigate over time.
 
@@ -445,20 +445,20 @@ flowchart TD
 
 Contributors working in the registry should follow these rules:
 
-* keep prompts in `prompts/`
-* keep instructions in `instructions/`
-* keep agents in `ai/agents/`
-* always include YAML frontmatter
-* use explicit prompt `name` and `description`
-* use explicit `id`, `title`, and `description` for docs and skills
-* place docs in `ai/docs/`
-* place installable skills in `skills/`
-* use `.agent.md`, `.doc.md`, and `.prompt.md` suffixes consistently
-* use `skills/<skill-id>/SKILL.md` for installable skills
-* run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
-* run `node ./scripts/ai.ts build-documentation` after prompt folder or VS Code prompt setting documentation changes
-* run `node ./scripts/ai.ts setup --prompts --mode glob` when configuring local VS Code prompt file locations
-* run `node ./scripts/ai.ts check --release` before considering the registry clean
+- keep prompts in `prompts/`
+- keep instructions in `instructions/`
+- keep agents in `ai/agents/`
+- always include YAML frontmatter
+- use explicit prompt `name` and `description`
+- use explicit `id`, `title`, and `description` for docs and skills
+- place docs in `documentation/`
+- place installable skills in `skills/`
+- use `.agent.md`, `.doc.md`, and `.prompt.md` suffixes consistently
+- use `skills/<skill-id>/SKILL.md` for installable skills
+- run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
+- run `node ./scripts/ai.ts build-documentation` after prompt folder or VS Code prompt setting documentation changes
+- run `node ./scripts/ai.ts setup --prompts --mode glob` when configuring local VS Code prompt file locations
+- run `node ./scripts/ai.ts check --release` before considering the registry clean
 
 ## Practical examples
 

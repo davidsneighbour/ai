@@ -1,6 +1,10 @@
-# Archetype Prompt System Documentation
+---
+id: docs-personality-archetypes
+title: Archetype prompt system documentation
+description: Documentation for the archetype prompt controls used for AI behaviour, workflow mode, verbosity, and staged pipelines.
+---
 
-* **Instruction:** instructions/personality-archetype.instructions.md
+- **Instruction:** instructions/personality-archetype.instructions.md
 
 This system defines a **structured prompt language** for controlling AI behaviour using archetypes, workflow modes, verbosity, and optional staged pipelines.
 
@@ -8,10 +12,10 @@ The goal is to create a **clear, reusable reasoning framework** that allows natu
 
 The system consists of four parts:
 
-* Archetypes (reasoning personalities)
-* Modes (workflow shorthand)
-* Verbosity (response length control)
-* Stage pipelines (multi-step workflows)
+- Archetypes (reasoning personalities)
+- Modes (workflow shorthand)
+- Verbosity (response length control)
+- Stage pipelines (multi-step workflows)
 
 ## Archetypes
 
@@ -26,10 +30,10 @@ Archetypes define the **reasoning personality** of the agent.
 
 Archetypes influence:
 
-* reasoning style
-* tone
-* interaction posture
-* explanation approach
+- reasoning style
+- tone
+- interaction posture
+- explanation approach
 
 They do **not control response length**, which is handled by verbosity.
 
@@ -57,10 +61,10 @@ This allows agents to infer behaviour from natural language instructions.
 
 Examples:
 
-* "Explore the usability of this API" → Marco
-* "Verify the logic of this function" → Sherlock
-* "Execute the refactor" → Spock
-* "Present the findings for stakeholders" → Jean-Luc
+- "Explore the usability of this API" → Marco
+- "Verify the logic of this function" → Sherlock
+- "Execute the refactor" → Spock
+- "Present the findings for stakeholders" → Jean-Luc
 
 Explicit archetype instructions always override inferred behaviour.
 
@@ -102,8 +106,8 @@ Verbosity: minimal
 
 Meaning:
 
-* analytical reasoning
-* concise output
+- analytical reasoning
+- concise output
 
 Examples:
 
@@ -179,11 +183,11 @@ Stage 4: Present the final solution
 
 Useful for:
 
-* architecture decisions
-* debugging workflows
-* technical design reviews
-* complex coding tasks
-* documentation generation
+- architecture decisions
+- debugging workflows
+- technical design reviews
+- complex coding tasks
+- documentation generation
 
 ## Shortened Pipelines
 
@@ -224,7 +228,7 @@ Marco Sherlock Spock Jean-Luc
 
 This structure allows both:
 
-* natural conversational instructions
-* precise prompt configuration
+- natural conversational instructions
+- precise prompt configuration
 
 while keeping the system minimal and easy to use.

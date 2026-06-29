@@ -148,7 +148,7 @@ const REPOSITORY_ASSET_DIRECTORIES = [
 	"prompts",
 	"instructions",
 	path.join("ai", "agents"),
-	path.join("ai", "docs"),
+	"documentation",
 	path.join("ai", "templates"),
 	path.join("ai", "workflows"),
 ];
@@ -1680,7 +1680,7 @@ function detectKind(
 		return "agent";
 	}
 
-	if (absolutePath.includes(`${path.sep}docs${path.sep}`)) {
+	if (absolutePath.includes(`${path.sep}documentation${path.sep}`)) {
 		return "doc";
 	}
 

@@ -1,4 +1,8 @@
-# AI linker script
+---
+id: docs-ai-linker-script
+title: AI linker script
+description: Usage, configuration, safety rules, and tests for scripts/ai-symlink.ts.
+---
 
 `scripts/ai-symlink.ts` creates symlinks from this repository into either a
 global tool location or a local workspace location. It is intended for AI assets

@@ -65,13 +65,13 @@ Registry Markdown files are scanned from the managed asset directories:
 
 - root `prompts/`
 - root `instructions/`
-- `ai/agents/`, `ai/docs/`, `ai/templates/`, and `ai/workflows/`
+- `ai/agents/`, `documentation/`, `ai/templates/`, and `ai/workflows/`
 
 Files are classified by path:
 
 - **skill** — path contains `/skills/` or frontmatter says `type: skill`
 - **agent** — path contains `/agents/`
-- **doc** — path contains `/docs/`
+- **doc** — path contains `/documentation/`
 - **instruction** — path contains `/instructions/`
 - **prompt** — everything else (the fallback)
 
@@ -140,7 +140,7 @@ Current mappings:
 | "local skills file in `<path>`" | `.vscode/skills/<path>` |
 | "skills file in `<path>`" | `skills/<path>` |
 | "local docs file in `<path>`" | `.vscode/docs/<path>` |
-| "docs file in `<path>`" | `ai/docs/<path>` |
+| "docs file in `<path>`" | `documentation/<path>` |
 
 The resolution rule is: `<qualifier-prefix>/<type-subdir>/<path>` where:
 

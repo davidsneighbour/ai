@@ -10,7 +10,7 @@ This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot
 - `ai/templates/` and `ai/workflows/` contain shared templates and workflow documents.
 - `schemas/` contains JSON schemas for prompts, skills, and docs.
 - `scripts/` contains the TypeScript CLI and validators.
-- `documentation/` and `ai/docs/` contain repository notes and conventions.
+- `documentation/` contains repository notes and conventions.
 
 ## Build, test, and development commands
 
