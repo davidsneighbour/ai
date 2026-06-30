@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.0](https://github.com/davidsneighbour/ai/compare/v1.0.0...v1.1.0) (2026-06-30)
+
+### Features
+
+* support multi-target agent symlinks ([3e25b6c](https://github.com/davidsneighbour/ai/commit/3e25b6c1782a6c002bc70895d947abefb3c08089))
+
+### Instructions
+
+* add conventional commit instructions ([d4a5a45](https://github.com/davidsneighbour/ai/commit/d4a5a458a80340e3f26d210305cdaab62a381d58))
+* split TypeScript guidance by topic ([80e14cc](https://github.com/davidsneighbour/ai/commit/80e14cc7e49689b111aabf84ed8e934e6e226025))
+
 ## [1.0.0](https://github.com/davidsneighbour/ai/compare/v0.7.1...v1.0.0) (2026-06-30)
 
 ### ⚠ BREAKING CHANGES
