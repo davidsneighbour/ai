@@ -1,11 +1,11 @@
 ---
-description: TypeScript programming instructions
+description: Core TypeScript programming instructions
 applyTo: "**/*.{ts,tsx,mts,cts,astro}"
 ---
 
 Use these instructions whenever creating, reviewing, refactoring, or documenting TypeScript code.
 
-## Rule index
+## Rule Index
 
 Each rule has a stable identifier.
 
@@ -13,41 +13,43 @@ Rule identifiers are used by humans, AI reviewers, custom linters, prompt-based 
 
 Use the format `TR###`, where:
 
-* `TR` means TypeScript rule.
-* `###` is a zero-padded sequential number.
-* Existing identifiers must never be reused for a different rule.
-* Existing identifiers must not be renumbered during normal editing.
-* Deprecated rules must keep their identifier and be marked as deprecated instead of being removed silently.
-* New rules must receive the next available identifier.
+- `TR` means TypeScript rule.
+- `###` is a zero-padded sequential number.
+- Existing identifiers must never be reused for a different rule.
+- Existing identifiers must not be renumbered during normal editing.
+- Deprecated rules must keep their identifier and be marked as deprecated instead of being removed silently.
+- New rules must receive the next available identifier.
 
 Current rule index:
 
-* `TR001` - Core principles
-* `TR002` - Strict type safety
-* `TR003` - Type inference
-* `TR004` - Prefer `satisfies` over unsafe assertions
-* `TR005` - Derive types from values
-* `TR006` - Model impossible states with discriminated unions
-* `TR007` - Use exhaustive checks
-* `TR008` - Use `as const` for constants and configuration
-* `TR009` - Use type predicates for reusable narrowing
-* `TR010` - Build types from existing types
-* `TR011` - Validate external data at runtime
-* `TR012` - Avoid `enum` in most cases
-* `TR013` - Prefer inferable generics
-* `TR014` - Compiler settings
-* `TR015` - Template literal types
-* `TR016` - Runtime safety
-* `TR017` - Error handling
-* `TR018` - Function design
-* `TR019` - Optional properties
-* `TR020` - Indexed access
-* `TR021` - Non-null assertions
-* `TR022` - Comments and documentation
-* `TR023` - Imports and modules
-* `TR024` - Code review checklist
+- `TR001` - Core principles
+- `TR002` - Strict type safety
+- `TR003` - Type inference
+- `TR004` - Prefer `satisfies` over unsafe assertions
+- `TR005` - Derive types from values
+- `TR006` - Model impossible states with discriminated unions
+- `TR007` - Use exhaustive checks
+- `TR008` - Use `as const` for constants and configuration
+- `TR009` - Use type predicates for reusable narrowing
+- `TR010` - Build types from existing types
+- `TR011` - Validate external data at runtime
+- `TR012` - Avoid `enum` in most cases
+- `TR013` - Prefer inferable generics
+- `TR015` - Template literal types
+- `TR016` - Runtime safety
+- `TR017` - Error handling
+- `TR018` - Function design
+- `TR019` - Optional properties
+- `TR020` - Indexed access
+- `TR021` - Non-null assertions
+- `TR022` - Comments and documentation
+- `TR023` - Imports and modules
 
-## TR001 - Core principles
+`TR014` lives in `configuration.instructions.md`.
+
+`TR024` lives in `review.instructions.md`.
+
+## TR001 - Core Principles
 
 Write TypeScript for correctness, maintainability, and safe refactoring.
 
@@ -55,7 +57,7 @@ Prefer code that lets the compiler prove correctness instead of code that relies
 
 TypeScript types must describe the real runtime behaviour of the code. Do not use types to silence errors unless the value has actually been validated or narrowed.
 
-## TR002 - Strict type safety
+## TR002 - Strict Type Safety
 
 Do not use `any`.
 
@@ -89,7 +91,7 @@ try {
 }
 ```
 
-## TR003 - Type inference
+## TR003 - Type Inference
 
 Let TypeScript infer obvious local types.
 
@@ -111,14 +113,14 @@ Use explicit types when they document an API boundary, prevent unwanted widening
 
 Good places for explicit types include:
 
-* Exported function parameters and return values
-* Public interfaces
-* Configuration objects
-* External data boundaries
-* Complex generic helpers
-* Values where inference becomes too broad or unclear
+- exported function parameters and return values
+- public interfaces
+- configuration objects
+- external data boundaries
+- complex generic helpers
+- values where inference becomes too broad or unclear
 
-## TR004 - Prefer `satisfies` over unsafe assertions
+## TR004 - Prefer `satisfies` Over Unsafe Assertions
 
 Use `satisfies` when a value must conform to a type while preserving its precise inferred shape.
 
@@ -145,7 +147,7 @@ Better:
 const user = UserSchema.parse(responseData);
 ```
 
-## TR005 - Derive types from values
+## TR005 - Derive Types From Values
 
 Avoid duplicating runtime values and TypeScript types manually.
 
@@ -159,15 +161,15 @@ type Role = (typeof roles)[number];
 
 Use this pattern for:
 
-* Allowed string values
-* Configuration keys
-* Route names
-* Event names
-* Status values
-* Feature flags
-* Design tokens
+- allowed string values
+- configuration keys
+- route names
+- event names
+- status values
+- feature flags
+- design tokens
 
-## TR006 - Model impossible states with discriminated unions
+## TR006 - Model Impossible States With Discriminated Unions
 
 Use discriminated unions instead of loose optional-property objects.
 
@@ -194,7 +196,7 @@ Each state must contain only the fields that are valid for that state.
 
 This makes invalid combinations unrepresentable.
 
-## TR007 - Use exhaustive checks
+## TR007 - Use Exhaustive Checks
 
 When switching over discriminated unions, handle every case explicitly.
 
@@ -219,7 +221,7 @@ function renderState(state: RequestState): string {
 
 Do not silently ignore unknown states.
 
-## TR008 - Use `as const` for constants and configuration
+## TR008 - Use `as const` For Constants And Configuration
 
 Use `as const` when values should remain literal and readonly.
 
@@ -232,16 +234,16 @@ const theme = {
 
 This is especially useful for:
 
-* Constants
-* Route maps
-* Configuration objects
-* Test fixtures
-* Lookup tables
-* Static data used to derive types
+- constants
+- route maps
+- configuration objects
+- test fixtures
+- lookup tables
+- static data used to derive types
 
 Do not use `as const` to hide mutability problems. Use it when the value is intentionally fixed.
 
-## TR009 - Use type predicates for reusable narrowing
+## TR009 - Use Type Predicates For Reusable Narrowing
 
 When runtime checks are repeated, extract them into type predicates.
 
@@ -265,7 +267,7 @@ Type predicates must perform real runtime checks. They must not simply return `t
 
 Prefer schema validation for complex external data.
 
-## TR010 - Build types from existing types
+## TR010 - Build Types From Existing Types
 
 Do not duplicate object shapes manually.
 
@@ -273,16 +275,16 @@ Use TypeScript utility types and indexed access types to derive new types from e
 
 Useful utilities include:
 
-* `Pick`
-* `Omit`
-* `Partial`
-* `Required`
-* `Readonly`
-* `Record`
-* `Extract`
-* `Exclude`
-* `NonNullable`
-* Indexed access types
+- `Pick`
+- `Omit`
+- `Partial`
+- `Required`
+- `Readonly`
+- `Record`
+- `Extract`
+- `Exclude`
+- `NonNullable`
+- indexed access types
 
 Example:
 
@@ -299,7 +301,7 @@ type UserPreview = Pick<User, "id" | "name">;
 
 Prefer type transformations over repeated parallel interfaces.
 
-## TR011 - Validate external data at runtime
+## TR011 - Validate External Data At Runtime
 
 TypeScript does not validate runtime data.
 
@@ -307,15 +309,15 @@ Always validate data from external or untrusted sources before treating it as ty
 
 External boundaries include:
 
-* API responses
-* JSON files
-* Environment variables
-* CLI arguments
-* User input
-* CMS content
-* Database rows
-* Local storage
-* Third-party package output
+- API responses
+- JSON files
+- environment variables
+- CLI arguments
+- user input
+- CMS content
+- database rows
+- local storage
+- third-party package output
 
 Prefer Zod for runtime validation where possible.
 
@@ -349,7 +351,7 @@ const data: unknown = await response.json();
 const user = UserSchema.parse(data);
 ```
 
-## TR012 - Avoid `enum` in most cases
+## TR012 - Avoid `enum` In Most Cases
 
 Prefer literal unions derived from readonly arrays or objects.
 
@@ -363,7 +365,7 @@ This is usually easier to serialise, test, refactor, and use with external data.
 
 Only use `enum` when there is a strong project-specific reason.
 
-## TR013 - Prefer inferable generics
+## TR013 - Prefer Inferable Generics
 
 Design generic APIs so callers rarely need to provide manual generic arguments.
 
@@ -383,35 +385,7 @@ Prefer passing values that allow TypeScript to infer the result type.
 
 Good generic helpers should infer from parameters, schemas, callbacks, or configuration objects.
 
-## TR014 - Compiler settings
-
-Use strict compiler options.
-
-Recommended baseline:
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": ["ES2022", "DOM"],
-    "moduleResolution": "Bundler",
-    "strict": true,
-    "exactOptionalPropertyTypes": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "useUnknownInCatchVariables": true,
-    "noFallthroughCasesInSwitch": true
-  }
-}
-```
-
-Do not weaken strictness to make errors disappear.
-
-Fix the code, improve the model, or validate the data.
-
-## TR015 - Template literal types
+## TR015 - Template Literal Types
 
 Use template literal types when string structure matters.
 
@@ -422,32 +396,32 @@ type LocaleRoute = `/${"en" | "de"}/${string}`;
 
 Good use cases include:
 
-* Routes
-* Event names
-* CSS utility names
-* Design token names
-* Query keys
-* Translation keys
-* File path conventions
+- routes
+- event names
+- CSS utility names
+- design token names
+- query keys
+- translation keys
+- file path conventions
 
 Avoid overly clever template literal types that make code harder to read or maintain.
 
-## TR016 - Runtime safety
+## TR016 - Runtime Safety
 
 Type safety is not runtime safety.
 
 TypeScript helps prevent many classes of bugs, but it does not:
 
-* Validate external data
-* Guarantee good architecture
-* Eliminate runtime exceptions
-* Replace tests
-* Replace input validation
-* Protect against incorrect type assertions
+- validate external data
+- guarantee good architecture
+- eliminate runtime exceptions
+- replace tests
+- replace input validation
+- protect against incorrect type assertions
 
 Treat runtime boundaries as unsafe until validated.
 
-## TR017 - Error handling
+## TR017 - Error Handling
 
 Handle errors explicitly.
 
@@ -474,29 +448,33 @@ try {
 
 If an error is intentionally ignored, document why and still leave a traceable action.
 
-## TR018 - Function design
+Errors must be handled, logged, or rethrown, but never silently discarded.
+
+## TR018 - Function Design
 
 Keep function inputs and outputs precise.
 
 Prefer:
 
-* Narrow parameter types
-* Explicit return types for exported functions
-* Fail-fast validation
-* Exhaustive handling
-* Clear error messages
-* Small reusable helpers
+- narrow parameter types
+- explicit return types for exported functions
+- fail-fast validation
+- exhaustive handling
+- clear error messages
+- small reusable helpers
 
 Avoid:
 
-* Boolean flag parameters that create unclear control flow
-* Broad object blobs with many optional properties
-* Implicit mutation
-* Hidden global state
-* Silent fallback behaviour
-* Assertions instead of validation
+- boolean flag parameters that create unclear control flow
+- broad object blobs with many optional properties
+- implicit mutation
+- hidden global state
+- silent fallback behaviour
+- assertions instead of validation
 
-## TR019 - Optional properties
+Functions must follow single-responsibility principles. Large functions should be decomposed into smaller helpers.
+
+## TR019 - Optional Properties
 
 With `exactOptionalPropertyTypes`, distinguish between a missing property and a property set to `undefined`.
 
@@ -520,7 +498,7 @@ const options: Options = {
 
 Only use `undefined` explicitly when the type intentionally allows it.
 
-## TR020 - Indexed access
+## TR020 - Indexed Access
 
 With `noUncheckedIndexedAccess`, array and object indexing can return `undefined`.
 
@@ -538,7 +516,7 @@ console.log(first.name);
 
 Do not silence the compiler with non-null assertions unless the invariant has already been checked.
 
-## TR021 - Non-null assertions
+## TR021 - Non-Null Assertions
 
 Avoid `!`.
 
@@ -560,17 +538,17 @@ if (user === undefined) {
 
 Use explicit checks so runtime failures are understandable.
 
-## TR022 - Comments and documentation
+## TR022 - Comments And Documentation
 
 Document exported functions and reusable helpers with JSDoc.
 
 Include:
 
-* Purpose
-* Parameters
-* Return value
-* Errors thrown
-* Example usage where useful
+- purpose
+- parameters
+- return value
+- errors thrown
+- example usage where useful
 
 ```ts
 /**
@@ -597,9 +575,13 @@ function getFirst<T>(items: readonly T[]): T {
 
 Comments must explain intent, constraints, or non-obvious behaviour. Do not comment obvious syntax.
 
-## TR023 - Imports and modules
+Stale comments must be removed during refactors.
+
+## TR023 - Imports And Modules
 
 Use ESM syntax.
+
+Do not introduce `require`, `module.exports`, or other CommonJS patterns.
 
 Prefer explicit imports for types.
 
@@ -610,23 +592,3 @@ import type { ImageMetadata } from "astro";
 Avoid relying on implicit global types when an explicit import is clearer and more maintainable.
 
 Use path aliases where the project defines them.
-
-## TR024 - Code review checklist
-
-Before accepting TypeScript code, check that:
-
-* `TR002` - No `any` is used.
-* `TR002` - `unknown` values are narrowed or validated.
-* `TR011` - External data is validated at runtime.
-* `TR004` - Type assertions are avoided or justified.
-* `TR004` - `satisfies` is used where it preserves inference better than `as`.
-* `TR005` - Types are derived from values where possible.
-* `TR006` - Impossible states are modelled with discriminated unions.
-* `TR007` - Switch statements over unions are exhaustive.
-* `TR020` - Indexed access handles `undefined`.
-* `TR019` - Optional properties are handled intentionally.
-* `TR013` - Generics infer naturally for callers.
-* `TR017` - Runtime errors are handled explicitly.
-* `TR022` - Exported helpers have useful JSDoc.
-* `TR023` - Imports use ESM syntax.
-* `TR001` - Code follows the rule intent, not only the literal examples.

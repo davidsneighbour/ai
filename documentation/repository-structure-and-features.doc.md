@@ -32,7 +32,13 @@ prompts/
 ├── review-spec.prompt.md
 └── generate-tests.prompt.md
 instructions/
-└── typescript-programming.instructions.md
+└── programming-languages/
+    └── typescript/
+        ├── typescript-programming.instructions.md
+        ├── architecture.instructions.md
+        ├── configuration.instructions.md
+        ├── review.instructions.md
+        └── testing.instructions.md
 documentation/
 ├── folder-layout-and-ai-script.doc.md
 └── workflow-overview.doc.md

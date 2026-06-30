@@ -6,23 +6,23 @@ description: Extend the TypeScript programming instructions with a new rule
 
 # Extend TypeScript programming instructions
 
-You are updating the TypeScript programming instructions file.
+You are updating the TypeScript programming instruction files.
 
-Target file:
+Target directory:
 
-`instructions/typescript-programming.instructions.md`
+`instructions/programming-languages/typescript/`
 
 ## Task
 
-Add a new TypeScript programming rule to the existing instruction file.
+Add a new TypeScript programming rule to the relevant existing instruction file in the target directory.
 
 The rule must be based on the request I provide after this prompt.
 
 ## Rule identifier system
 
-The instruction file uses stable rule identifiers.
+The instruction files use stable rule identifiers.
 
-For this file, rule identifiers use the format `TR###`.
+For these files, rule identifiers use the format `TR###`.
 
 Examples:
 
@@ -50,8 +50,9 @@ Rules for identifiers:
 
 ## Required behaviour
 
-Before editing the file, inspect the existing instruction file and determine:
+Before editing the files, inspect the existing instruction files and determine:
 
+- Which topic file should receive the rule.
 - Where the new rule belongs.
 - Whether it overlaps with an existing rule.
 - Whether an existing section should be extended instead of creating a new section.
@@ -95,7 +96,7 @@ Code examples must:
 - Include useful error messages.
 - Avoid unnecessary type assertions.
 - Avoid non-null assertions unless the example is specifically showing why they are unsafe.
-- Follow the existing style of the instruction file.
+- Follow the existing style of the relevant instruction file.
 
 When using functions in examples, add JSDoc if the function is reusable or exported.
 
@@ -121,7 +122,7 @@ Do not skip numbers unless the missing rule is explicitly marked as deprecated o
 
 ## File maintenance requirements
 
-After adding or updating the rule, update every affected listicle in the file.
+After adding or updating the rule, update every affected listicle in the relevant file or files.
 
 This includes, but is not limited to:
 
@@ -147,14 +148,14 @@ If the new rule affects linting, TypeScript compiler options, project structure,
 
 ## Consistency requirements
 
-Keep the instruction file internally consistent.
+Keep the instruction files internally consistent.
 
 Check for:
 
 - Contradictory rules.
 - Repeated advice.
 - Different terminology for the same concept.
-- Examples that violate another rule in the file.
+- Examples that violate another rule in the files.
 - Checklist items that no longer match the body text.
 - Headings that are too broad or too narrow.
 - Rules that are written as suggestions but should be mandatory.
