@@ -42,14 +42,16 @@ instructions/
 documentation/
 ├── folder-layout-and-ai-script.doc.md
 └── workflow-overview.doc.md
+agents/
+└── repository-maintainer/
+    └── agent.md
 ai/
-├── agents/
 ├── memories/
 ├── tasks/
 ├── templates/
 └── workflows/
 .agents/
-├── agents -> ../ai/agents
+├── agents -> ../agents
 ├── agents.md -> ../AGENTS.md
 ├── memories -> ../ai/memories
 ├── skills -> ../skills
@@ -112,7 +114,7 @@ Expected suffixes:
 
 - prompts use `.prompt.md`
 - instructions use `.instructions.md`
-- agents use `.agent.md`
+- agents use `.agents` protocol paths such as `agents/<id>/agent.md`
 - installable skills use `skills/<skill-id>/SKILL.md`
 - docs use `.doc.md`
 
@@ -462,13 +464,13 @@ Contributors working in the registry should follow these rules:
 
 - keep prompts in `prompts/`
 - keep instructions in `instructions/`
-- keep agents in `ai/agents/`
+- keep agents in `agents/<id>/agent.md`
 - always include YAML frontmatter
 - use explicit prompt `name` and `description`
 - use explicit `id`, `title`, and `description` for docs and skills
 - place docs in `documentation/`
 - place installable skills in `skills/`
-- use `.agent.md`, `.doc.md`, and `.prompt.md` suffixes consistently
+- use `agent.md`, `.doc.md`, and `.prompt.md` suffixes consistently
 - use `skills/<skill-id>/SKILL.md` for installable skills
 - run `node ./scripts/ai.ts validate-skills` after changing installable skill directories
 - run `node ./scripts/ai.ts build-documentation` after prompt folder or VS Code prompt setting documentation changes

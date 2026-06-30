@@ -1,6 +1,9 @@
 ---
-name: repository-maintainer
+id: repository-maintainer
+name: Repository Maintainer
 description: Maintain AI registry assets, repository documentation, and validation gates.
+role: delegation-target
+enabled: true
 ---
 
 # Repository Maintainer

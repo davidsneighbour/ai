@@ -23,20 +23,22 @@ export const ReferenceSchema = z
 export const ReferencesSchema = z.array(ReferenceSchema).min(1).optional();
 
 /**
- * VS Code custom agent schema.
+ * .agents protocol sub-agent schema.
  */
 export const AgentSchema = z
 	.object({
+		id: z
+			.string()
+			.min(1)
+			.regex(/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/),
 		description: z
 			.string()
 			.min(1)
-			.describe("Short description shown in the Chat view agent picker."),
-		name: z
-			.string()
-			.min(1)
-			.regex(/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/)
-			.optional()
-			.describe("Display name shown in the Chat view agent picker."),
+			.describe("Short description of the sub-agent profile."),
+		name: z.string().min(1).describe("Display name for the sub-agent profile."),
+		role: z.string().min(1).describe("Role this agent plays."),
+		enabled: z.boolean().describe("Whether this agent profile is enabled."),
+		"connection-type": z.string().min(1).optional(),
 		"argument-hint": z
 			.string()
 			.min(1)
@@ -59,7 +61,6 @@ export const AgentSchema = z
 			.string()
 			.optional()
 			.describe("Target surface where this agent is available."),
-		id: z.string().min(1).optional(),
 		title: z.string().min(1).optional(),
 		version: z.string().optional(),
 		references: ReferencesSchema,
@@ -202,6 +203,9 @@ export const AllowedKeys: Record<RegistryItemKind, Set<string>> = {
 	agent: new Set([
 		"description",
 		"name",
+		"role",
+		"enabled",
+		"connection-type",
 		"argument-hint",
 		"tools",
 		"agents",

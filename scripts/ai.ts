@@ -147,7 +147,7 @@ type PromptFilesLocations = Record<string, boolean>;
 const REPOSITORY_ASSET_DIRECTORIES = [
 	"prompts",
 	"instructions",
-	path.join("ai", "agents"),
+	"agents",
 	"documentation",
 	path.join("ai", "templates"),
 	path.join("ai", "workflows"),
@@ -1862,11 +1862,15 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 		});
 	}
 
-	if (item.kind === "agent" && !item.absolutePath.endsWith(".agent.md")) {
+	if (
+		item.kind === "agent" &&
+		path.basename(item.absolutePath) !== "agent.md"
+	) {
 		issues.push({
 			severity: release ? "error" : "warning",
 			code: "naming",
-			message: "Agent file should use the .agent.md suffix.",
+			message:
+				"Agent file should use the .agents protocol path agents/<id>/agent.md.",
 			file: item.relativePath,
 		});
 	}
@@ -1887,6 +1891,18 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 
 	if (item.kind === "agent") {
 		if (
+			typeof item.frontmatter["id"] !== "string" ||
+			item.frontmatter["id"].trim() === ""
+		) {
+			issues.push({
+				severity: "error",
+				code: "missing-id",
+				message: "Agent id is missing or empty.",
+				file: item.relativePath,
+			});
+		}
+
+		if (
 			typeof item.frontmatter["description"] !== "string" ||
 			item.frontmatter["description"].trim() === ""
 		) {
@@ -1894,6 +1910,39 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 				severity: "error",
 				code: "missing-description",
 				message: "Agent description is missing or empty.",
+				file: item.relativePath,
+			});
+		}
+
+		if (
+			typeof item.frontmatter["role"] !== "string" ||
+			item.frontmatter["role"].trim() === ""
+		) {
+			issues.push({
+				severity: "error",
+				code: "missing-role",
+				message: "Agent role is missing or empty.",
+				file: item.relativePath,
+			});
+		}
+
+		if (typeof item.frontmatter["enabled"] !== "boolean") {
+			issues.push({
+				severity: "error",
+				code: "enabled-type",
+				message: "Agent enabled must be a boolean.",
+				file: item.relativePath,
+			});
+		}
+
+		if (
+			typeof item.frontmatter["id"] === "string" &&
+			path.basename(path.dirname(item.absolutePath)) !== item.frontmatter["id"]
+		) {
+			issues.push({
+				severity: release ? "error" : "warning",
+				code: "agent-directory-id",
+				message: "Agent directory name should match the agent id.",
 				file: item.relativePath,
 			});
 		}
@@ -2126,6 +2175,7 @@ function deriveIdFromFilename(absolutePath: string): string {
 		.basename(absolutePath)
 		.replace(/\.prompt\.md$/u, "")
 		.replace(/\.agent\.md$/u, "")
+		.replace(/^agent\.md$/u, path.basename(path.dirname(absolutePath)))
 		.replace(/\.skill\.md$/u, "")
 		.replace(/\.instructions\.md$/u, "")
 		.replace(/\.md$/u, "");

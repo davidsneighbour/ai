@@ -21,6 +21,7 @@ interface LinkerRun {
 const scriptPath = fileURLToPath(new URL("./ai-symlink.ts", import.meta.url));
 const repoRoot = path.dirname(path.dirname(scriptPath));
 const sourceAgentGuidelinesPath = path.join(repoRoot, "AGENTS.md");
+const sourceAgentsPath = path.join(repoRoot, "agents");
 const sourceSkillsPath = path.join(repoRoot, "skills");
 
 async function makeTempDir(t: TestContext, prefix: string): Promise<string> {
@@ -65,15 +66,19 @@ function getExitCode(error: ExecFileException | null): number {
 }
 
 async function assertSkillsLinkPointsToSource(linkPath: string): Promise<void> {
+	await assertDirectoryLinkPointsToSource(linkPath, sourceSkillsPath);
+}
+
+async function assertDirectoryLinkPointsToSource(
+	linkPath: string,
+	sourcePath: string,
+): Promise<void> {
 	const stats = await fs.lstat(linkPath);
 	const linkTarget = await fs.readlink(linkPath);
 
 	assert.equal(stats.isSymbolicLink(), true);
 	assert.equal(path.isAbsolute(linkTarget), false);
-	assert.equal(
-		await fs.realpath(linkPath),
-		await fs.realpath(sourceSkillsPath),
-	);
+	assert.equal(await fs.realpath(linkPath), await fs.realpath(sourcePath));
 }
 
 async function assertFileLinkPointsToSource(
@@ -192,12 +197,14 @@ test("formatGitignorePath keeps file target paths unsuffixed", () => {
 test("local mode creates configured symlinks", async (t) => {
 	const cwd = await makeTempDir(t, "ai-linker-local");
 	const agentsMdPath = path.join(cwd, ".agents", "agents.md");
+	const agentsPath = path.join(cwd, ".agents", "agents");
 	const linkPath = path.join(cwd, ".agents", "skills");
 	const claudeSkillsPath = path.join(cwd, ".claude", "skills");
 	const result = await runLinker(["local", "--verbose"], cwd);
 
 	assert.equal(result.exitCode, 0, result.stderr);
 	await assertFileLinkPointsToSource(agentsMdPath, sourceAgentGuidelinesPath);
+	await assertDirectoryLinkPointsToSource(agentsPath, sourceAgentsPath);
 	await assertSkillsLinkPointsToSource(linkPath);
 	await assertSkillsLinkPointsToSource(claudeSkillsPath);
 });

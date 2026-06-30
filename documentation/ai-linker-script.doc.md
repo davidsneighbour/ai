@@ -17,14 +17,14 @@ location. It uses one of two TOML tables:
 [linking.global]
 "AGENTS.md" = ".agents/agents.md"
 skills = [".agents/skills", ".claude/skills"]
-"ai/agents" = ".agents/agents"
+agents = ".agents/agents"
 "ai/tasks" = ".agents/tasks"
 "ai/memories" = ".agents/memories"
 
 [linking.local]
 "AGENTS.md" = ".agents/agents.md"
 skills = [".agents/skills", ".claude/skills"]
-"ai/agents" = ".agents/agents"
+agents = ".agents/agents"
 "ai/tasks" = ".agents/tasks"
 "ai/memories" = ".agents/memories"
 ```
@@ -42,7 +42,7 @@ For the starter config, the configured targets follow the `.agents` protocol:
 
 - `AGENTS.md` becomes `.agents/agents.md`
 - `skills/` becomes `.agents/skills/` and `.claude/skills/`
-- `ai/agents/` becomes `.agents/agents/`
+- `agents/` becomes `.agents/agents/`
 - `ai/tasks/` becomes `.agents/tasks/`
 - `ai/memories/` becomes `.agents/memories/`
 

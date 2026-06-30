@@ -27,7 +27,7 @@ This repository provides a portable structure for my AI assets that can be share
 
 - `prompts/`       prompt files grouped by purpose.
 - `instructions/`  reusable instruction files.
-- `ai/agents/`     VS Code custom agent files.
+- `agents/`        `.agents` protocol sub-agent profiles.
 - `ai/tasks/`      `.agents` repeat task source files.
 - `ai/memories/`   `.agents` memory source files.
 - `skills/`        installable skill directories. Each skill lives in its own directory with a `SKILL.md`.
