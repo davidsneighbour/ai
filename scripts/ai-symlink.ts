@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { parse } from "smol-toml";
 
 type LinkMode = "global" | "local";
+type LinkSourceKind = "directory" | "file";
 
 interface CliOptions {
 	readonly force: boolean;
@@ -26,6 +27,7 @@ interface LinkPlan extends LinkDefinition {
 
 interface LinkResult extends LinkPlan {
 	readonly action: "created" | "replaced" | "ok";
+	readonly sourceKind: LinkSourceKind;
 }
 
 const CONFIG = {
@@ -251,21 +253,23 @@ export function parseLinkDefinitions(
 	for (const [sourceRelativePath, targetRelativePath] of Object.entries(
 		section,
 	)) {
-		definitions.push({
-			sourceRelativePath: requireSafeRelativePath(
-				sourceRelativePath,
-				`linking.${mode} key`,
-				configPath,
-			),
-			targetRelativePath: requireSafeRelativePath(
-				requireString(
-					targetRelativePath,
-					`linking.${mode}.${sourceRelativePath}`,
-				),
-				`linking.${mode}.${sourceRelativePath}`,
-				configPath,
-			),
-		});
+		const safeSourceRelativePath = requireSafeRelativePath(
+			sourceRelativePath,
+			`linking.${mode} key`,
+			configPath,
+		);
+		const targetRelativePaths = requireTargetRelativePaths(
+			targetRelativePath,
+			`linking.${mode}.${sourceRelativePath}`,
+			configPath,
+		);
+
+		for (const safeTargetRelativePath of targetRelativePaths) {
+			definitions.push({
+				sourceRelativePath: safeSourceRelativePath,
+				targetRelativePath: safeTargetRelativePath,
+			});
+		}
 	}
 
 	if (definitions.length === 0) {
@@ -289,7 +293,7 @@ export function buildLinkPlans(
 	}));
 }
 
-async function assertSourceIsValid(plan: LinkPlan): Promise<void> {
+async function getSourceKind(plan: LinkPlan): Promise<LinkSourceKind> {
 	let stats: Awaited<ReturnType<typeof fs.lstat>>;
 
 	try {
@@ -308,15 +312,21 @@ async function assertSourceIsValid(plan: LinkPlan): Promise<void> {
 		throw error;
 	}
 
-	if (!stats.isDirectory()) {
-		throw new SymlinkError(
-			"The source path exists, but it is not a directory.",
-			{
-				sourcePath: plan.sourcePath,
-				targetPath: plan.targetPath,
-			},
-		);
+	if (stats.isDirectory()) {
+		return "directory";
 	}
+
+	if (stats.isFile()) {
+		return "file";
+	}
+
+	throw new SymlinkError(
+		"The source path exists, but it is not a file or directory.",
+		{
+			sourcePath: plan.sourcePath,
+			targetPath: plan.targetPath,
+		},
+	);
 }
 
 async function getComparableRealPath(filePath: string): Promise<string> {
@@ -348,6 +358,19 @@ async function inspectExistingSymlink(plan: LinkPlan): Promise<"ok" | "wrong"> {
 	}
 
 	if (existingRealPath === expectedRealPath) {
+		if (path.isAbsolute(linkTarget)) {
+			reportWarning(
+				"The target already points to the configured source, but uses an absolute link target.",
+				{
+					targetPath: plan.targetPath,
+					currentLinkTarget: linkTarget,
+					expectedLinkTarget: buildSymlinkTarget(plan),
+				},
+			);
+
+			return "wrong";
+		}
+
 		return "ok";
 	}
 
@@ -363,23 +386,39 @@ async function inspectExistingSymlink(plan: LinkPlan): Promise<"ok" | "wrong"> {
 	return "wrong";
 }
 
-async function createSymlink(plan: LinkPlan): Promise<LinkResult> {
+async function createSymlink(
+	plan: LinkPlan,
+	sourceKind: LinkSourceKind,
+): Promise<LinkResult> {
 	await fs.mkdir(path.dirname(plan.targetPath), { recursive: true });
-	await fs.symlink(plan.sourcePath, plan.targetPath, "dir");
+	await fs.symlink(
+		buildSymlinkTarget(plan),
+		plan.targetPath,
+		sourceKind === "directory" ? "dir" : "file",
+	);
 
 	return {
 		...plan,
 		action: "created",
+		sourceKind,
 	};
 }
 
-async function replaceSymlink(plan: LinkPlan): Promise<LinkResult> {
+async function replaceSymlink(
+	plan: LinkPlan,
+	sourceKind: LinkSourceKind,
+): Promise<LinkResult> {
 	await fs.unlink(plan.targetPath);
-	await fs.symlink(plan.sourcePath, plan.targetPath, "dir");
+	await fs.symlink(
+		buildSymlinkTarget(plan),
+		plan.targetPath,
+		sourceKind === "directory" ? "dir" : "file",
+	);
 
 	return {
 		...plan,
 		action: "replaced",
+		sourceKind,
 	};
 }
 
@@ -387,12 +426,12 @@ async function ensureSymlink(
 	plan: LinkPlan,
 	force: boolean,
 ): Promise<LinkResult> {
-	await assertSourceIsValid(plan);
+	const sourceKind = await getSourceKind(plan);
 
 	const targetExists = await pathExists(plan.targetPath);
 
 	if (!targetExists) {
-		return createSymlink(plan);
+		return createSymlink(plan, sourceKind);
 	}
 
 	const targetStats = await fs.lstat(plan.targetPath);
@@ -413,6 +452,7 @@ async function ensureSymlink(
 		return {
 			...plan,
 			action: "ok",
+			sourceKind,
 		};
 	}
 
@@ -426,7 +466,11 @@ async function ensureSymlink(
 		);
 	}
 
-	return replaceSymlink(plan);
+	return replaceSymlink(plan, sourceKind);
+}
+
+function buildSymlinkTarget(plan: LinkPlan): string {
+	return path.relative(path.dirname(plan.targetPath), plan.sourcePath);
 }
 
 function requirePlainObject(
@@ -446,6 +490,31 @@ function requireString(value: unknown, label: string): string {
 	}
 
 	return value;
+}
+
+function requireTargetRelativePaths(
+	value: unknown,
+	label: string,
+	configPath: string,
+): readonly string[] {
+	const values = Array.isArray(value) ? value : [value];
+
+	if (values.length === 0) {
+		throw new SymlinkError(`${label} must not be an empty array.`, {
+			configPath,
+		});
+	}
+
+	return values.map((targetRelativePath, index) =>
+		requireSafeRelativePath(
+			requireString(
+				targetRelativePath,
+				Array.isArray(value) ? `${label}[${index}]` : label,
+			),
+			Array.isArray(value) ? `${label}[${index}]` : label,
+			configPath,
+		),
+	);
 }
 
 export function requireSafeRelativePath(
@@ -546,7 +615,7 @@ export function formatGitignorePath(
 	const relativePath = path.relative(targetBasePath, result.targetPath);
 	const posixPath = relativePath.split(path.sep).join("/");
 
-	return `${posixPath}/`;
+	return result.sourceKind === "directory" ? `${posixPath}/` : posixPath;
 }
 
 function reportSummary(

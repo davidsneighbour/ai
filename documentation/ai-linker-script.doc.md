@@ -15,22 +15,39 @@ location. It uses one of two TOML tables:
 
 ```toml
 [linking.global]
-skills = ".agents/skills"
+"AGENTS.md" = ".agents/agents.md"
+skills = [".agents/skills", ".claude/skills"]
+"ai/agents" = ".agents/agents"
+"ai/tasks" = ".agents/tasks"
+"ai/memories" = ".agents/memories"
 
 [linking.local]
-skills = ".agents/skills"
+"AGENTS.md" = ".agents/agents.md"
+skills = [".agents/skills", ".claude/skills"]
+"ai/agents" = ".agents/agents"
+"ai/tasks" = ".agents/tasks"
+"ai/memories" = ".agents/memories"
 ```
 
 Each entry maps:
 
-- the left side to a source directory relative to this repository root
-- the right side to a target directory relative to the selected base path
+- the left side to a source file or directory relative to this repository root
+- the right side to one target path, or an array of target paths, relative to
+  the selected base path
 
-For the starter config, `skills = ".agents/skills"` means:
+Use a quoted string for one target, or a quoted string array when the same
+source should be linked to multiple tool-specific locations.
 
-- source: `<repo-root>/skills`
-- global target: `~/.agents/skills`
-- local target: `<current-working-directory>/.agents/skills`
+For the starter config, the configured targets follow the `.agents` protocol:
+
+- `AGENTS.md` becomes `.agents/agents.md`
+- `skills/` becomes `.agents/skills/` and `.claude/skills/`
+- `ai/agents/` becomes `.agents/agents/`
+- `ai/tasks/` becomes `.agents/tasks/`
+- `ai/memories/` becomes `.agents/memories/`
+
+In global mode those targets are created under `~/.agents/`. In local mode,
+they are created under `<current-working-directory>/.agents/`.
 
 ## Link modes
 
@@ -57,6 +74,8 @@ When no mode is provided, the script defaults to global mode.
 ## Existing targets
 
 The script creates missing parent folders before creating symlinks.
+Symlink targets are written as relative paths so checked-in local `.agents`
+links stay portable across clones.
 
 If the target path already exists:
 
@@ -87,7 +106,12 @@ Example output:
 
 ```gitignore
 # created or replaced symlinks
+.agents/agents.md
 .agents/skills/
+.claude/skills/
+.agents/agents/
+.agents/tasks/
+.agents/memories/
 ```
 
 If nothing was created or replaced, verbose mode prints:
@@ -98,8 +122,9 @@ If nothing was created or replaced, verbose mode prints:
 
 ## Path safety
 
-Configured paths are intentionally strict. Source and target paths must be
-quoted TOML strings and must be relative path values.
+Configured paths are intentionally strict. Source paths must be quoted TOML
+strings. Target paths must be quoted TOML strings or arrays of quoted TOML
+strings. Every configured path must be relative.
 
 The script rejects configured paths that contain:
 
@@ -122,8 +147,8 @@ The script refuses to run as root unless
 `ALLOW_ROOT_POSTINSTALL_SYMLINK=1` is set. This keeps postinstall-like runs from
 creating links under `/root` by accident.
 
-It also checks that every configured source exists and is a directory before
-creating a target symlink.
+It also checks that every configured source exists and is a file or directory
+before creating a target symlink.
 
 ## Testing
 
@@ -137,6 +162,7 @@ The tests use temporary local workspaces under the operating system temp
 directory. They cover:
 
 - TOML linking section parsing
+- string and array target values
 - path validation
 - local symlink creation
 - repeat runs against already-correct symlinks

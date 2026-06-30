@@ -43,8 +43,17 @@ documentation/
 ├── folder-layout-and-ai-script.doc.md
 └── workflow-overview.doc.md
 ai/
+├── agents/
+├── memories/
+├── tasks/
 ├── templates/
 └── workflows/
+.agents/
+├── agents -> ../ai/agents
+├── agents.md -> ../AGENTS.md
+├── memories -> ../ai/memories
+├── skills -> ../skills
+└── tasks -> ../ai/tasks
 ```
 
 This is a recommendation rather than a fully rigid technical requirement, but it matches the behaviour of the script and keeps the registry readable.

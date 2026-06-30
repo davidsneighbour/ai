@@ -14,10 +14,18 @@ startMarker = "<!-- ai:prompt-files-settings:start -->"
 endMarker = "<!-- ai:prompt-files-settings:end -->"
 
 [linking.global]
-skills = ".agents/skills"
+"AGENTS.md" = ".agents/agents.md"
+skills = [".agents/skills", ".claude/skills"]
+"ai/agents" = ".agents/agents"
+"ai/tasks" = ".agents/tasks"
+"ai/memories" = ".agents/memories"
 
 [linking.local]
-skills = ".agents/skills"
+"AGENTS.md" = ".agents/agents.md"
+skills = [".agents/skills", ".claude/skills"]
+"ai/agents" = ".agents/agents"
+"ai/tasks" = ".agents/tasks"
+"ai/memories" = ".agents/memories"
 
 # File location shorthands
 #
@@ -38,4 +46,6 @@ agents       = "ai/agents"
 instructions = "instructions"
 prompts      = "prompts"
 skills       = "skills"
+tasks        = "ai/tasks"
+memories     = "ai/memories"
 docs         = "documentation"
