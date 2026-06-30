@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.0.0](https://github.com/davidsneighbour/ai/compare/v0.7.1...v1.0.0) (2026-06-30)
+
+### ⚠ BREAKING CHANGES
+
+* **cli:** CLI commands installed from this package now resolve defaults from the repository root instead of the invocation directory.
+
+Signed-off-by: Patrick Kollitsch <davidsneighbourdev+gh@gmail.com>
+
+### Features
+
+* **cli:** expose repository scripts as global bins ([cd5b76f](https://github.com/davidsneighbour/ai/commit/cd5b76f3b5d8e469474208178e8d9e6094c64c4d))
+* **scripts:** configure AI symlink linking ([f2bf17b](https://github.com/davidsneighbour/ai/commit/f2bf17b38c5d1498a661d65e31b419d7d8a4099d))
+
+### Skills
+
+* fix markdown lint issues ([9ae574f](https://github.com/davidsneighbour/ai/commit/9ae574f0c9fb7e5421b86e0eb2b642c8b3879cf1))
+
+### Documentation
+
+* consolidate documentation directory ([b6257af](https://github.com/davidsneighbour/ai/commit/b6257af4ed71fbd40cf8b2ff5607a6e53612e190))
+
+### Chores
+
+* fix repo lint and update todo ([df0bad5](https://github.com/davidsneighbour/ai/commit/df0bad5de3cda656e48d0d7cd4f4395bc0f769f7))
+* **project:** update project plan ([51aefed](https://github.com/davidsneighbour/ai/commit/51aefed638e05c4890a8ff3736951756baad2112)), closes [#16](https://github.com/davidsneighbour/ai/issues/16) [#17](https://github.com/davidsneighbour/ai/issues/17) [#16](https://github.com/davidsneighbour/ai/issues/16) [#12](https://github.com/davidsneighbour/ai/issues/12)
+
 ## [0.7.1](https://github.com/davidsneighbour/ai/compare/v0.7.0...v0.7.1) (2026-06-29)
 
 ### Bug Fixes
