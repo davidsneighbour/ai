@@ -12,6 +12,7 @@ This repository provides a portable structure for my AI assets that can be share
   - [Updating installed skills](#updating-installed-skills)
   - [Issue handling skills](#issue-handling-skills)
   - [Project management skills](#project-management-skills)
+  - [Specification and testing skills](#specification-and-testing-skills)
   - [Reference and documentation skills](#reference-and-documentation-skills)
   - [Social media posting](#social-media-posting)
 - [Configure vSCode](#configure-vscode)
@@ -137,6 +138,10 @@ Re-run `npx skills add davidsneighbour/ai/skills --skill <id>` when you want to 
 - [dnb-dependency-maintenance](skills/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
 - [dnb-project-task-triage](skills/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
 - [dnb-quality-gate-organisation](skills/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
+
+### Specification and testing skills
+
+- [dnb-behaviour-spec](skills/dnb-behaviour-spec/README.md) — Work from strict `Behaviour.spec.md` files as the source of truth for reviewing behaviour, generating tests, and validating implementation. See the skill README for the contract, workflow, examples, and stop conditions.
 
 ### Reference and documentation skills
 
