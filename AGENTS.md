@@ -46,6 +46,13 @@ Name new skills as `skills/<skill-id>/SKILL.md`, where `<skill-id>` is lowercase
 
 Git history uses concise Conventional Commit subjects such as `feat:`, `fix:`, `build(deps):`, `chore(release):`, `prompts:`, `instructions:`, and `skills:`. Keep commits scoped and imperative.
 
+Follow `instructions/commit-and-issue.instructions.md` in this repository, or
+`.github/instructions/issue-handling.instructions.md` when this shared
+instruction is installed into a project, for all issue, validation, and commit
+workflows. Committed AI-assisted changes must reference an issue, but incidental
+untracked files must not trigger issue creation unless they are intentionally
+added.
+
 Release notes are generated with conventional changelog, but the allowed release scopes are defined in `.release-it.ts`. Check `const minorTypes = new Set([` and `const patchTypes = new Set([` before choosing a subject. Use scopes such as `skills`, `instructions`, and `prompts` when work should appear in its own release-note section.
 
 All commits must follow Conventional Commits, including merge commits. Do not use
