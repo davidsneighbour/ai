@@ -5,3 +5,4 @@ Ollama
 smol-toml
 unrepresentable
 VSCode
+wishlist
