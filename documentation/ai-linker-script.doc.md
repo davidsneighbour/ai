@@ -18,15 +18,15 @@ location. It uses one of two TOML tables:
 "AGENTS.md" = ".agents/agents.md"
 skills = [".agents/skills", ".claude/skills"]
 agents = ".agents/agents"
-"ai/tasks" = ".agents/tasks"
-"ai/memories" = ".agents/memories"
+tasks = ".agents/tasks"
+memories = ".agents/memories"
 
 [linking.local]
 "AGENTS.md" = ".agents/agents.md"
 skills = [".agents/skills", ".claude/skills"]
 agents = ".agents/agents"
-"ai/tasks" = ".agents/tasks"
-"ai/memories" = ".agents/memories"
+tasks = ".agents/tasks"
+memories = ".agents/memories"
 ```
 
 Each entry maps:
@@ -43,8 +43,8 @@ For the starter config, the configured targets follow the `.agents` protocol:
 - `AGENTS.md` becomes `.agents/agents.md`
 - `skills/` becomes `.agents/skills/` and `.claude/skills/`
 - `agents/` becomes `.agents/agents/`
-- `ai/tasks/` becomes `.agents/tasks/`
-- `ai/memories/` becomes `.agents/memories/`
+- `tasks/` becomes `.agents/tasks/`
+- `memories/` becomes `.agents/memories/`
 
 In global mode those targets are created under `~/.agents/`. In local mode,
 they are created under `<current-working-directory>/.agents/`.

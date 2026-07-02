@@ -45,17 +45,17 @@ documentation/
 agents/
 └── repository-maintainer/
     └── agent.md
+memories/
+tasks/
 ai/
-├── memories/
-├── tasks/
 ├── templates/
 └── workflows/
 .agents/
 ├── agents -> ../agents
 ├── agents.md -> ../AGENTS.md
-├── memories -> ../ai/memories
+├── memories -> ../memories
 ├── skills -> ../skills
-└── tasks -> ../ai/tasks
+└── tasks -> ../tasks
 ```
 
 This is a recommendation rather than a fully rigid technical requirement, but it matches the behaviour of the script and keeps the registry readable.
