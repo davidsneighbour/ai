@@ -2,6 +2,7 @@ DALL-E
 listicle
 listicles
 Ollama
+scratchpad
 smol-toml
 unrepresentable
 VSCode
