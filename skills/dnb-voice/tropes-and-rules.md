@@ -242,6 +242,33 @@ Remove or rewrite:
 
 Use a source, ask for verification, or state the uncertainty in normal prose.
 
+### Ungrounded claims
+
+A non-trivial claim should be backed by something already present in the
+material: a mechanism, an example, a metric, a named source, or a direct
+observation. If the draft only asserts an outcome, look for the supporting
+detail the source already contains and attach it. Do not invent the missing
+support.
+
+Before:
+
+> This improves maintainability.
+
+After:
+
+> This improves maintainability because the module boundary is now explicit
+> and the dependency graph is smaller.
+
+Match the strength of the wording to the strength of the evidence. Words like
+"always", "never", "proves", or "guarantees" need real support. When the
+evidence is limited, narrower wording is more honest:
+
+- often
+- in this project
+- in our tests
+- under this setup
+- tends to
+
 ## Sentence structure tells
 
 ### Copula avoidance
@@ -552,45 +579,12 @@ Watch for:
 
 ## Formatting tells
 
-### Em dash overuse
-
-Replace most em dashes with commas, parentheses, colons, semicolons, or periods.
-Use an em dash only when it is genuinely the best punctuation for the sentence
-and consistent with Patrick's sample.
-
-### Bold-first bullets
-
-Watch for every bullet starting with a bold label and a colon.
-
-Before:
-
-> - **Performance:** The update improves load time.
-> - **Security:** The update adds encryption.
-
-After:
-
-> The update improves load time and adds encryption.
-
-Use labelled bullets only when the labels help scanning.
-
-### Inline-header vertical lists
-
-Avoid turning every idea into a mini heading. Merge items when the content is
-short.
-
-### Title-case headings
-
-Use sentence case headings unless the target style guide says otherwise.
-
-### Decorative unicode
-
-Avoid decorative emojis, arrows, smart quotes, and symbols unless the target
-format requires them. Prefer ASCII arrows (`->`) if an arrow is needed in
-technical notes.
-
-### Curly quotes
-
-Prefer straight quotes in editable Markdown and code-adjacent documentation.
+The baseline punctuation, heading-case, unicode, and bullet-formatting rules
+are always-on and live in `instructions/voice.instructions.md` at the
+repository root, not here. Apply them during every edit. Watch in particular
+for em dash overuse, bold-first bullets, inline-header vertical lists,
+title-case headings, decorative unicode, and curly quotes, since generated
+prose drifts toward all of them by default.
 
 ## Filler and hedging
 

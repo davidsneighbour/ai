@@ -2,6 +2,9 @@
 id: dnb-voice
 name: dnb-voice
 description: Edit, rewrite, or review prose so it reads in Patrick's own voice. Use when the user asks to make a blog post, documentation page, letter, essay, note, announcement, or other prose sound like Patrick; preserve Patrick's intent while catching generic AI prose, hype, filler, awkward structure, false intimacy, and bad writing tropes.
+references:
+  - name: "Wikipedia: Signs of AI writing"
+    src: https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing
 ---
 
 # Patrick's voice editor
@@ -20,6 +23,12 @@ Do not apply it to source code except for surrounding comments or documentation.
 Before a substantial edit or review, read `tropes-and-rules.md` from this skill
 directory. Use it as a checklist for Patrick-specific voice drift, AI-shaped
 patterns, and weak prose. Treat it as diagnostic guidance, not a rigid ban list.
+
+The mechanical copy rules that apply to all written files regardless of task
+(straight quotes, no decorative unicode, sentence-case headings, restrained
+punctuation, plain vocabulary) live in `instructions/voice.instructions.md` at
+the repository root. This skill's guidance is the deeper editorial layer on
+top of those baseline rules.
 
 ## Voice target
 
@@ -134,6 +143,7 @@ Scan the draft against `tropes-and-rules.md`. Look for clusters of:
 - generic AI-shaped phrasing
 - significance inflation
 - vague authority
+- ungrounded claims
 - fake contrast
 - list-shaped prose
 - performative vulnerability
