@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.3.0](https://github.com/davidsneighbour/ai/compare/v1.2.0...v1.3.0) (2026-07-03)
+
+### Bug Fixes
+
+* rename package name ([cfdbab4](https://github.com/davidsneighbour/ai/commit/cfdbab46b80d39aecfecde215ac49d93210a4a93))
+
+### Prompts
+
+* add accessibility review, TS utility refactor, and web clipper prompts ([55f0b68](https://github.com/davidsneighbour/ai/commit/55f0b68535a82640ad84672b351716bf20757ae6))
+
+### Instructions
+
+* add Astro architecture and TypeScript instructions ([2d70768](https://github.com/davidsneighbour/ai/commit/2d707683b593cfd2f20cd00b3b5d4962eac63861))
+* add platform, meta-authoring, verification, and WordPress instructions ([d21bdf1](https://github.com/davidsneighbour/ai/commit/d21bdf1bee9c681cb7c09169c43c2db798f2a076))
+
+### Skills
+
+* extend dnb-voice with evidence grounding, add voice.instructions.md ([6e26597](https://github.com/davidsneighbour/ai/commit/6e2659773058ac60e8da8fbb23392d0c637febcb))
+
 ## [1.2.0](https://github.com/davidsneighbour/ai/compare/v1.1.0...v1.2.0) (2026-07-03)
 
 ### Features
