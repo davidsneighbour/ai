@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.0](https://github.com/davidsneighbour/ai/compare/v1.3.0...v1.4.0) (2026-07-03)
+
+### Instructions
+
+* document scratch material handling ([#17](https://github.com/davidsneighbour/ai/issues/17)) ([ae543da](https://github.com/davidsneighbour/ai/commit/ae543da22c731da8f0dac358036cd5c80bada9a9))
+
 ## [1.3.0](https://github.com/davidsneighbour/ai/compare/v1.2.0...v1.3.0) (2026-07-03)
 
 ### Bug Fixes
