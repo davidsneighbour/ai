@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.2.0](https://github.com/davidsneighbour/ai/compare/v1.1.0...v1.2.0) (2026-07-03)
+
+### Features
+
+* **agents:** adopt dotagents layout ([96bc71f](https://github.com/davidsneighbour/ai/commit/96bc71f81756de6b715d9f053c4262669de8fa4b))
+
+### Skills
+
+* add Astro migration project skill ([8601eed](https://github.com/davidsneighbour/ai/commit/8601eede7a718d286e9e66dde3ec2cb97fe416eb)), closes [#20](https://github.com/davidsneighbour/ai/issues/20)
+* add blog draft skills (wip) ([a822482](https://github.com/davidsneighbour/ai/commit/a8224820bc3664763b65b55de080d9129b4b03f8))
+* add dnb behaviour spec skill ([ee138ad](https://github.com/davidsneighbour/ai/commit/ee138ade611e33e1293a6e96cd15fbb4e3bd569a))
+
+### Documentation
+
+* **instructions:** publish issue handling workflow ([8fbbc40](https://github.com/davidsneighbour/ai/commit/8fbbc40a00783ba114ca9d46ad511ace0e19f76c)), closes [#19](https://github.com/davidsneighbour/ai/issues/19)
+
+### Build
+
+* **vscode:** update workspace dictionary ([11049f0](https://github.com/davidsneighbour/ai/commit/11049f0974022128e752a4e2ba7689c3289566ee))
+
+### Chores
+
+* move memory and task sources ([50ea728](https://github.com/davidsneighbour/ai/commit/50ea72897fb4b12ee91eb0e9e4b25ad4cdfa637e))
+
 ## [1.1.0](https://github.com/davidsneighbour/ai/compare/v1.0.0...v1.1.0) (2026-06-30)
 
 ### Features
