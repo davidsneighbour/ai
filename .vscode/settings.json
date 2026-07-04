@@ -1,0 +1,90 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js, ${capture}.test.ts, ${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "README.md": "CHANGELOG.md, CONTRIBUTING.md, LICENSE*, AGENTS*, ROADMAP.md, TODO.md",
+    "package.json": "package-lock.json, .release-it.ts, .markdownlint*, lint-staged.config.*, tsconfig.*, .editorconfig, .nvmrc,biome.json, .secretlint*, config.toml",
+    "skills.sh.json": "skills-lock.json"
+  },
+  "cSpell.customDictionaries": {
+    "workspace-dictionary": {
+      "name": "workspace-dictionary",
+      "path": "${workspaceFolder:ai}/.vscode/dictionary.txt",
+      "addWords": true,
+      "scope": "workspace"
+    }
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#ffdc33",
+    "activityBar.background": "#ffdc33",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#009f84",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#ffdc33",
+    "statusBar.background": "#ffd300",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#cca900",
+    "statusBarItem.remoteBackground": "#ffd300",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#ffd300",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#ffd30099",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "FFD300",
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.formatOnSave": true
+  },
+  "[prompt]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    }
+  },
+  "editor.formatOnSave": true,
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.prompt\\.md$",
+        "cmd": "npx prettier --write \"${file}\""
+      }
+    ]
+  },
+  "yaml.schemas": {
+    "./schema/instructions.json": [
+      "instructions/*.instructions.md"
+    ]
+  },
+  "files.autoSave": "afterDelay",
+  "editor.fontFamily": "JetBrains Mono",
+  "editor.formatOnPaste": true,
+  "markdown.updateLinksOnFileMove.enabled": "prompt",
+  "markdown.validate.enabled": true,
+  "markdown.extension.preview.autoShowPreviewToSide": false,
+  "markdown.extension.toc.levels": "2..6",
+  "markdown.extension.toc.unorderedList.marker": "*",
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 120,
+  "editor.rulers": [
+    80,
+    100,
+    120
+  ],
+  "editor.wrappingIndent": "indent",
+  "editor.wrappingStrategy": "advanced",
+  "diffEditor.wordWrap": "on",
+  "notebook.output.wordWrap": false,
+  "chat.promptFilesLocations": {
+    "ai/prompts": true
+  },
+  "markdownlint.configFile": "./node_modules/@dnbhq/markdownlint-config/.markdownlint-cli2.jsonc",
+  "markdown.extension.tableFormatter.enabled": false,
+  "chat.agentSkillsLocations": {
+    "ai/skills": true
+  }
+}

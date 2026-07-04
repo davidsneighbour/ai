@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://davidsneighbour.local/schemas/instructions-frontmatter.schema.json",
+  "title": "Custom instruction file frontmatter",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "applyTo": {
+      "type": "string",
+      "description": "Glob pattern that determines when the instruction file applies."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the instruction file."
+    },
+    "description": {
+      "type": "string",
+      "description": "Short summary of the instruction file."
+    },
+    "author": {
+      "type": "string",
+      "description": "Custom author field for local documentation and ownership."
+    },
+    "version": {
+      "type": "string",
+      "description": "Optional version for your own tracking."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "deprecated"],
+      "description": "Optional lifecycle marker."
+    },
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "description": "External resources referenced by this AI asset.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["src"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "src": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

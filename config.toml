@@ -1,0 +1,51 @@
+[paths]
+readme = "README.md"
+vscodeSettings = ".vscode/settings.json"
+promptFilesRoot = ".github/prompts"
+
+[prompts]
+settingKey = "chat.promptFilesLocations"
+filePattern = "*.prompt.md"
+recursiveGlob = "**/*.prompt.md"
+defaultSetupMode = "glob"
+
+[readme.promptFilesSettings]
+startMarker = "<!-- ai:prompt-files-settings:start -->"
+endMarker = "<!-- ai:prompt-files-settings:end -->"
+
+[linking.global]
+"AGENTS.md" = ".agents/agents.md"
+skills = [".agents/skills", ".claude/skills"]
+agents = ".agents/agents"
+tasks = ".agents/tasks"
+memories = ".agents/memories"
+
+[linking.local]
+"AGENTS.md" = ".agents/agents.md"
+skills = [".agents/skills", ".claude/skills"]
+agents = ".agents/agents"
+tasks = ".agents/tasks"
+memories = ".agents/memories"
+
+# File location shorthands
+#
+# Maps qualifier + asset-type pairs to filesystem paths.
+# Used by Claude Code to resolve phrases like:
+#   "local instruction file in PATH" → .vscode/instructions/PATH
+#   "instruction file in PATH"       → instructions/PATH
+#
+# To add a new asset type, add a key under [locations.types].
+# To add a new qualifier, add a key under [locations.qualifiers].
+
+[locations.qualifiers]
+local    = ".vscode"
+registry = "."
+
+[locations.types]
+agents       = "agents"
+instructions = "instructions"
+prompts      = "prompts"
+skills       = "skills"
+tasks        = "tasks"
+memories     = "memories"
+docs         = "documentation"

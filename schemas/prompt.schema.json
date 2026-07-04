@@ -1,0 +1,117 @@
+{
+  "$comment": "Generated from scripts/ai.ts. Do not edit manually.",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "description": {
+      "description": "A short description of the prompt.",
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      "description": "The canonical prompt identifier, used after typing / in chat."
+    },
+    "argument-hint": {
+      "description": "Hint text shown in the chat input field to guide users on how to interact with the prompt.",
+      "type": "string",
+      "minLength": 1
+    },
+    "agent": {
+      "description": "The agent used for running the prompt: ask, agent, plan, or the name of a custom agent. By default, the current agent is used. If tools are specified, the default agent is agent.",
+      "type": "string",
+      "minLength": 1
+    },
+    "model": {
+      "description": "The language model used when running the prompt. If not specified, the currently selected model in model picker is used.",
+      "type": "string"
+    },
+    "tools": {
+      "description": "A list of tool or tool set names that are available for this prompt. Can include built-in tools, tool sets, MCP tools, or tools contributed by extensions. To include all tools of an MCP server, use the <server name>/* format.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "task",
+        "review",
+        "system"
+      ]
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "strict": {
+      "type": "boolean"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "version": {
+      "type": "string"
+    },
+    "inputs": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "required": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "references": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "src": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?:\\/\\/"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "src"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "additionalProperties": false
+}

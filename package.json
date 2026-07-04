@@ -1,0 +1,94 @@
+{
+  "name": "@davidsneighbour/ai",
+  "description": "AI prompts, skills, templates, and workflows f(or|rom) @davidsneighbour.",
+  "version": "1.2.0",
+  "private": true,
+  "bin": {
+    "ai": "./scripts/ai.ts",
+    "ai-symlink": "./scripts/ai-symlink.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.1",
+    "@dnbhq/markdownlint-config": "0.2.8",
+    "@github/markdownlint-github": "0.8.2",
+    "@release-it/conventional-changelog": "11.0.1",
+    "@secretlint/secretlint-rule-no-dotenv": "13.0.2",
+    "@secretlint/secretlint-rule-no-homedir": "13.0.2",
+    "@secretlint/secretlint-rule-no-k8s-kind-secret": "13.0.2",
+    "@secretlint/secretlint-rule-openai": "13.0.2",
+    "@secretlint/secretlint-rule-pattern": "13.0.2",
+    "@secretlint/secretlint-rule-preset-recommend": "13.0.2",
+    "@secretlint/secretlint-rule-secp256k1-privatekey": "13.0.2",
+    "@types/node": "26.0.1",
+    "cspell": "10.0.1",
+    "lint-staged": "17.0.8",
+    "lockfile-lint": "5.0.0",
+    "markdownlint-cli2": "0.22.1",
+    "markdownlint-rule-extended-ascii": "0.2.1",
+    "markdownlint-rule-list-duplicates": "0.0.1",
+    "markdownlint-rule-relative-links": "5.1.0",
+    "markdownlint-rule-search-replace": "1.2.0",
+    "markdownlint-rule-title-case-style": "0.4.3",
+    "release-it": "20.2.1",
+    "remark-parse": "11.0.0",
+    "remark-stringify": "11.0.0",
+    "secretlint": "13.0.2",
+    "simple-git-hooks": "2.13.1",
+    "smol-toml": "1.7.0",
+    "typescript": "6.0.3",
+    "unified": "11.0.5",
+    "yaml": "2.9.0",
+    "zod": "4.4.3",
+    "zod-to-json-schema": "3.25.2"
+  },
+  "scripts": {
+    "ai:check": "node ./scripts/ai.ts check",
+    "ai:check:release": "node ./scripts/ai.ts check --release",
+    "ai:drift": "node ./scripts/ai.ts drift-report",
+    "ai:lint": "node ./scripts/ai.ts lint",
+    "ai:list": "node ./scripts/ai.ts list",
+    "ai:schemas": "node ./scripts/ai.ts export-schemas",
+    "ai:show": "node ./scripts/ai.ts show",
+    "ai:validate": "node ./scripts/ai.ts validate",
+    "build:documentation": "node ./scripts/ai.ts build-documentation",
+    "hooks:install": "npx simple-git-hooks",
+    "install:skills": "npx skills add ./skills --skill '*' --yes",
+    "lint": "npm run lint:skills && npm run lint:skills:markdown",
+    "lint:markdown": "markdownlint-cli2 --config .markdownlint.jsonc s**/*.{md,mdx}",
+    "lint:markdown:fix": "markdownlint-cli2 --config .markdownlint.jsonc --fix s**/*.{md,mdx}",
+    "lint:skills": "node ./scripts/ai.ts validate-skills --root skills",
+    "lint:skills:markdown": "markdownlint-cli2 \"skills/**/*.md\"",
+    "lint:skills:verbose": "node ./scripts/ai.ts validate-skills --root skills --verbose",
+    "lint:system": "osv-scanner scan -r .",
+    "lint:system:fix": "osv-scanner fix -M package.json -L package-lock.json",
+    "release": "release-it --ci",
+    "setup": "node ./scripts/ai.ts setup --prompts",
+    "setup:cli": "npm install -g .",
+    "setup:prompts": "node ./scripts/ai.ts setup --prompts",
+    "setup:prompts:folders": "node ./scripts/ai.ts setup --prompts --mode folders",
+    "setup:prompts:glob": "node ./scripts/ai.ts setup --prompts --mode glob",
+    "test:ai-symlink": "node --test ./scripts/ai-symlink.test.ts"
+  },
+  "engines": {
+    "node": ">=25"
+  },
+  "cspell": {
+    "version": "0.2",
+    "language": "en-GB",
+    "dictionaryDefinitions": [
+      {
+        "name": "custom",
+        "path": "./.vscode/dictionary.txt",
+        "addWords": true
+      }
+    ],
+    "dictionaries": [
+      "custom"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "pre-push": "npm run ai:check:release"
+  },
+  "type": "module"
+}
