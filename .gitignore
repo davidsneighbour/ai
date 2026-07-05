@@ -1,5 +1,10 @@
+# caches
 node_modules/
 *.log
 .DS_Store
-.claude/
-scratch/
+
+# ai assistant configurations local
+.claude/settings.local.json
+.claude/skills
+.agents
+agent
