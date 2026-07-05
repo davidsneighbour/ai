@@ -1,6 +1,7 @@
 ---
 id: dnb-markdown-formatting
 name: dnb-markdown-formatting
+title: DNB Markdown Formatting
 description: Decide whether strict CommonMark or GitHub Flavored Markdown (GFM) rules apply to a Markdown file, then apply the matching instruction set. Use when writing or reviewing Markdown and the target renderer is not obvious from the file name or path alone, or when a user names a specific Markdown flavor or target renderer.
 ---
 

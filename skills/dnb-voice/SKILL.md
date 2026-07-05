@@ -1,6 +1,7 @@
 ---
 id: dnb-voice
 name: dnb-voice
+title: DNB Voice
 description: Edit, rewrite, or review prose so it reads in Patrick's own voice. Use when the user asks to make a blog post, documentation page, letter, essay, note, announcement, or other prose sound like Patrick; preserve Patrick's intent while catching generic AI prose, hype, filler, awkward structure, false intimacy, and bad writing tropes.
 references:
   - name: "Wikipedia: Signs of AI writing"
