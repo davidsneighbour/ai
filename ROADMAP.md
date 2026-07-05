@@ -4,63 +4,83 @@
 
 This repository is a structured registry of portable AI assets for prompts, skills, instructions, docs, and VS Code custom agents. The `scripts/ai.ts` CLI manages registry listing, validation, linting, schema export, and VS Code prompt-file integration.
 
-As of 2026-06-30, the local release gate is clean and the issue tracker has two open issues. The prompt `name` migration issue is closed; the remaining work is now focused on quality-gate policy: deciding how networked OSV scanning should run and whether ignored `scratch/` notes belong in Markdown lint scope.
+As of 2026-07-05, the registry release gate (`npm run ai:check:release`) is clean, but a separate check the release gate does not cover — `validate-skills` — is currently broken for three installable skills (issue #27). The Markdown-lint/scratch-scope issue (#17) has a fix implemented locally but not yet committed. Five open dependency-vulnerability issues (#22-#26) remain from an automated OSV scan and need manual review since all require major-version bumps or overrides. A closed issue (#21) claims a skill rename that isn't actually present in this repository's history — flagged for human review, not auto-corrected.
 
 ## Project health
 
 | Indicator | Status |
 | --- | --- |
-| Release gate | Passes: `npm run ai:check:release` |
-| Registry validation | Passes: `npm run ai:check` reports 0 errors and 0 warnings |
-| Registry lint | Passes: `npm run ai:check` and `npm run ai:check:release` report 0 warnings |
-| Skill validation | Passes: `node ./scripts/ai.ts validate-skills --root skills` validates 12 skills |
-| Skill Markdown lint | Passes: `npm run lint` |
-| Broad Markdown lint | Passes: `npm run lint:markdown` |
+| Release gate | Passes: `npm run ai:check:release` (0 errors, 0 warnings) |
+| Registry validation | Passes: `npm run ai:validate` |
+| Registry lint | Passes: `npm run ai:lint` |
+| Skill validation | **Fails**: `node ./scripts/ai.ts validate-skills --root skills --verbose` stops at the first error (`skills/dnb-interface-engineering/SKILL.md` missing `id`/`title`); two more files have the same defect (see #27). Not covered by the release gate. |
+| Skill Markdown lint | Fails: `npm run lint:skills:markdown` reports pre-existing style errors in several `SKILL.md` files (list style, headings, tables) — not yet tracked as an issue |
+| Broad Markdown lint | Fails: `npm run lint:markdown` now genuinely scans the repo (previously the glob only matched paths starting with "s") and surfaces ~38 files with pre-existing violations — not yet tracked as an issue |
 | Script formatting | Passes: `npx biome check scripts` |
-| Script test | Passes: `npm run test:ai-symlink` |
-| System vulnerability scan | Not completed locally; `npm run lint:system` requires explicit approval to contact OSV |
-| Open issues | 2 |
+| Script test | Passes: `npm run test:ai-symlink` (8/8) |
+| Dependency vulnerabilities | 5 open, all requiring a major-version bump or `overrides` pin: #22 (elliptic, low), #23 (js-yaml, moderate), #24 (linkify-it, high), #25 (markdown-it 13.x, moderate), #26 (markdown-it 13.x/14.x, moderate) |
+| Working tree | Uncommitted fix for #17 staged: `.gitignore`, `package.json`, `.markdownlint-cli2.jsonc` |
+| Open issues | 7 |
 | CI | Not configured |
 
 ## Open issues
 
 ### Quality gates
 
-- **[#16](https://github.com/davidsneighbour/ai/issues/16) - chore: decide OSV system lint policy**
-  Decide whether `npm run lint:system` should remain a manual/networked check, move into CI or another trusted environment, use an offline alternative, or be documented as optional because it sends dependency metadata to OSV.
-
 - **[#17](https://github.com/davidsneighbour/ai/issues/17) - fix: align markdown lint scope with ignored scratch files**
-  Decide whether ignored `scratch/` notes should be linted. If not, adjust the command or ignore configuration so untracked local notes do not make tracked repository checks fail.
+  Fix is implemented in the working tree (not committed): `scratch/` added to `.gitignore`, new `.markdownlint-cli2.jsonc` with `gitignore: true`, broken `s**/*.{md,mdx}` glob corrected to `**/*.{md,mdx}`. Close once committed.
+
+### Skills
+
+- **[#27](https://github.com/davidsneighbour/ai/issues/27) - fix: 3 installable skills fail validate-skills (missing id/title)**
+  `dnb-interface-engineering` (missing both), `dnb-markdown-formatting` and `dnb-voice` (missing `title`). Not caught by the release gate since `validate-skills` runs separately.
+
+- **[#18](https://github.com/davidsneighbour/ai/issues/18) - Review and refactor strict-typescript-check skill**
+  Still open; the skill has not been renamed or refactored. See #21 note below — a related closed issue claims a rename that isn't present in this repo.
+
+- **[#21](https://github.com/davidsneighbour/ai/issues/21) - Rename strict TypeScript skill to dnb prefix** *(closed, disputed)*
+  Closed as completed citing commit `0a29a66`, which does not exist in this repository's history; `skills/strict-typescript-check/` is still unrenamed. Flagged with a comment; left closed pending human review since reopening is a judgment call outside this triage's scope.
+
+### Dependencies (OSV findings, all need a major bump or override pin)
+
+- **[#22](https://github.com/davidsneighbour/ai/issues/22) - elliptic ECDSA signature risk (low)** — no fixed version exists yet upstream.
+- **[#23](https://github.com/davidsneighbour/ai/issues/23) - js-yaml quadratic DoS via merge keys (moderate)** — fix is a minor bump (4.1.1 → 4.2.0) but a shared/deduped node blocks auto-fix; needs an `overrides` pin.
+- **[#24](https://github.com/davidsneighbour/ai/issues/24) - linkify-it O(N²) DoS (high)** — fix is a major bump (4.x → 5.x).
+- **[#25](https://github.com/davidsneighbour/ai/issues/25) - markdown-it 13.x ReDoS via linkify (moderate)** — fix is a major bump (13.x → 14.1.1).
+- **[#26](https://github.com/davidsneighbour/ai/issues/26) - markdown-it 13.x/14.x smartquotes DoS (moderate)** — one instance needs a major bump, the other a minor bump blocked by a shared node.
 
 ## Suggested order of work
 
-1. **#17** - Fix the Markdown lint scope first. It is local, low-risk, and removes a surprising contributor workflow failure.
-2. **#16** - Decide the OSV policy after that. This needs an explicit trust-boundary decision, and may tie into future CI setup.
+1. **#17** - Commit the already-implemented Markdown lint scope fix. Zero remaining risk, just needs a commit.
+2. **#27** - Fix the three skill frontmatter validation errors. Small, mechanical, and currently invisible to the release gate.
+3. **#21 / #18** - Resolve the rename discrepancy (confirm with a human whether the rename should actually happen, then either do it or correct the record) before further work on the skill's content.
+4. **#24** - Highest-severity dependency finding (linkify-it, high); evaluate the major-version bump path.
+5. **#23, #25, #26** - Remaining moderate dependency findings; group into one dependency-update pass since several share the same upstream chain (`markdownlint` → `markdown-it`/`linkify-it`).
+6. **#22** - Low severity, no fix available yet; revisit when elliptic ships a patched release.
 
 ## Recent triage outcomes
 
-Created during this triage run:
+Created during this triage run (2026-07-05):
 
-- **#16** - Tracks the OSV system-lint trust boundary and release-gate policy.
-- **#17** - Tracks the mismatch between ignored `scratch/` notes and the broad Markdown lint glob.
+- **#27** - Tracks the three installable skills failing `validate-skills` due to missing `id`/`title`.
+
+Commented on during this triage run (2026-07-05):
+
+- **#17** - Noted that a fix is implemented locally but uncommitted.
+- **#21** - Flagged that the cited completion commit doesn't exist in this repository.
 
 Already closed before this triage run:
 
-- **#6** - Instruction frontmatter lint errors are fixed and the release gate passes.
-- **#7** - Registry asset suffix warnings are resolved; installable `skills/<id>/SKILL.md` remains the documented convention.
-- **#8** - README documents external `npx skills add <author>/<repo>` install patterns.
-- **#9** - `prompts/project-health-check.prompt.md` has valid frontmatter and validates.
-- **#11** - `documentation/external-tools.md` exists with the Understand Anything entry.
-- **#12** - Prompt frontmatter uses `name` as the canonical prompt identifier.
-- **#13** - VS Code prompt fields `argument-hint`, `agent`, and `tools` are present in the prompt schema and exported schema.
-- **#14** - `ai/agents/` is recognized, `.agent.md` files validate, and an example agent exists.
-- **#15** - `skills.sh.json` exists at the repository root and lists the current `dnb-*` skills.
+- **#16** - `lint:system` replaced by the `dnb-osv-scan` skill; consistent with current `package.json` (no `lint:system` script present).
+- **#19** - Issue-handling instruction published.
+- **#20** - Astro migration project skill added.
 
 ## TODO inbox
 
-`TODO.md` currently has no actionable items. The OSV policy item and Markdown scratch-lint item were moved into GitHub Issues #16 and #17. The prompt `name` item was removed because issue #12 is already closed.
+`TODO.md` has no actionable items; nothing needed reconciling this run.
 
 ## Open clarification questions
 
-- **#16**: Should OSV scanning be considered part of the default release gate, or a manual/security-only check? Is sending dependency metadata to the public OSV API acceptable for this repo?
-- **#17**: Should `scratch/` be a linted local workspace despite being ignored, or should lint commands focus only on tracked repository content?
+- **#17**: Confirm the working-tree fix should be committed as-is (it currently reveals ~38 files with pre-existing Markdown violations across the repo — should those be fixed in the same change, a follow-up issue, or left for `lint:markdown:fix`?).
+- **#21 / #18**: Should `skills/strict-typescript-check/` actually be renamed to `dnb-strict-typescript-check` (as #21 claimed but didn't deliver), or was that decision reversed? Needs a human answer before #18 can proceed.
+- **#23/#25/#26**: Should shared, deduped dependency nodes blocked from auto-fix be resolved via `overrides` pins now, or batched into a single dependency-update PR later?
