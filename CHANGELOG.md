@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.2.1 (2026-07-05)
+
+### Bug Fixes
+
+* **deps:** resolve one OSV finding, triage the rest via dnb-osv-scan ([f1424fd](https://github.com/davidsneighbour/ai/commit/f1424fd2737a27fac088c40ab7acc053d8385f01))
+
+### Build
+
+* **deps:** update dependencies ([fef468c](https://github.com/davidsneighbour/ai/commit/fef468cc37368a0de2ef677581334267820886b5))
+
+### Chores
+
+* **deps:** replace lint:system with dnb-osv-scan skill ([a5fd7f2](https://github.com/davidsneighbour/ai/commit/a5fd7f25988f57f6aaef274f39c736a2e0253f35)), closes [#16](https://github.com/davidsneighbour/ai/issues/16)
+* initial commit ([02042e2](https://github.com/davidsneighbour/ai/commit/02042e2d40de927b9d3662b87f07b4d3231e7ff1))
+
 ## [1.2.0](https://github.com/davidsneighbour/ai/compare/v1.1.0...v1.2.0) (2026-07-03)
 
 ### Features
