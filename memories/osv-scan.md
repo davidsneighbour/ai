@@ -25,7 +25,7 @@ This file (`memories/osv-scan.md`) holds the human-readable rationale behind non
 
 ## Decision log
 
-No vulnerabilities have been triaged yet. Add entries below in the form:
+No `accepted` or `workaround` decisions have been made yet — see `memories/osv-scan-ledger.json` for `fixed` and `open` entries, which don't need a rationale note here. Add entries below in the form:
 
 ```markdown
 ### <OSV-ID> — <package>@<ecosystem>
@@ -35,3 +35,13 @@ No vulnerabilities have been triaged yet. Add entries below in the form:
 - Reason: <why>
 - Issue: <github issue link, if any>
 ```
+
+## 2026-07-05 — first scan run
+
+`osv-scanner` (v2.4.0) found 7 vulnerability entries across 5 unique advisories. `osv-scanner fix` (in-place, minor-only) auto-resolved the one safe case; the rest need a major bump or have no fix yet, so they were filed as issues:
+
+- [GHSA-h67p-54hq-rp68](https://github.com/nodeca/js-yaml/security/advisories/GHSA-h67p-54hq-rp68) — `js-yaml@3.14.2` -> `3.15.0`, auto-fixed. A second, deduped `js-yaml@4.1.1` instance is still open as [#23](https://github.com/davidsneighbour/ai/issues/23).
+- [GHSA-848j-6mx2-7j84](https://github.com/davidsneighbour/ai/issues/22) — `elliptic@6.6.1`, no fix available yet.
+- [GHSA-22p9-wv53-3rq4](https://github.com/davidsneighbour/ai/issues/24) — `linkify-it@4.0.1`, fix is a major bump (5.0.1).
+- [GHSA-38c4-r59v-3vqw](https://github.com/davidsneighbour/ai/issues/25) — `markdown-it@13.0.1`, fix is a major bump (14.1.1).
+- [GHSA-6v5v-wf23-fmfq](https://github.com/davidsneighbour/ai/issues/26) — `markdown-it@13.0.1` and `14.1.1`, fix is `14.2.0` (major for the 13.x instance, minor but unactionable in-place for the 14.1.1 instance).

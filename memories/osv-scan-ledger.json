@@ -1,5 +1,61 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": 1,
-  "entries": []
+  "entries": [
+    {
+      "id": "GHSA-h67p-54hq-rp68",
+      "aliases": ["CVE-2026-53550"],
+      "package": "js-yaml",
+      "ecosystem": "npm",
+      "severity": "moderate",
+      "status": "fixed",
+      "decided_date": "2026-07-05",
+      "reason": "auto-fixed by dnb-osv-scan: transitive js-yaml under @yarnpkg/parsers bumped 3.14.2 -> 3.15.0 (in-place, minor, isolated node). A second, deduped js-yaml@4.1.1 instance is still affected and unactionable in-place; tracked separately as open (issue #23).",
+      "fixed_version": "3.15.0"
+    },
+    {
+      "id": "GHSA-848j-6mx2-7j84",
+      "aliases": ["CVE-2025-14505"],
+      "package": "elliptic",
+      "ecosystem": "npm",
+      "severity": "low",
+      "status": "open",
+      "decided_date": "2026-07-05",
+      "github_issue": 22,
+      "reason": "No fixed version exists yet upstream; no safe auto-fix available."
+    },
+    {
+      "id": "GHSA-22p9-wv53-3rq4",
+      "aliases": ["CVE-2026-48801"],
+      "package": "linkify-it",
+      "ecosystem": "npm",
+      "severity": "high",
+      "status": "open",
+      "decided_date": "2026-07-05",
+      "github_issue": 24,
+      "reason": "Fix requires a major bump (4.0.1 -> 5.0.1); out of scope for auto-fix."
+    },
+    {
+      "id": "GHSA-38c4-r59v-3vqw",
+      "aliases": ["CVE-2026-2327"],
+      "package": "markdown-it",
+      "ecosystem": "npm",
+      "severity": "moderate",
+      "status": "open",
+      "decided_date": "2026-07-05",
+      "github_issue": 25,
+      "reason": "Affects the markdown-it@13.0.1 instance; fix requires a major bump (13.0.1 -> 14.1.1); out of scope for auto-fix."
+    },
+    {
+      "id": "GHSA-6v5v-wf23-fmfq",
+      "aliases": ["CVE-2026-48988"],
+      "package": "markdown-it",
+      "ecosystem": "npm",
+      "severity": "moderate",
+      "status": "open",
+      "decided_date": "2026-07-05",
+      "github_issue": 26,
+      "reason": "Affects markdown-it@13.0.1 (major bump needed) and markdown-it@14.1.1 (minor bump to 14.2.0, but osv-scanner reports the deduped node unactionable in-place)."
+    }
+  ]
 }
