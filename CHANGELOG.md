@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.2](https://github.com/davidsneighbour/ai/compare/v1.2.1...v1.2.2) (2026-07-05)
+
+### Build
+
+* **vscode:** update workspace configuration ([70fb777](https://github.com/davidsneighbour/ai/commit/70fb77785ae3b7ce69b036f888121b34f9ed614b))
+
+### Chores
+
+* **cleanup:** remove symlinked ai assistant config ([94f96c2](https://github.com/davidsneighbour/ai/commit/94f96c26e193296d9e7884d5b19f11178fff3ca0))
+
 ## 1.2.1 (2026-07-05)
 
 ### Bug Fixes
