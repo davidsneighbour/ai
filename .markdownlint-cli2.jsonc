@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json",
+  "config": {
+    "extends": ".markdownlint.jsonc"
+  },
+  // exclude anything git ignores (node_modules, scratch/, symlinked local
+  // assistant config, etc.) so only tracked repo files are linted
+  "gitignore": true,
+  // .markdownlintignore is a markdownlint-cli (v1) file and has no effect on
+  // cli2; mirror its CHANGELOG.md exclusion here where it actually applies
+  "ignores": ["CHANGELOG.md"]
+}

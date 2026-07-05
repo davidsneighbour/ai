@@ -8,3 +8,6 @@ node_modules/
 .claude/skills
 .agents
 agent
+
+# ai scratch workspace (see prompts/repo-operations/scratch-cleanup.prompt.md)
+scratch/
