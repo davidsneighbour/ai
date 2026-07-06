@@ -115,10 +115,10 @@
       "skillPath": "skills/dnb-work-through-issues/SKILL.md",
       "computedHash": "78a052c54e93526a55565b74b5693b350449e6bff339cbe055f2c80267ade7a7"
     },
-    "strict-typescript-check": {
+    "dnb-strict-typescript-check": {
       "source": "davidsneighbour/ai",
       "sourceType": "github",
-      "skillPath": "skills/strict-typescript-check/SKILL.md",
+      "skillPath": "skills/dnb-strict-typescript-check/SKILL.md",
       "computedHash": "6ce569dc28d6a24def0acd9fb951487bc44fbe5675cbee36051c5da8d697f6c1"
     }
   }

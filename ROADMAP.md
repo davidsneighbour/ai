@@ -36,10 +36,10 @@ As of 2026-07-05, the registry release gate (`npm run ai:check:release`) is clea
   `dnb-interface-engineering` (missing both), `dnb-markdown-formatting` and `dnb-voice` (missing `title`). Not caught by the release gate since `validate-skills` runs separately.
 
 - **[#18](https://github.com/davidsneighbour/ai/issues/18) - Review and refactor strict-typescript-check skill**
-  Still open; the skill has not been renamed or refactored. See #21 note below — a related closed issue claims a rename that isn't present in this repo.
+  Still open; the skill has now been renamed (`skills/dnb-strict-typescript-check/`) but the content refactor has not happened.
 
 - **[#21](https://github.com/davidsneighbour/ai/issues/21) - Rename strict TypeScript skill to dnb prefix** *(closed, disputed)*
-  Closed as completed citing commit `0a29a66`, which does not exist in this repository's history; `skills/strict-typescript-check/` is still unrenamed. Flagged with a comment; left closed pending human review since reopening is a judgment call outside this triage's scope.
+  Closed as completed citing commit `0a29a66`, which does not exist in this repository's history. The rename has since been done directly (`skills/strict-typescript-check/` → `skills/dnb-strict-typescript-check/`), independent of that disputed commit. The provenance discrepancy is still worth flagging to a human, but the rename itself is no longer outstanding.
 
 ### Dependencies (OSV findings, all need a major bump or override pin)
 
@@ -53,7 +53,7 @@ As of 2026-07-05, the registry release gate (`npm run ai:check:release`) is clea
 
 1. **#17** - Commit the already-implemented Markdown lint scope fix. Zero remaining risk, just needs a commit.
 2. **#27** - Fix the three skill frontmatter validation errors. Small, mechanical, and currently invisible to the release gate.
-3. **#21 / #18** - Resolve the rename discrepancy (confirm with a human whether the rename should actually happen, then either do it or correct the record) before further work on the skill's content.
+3. **#18** - Rename is done (`skills/dnb-strict-typescript-check/`); remaining work is the content refactor itself.
 4. **#24** - Highest-severity dependency finding (linkify-it, high); evaluate the major-version bump path.
 5. **#23, #25, #26** - Remaining moderate dependency findings; group into one dependency-update pass since several share the same upstream chain (`markdownlint` → `markdown-it`/`linkify-it`).
 6. **#22** - Low severity, no fix available yet; revisit when elliptic ships a patched release.
@@ -82,5 +82,4 @@ Already closed before this triage run:
 ## Open clarification questions
 
 - **#17**: Confirm the working-tree fix should be committed as-is (it currently reveals ~38 files with pre-existing Markdown violations across the repo — should those be fixed in the same change, a follow-up issue, or left for `lint:markdown:fix`?).
-- **#21 / #18**: Should `skills/strict-typescript-check/` actually be renamed to `dnb-strict-typescript-check` (as #21 claimed but didn't deliver), or was that decision reversed? Needs a human answer before #18 can proceed.
 - **#23/#25/#26**: Should shared, deduped dependency nodes blocked from auto-fix be resolved via `overrides` pins now, or batched into a single dependency-update PR later?

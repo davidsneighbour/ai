@@ -1,6 +1,6 @@
 ---
-id: strict-typescript-check
-name: strict-typescript-check
+id: dnb-strict-typescript-check
+name: dnb-strict-typescript-check
 title: Strict TypeScript check
 description: Guidelines for strict TypeScript checks in generated code
 ---
