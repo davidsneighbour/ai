@@ -10,7 +10,7 @@ This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot
 - `ai/templates/` and `ai/workflows/` contain shared templates and workflow documents.
 - `schemas/` contains JSON schemas for prompts, skills, and docs.
 - `scripts/` contains the TypeScript CLI and validators.
-- `documentation/` contains repository notes and conventions.
+- `documentation/` contains notes that have no single home elsewhere in the repository, or that touch multiple scattered locations. Topic-specific documentation belongs next to its topic instead — see "Documentation conventions" below.
 
 ## Build, test, and development commands
 
@@ -27,6 +27,12 @@ Use Node from `.nvmrc`; `package.json` requires Node `>=25`.
 - `npm run ai:schemas` exports schemas from the TypeScript definitions.
 
 There is currently no general `npm test` script; use the validation commands above as the test gate.
+
+## Documentation conventions
+
+Document a topic in a `README.md` next to what it describes, for example `scripts/README.md` for everything under `scripts/`. Use `documentation/` only when a topic has no single home in the repository or spans multiple scattered locations.
+
+Every README.md in the repository, and every doc in `documentation/`, must be linked from the root `README.md` so nothing is undiscoverable.
 
 ## Resuming interrupted work
 
