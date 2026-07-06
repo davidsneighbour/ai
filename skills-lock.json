@@ -85,6 +85,12 @@
       "skillPath": "skills/dnb-reference/SKILL.md",
       "computedHash": "8548850c9145ac576abdb8edfdd70f3b199c38cb8044edd41934678136ff053c"
     },
+    "dnb-resume-interrupted-work": {
+      "source": "davidsneighbour/ai",
+      "sourceType": "github",
+      "skillPath": "skills/dnb-resume-interrupted-work/SKILL.md",
+      "computedHash": "47a46139f6765fe03e4fbdd2f6626cda7f37307b6728dd31c0a68ef2f3cd323f"
+    },
     "dnb-select-next-issue": {
       "source": "davidsneighbour/ai",
       "sourceType": "github",

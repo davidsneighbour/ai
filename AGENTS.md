@@ -28,6 +28,10 @@ Use Node from `.nvmrc`; `package.json` requires Node `>=25`.
 
 There is currently no general `npm test` script; use the validation commands above as the test gate.
 
+## Resuming interrupted work
+
+Before starting repository work, agents must check for project-root `RESUME.md`. If it exists, they must read it, resolve or explicitly abandon the unfinished work, and remove `RESUME.md` before starting unrelated work. When available, follow `skills/dnb-resume-interrupted-work/SKILL.md` for the full protocol.
+
 ## Coding style and naming conventions
 
 TypeScript uses strict settings from `tsconfig.json` with NodeNext modules and no emit. Biome is configured for tabs and double quotes in JavaScript and TypeScript. Run `npx biome check scripts` before changing TypeScript-heavy code.

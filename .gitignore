@@ -11,3 +11,6 @@ agent
 
 # ai scratch workspace (see prompts/repo-operations/scratch-cleanup.prompt.md)
 scratch/
+
+# Temporary agent resume scratch file
+RESUME.md
