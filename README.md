@@ -2,20 +2,19 @@
 
 ![Oh look Ma! It's AI!!!!!111One](.github/ai.png)
 
-This repository provides a portable structure for my AI assets that can be shared across ChatGPT, Codex, and GitHub Copilot.
+This repository provides a portable structure for my AI assets that can be shared across ChatGPT, Codex, GitHub Copilot, and others.
 
 - [Structure](#structure)
-- [Prompt model](#prompt-model)
 - [CLI](#cli)
 - [Skills](#skills)
-  - [Install patterns](#install-patterns)
-  - [Updating installed skills](#updating-installed-skills)
+  - [Setup](#setup)
   - [Issue handling skills](#issue-handling-skills)
   - [Project management skills](#project-management-skills)
+  - [Blog drafting skills](#blog-drafting-skills)
   - [Specification and testing skills](#specification-and-testing-skills)
   - [Reference and documentation skills](#reference-and-documentation-skills)
+  - [Engineering guideline skills](#engineering-guideline-skills)
   - [Social media posting](#social-media-posting)
-- [Configure vSCode](#configure-vscode)
 - [VS code prompt file recommendations](#vs-code-prompt-file-recommendations)
   - [Option 1: one recursive glob](#option-1-one-recursive-glob)
   - [Option 2: individual folder entries](#option-2-individual-folder-entries)
@@ -26,27 +25,16 @@ This repository provides a portable structure for my AI assets that can be share
 
 ## Structure
 
-- `prompts/`       prompt files grouped by purpose.
-- `instructions/`  reusable instruction files.
-- `agents/`        `.agents` protocol sub-agent profiles.
-- `tasks/`         `.agents` repeat task source files.
-- `memories/`      `.agents` memory source files.
-- `skills/`        installable skill directories. Each skill lives in its own directory with a `SKILL.md`.
-- `ai/templates/`  output templates (obsolete, should be part of the skill).
-- `.agents/`       protocol-compatible local symlinks to the shared agent assets.
-- `schemas/`       validation schemas.
-- `scripts/`       CLI runner and validators.
-
-## Prompt model
-
-All prompt files use front matter plus Markdown body content.
-
-Supported `type` values:
-
-- `agent`
-- `task`
-- `review`
-- `system`
+| Folder | Contents |
+| --- | --- |
+| `agents/` | `.agents` protocol sub-agent profiles |
+| `instructions/` | reusable instruction files |
+| `memories/` | memory source files |
+| `prompts/` | prompt files grouped by purpose |
+| `schemas/` | validation schemas |
+| `scripts/` | CLI runner and validators — see [scripts/README.md](scripts/README.md) |
+| `skills/` | agent skills |
+| `tasks/` | repeat task source files |
 
 ## CLI
 
@@ -63,68 +51,21 @@ Supported `type` values:
 > [!CAUTION]
 > Skills are engineering knowledge packaged into reusable instructions. My own skills start with `dnb-` and are opinionated and based on my own experience and used tools. The fact that they are published here under a MIT license does not mean it's a released and supported end product. It's work in progress, and will expand as my experience will do over time. If you wish to pay for a supported product, feel free to contact me.
 
-### Install patterns
+### Setup
 
-Install all skills from the repository without an interactive selector:
-
-```bash
-npx skills add davidsneighbour/ai/skills --skill '*' --yes
-```
-
-Install one selected skill by id:
+Install one skill by id:
 
 ```bash
 npx skills add davidsneighbour/ai/skills --skill dnb-project-task-triage --yes
 ```
 
-List the available skills without installing them:
-
-```bash
-npx skills add davidsneighbour/ai/skills --list
-```
-
-Install globally for Codex and Claude Code when the skills should be available outside the current project:
-
-```bash
-npx skills add davidsneighbour/ai/skills --skill '*' --global --agent codex claude-code --yes
-```
-
-Install project-local skills when they should be available only in the current repository:
+Install all skills:
 
 ```bash
 npx skills add davidsneighbour/ai/skills --skill '*' --yes
 ```
 
-From a local checkout of this repository, use the root `skills/` directory directly:
-
-```bash
-npx skills add ./skills --skill '*' --yes
-```
-
-The same `npx skills add` command works with other GitHub repositories that follow the skill convention. Use `<author>/<repo>` when skills live at the repository root, or `<author>/<repo>/<path>` when they live in a subdirectory:
-
-```bash
-npx skills add emilkowalski/skill --yes
-npx skills add author/repository/path/to/skills --skill <id> --yes
-```
-
-See [emilkowal.ski/skill](https://emilkowal.ski/skill) for the external skill installer documentation.
-
-### Updating installed skills
-
-Update globally installed skills to the latest version:
-
-```bash
-npx skills update --global --yes
-```
-
-For project-local skills, run the update command from that project:
-
-```bash
-npx skills update --project --yes
-```
-
-Re-run `npx skills add davidsneighbour/ai/skills --skill <id>` when you want to install a newly added skill that is not already present locally.
+See [skills.sh](https://www.skills.sh/) for the full installer documentation, including updating, global installs, and other skill sources.
 
 ### Issue handling skills
 
@@ -135,9 +76,17 @@ Re-run `npx skills add davidsneighbour/ai/skills --skill <id>` when you want to 
 
 ### Project management skills
 
+- [dnb-astro-migration-project](skills/dnb-astro-migration-project/SKILL.md) — Bootstrap and run a parity-first migration of an existing website to Astro.
 - [dnb-dependency-maintenance](skills/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
+- [dnb-osv-scan](skills/dnb-osv-scan/SKILL.md) — Scan dependencies for known vulnerabilities with osv-scanner, auto-apply safe fixes, and file GitHub issues for the rest.
 - [dnb-project-task-triage](skills/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
 - [dnb-quality-gate-organisation](skills/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
+- [dnb-resume-interrupted-work](skills/dnb-resume-interrupted-work/SKILL.md) — Manage a project-root RESUME.md handoff file that blocks new work until previously interrupted work is resolved.
+
+### Blog drafting skills
+
+- [dnb-blog-draft-meta-matter](skills/dnb-blog-draft-meta-matter/SKILL.md) — Prepare SEO-aware titles, slugs, descriptions, and summaries from a blog draft or topic.
+- [dnb-blog-draft-materialise](skills/dnb-blog-draft-materialise/SKILL.md) — Create or move a blog draft into the configured blog content path using a selected metadata option.
 
 ### Specification and testing skills
 
@@ -146,22 +95,26 @@ Re-run `npx skills add davidsneighbour/ai/skills --skill <id>` when you want to 
 ### Reference and documentation skills
 
 - [dnb-create-js-documentation](skills/dnb-create-js-documentation/SKILL.md) — Add or improve generated API documentation for JavaScript or TypeScript npm projects.
+- [dnb-markdown-formatting](skills/dnb-markdown-formatting/SKILL.md) — Decide whether strict CommonMark or GitHub Flavored Markdown rules apply to a Markdown file, then apply the matching instruction set.
 - [dnb-reference](skills/dnb-reference/SKILL.md) — Add or update strict references frontmatter on AI asset files.
 - [dnb-voice](skills/dnb-voice/SKILL.md) — Edit, rewrite, or review prose so it reads in Patrick's own voice.
+
+### Engineering guideline skills
+
+- [dnb-interface-engineering](skills/dnb-interface-engineering/SKILL.md) — Design engineering principles for making interfaces feel polished.
+- [dnb-strict-typescript-check](skills/dnb-strict-typescript-check/SKILL.md) — Guidelines for strict TypeScript checks in generated code.
 
 ### Social media posting
 
 - [dnb-post-into-void](skills/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from text supplied with the request or collected through questions.
 - [dnb-post-session-into-void](skills/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
 
-## Configure vSCode
-
 <!-- ai:prompt-files-settings:start -->
 <!-- This section is generated by `npm run build:documentation` (`node ./scripts/ai.ts build-documentation`). Do not edit manually. -->
 
 ## VS code prompt file recommendations
 
-VS Code can load prompt files from configured workspace locations. This repository keeps generated prompt files under `.github/prompts/`.
+VS Code can load prompt files from configured workspace locations. This repository keeps prompt files under `prompts/`.
 
 There are two useful configuration styles.
 
@@ -172,7 +125,7 @@ Use this when all prompt recommendations should be available at once and new fol
 ```jsonc
 {
   "chat.promptFilesLocations": {
-    ".github/prompts/**/*.prompt.md": true
+    "prompts/**/*.prompt.md": true
   }
 }
 ```
@@ -184,14 +137,17 @@ Use this when prompt recommendation groups should be enabled or disabled indepen
 ```jsonc
 {
   "chat.promptFilesLocations": {
-    ".github/prompts/example/*.prompt.md": true
+    "prompts/extend-instructions/*.prompt.md": true,
+    "prompts/hugo/*.prompt.md": true,
+    "prompts/learning/*.prompt.md": true,
+    "prompts/node/*.prompt.md": true,
+    "prompts/obsidian/*.prompt.md": true,
+    "prompts/prompt-management/*.prompt.md": true,
+    "prompts/raindrop.io/*.prompt.md": true,
+    "prompts/repo-operations/*.prompt.md": true
   }
 }
 ```
-
-Current prompt folders covered by the individual-folder example:
-
-- No direct prompt folders were found.
 
 <!-- ai:prompt-files-settings:end -->
 
@@ -224,7 +180,7 @@ The optimisation prompt is used after testing the onboarding prompt in one or mo
 
 | Config | Onboarding prompt | Optimisation prompt |
 | --- | --- | --- |
-| Release config | [`release-config-onboarding.prompt.md`](./prompts/repo-operations/release-config-onboarding.prompt.md) | [`release-config-prompt-optimise.prompt.md`](./prompts/repo-operations/release-config-prompt-optimise.prompt.md) |
+| Release config | [`release-config-setup.prompt.md`](./prompts/repo-operations/release-config-setup.prompt.md) | [`release-config-prompt-optimise.prompt.md`](./prompts/repo-operations/release-config-prompt-optimise.prompt.md) |
 | TypeScript config | [`tsconfig-onboarding.prompt.md`](./prompts/repo-operations/tsconfig-onboarding.prompt.md) | [`tsconfig-prompt-optimise.prompt.md`](./prompts/repo-operations/tsconfig-prompt-optimise.prompt.md) |
 | Renovate config | [`renovate-config-onboarding.prompt.md`](./prompts/repo-operations/renovate-config-onboarding.prompt.md) | [`renovate-config-prompt-optimise.prompt.md`](./prompts/repo-operations/renovate-config-prompt-optimise.prompt.md) |
 | Markdownlint config | [`markdownlint-config-onboarding.prompt.md`](./prompts/repo-operations/markdownlint-config-onboarding.prompt.md) | [`markdownlint-config-prompt-optimise.prompt.md`](./prompts/repo-operations/markdownlint-config-prompt-optimise.prompt.md) |

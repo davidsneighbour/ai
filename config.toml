@@ -1,7 +1,7 @@
 [paths]
 readme = "README.md"
 vscodeSettings = ".vscode/settings.json"
-promptFilesRoot = ".github/prompts"
+promptFilesRoot = "prompts"
 
 [prompts]
 settingKey = "chat.promptFilesLocations"
