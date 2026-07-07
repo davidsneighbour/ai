@@ -1,5 +1,34 @@
 # Changelog
 
+## [v1.5.0](https://github.com/davidsneighbour/ai/compare/v1.2.2...vv1.5.0) (2026-07-07)
+
+### Features
+
+* add a combined npm run check quality gate ([f32ca1b](https://github.com/davidsneighbour/ai/commit/f32ca1b723f767cde931e4654893e0222c73e31b))
+
+### Bug Fixes
+
+* add missing id/title to 3 installable skills ([9767903](https://github.com/davidsneighbour/ai/commit/97679036fffac8e7952c71313649eed5e3389615)), closes [#27](https://github.com/davidsneighbour/ai/issues/27)
+* align markdown lint scope with ignored scratch files ([5895577](https://github.com/davidsneighbour/ai/commit/589557732cb72caab1e7b132e84692c21ee36135)), closes [#17](https://github.com/davidsneighbour/ai/issues/17)
+* resolve markdown lint violations surfaced by the new check gate ([d479cee](https://github.com/davidsneighbour/ai/commit/d479ceef67d5aa374a407f8da5a7c126b6e6a158))
+
+### Skills
+
+* add dnb-resume-interrupted-work skill and instructions ([44f4fa8](https://github.com/davidsneighbour/ai/commit/44f4fa8ba28a9722a38e0f21cb661b3ed14c84b4))
+* rename strict-typescript-check to dnb-strict-typescript-check ([2d82c3c](https://github.com/davidsneighbour/ai/commit/2d82c3cb6e37b820895309f4085d47692b000d65))
+* update dnb-strict-typescript-check id and roadmap references ([72ca56c](https://github.com/davidsneighbour/ai/commit/72ca56c91f3859a18c6443cd5541862ff67d4af8))
+
+### Documentation
+
+* add a documentation placement and linking convention ([0968325](https://github.com/davidsneighbour/ai/commit/0968325aae4aab72a7e3b0de6ce068999c578a60))
+* add a License section to the root README ([a613364](https://github.com/davidsneighbour/ai/commit/a613364aa83f6fe88610ad1250a9f6808face0f3))
+* clean up README structure and document the scripts CLI ([e5ef997](https://github.com/davidsneighbour/ai/commit/e5ef997754ffbf9e08e3ecddbc0a2aa7dc6b6ace))
+* prune documentation/ down to what has no other home ([a5f2fe8](https://github.com/davidsneighbour/ai/commit/a5f2fe84d6e225dddd54e8a20a022b00bde294e0))
+
+### Chores
+
+* **project:** update project plan ([c7eb75c](https://github.com/davidsneighbour/ai/commit/c7eb75c06fded82f8695f320edfa49457512da9f)), closes [#27](https://github.com/davidsneighbour/ai/issues/27) [#21](https://github.com/davidsneighbour/ai/issues/21)
+
 ## [1.2.2](https://github.com/davidsneighbour/ai/compare/v1.2.1...v1.2.2) (2026-07-05)
 
 ### Build
