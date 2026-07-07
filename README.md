@@ -23,6 +23,7 @@ This repository provides a portable structure for my AI assets that can be share
 - [Shared config onboarding prompts](#shared-config-onboarding-prompts)
   - [Available config prompt pairs](#available-config-prompt-pairs)
   - [Adding another shared config](#adding-another-shared-config)
+- [License](#license)
 
 ## Structure
 
@@ -204,3 +205,7 @@ To add another shared configuration workflow:
 5. use the optimisation prompt to fold lessons from those runs back into the onboarding prompt
 
 This keeps shared configuration rollouts repeatable while still allowing each prompt to improve from actual repository usage.
+
+## License
+
+This repository is licensed under the MIT License — see [LICENSE.md](LICENSE.md) for the full text.
