@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.6.0](https://github.com/davidsneighbour/ai/compare/vv1.5.0...v1.6.0) (2026-07-07)
+
 ## [v1.5.0](https://github.com/davidsneighbour/ai/compare/v1.2.2...vv1.5.0) (2026-07-07)
 
 ### Features
