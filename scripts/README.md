@@ -105,7 +105,7 @@ Validates installable skill directories under `skills/<id>/` independently of th
 
 ### check
 
-Runs `validate` and `lint` together, adds duplicate-id checks, and prints combined totals (`Validation errors`, `Lint errors`, `Lint warnings`, `Total errors`, `Total warnings`). Exits non-zero when `Total errors` is above zero, unless `--no-exit-on-error` is passed. This is the command run by the pre-push hook (`--release`) and is the project's test gate — there is no `npm test`.
+Runs `validate` and `lint` together, adds duplicate-id checks, and prints combined totals (`Validation errors`, `Lint errors`, `Lint warnings`, `Total errors`, `Total warnings`). Exits non-zero when `Total errors` is above zero, unless `--no-exit-on-error` is passed. This is the command run by the pre-push hook (`--release`), scoped to the AI registry only. The repository-wide quality gate is `npm run check` (see the [npm script reference](#npm-script-reference)) — there is no `npm test`.
 
 ### drift-report
 
@@ -186,11 +186,14 @@ Tested by `scripts/ai-symlink.test.ts` (`npm run test:ai-symlink`), using tempor
 | `ai:show` | `node ./scripts/ai.ts show` |
 | `ai:validate` | `node ./scripts/ai.ts validate` |
 | `build:documentation` | `node ./scripts/ai.ts build-documentation` |
+| `check` | `npm run lint:code && npm run validate:types && npm run ai:check && npm run lint && npm run lint:markdown && npm run test:ai-symlink` — the repository-wide quality gate |
+| `lint:code` | `biome check scripts` |
 | `lint:skills` | `node ./scripts/ai.ts validate-skills --root skills` |
 | `lint:skills:verbose` | `node ./scripts/ai.ts validate-skills --root skills --verbose` |
 | `setup`, `setup:prompts` | `node ./scripts/ai.ts setup --prompts` |
 | `setup:prompts:glob` | `node ./scripts/ai.ts setup --prompts --mode glob` |
 | `setup:prompts:folders` | `node ./scripts/ai.ts setup --prompts --mode folders` |
 | `setup:cli` | `npm install -g .` (installs the `ai` / `ai-symlink` bins globally) |
+| `validate:types` | `tsc --noEmit` |
 | `hooks:install` | `npx simple-git-hooks` |
 | `test:ai-symlink` | `node --test ./scripts/ai-symlink.test.ts` |

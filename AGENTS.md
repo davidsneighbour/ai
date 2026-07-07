@@ -17,16 +17,19 @@ This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot
 Use Node from `.nvmrc`; `package.json` requires Node `>=25`.
 
 - `npm install` installs project dependencies.
+- `npm run check` runs the full combined quality gate: Biome, TypeScript, the AI registry check, skill validation, repository-wide Markdown lint, and the `ai-symlink` test suite.
 - `npm run ai:list` lists registered AI assets.
 - `npm run ai:validate` validates prompt and registry data.
 - `npm run ai:lint` runs AI asset linting.
 - `npm run ai:check` runs the standard repository checks.
 - `npm run ai:check:release` runs stricter release checks.
 - `npm run lint` validates skills and skill Markdown.
+- `npm run lint:code` runs Biome against `scripts/`.
 - `npm run lint:markdown` runs markdownlint for Markdown files.
+- `npm run validate:types` runs `tsc --noEmit`.
 - `npm run ai:schemas` exports schemas from the TypeScript definitions.
 
-There is currently no general `npm test` script; use the validation commands above as the test gate.
+There is no `npm test` script; run `npm run check` as the top-level quality gate before considering work done.
 
 ## Documentation conventions
 

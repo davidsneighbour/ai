@@ -51,9 +51,11 @@
     "ai:show": "node ./scripts/ai.ts show",
     "ai:validate": "node ./scripts/ai.ts validate",
     "build:documentation": "node ./scripts/ai.ts build-documentation",
+    "check": "npm run lint:code && npm run validate:types && npm run ai:check && npm run lint && npm run lint:markdown && npm run test:ai-symlink",
     "hooks:install": "npx simple-git-hooks",
     "install:skills": "npx skills add ./skills --skill '*' --yes",
     "lint": "npm run lint:skills && npm run lint:skills:markdown",
+    "lint:code": "biome check scripts",
     "lint:markdown": "markdownlint-cli2 \"**/*.{md,mdx}\"",
     "lint:markdown:fix": "markdownlint-cli2 --fix \"**/*.{md,mdx}\"",
     "lint:skills": "node ./scripts/ai.ts validate-skills --root skills",
@@ -65,7 +67,8 @@
     "setup:prompts": "node ./scripts/ai.ts setup --prompts",
     "setup:prompts:folders": "node ./scripts/ai.ts setup --prompts --mode folders",
     "setup:prompts:glob": "node ./scripts/ai.ts setup --prompts --mode glob",
-    "test:ai-symlink": "node --test ./scripts/ai-symlink.test.ts"
+    "test:ai-symlink": "node --test ./scripts/ai-symlink.test.ts",
+    "validate:types": "tsc --noEmit"
   },
   "engines": {
     "node": ">=25"

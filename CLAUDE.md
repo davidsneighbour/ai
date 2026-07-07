@@ -42,11 +42,14 @@ npm run ai:lint
 # Lint skills and skill Markdown
 npm run lint:skills
 npm run lint:skills:markdown
+
+# Full combined quality gate (Biome, TypeScript, AI registry check, skills, repo-wide Markdown lint, ai-symlink tests)
+npm run check
 ```
 
 Node version is pinned in `.nvmrc`; `package.json` requires `>=25`.
 
-There is no `npm test` — use `npm run ai:check` or `npm run ai:check:release` as the test gate.
+There is no `npm test` — `npm run check` is the top-level quality gate; `npm run ai:check` or `npm run ai:check:release` cover just the AI registry.
 
 ## Git hooks
 
