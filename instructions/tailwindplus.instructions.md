@@ -12,22 +12,22 @@ Tailwind Plus Elements is a JavaScript UI component library that powers all the 
 
 Tailwind Plus Elements includes the following UI components:
 
-- [Autocomplete](#Autocomplete)
-- [Command palette](#Command-palette)
-- [Dialog](#Dialog)
-- [Disclosure](#Disclosure)
-- [Dropdown menu](#Dropdown-menu)
-- [Popover](#Popover)
-- [Select](#Select)
-- [Tabs](#Tabs)
+- [Autocomplete](#autocomplete)
+- [Command palette](#command-palette)
+- [Dialog](#dialog)
+- [Disclosure](#disclosure)
+- [Dropdown menu](#dropdown-menu)
+- [Popover](#popover)
+- [Select](#select)
+- [Tabs](#tabs)
 
 ## Browser support
 
 Elements targets the same modern browsers supported by Tailwind CSS v4.0, and relies on the following minimum versions:
 
-- **Chrome 111** _(released March 2023)_
-- **Safari 16.4** _(released March 2023)_
-- **Firefox 128** _(released July 2024)_
+- **Chrome 111** *(released March 2023)*
+- **Safari 16.4** *(released March 2023)*
+- **Firefox 128** *(released July 2024)*
 
 ## Installing in your project
 
@@ -76,39 +76,39 @@ The `<el-autocomplete>` component is a text input that allows users to enter arb
 
 The main autocomplete component that manages form integration, filtering, and coordinates with its child components
 
-| Type                      | Name           | Description                               |
+| Type | Name | Description |
 | ------------------------- | -------------- | ----------------------------------------- |
-| CSS variables (Read-only) | --input-width  | Provides the width of the input element.  |
+| CSS variables (Read-only) | --input-width | Provides the width of the input element. |
 | CSS variables (Read-only) | --button-width | Provides the width of the button element. |
 
 #### `<el-options>`
 
 The options container that handles the popover behavior.
 
-| Type                        | Name            | Description                                                                                |
+| Type | Name | Description |
 | --------------------------- | --------------- | ------------------------------------------------------------------------------------------ |
-| Attributes                  | popover         | Required to enable the popover behavior.                                                   |
-| Attributes                  | anchor          | Configures the way the options are anchored to the button.                                 |
-| Attributes                  | anchor-strategy | Sets the `position` CSS property of the popover to either `absolute` (default) or `fixed`. |
-| CSS variables               | --anchor-gap    | Sets the gap between the anchor and the popover.                                           |
-| CSS variables               | --anchor-offset | Sets the distance that the popover should be nudged from its original position.            |
-| Data attributes (Read-only) | data-closed     | Present before transitioning in, and when transitioning out.                               |
-| Data attributes (Read-only) | data-enter      | Present when transitioning in.                                                             |
-| Data attributes (Read-only) | data-leave      | Present when transitioning out.                                                            |
-| Data attributes (Read-only) | data-transition | Present when transitioning in or out.                                                      |
-| Methods                     | togglePopover() | Toggles the options visibility.                                                            |
-| Methods                     | showPopover()   | Shows the options.                                                                         |
-| Methods                     | hidePopover()   | Hides the options.                                                                         |
+| Attributes | popover | Required to enable the popover behavior. |
+| Attributes | anchor | Configures the way the options are anchored to the button. |
+| Attributes | anchor-strategy | Sets the `position` CSS property of the popover to either `absolute` (default) or `fixed`. |
+| CSS variables | --anchor-gap | Sets the gap between the anchor and the popover. |
+| CSS variables | --anchor-offset | Sets the distance that the popover should be nudged from its original position. |
+| Data attributes (Read-only) | data-closed | Present before transitioning in, and when transitioning out. |
+| Data attributes (Read-only) | data-enter | Present when transitioning in. |
+| Data attributes (Read-only) | data-leave | Present when transitioning out. |
+| Data attributes (Read-only) | data-transition | Present when transitioning in or out. |
+| Methods | togglePopover() | Toggles the options visibility. |
+| Methods | showPopover() | Shows the options. |
+| Methods | hidePopover() | Hides the options. |
 
 #### `<el-option>`
 
 Individual selectable option within the autocomplete.
 
-| Type                        | Name          | Description                                       |
+| Type | Name | Description |
 | --------------------------- | ------------- | ------------------------------------------------- |
-| Attributes                  | value         | The value of the option (required for selection). |
-| Attributes                  | disabled      | Whether the option is disabled.                   |
-| ARIA attributes (Read-only) | aria-selected | Present when the option is selected.              |
+| Attributes | value | The value of the option (required for selection). |
+| Attributes | disabled | Whether the option is disabled. |
+| ARIA attributes (Read-only) | aria-selected | Present when the option is selected. |
 
 #### `<el-selectedcontent>`
 
@@ -210,13 +210,13 @@ The `<el-command-palette>` component provides a fast, keyboard-friendly way for 
 
 The main command component that manages filtering and coordinates with its child components
 
-| Type       | Name                  | Description                                                                                                                                                                  |
+| Type | Name | Description |
 | ---------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Attributes | name                  | The form field name for the command when used in forms.                                                                                                                      |
-| Attributes | value                 | The selected value of the command. Can be read and set programmatically.                                                                                                     |
-| Events     | change                | Dispatched when the active item changes. Detail contains `relatedTarget` property with the active item or `null`.                                                            |
-| Methods    | setFilterCallback(cb) | Allows you to customize the filtering behavior of the command. The callback receives an object with `query`, `node` and `content` properties, and should return a `boolean`. |
-| Methods    | reset()               | Resets the command to its initial state.                                                                                                                                     |
+| Attributes | name | The form field name for the command when used in forms. |
+| Attributes | value | The selected value of the command. Can be read and set programmatically. |
+| Events | change | Dispatched when the active item changes. Detail contains `relatedTarget` property with the active item or `null`. |
+| Methods | setFilterCallback(cb) | Allows you to customize the filtering behavior of the command. The callback receives an object with `query`, `node` and `content` properties, and should return a `boolean`. |
+| Methods | reset() | Resets the command to its initial state. |
 
 #### `<el-command-list>`
 
@@ -238,9 +238,9 @@ Optional element shown when no items match the current query.
 
 Optional preview content shown when a specific item is active.
 
-| Type       | Name | Description                                                   |
+| Type | Name | Description |
 | ---------- | ---- | ------------------------------------------------------------- |
-| Attributes | for  | The `id` of the item this preview content is associated with. |
+| Attributes | for | The `id` of the item this preview content is associated with. |
 
 ### Examples
 
@@ -282,49 +282,49 @@ The `<el-dialog>` component is a lightweight wrapper around the native `<dialog>
 
 Wrapper around the native `<dialog>` element used to manage the open state and transitions.
 
-| Type                        | Name            | Description                                                                                                                                              |
+| Type | Name | Description |
 | --------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Attributes                  | open            | A boolean attribute that indicates whether the dialog is open or closed. You can change the attribute to dynamically open or close the dialog.           |
-| Data attributes (Read-only) | data-closed     | Present before transitioning in, and when transitioning out.                                                                                             |
-| Data attributes (Read-only) | data-enter      | Present when transitioning in.                                                                                                                           |
-| Data attributes (Read-only) | data-leave      | Present when transitioning out.                                                                                                                          |
-| Data attributes (Read-only) | data-transition | Present when transitioning in or out.                                                                                                                    |
-| Events                      | open            | Dispatched when the dialog is opened in any way other than by updating the `open` attribute.                                                             |
-| Events                      | close           | Dispatched when the dialog is closed in any way other than by updating the `open` attribute.                                                             |
-| Events                      | cancel          | Dispatched when the user attempts to dismiss the dialog via Escape key or clicking outside. Calling `preventDefault()` prevents the dialog from closing. |
-| Methods                     | show()          | Shows the dialog in modal mode.                                                                                                                          |
-| Methods                     | hide()          | Hides the dialog. Takes an optional object with a `restoreFocus` property to disable the default focus restoration.                                      |
+| Attributes | open | A boolean attribute that indicates whether the dialog is open or closed. You can change the attribute to dynamically open or close the dialog. |
+| Data attributes (Read-only) | data-closed | Present before transitioning in, and when transitioning out. |
+| Data attributes (Read-only) | data-enter | Present when transitioning in. |
+| Data attributes (Read-only) | data-leave | Present when transitioning out. |
+| Data attributes (Read-only) | data-transition | Present when transitioning in or out. |
+| Events | open | Dispatched when the dialog is opened in any way other than by updating the `open` attribute. |
+| Events | close | Dispatched when the dialog is closed in any way other than by updating the `open` attribute. |
+| Events | cancel | Dispatched when the user attempts to dismiss the dialog via Escape key or clicking outside. Calling `preventDefault()` prevents the dialog from closing. |
+| Methods | show() | Shows the dialog in modal mode. |
+| Methods | hide() | Hides the dialog. Takes an optional object with a `restoreFocus` property to disable the default focus restoration. |
 
 #### `<dialog>`
 
 The native dialog element.
 
-| Type     | Name       | Description        |
+| Type | Name | Description |
 | -------- | ---------- | ------------------ |
-| Commands | show-modal | Opens the dialog.  |
-| Commands | close      | Closes the dialog. |
+| Commands | show-modal | Opens the dialog. |
+| Commands | close | Closes the dialog. |
 
 #### `<el-dialog-backdrop>`
 
 The visual backdrop behind your dialog panel.
 
-| Type                        | Name            | Description                                                  |
+| Type | Name | Description |
 | --------------------------- | --------------- | ------------------------------------------------------------ |
-| Data attributes (Read-only) | data-closed     | Present before transitioning in, and when transitioning out. |
-| Data attributes (Read-only) | data-enter      | Present when transitioning in.                               |
-| Data attributes (Read-only) | data-leave      | Present when transitioning out.                              |
-| Data attributes (Read-only) | data-transition | Present when transitioning in or out.                        |
+| Data attributes (Read-only) | data-closed | Present before transitioning in, and when transitioning out. |
+| Data attributes (Read-only) | data-enter | Present when transitioning in. |
+| Data attributes (Read-only) | data-leave | Present when transitioning out. |
+| Data attributes (Read-only) | data-transition | Present when transitioning in or out. |
 
 #### `<el-dialog-panel>`
 
 The main content area of your dialog. Clicking outside of this will trigger the dialog to close.
 
-| Type                        | Name            | Description                                                  |
+| Type | Name | Description |
 | --------------------------- | --------------- | ------------------------------------------------------------ |
-| Data attributes (Read-only) | data-closed     | Present before transitioning in, and when transitioning out. |
-| Data attributes (Read-only) | data-enter      | Present when transitioning in.                               |
-| Data attributes (Read-only) | data-leave      | Present when transitioning out.                              |
-| Data attributes (Read-only) | data-transition | Present when transitioning in or out.                        |
+| Data attributes (Read-only) | data-closed | Present before transitioning in, and when transitioning out. |
+| Data attributes (Read-only) | data-enter | Present when transitioning in. |
+| Data attributes (Read-only) | data-leave | Present when transitioning out. |
+| Data attributes (Read-only) | data-transition | Present when transitioning in or out. |
 
 ### Examples
 
@@ -463,20 +463,20 @@ The `<el-disclosure>` component provides a simple, accessible way to show and hi
 
 Contains the content of the disclosure.
 
-| Type                        | Name            | Description                                                  |
+| Type | Name | Description |
 | --------------------------- | --------------- | ------------------------------------------------------------ |
-| Attributes                  | hidden          | Whether the disclosure is initially hidden (closed).         |
-| Attributes                  | open            | Automatically synced with the `hidden` attribute.            |
-| Data attributes (Read-only) | data-closed     | Present before transitioning in, and when transitioning out. |
-| Data attributes (Read-only) | data-enter      | Present when transitioning in.                               |
-| Data attributes (Read-only) | data-leave      | Present when transitioning out.                              |
-| Data attributes (Read-only) | data-transition | Present when transitioning in or out.                        |
-| Methods                     | show()          | Shows the disclosure.                                        |
-| Methods                     | hide()          | Hides the disclosure.                                        |
-| Methods                     | toggle()        | Toggles the disclosure.                                      |
-| Commands                    | --show          | Shows the disclosure.                                        |
-| Commands                    | --hide          | Hides the disclosure.                                        |
-| Commands                    | --toggle        | Toggles the disclosure.                                      |
+| Attributes | hidden | Whether the disclosure is initially hidden (closed). |
+| Attributes | open | Automatically synced with the `hidden` attribute. |
+| Data attributes (Read-only) | data-closed | Present before transitioning in, and when transitioning out. |
+| Data attributes (Read-only) | data-enter | Present when transitioning in. |
+| Data attributes (Read-only) | data-leave | Present when transitioning out. |
+| Data attributes (Read-only) | data-transition | Present when transitioning in or out. |
+| Methods | show() | Shows the disclosure. |
+| Methods | hide() | Hides the disclosure. |
+| Methods | toggle() | Toggles the disclosure. |
+| Commands | --show | Shows the disclosure. |
+| Commands | --hide | Hides the disclosure. |
+| Commands | --toggle | Toggles the disclosure. |
 
 ### Examples
 
@@ -605,7 +605,7 @@ The `<el-dropdown>` component makes it easy to build dropdown menus with full ke
 
 Connects the button with the menu.
 
-| Type          | Name          | Description                                          |
+| Type | Name | Description |
 | ------------- | ------------- | ---------------------------------------------------- |
 | CSS variables | --input-width | Provides the width of the input element (read-only). |
 
@@ -613,21 +613,21 @@ Connects the button with the menu.
 
 Contains all the menu items. All focusable children will be considered options.
 
-| Type                        | Name            | Description                                                                                            |
+| Type | Name | Description |
 | --------------------------- | --------------- | ------------------------------------------------------------------------------------------------------ |
-| Attributes                  | popover         | Required to enable the popover behavior.                                                               |
-| Attributes                  | open            | Controls the open/closed state of the menu.                                                            |
-| Attributes                  | anchor          | Where to position the dropdown menu. Supports values like "bottom", "bottom-start", "bottom-end", etc. |
-| Attributes                  | anchor-strategy | Sets the `position` CSS property of the popover to either `absolute` (default) or `fixed`.             |
-| CSS variables               | --anchor-gap    | Sets the gap between the anchor and the popover.                                                       |
-| CSS variables               | --anchor-offset | Sets the distance that the popover should be nudged from its original position.                        |
-| Data attributes (Read-only) | data-closed     | Present before transitioning in, and when transitioning out.                                           |
-| Data attributes (Read-only) | data-enter      | Present when transitioning in.                                                                         |
-| Data attributes (Read-only) | data-leave      | Present when transitioning out.                                                                        |
-| Data attributes (Read-only) | data-transition | Present when transitioning in or out.                                                                  |
-| Methods                     | togglePopover() | Toggles the menu visibility.                                                                           |
-| Methods                     | showPopover()   | Shows the menu.                                                                                        |
-| Methods                     | hidePopover()   | Hides the menu.                                                                                        |
+| Attributes | popover | Required to enable the popover behavior. |
+| Attributes | open | Controls the open/closed state of the menu. |
+| Attributes | anchor | Where to position the dropdown menu. Supports values like "bottom", "bottom-start", "bottom-end", etc. |
+| Attributes | anchor-strategy | Sets the `position` CSS property of the popover to either `absolute` (default) or `fixed`. |
+| CSS variables | --anchor-gap | Sets the gap between the anchor and the popover. |
+| CSS variables | --anchor-offset | Sets the distance that the popover should be nudged from its original position. |
+| Data attributes (Read-only) | data-closed | Present before transitioning in, and when transitioning out. |
+| Data attributes (Read-only) | data-enter | Present when transitioning in. |
+| Data attributes (Read-only) | data-leave | Present when transitioning out. |
+| Data attributes (Read-only) | data-transition | Present when transitioning in or out. |
+| Methods | togglePopover() | Toggles the menu visibility. |
+| Methods | showPopover() | Shows the menu. |
+| Methods | hidePopover() | Hides the menu. |
 
 ### Examples
 
@@ -660,18 +660,18 @@ The `<el-popover>` component is used to display floating panels with arbitrary c
 
 Contains the content of the popover.
 
-| Type                        | Name            | Description                                                                                      |
+| Type | Name | Description |
 | --------------------------- | --------------- | ------------------------------------------------------------------------------------------------ |
-| Attributes                  | anchor          | Where to position the popover. Supports values like "bottom", "bottom-start", "bottom-end", etc. |
-| Attributes                  | anchor-strategy | Sets the `position` CSS property of the popover to either `absolute` (default) or `fixed`.       |
-| Data attributes (Read-only) | data-closed     | Present before transitioning in, and when transitioning out.                                     |
-| Data attributes (Read-only) | data-enter      | Present when transitioning in.                                                                   |
-| Data attributes (Read-only) | data-leave      | Present when transitioning out.                                                                  |
-| Data attributes (Read-only) | data-transition | Present when transitioning in or out.                                                            |
-| Events                      | toggle          | Dispatched when the popover opens or closes.                                                     |
-| Methods                     | togglePopover() | Toggles the popover visibility.                                                                  |
-| Methods                     | showPopover()   | Shows the popover.                                                                               |
-| Methods                     | hidePopover()   | Hides the popover.                                                                               |
+| Attributes | anchor | Where to position the popover. Supports values like "bottom", "bottom-start", "bottom-end", etc. |
+| Attributes | anchor-strategy | Sets the `position` CSS property of the popover to either `absolute` (default) or `fixed`. |
+| Data attributes (Read-only) | data-closed | Present before transitioning in, and when transitioning out. |
+| Data attributes (Read-only) | data-enter | Present when transitioning in. |
+| Data attributes (Read-only) | data-leave | Present when transitioning out. |
+| Data attributes (Read-only) | data-transition | Present when transitioning in or out. |
+| Events | toggle | Dispatched when the popover opens or closes. |
+| Methods | togglePopover() | Toggles the popover visibility. |
+| Methods | showPopover() | Shows the popover. |
+| Methods | hidePopover() | Hides the popover. |
 
 #### `<el-popover-group>`
 
@@ -713,42 +713,42 @@ The `<el-select>` component is a fully accessible replacement for a native `<sel
 
 Manages form integration and coordinates with its child components.
 
-| Type                      | Name          | Description                                                             |
+| Type | Name | Description |
 | ------------------------- | ------------- | ----------------------------------------------------------------------- |
-| Attributes                | name          | The form field name for the select when used in forms.                  |
-| Attributes                | value         | The selected value of the select. Can be read and set programmatically. |
-| Events                    | input         | Dispatched when the selected option changes.                            |
-| Events                    | change        | Dispatched when the selected option changes.                            |
-| CSS variables (Read-only) | --input-width | Provides the width of the input element (read-only).                    |
+| Attributes | name | The form field name for the select when used in forms. |
+| Attributes | value | The selected value of the select. Can be read and set programmatically. |
+| Events | input | Dispatched when the selected option changes. |
+| Events | change | Dispatched when the selected option changes. |
+| CSS variables (Read-only) | --input-width | Provides the width of the input element (read-only). |
 
 #### `<el-options>`
 
 The options container that handles the popover behavior.
 
-| Type                        | Name            | Description                                                                                |
+| Type | Name | Description |
 | --------------------------- | --------------- | ------------------------------------------------------------------------------------------ |
-| Attributes                  | popover         | Required to enable the popover behavior.                                                   |
-| Attributes                  | anchor          | Configures the way the options are anchored to the button.                                 |
-| Attributes                  | anchor-strategy | Sets the `position` CSS property of the popover to either `absolute` (default) or `fixed`. |
-| CSS variables               | --anchor-gap    | Sets the gap between the anchor and the popover.                                           |
-| CSS variables               | --anchor-offset | Sets the distance that the popover should be nudged from its original position.            |
-| Data attributes (Read-only) | data-closed     | Present before transitioning in, and when transitioning out.                               |
-| Data attributes (Read-only) | data-enter      | Present when transitioning in.                                                             |
-| Data attributes (Read-only) | data-leave      | Present when transitioning out.                                                            |
-| Data attributes (Read-only) | data-transition | Present when transitioning in or out.                                                      |
-| Methods                     | togglePopover() | Toggles the options visibility.                                                            |
-| Methods                     | showPopover()   | Shows the options.                                                                         |
-| Methods                     | hidePopover()   | Hides the options.                                                                         |
+| Attributes | popover | Required to enable the popover behavior. |
+| Attributes | anchor | Configures the way the options are anchored to the button. |
+| Attributes | anchor-strategy | Sets the `position` CSS property of the popover to either `absolute` (default) or `fixed`. |
+| CSS variables | --anchor-gap | Sets the gap between the anchor and the popover. |
+| CSS variables | --anchor-offset | Sets the distance that the popover should be nudged from its original position. |
+| Data attributes (Read-only) | data-closed | Present before transitioning in, and when transitioning out. |
+| Data attributes (Read-only) | data-enter | Present when transitioning in. |
+| Data attributes (Read-only) | data-leave | Present when transitioning out. |
+| Data attributes (Read-only) | data-transition | Present when transitioning in or out. |
+| Methods | togglePopover() | Toggles the options visibility. |
+| Methods | showPopover() | Shows the options. |
+| Methods | hidePopover() | Hides the options. |
 
 #### `<el-option>`
 
 Individual selectable option within the select.
 
-| Type                        | Name          | Description                                       |
+| Type | Name | Description |
 | --------------------------- | ------------- | ------------------------------------------------- |
-| Attributes                  | value         | The value of the option (required for selection). |
-| Attributes                  | disabled      | Whether the option is disabled.                   |
-| ARIA attributes (Read-only) | aria-selected | Present when the option is selected.              |
+| Attributes | value | The value of the option (required for selection). |
+| Attributes | disabled | Whether the option is disabled. |
+| ARIA attributes (Read-only) | aria-selected | Present when the option is selected. |
 
 #### `<el-selectedcontent>`
 
@@ -850,7 +850,7 @@ The `<el-tab-group>` component makes it easy to build accessible, keyboard-navig
 
 The main container that coordinates the tabs and panels.
 
-| Type    | Name                | Description                   |
+| Type | Name | Description |
 | ------- | ------------------- | ----------------------------- |
 | Methods | setActiveTab(index) | Sets the active tab by index. |
 

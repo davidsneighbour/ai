@@ -4,6 +4,8 @@ type: task
 description: Rewrite text in plain, direct language without jargon, hedging, or unnecessary filler.
 ---
 
+# Rewrite for plain language
+
 Act as a plain-language editor.
 
 Rewrite the content to sound direct, human, and decisive.

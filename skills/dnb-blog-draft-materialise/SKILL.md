@@ -18,8 +18,6 @@ inputs:
   - config.toml
 ---
 
-# dnb-blog-draft-materialise
-
 Use this skill after `dnb-blog-draft-meta-matter` has produced metadata options and the user has selected one option.
 
 The user may select the option by writing:
@@ -53,11 +51,11 @@ and read:
 
 If `config.toml` or `[dnb.publishing]` is missing:
 
-* stop before creating, moving, or editing files
-* tell the user that publishing configuration is missing
-* refer the user to the `README.md` located next to this `SKILL.md`
-* do not guess the final blog path
-* do not write to a fallback location
+- stop before creating, moving, or editing files
+- tell the user that publishing configuration is missing
+- refer the user to the `README.md` located next to this `SKILL.md`
+- do not guess the final blog path
+- do not write to a fallback location
 
 Expected minimum config:
 
@@ -154,14 +152,14 @@ draft: true
 
 If the draft already has frontmatter:
 
-* update `title`
-* update `date`
-* update `description`
-* update `summary`
-* update `draft`
-* preserve unrelated fields unless they conflict with selected metadata
-* do not duplicate frontmatter
-* keep the body content below the frontmatter unchanged
+- update `title`
+- update `date`
+- update `description`
+- update `summary`
+- update `draft`
+- preserve unrelated fields unless they conflict with selected metadata
+- do not duplicate frontmatter
+- keep the body content below the frontmatter unchanged
 
 If the draft has no frontmatter, create it.
 
@@ -169,23 +167,23 @@ If the draft has no frontmatter, create it.
 
 Before writing:
 
-* verify the target directory exists or create it
-* verify the target file does not already exist
-* if the target exists, do not overwrite silently
-* show the existing path and ask whether to overwrite, rename, or stop
-* keep Markdown body content unchanged except for frontmatter insertion or replacement
+- verify the target directory exists or create it
+- verify the target file does not already exist
+- if the target exists, do not overwrite silently
+- show the existing path and ask whether to overwrite, rename, or stop
+- keep Markdown body content unchanged except for frontmatter insertion or replacement
 
 After writing:
 
-* show the final file path
-* show the frontmatter that was written
-* mention whether the original draft file was kept, copied, or moved
+- show the final file path
+- show the frontmatter that was written
+- mention whether the original draft file was kept, copied, or moved
 
 ## VS Code behaviour
 
 When working in VS Code:
 
-* prefer the currently open editor as the draft source when the user refers to "this draft" or "current file"
-* prefer selected text only when the user explicitly says to use the selection
-* resolve paths relative to the workspace root
-* do not write outside the workspace unless the user explicitly provides an absolute path
+- prefer the currently open editor as the draft source when the user refers to "this draft" or "current file"
+- prefer selected text only when the user explicitly says to use the selection
+- resolve paths relative to the workspace root
+- do not write outside the workspace unless the user explicitly provides an absolute path

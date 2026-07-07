@@ -3,6 +3,8 @@ name: prompts-raindrop-io-generate-tags
 description: Generate a comprehensive set of relevant hashtags for a given URL to use in a Raindrop.io bookmark collection.
 ---
 
+# Generate Raindrop.io tags
+
 Create a list of hashtags for the URL I provide.
 
 Instructions:

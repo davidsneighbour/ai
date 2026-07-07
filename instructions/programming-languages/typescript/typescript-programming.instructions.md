@@ -3,6 +3,8 @@ description: Core TypeScript programming instructions
 applyTo: "**/*.{ts,tsx,mts,cts,astro}"
 ---
 
+# TypeScript programming
+
 Use these instructions whenever creating, reviewing, refactoring, or documenting TypeScript code.
 
 ## Rule Index

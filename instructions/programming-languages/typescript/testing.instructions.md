@@ -3,6 +3,8 @@ description: TypeScript, JavaScript, Vitest, and Playwright testing instructions
 applyTo: "**/*.{test,spec}.{ts,tsx,js,mjs,cjs},tests/**/*.{ts,tsx,js,mjs,cjs}"
 ---
 
+# TypeScript and JavaScript testing
+
 Use these instructions when creating or reviewing Vitest or Playwright tests in TypeScript or JavaScript projects.
 
 ## General Test Rules

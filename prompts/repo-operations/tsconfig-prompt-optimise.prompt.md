@@ -3,6 +3,8 @@ name: prompts-repo-operations-tsconfig-prompt-optimise
 description: Improve the tsconfig onboarding prompt from real repository usage
 ---
 
+# Tsconfig prompt optimise
+
 You are improving an existing prompt named `tsconfig-onboarding.prompt.md`.
 
 Use the results of a real repository run to make the onboarding prompt more reliable, more precise, and less ambiguous.

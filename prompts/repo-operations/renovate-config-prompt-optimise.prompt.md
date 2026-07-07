@@ -3,6 +3,8 @@ name: prompts-repo-operations-renovate-config-prompt-optimise
 description: Improve the Renovate config onboarding prompt from real repository usage
 ---
 
+# Renovate config prompt optimise
+
 You are improving an existing prompt named `renovate-config-onboarding.prompt.md`.
 
 Use the results of a real repository run to make the onboarding prompt more reliable, more precise, and less ambiguous.

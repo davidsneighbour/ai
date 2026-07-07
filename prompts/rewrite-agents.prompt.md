@@ -3,15 +3,17 @@ name: prompts-rewrite-agents
 description: Refactor AGENTS.md using progressive disclosure principles to remove contradictions, extract grouped rules, and flag redundant instructions.
 ---
 
+# Rewrite AGENTS.md
+
 Refactor the AGENTS.md file to follow progressive disclosure principles.
 
 Follow these steps:
 
-## 1. Find contradictions:
+## 1. Find contradictions
 
 Identify any instructions that conflict with each other. For each contradiction, ask me which version I want to keep.
 
-## 2. Identify the essentials:
+## 2. Identify the essentials
 
 Extract only what belongs in the root AGENTS.md:
 
@@ -20,11 +22,11 @@ Extract only what belongs in the root AGENTS.md:
 - Non-standard build/typecheck commands
 - Anything truly relevant to every single task
 
-## 3. Group the rest:
+## 3. Group the rest
 
 Organize remaining instructions into logical categories (e.g., TypeScript conventions, testing patterns, API design, Git workflow). For each group, create a separate markdown file.
 
-## 4. Create the file structure:
+## 4. Create the file structure
 
 Output:
 
@@ -32,7 +34,7 @@ Output:
 - Each separate file with its relevant instructions
 - A suggested docs/folder structure
 
-## 5. Flag for deletion:
+## 5. Flag for deletion
 
 Identify any instructions that are:
 

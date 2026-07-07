@@ -3,6 +3,8 @@ name: prompts-repo-operations-tsconfig-onboarding
 description: Onboard the current repository to @dnbhq/tsconfig
 ---
 
+# Tsconfig onboarding
+
 You are working inside the current repository. Add or update the TypeScript configuration so this project uses `@dnbhq/tsconfig`.
 
 ## Goal
@@ -25,11 +27,11 @@ The default target behaviour is:
 
 Use only currently available configs from `@dnbhq/tsconfig`.
 
-| Shared config            | Use for                                                        |
+| Shared config | Use for |
 | ------------------------ | -------------------------------------------------------------- |
-| `@dnbhq/tsconfig/strict` | Generic strict TypeScript projects                             |
-| `@dnbhq/tsconfig/cli`    | Node.js CLI tools, Node scripts, and packages that run in Node |
-| `@dnbhq/tsconfig/astro`  | Astro projects using TypeScript                                |
+| `@dnbhq/tsconfig/strict` | Generic strict TypeScript projects |
+| `@dnbhq/tsconfig/cli` | Node.js CLI tools, Node scripts, and packages that run in Node |
+| `@dnbhq/tsconfig/astro` | Astro projects using TypeScript |
 
 Do not invent config names.
 
@@ -89,14 +91,14 @@ Before changing files, inspect the repository and report what you find:
 
 Use this decision table:
 
-| Project shape                                                      | Config                                                                                        |
+| Project shape | Config |
 | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| Astro project                                                      | `@dnbhq/tsconfig/astro`                                                                       |
-| Node CLI or Node scripts project                                   | `@dnbhq/tsconfig/cli`                                                                         |
-| Generic strict TypeScript package without Node runtime assumptions | `@dnbhq/tsconfig/strict`                                                                      |
-| Mixed Astro + Node scripts                                         | Use `@dnbhq/tsconfig/astro` for root/app config and a separate Node-specific config if needed |
-| Mixed browser app + Node tooling                                   | Use the closest root config and add separate tool/test configs if needed                      |
-| Existing multi-tsconfig project                                    | Preserve the multi-config structure and extend the appropriate shared config in each file     |
+| Astro project | `@dnbhq/tsconfig/astro` |
+| Node CLI or Node scripts project | `@dnbhq/tsconfig/cli` |
+| Generic strict TypeScript package without Node runtime assumptions | `@dnbhq/tsconfig/strict` |
+| Mixed Astro + Node scripts | Use `@dnbhq/tsconfig/astro` for root/app config and a separate Node-specific config if needed |
+| Mixed browser app + Node tooling | Use the closest root config and add separate tool/test configs if needed |
+| Existing multi-tsconfig project | Preserve the multi-config structure and extend the appropriate shared config in each file |
 
 If unsure, ask which project shape this repository should use. If work must continue without an answer, choose the safest config based on detected files and report the assumption.
 
@@ -358,15 +360,15 @@ Respond with a table.
 
 Use this format:
 
-| Change                 |                Status | Details                                                                          |
+| Change | Status | Details |
 | ---------------------- | --------------------: | -------------------------------------------------------------------------------- |
-| Dependency install     |                  Done | Added `@dnbhq/tsconfig` and ensured `typescript` exists                          |
-| Selected shared config |                  Done | Uses `@dnbhq/tsconfig/astro`, `@dnbhq/tsconfig/cli`, or `@dnbhq/tsconfig/strict` |
-| `tsconfig.json`        |                  Done | Simplified local config and preserved project-local settings                     |
-| Additional TS configs  |  Done/Partial/Skipped | Explain what was updated                                                         |
-| Scripts                |  Done/Partial/Skipped | List added or changed scripts                                                    |
-| Cleanup                |  Done/Partial/Skipped | List removed duplicated options, obsolete files, or unused packages              |
-| Validation             | Passed/Failed/Skipped | Include command output summary                                                   |
+| Dependency install | Done | Added `@dnbhq/tsconfig` and ensured `typescript` exists |
+| Selected shared config | Done | Uses `@dnbhq/tsconfig/astro`, `@dnbhq/tsconfig/cli`, or `@dnbhq/tsconfig/strict` |
+| `tsconfig.json` | Done | Simplified local config and preserved project-local settings |
+| Additional TS configs | Done/Partial/Skipped | Explain what was updated |
+| Scripts | Done/Partial/Skipped | List added or changed scripts |
+| Cleanup | Done/Partial/Skipped | List removed duplicated options, obsolete files, or unused packages |
+| Validation | Passed/Failed/Skipped | Include command output summary |
 
 Then add one sentence in this exact style, adapted to this repository:
 

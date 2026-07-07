@@ -3,6 +3,8 @@ name: prompts-prompt-management-config-prompt-pair-generator
 description: Create an onboarding prompt and optimisation prompt for a shared configuration repository
 ---
 
+# Config prompt pair generator
+
 You are creating reusable prompt files for onboarding projects to a shared configuration repository.
 
 The user will give you one configuration repository, package, preset, or shared tooling repo.
@@ -72,11 +74,11 @@ Infer a concise config name from the source repo.
 
 Examples:
 
-| Source                 | Prompt names                                                                      |
+| Source | Prompt names |
 | ---------------------- | --------------------------------------------------------------------------------- |
 | `dnbhq/release-config` | `release-config-onboarding.prompt.md`, `release-config-prompt-optimise.prompt.md` |
-| `dnbhq/tsconfig`       | `tsconfig-onboarding.prompt.md`, `tsconfig-prompt-optimise.prompt.md`             |
-| `dnbhq/biome-config`   | `biome-config-onboarding.prompt.md`, `biome-config-prompt-optimise.prompt.md`     |
+| `dnbhq/tsconfig` | `tsconfig-onboarding.prompt.md`, `tsconfig-prompt-optimise.prompt.md` |
+| `dnbhq/biome-config` | `biome-config-onboarding.prompt.md`, `biome-config-prompt-optimise.prompt.md` |
 
 Prefer storing these in:
 

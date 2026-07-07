@@ -3,7 +3,6 @@ name: prompts-node-cli-output-input
 description: Implement a reusable CLI UI layer using picocolors for colour output and @clack/prompts for interactive prompts, centralised behind a single module.
 ---
 
-````markdown
 # Implement CLI UI helpers with picocolors and @clack/prompts
 
 You are working on an npm package that contains Node.js and TypeScript CLI scripts.
@@ -370,4 +369,3 @@ After implementation, verify:
 - Prompt cancellation exits cleanly.
 - Error output is readable.
 - Non-interactive output remains useful without colours.
-````

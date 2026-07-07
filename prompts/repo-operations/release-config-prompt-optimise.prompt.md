@@ -3,6 +3,8 @@ name: prompts-repo-operations-release-config-prompt-optimise
 description: Improve the release-config setup prompt from real repository usage
 ---
 
+# Release config prompt optimise
+
 You are improving an existing prompt named `release-config-setup.prompt.md`.
 
 Use the results of a real repository run to make the setup prompt more reliable, more precise, and less ambiguous.

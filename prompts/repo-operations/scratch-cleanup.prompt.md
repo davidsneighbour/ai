@@ -3,6 +3,8 @@ name: prompts-repo-operations-scratch-cleanup
 description: Incrementally clean up a scratch/ directory by surveying content, detecting duplicates, grouping into smallest sensible tasks, and tracking progress across sessions.
 ---
 
+# Scratch cleanup
+
 You are analysing a `scratch/` directory that has grown organically — files were dropped in from many sources at different times, references may be stale, and the same content often appears in multiple places.
 
 **Important constraints:**
@@ -24,6 +26,7 @@ The `CLEANUP.md` records previously agreed groupings, completed tasks, and the p
 Walk every file and directory under `scratch/`. Build a flat inventory grouped by theme. Themes emerge from the content, not the existing folder structure — the existing structure is part of what needs fixing.
 
 Useful grouping signals:
+
 - same tool, technology, or domain (e.g. all Obsidian-related, all prose-style, all TypeScript)
 - same asset type across folders (e.g. all agents, all instruction files, all skill directories)
 - same original source (e.g. files cloned from an external repo all together)
@@ -34,6 +37,7 @@ Record every file. No file should be invisible in the inventory.
 ## Phase 2: cross-check against the main repository
 
 For each scratch item, check whether equivalent content already exists in the committed tree:
+
 - `instructions/` for instruction files
 - `prompts/` for prompt files
 - `skills/` for skill directories
@@ -42,6 +46,7 @@ For each scratch item, check whether equivalent content already exists in the co
 Check for identical or near-identical content, not just identical filenames. A scratch file with the same substance as a committed file is a candidate for deletion, not promotion.
 
 Mark each item with one of:
+
 - **duplicate** — content is already in the committed tree, delete it
 - **superseded** — an older or partial version of something already committed, delete it
 - **candidate** — has real value, not yet in the committed tree, needs promotion
@@ -54,6 +59,7 @@ Mark each item with one of:
 Group the remaining non-duplicate, non-obsolete items into the smallest tasks that still make coherent sense together. Items that depend on each other or that belong in the same target asset location should be one task.
 
 Rules for grouping:
+
 - all Obsidian-related skills together
 - all prose/writing-style instructions together
 - all TypeScript instruction files together
@@ -65,7 +71,7 @@ Rules for grouping:
 
 For each task, record this in `scratch/CLEANUP.md`:
 
-```
+```markdown
 ### Task N: <slug>
 
 Files:
@@ -82,12 +88,13 @@ Notes: <anything relevant>
 After completing the survey, output a Markdown table with all pending tasks:
 
 | # | Slug | Description | Action | Priority | Suggested? |
-|---|------|-------------|--------|----------|------------|
+| --- | ------ | ------------- | -------- | ---------- | ------------ |
 | 1 | `prose-instructions` | 9 prose/writing instruction files | promote to `instructions/writing/` | high | ✓ |
 | 2 | `typescript-instructions` | 6 TypeScript instruction files | promote to `instructions/programming-languages/typescript/` | medium | ✓ |
 | … | … | … | … | … | … |
 
 Priority rules:
+
 - **high**: pure deletes (confirmed duplicates, clearly obsolete) — zero risk, zero judgement needed
 - **medium**: small promotions (1–3 files, clear destination, complete content)
 - **low**: large clusters, external sources, binary-heavy directories, or anything needing a human decision
@@ -103,6 +110,7 @@ Do not proceed until the user picks a task.
 Only enter this phase when the user has explicitly chosen a task from the table.
 
 For each task:
+
 1. State exactly what you will do before doing it.
 2. For promotions: move or copy the file(s) to their target asset location, add required frontmatter if missing, run `node ./scripts/ai.ts validate` to confirm the registry accepts them.
 3. For deletes: remove the file(s) or directory.

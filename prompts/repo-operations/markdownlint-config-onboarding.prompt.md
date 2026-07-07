@@ -3,6 +3,8 @@ name: prompts-repo-operations-markdownlint-config-onboarding
 description: Onboard the current repository to the shared DNBHQ markdownlint config
 ---
 
+# Markdownlint config onboarding
+
 You are working inside the current repository. Add or update Markdown linting so this project uses `@dnbhq/markdownlint-config`.
 
 ## Goal
@@ -145,12 +147,12 @@ The shared package includes a `.markdownlintignore` baseline.
 
 Choose one of these:
 
-| Situation                                                                      | Action                                 |
+| Situation | Action |
 | ------------------------------------------------------------------------------ | -------------------------------------- |
-| No local ignore file and default globs are safe                                | Do not create `.markdownlintignore`    |
-| Project has generated/vendor Markdown that should be skipped                   | Create or update `.markdownlintignore` |
-| Existing `.markdownlintignore` contains project-specific ignores               | Preserve and clean it                  |
-| Existing ignore entries duplicate generated folders already excluded elsewhere | Keep only if still needed              |
+| No local ignore file and default globs are safe | Do not create `.markdownlintignore` |
+| Project has generated/vendor Markdown that should be skipped | Create or update `.markdownlintignore` |
+| Existing `.markdownlintignore` contains project-specific ignores | Preserve and clean it |
+| Existing ignore entries duplicate generated folders already excluded elsewhere | Keep only if still needed |
 
 Do not copy the shared `.markdownlintignore` blindly unless the project needs that baseline locally.
 
@@ -158,14 +160,14 @@ Do not copy the shared `.markdownlintignore` blindly unless the project needs th
 
 Classify every existing setting:
 
-| Existing setting                                 | Action                                       |
+| Existing setting | Action |
 | ------------------------------------------------ | -------------------------------------------- |
-| Already provided by `@dnbhq/markdownlint-config` | Remove local duplicate                       |
-| Project-specific rule override                   | Preserve locally and explain                 |
-| CLI2-only option                                 | Move to `.markdownlint-cli2.jsonc` if needed |
-| Old markdownlint CLI usage                       | Replace with `markdownlint-cli2`             |
-| Obsolete custom rule dependency                  | Remove if no longer referenced               |
-| Ambiguous                                        | Preserve and report why                      |
+| Already provided by `@dnbhq/markdownlint-config` | Remove local duplicate |
+| Project-specific rule override | Preserve locally and explain |
+| CLI2-only option | Move to `.markdownlint-cli2.jsonc` if needed |
+| Old markdownlint CLI usage | Replace with `markdownlint-cli2` |
+| Obsolete custom rule dependency | Remove if no longer referenced |
+| Ambiguous | Preserve and report why |
 
 Do not remove project-specific exceptions without reporting them.
 
@@ -213,14 +215,14 @@ Respond with a table.
 
 Use this format:
 
-| Change                    |                Status | Details                                                                   |
+| Change | Status | Details |
 | ------------------------- | --------------------: | ------------------------------------------------------------------------- |
-| Dependency install        |                  Done | Added `@dnbhq/markdownlint-config`                                        |
-| Lint scripts              |                  Done | Added or updated `lint:markdown` and `lint:markdown:fix`                  |
-| Shared config path        |                  Done | Uses `./node_modules/@dnbhq/markdownlint-config/.markdownlint-cli2.jsonc` |
-| Existing config migration |  Done/Partial/Skipped | Explain what was migrated                                                 |
-| Cleanup                   |  Done/Partial/Skipped | List removed old packages/config/scripts                                  |
-| Validation                | Passed/Failed/Skipped | Include command output summary                                            |
+| Dependency install | Done | Added `@dnbhq/markdownlint-config` |
+| Lint scripts | Done | Added or updated `lint:markdown` and `lint:markdown:fix` |
+| Shared config path | Done | Uses `./node_modules/@dnbhq/markdownlint-config/.markdownlint-cli2.jsonc` |
+| Existing config migration | Done/Partial/Skipped | Explain what was migrated |
+| Cleanup | Done/Partial/Skipped | List removed old packages/config/scripts |
+| Validation | Passed/Failed/Skipped | Include command output summary |
 
 Then add one sentence in this exact style, adapted to this repository:
 

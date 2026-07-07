@@ -3,6 +3,8 @@ name: prompts-project-health-check
 description: Run the repository health-check commands and report pass or fail status for each step.
 ---
 
+# Project health check
+
 Act as a command runner for this repository.
 
 Work from the repository root, meaning the current working directory unless a different root is explicitly provided.

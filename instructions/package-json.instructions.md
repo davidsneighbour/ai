@@ -19,11 +19,11 @@ After any meaningful `package.json` change, run `npm install` so `package-lock.j
 
 Ensure these fields are present and set to correct project values:
 
-* `name`
-* `description`
-* `version`
-* `license`
-* `type`
+- `name`
+- `description`
+- `version`
+- `license`
+- `type`
 
 Do not invent misleading values.
 
@@ -53,9 +53,9 @@ Not allowed:
 
 Apply this policy to:
 
-* `dependencies`
-* `devDependencies`
-* `optionalDependencies`
+- `dependencies`
+- `devDependencies`
+- `optionalDependencies`
 
 For `peerDependencies`, do not change existing ranges unless explicitly instructed. If adding a new peer dependency, report whether the project wants a fixed peer version or a compatibility range.
 
@@ -111,10 +111,10 @@ If `npm install` changes `package.json`, repeat the full sequence.
 
 Before finishing, verify:
 
-* `package.json` has been normalised by `fixpack`
-* the second `fixpack` run passes
-* dependency versions are fixed static versions where required
-* required fields are present and meaningful
-* `package-lock.json` is updated
-* `npm install` succeeds
-* no unrelated manifest, dependency, or lockfile changes were introduced
+- `package.json` has been normalised by `fixpack`
+- the second `fixpack` run passes
+- dependency versions are fixed static versions where required
+- required fields are present and meaningful
+- `package-lock.json` is updated
+- `npm install` succeeds
+- no unrelated manifest, dependency, or lockfile changes were introduced

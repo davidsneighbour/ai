@@ -16,8 +16,6 @@ inputs:
   - config.toml
 ---
 
-# dnb-blog-draft-meta-matter
-
 Use this skill to prepare reusable blog metadata from either a supplied draft or a topic idea.
 
 The output must help choose a final title, slug, description, and summary before the draft is saved.
@@ -38,11 +36,11 @@ and read:
 
 If `config.toml` or `[dnb.publishing]` is missing:
 
-* mention that publishing configuration is missing
-* refer the user to the `README.md` located next to this `SKILL.md`
-* continue with title, slug, description, and summary suggestions
-* set the `Path` field to `Not available until [dnb.publishing] is configured`
-* do not invent repository-specific paths
+- mention that publishing configuration is missing
+- refer the user to the `README.md` located next to this `SKILL.md`
+- continue with title, slug, description, and summary suggestions
+- set the `Path` field to `Not available until [dnb.publishing] is configured`
+- do not invent repository-specific paths
 
 Expected minimum config:
 
@@ -86,13 +84,13 @@ Create up to 5 title options.
 
 Each title must be checked for:
 
-* accurately expressing what the article explains
-* sounding natural as a blog post title
-* including searchable keywords where useful
-* using "How to" when it improves clarity or search intent
-* optionally using a question when the article solves a common problem
-* avoiding vague, clever, or clickbait phrasing
-* matching the article's actual depth and promise
+- accurately expressing what the article explains
+- sounding natural as a blog post title
+- including searchable keywords where useful
+- using "How to" when it improves clarity or search intent
+- optionally using a question when the article solves a common problem
+- avoiding vague, clever, or clickbait phrasing
+- matching the article's actual depth and promise
 
 Prefer titles that make the reader understand the practical result of the post.
 
@@ -102,15 +100,15 @@ Create one slug for each title option.
 
 The slug must:
 
-* be based on the title
-* be readable and understandable
-* include important keywords
-* be short enough for a clean URL
-* use lowercase letters
-* use dashes instead of spaces
-* avoid special characters
-* avoid filler words when they do not help meaning
-* fit into the configured final path
+- be based on the title
+- be readable and understandable
+- include important keywords
+- be short enough for a clean URL
+- use lowercase letters
+- use dashes instead of spaces
+- avoid special characters
+- avoid filler words when they do not help meaning
+- fit into the configured final path
 
 Prefer slugs between 35 and 70 characters unless clarity requires otherwise.
 
@@ -122,13 +120,13 @@ Create one description for each title and slug option.
 
 Each description must:
 
-* be between 140 and 160 characters
-* summarise what the post covers
-* include relevant keywords naturally
-* be suitable for search result snippets
-* avoid exaggerated claims
-* avoid keyword stuffing
-* avoid repeating the title too mechanically
+- be between 140 and 160 characters
+- summarise what the post covers
+- include relevant keywords naturally
+- be suitable for search result snippets
+- avoid exaggerated claims
+- avoid keyword stuffing
+- avoid repeating the title too mechanically
 
 Always include the character count.
 
@@ -142,15 +140,15 @@ The summary is used in blog listing previews.
 
 Each summary must:
 
-* be longer and more introductory than the description
-* be under 360 characters
-* not be short only to save space
-* use the available length where useful
-* explain what the post is about
-* mention the practical context
-* avoid giving away every detail
-* avoid hard selling
-* make the topic clear enough for the reader to decide whether to open the post
+- be longer and more introductory than the description
+- be under 360 characters
+- not be short only to save space
+- use the available length where useful
+- explain what the post is about
+- mention the practical context
+- avoid giving away every detail
+- avoid hard selling
+- make the topic clear enough for the reader to decide whether to open the post
 
 Prefer 2 to 4 concise sentences.
 

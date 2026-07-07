@@ -3,6 +3,8 @@ description: TypeScript architecture and module boundary rules
 applyTo: "**/*.{ts,tsx,mts,cts,astro}"
 ---
 
+# TypeScript architecture
+
 Use these instructions when designing, refactoring, or reviewing TypeScript module structure.
 
 ## Architectural Principles

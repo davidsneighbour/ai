@@ -5,8 +5,6 @@ title: DNB Interface Engineering
 description: Design engineering principles for making interfaces feel polished. Use when building UI components, reviewing frontend code, implementing animations, hover states, shadows, borders, typography, micro-interactions, enter/exit animations, or any visual detail work. Triggers on UI polish, design details, "make it feel better", "feels off", stagger animations, border radius, optical alignment, font smoothing, tabular numbers, image outlines, box shadows.
 ---
 
-# Details that make interfaces feel better
-
 Great interfaces rarely come from a single thing. It's usually a collection of small details that compound into a great experience. Apply these principles when building or reviewing UI code.
 
 ## Quick Reference
@@ -106,18 +104,21 @@ Always present changes as a markdown table with **Before** and **After** columns
 ### Example
 
 #### Concentric border radius
+
 | Before | After |
 | --- | --- |
 | `rounded-xl` on card + `rounded-xl` on inner button (`p-2`) | `rounded-2xl` on card (`12 + 8`), `rounded-lg` on inner button |
 | `border-radius: 16px` on both nested surfaces | Outer `24px`, inner `16px` with `8px` padding |
 
 #### Tabular numbers
+
 | Before | After |
 | --- | --- |
 | `<span>{count}</span>` on animated counter | `<span className="tabular-nums">{count}</span>` |
 | Default numerals on timer | Added `font-variant-numeric: tabular-nums` to root |
 
 #### Scale on press
+
 | Before | After |
 | --- | --- |
 | `<button className="...">` | Added `active:scale-[0.96] transition-transform` |

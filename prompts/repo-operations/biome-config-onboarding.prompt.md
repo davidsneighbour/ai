@@ -3,6 +3,8 @@ name: prompts-repo-operations-biome-config-onboarding
 description: Onboard the current repository to the shared DNBHQ Biome config
 ---
 
+# Biome config onboarding
+
 You are working inside the current repository. Add or update Biome so this project uses `@dnbhq/biome-config`.
 
 ## Goal
@@ -198,13 +200,13 @@ If the repository already has `lint`, `format`, or `check` scripts, do not overw
 
 Use one of these strategies:
 
-| Existing scripts                               | Action                                       |
+| Existing scripts | Action |
 | ---------------------------------------------- | -------------------------------------------- |
-| No lint/format scripts                         | Add the default scripts                      |
-| Existing `lint` is ESLint and still needed     | Add `lint:biome` and `lint:biome:fix`        |
-| Existing `format` is Prettier and still needed | Add `format:biome` and `format:biome:check`  |
-| Existing `check` is project build/typecheck    | Do not replace it; add `check:biome`         |
-| Biome fully replaces old tools                 | Replace scripts only after validation passes |
+| No lint/format scripts | Add the default scripts |
+| Existing `lint` is ESLint and still needed | Add `lint:biome` and `lint:biome:fix` |
+| Existing `format` is Prettier and still needed | Add `format:biome` and `format:biome:check` |
+| Existing `check` is project build/typecheck | Do not replace it; add `check:biome` |
+| Biome fully replaces old tools | Replace scripts only after validation passes |
 
 ## Cleanup
 
@@ -250,15 +252,15 @@ Respond with a table.
 
 Use this format:
 
-| Change                    |                Status | Details                                                  |
+| Change | Status | Details |
 | ------------------------- | --------------------: | -------------------------------------------------------- |
-| Dependency install        |                  Done | Added `@dnbhq/biome-config` and `@biomejs/biome`         |
-| Config file               |                  Done | Created or updated `biome.json`                          |
-| Shared config path        |                  Done | Extends `./node_modules/@dnbhq/biome-config/config.json` |
-| Scripts                   |  Done/Partial/Skipped | List added or changed scripts                            |
-| Existing config migration |  Done/Partial/Skipped | Explain what was migrated                                |
-| Cleanup                   |  Done/Partial/Skipped | List removed old packages/config/scripts                 |
-| Validation                | Passed/Failed/Skipped | Include command output summary                           |
+| Dependency install | Done | Added `@dnbhq/biome-config` and `@biomejs/biome` |
+| Config file | Done | Created or updated `biome.json` |
+| Shared config path | Done | Extends `./node_modules/@dnbhq/biome-config/config.json` |
+| Scripts | Done/Partial/Skipped | List added or changed scripts |
+| Existing config migration | Done/Partial/Skipped | Explain what was migrated |
+| Cleanup | Done/Partial/Skipped | List removed old packages/config/scripts |
+| Validation | Passed/Failed/Skipped | Include command output summary |
 
 Then add one sentence in this exact style, adapted to this repository:
 

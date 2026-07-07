@@ -1,3 +1,5 @@
+# Netlify partial
+
 Add this to the AGENTS.md for this project:
 
 ```markdown

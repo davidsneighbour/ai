@@ -3,6 +3,8 @@ description: TypeScript configuration baseline
 applyTo: "**/tsconfig*.json"
 ---
 
+# TypeScript configuration
+
 Use these instructions when creating or reviewing TypeScript configuration.
 
 ## TR014 - Compiler Settings

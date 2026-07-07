@@ -3,6 +3,8 @@ name: prompts-repo-operations-renovate-config-onboarding
 description: Onboard the current repository to the shared DNBHQ Renovate config
 ---
 
+# Renovate config onboarding
+
 You are working inside the current repository. Add or update Renovate configuration so this project uses `dnbhq/renovate-config`.
 
 ## Goal
@@ -112,13 +114,13 @@ Before changing files, inspect the repository and report what you find:
 
 Use this classification for every existing setting:
 
-| Existing setting                                   | Action                       |
+| Existing setting | Action |
 | -------------------------------------------------- | ---------------------------- |
-| Already provided by `github>dnbhq/renovate-config` | Remove local duplicate       |
-| Project-specific and still required                | Preserve locally             |
-| Overrides shared preset intentionally              | Preserve locally and explain |
-| Obsolete or unused                                 | Remove                       |
-| Ambiguous                                          | Preserve and report why      |
+| Already provided by `github>dnbhq/renovate-config` | Remove local duplicate |
+| Project-specific and still required | Preserve locally |
+| Overrides shared preset intentionally | Preserve locally and explain |
+| Obsolete or unused | Remove |
+| Ambiguous | Preserve and report why |
 
 Do not blindly delete package rules. Many package rules are project-specific.
 
@@ -212,14 +214,14 @@ Respond with a table.
 
 Use this format:
 
-| Change                    |                Status | Details                                  |
+| Change | Status | Details |
 | ------------------------- | --------------------: | ---------------------------------------- |
-| Config file               |                  Done | Created or updated `renovate.json5`      |
-| Shared preset             |                  Done | Extends `github>dnbhq/renovate-config`   |
-| Existing config migration |  Done/Partial/Skipped | Explain what was migrated                |
-| Local overrides           |             Done/None | List preserved project-specific settings |
-| Cleanup                   |  Done/Partial/Skipped | List removed duplicate files/settings    |
-| Validation                | Passed/Failed/Skipped | Include command output summary           |
+| Config file | Done | Created or updated `renovate.json5` |
+| Shared preset | Done | Extends `github>dnbhq/renovate-config` |
+| Existing config migration | Done/Partial/Skipped | Explain what was migrated |
+| Local overrides | Done/None | List preserved project-specific settings |
+| Cleanup | Done/Partial/Skipped | List removed duplicate files/settings |
+| Validation | Passed/Failed/Skipped | Include command output summary |
 
 Then add one sentence in this exact style, adapted to this repository:
 

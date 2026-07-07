@@ -3,6 +3,8 @@ name: prompts-repo-operations-biome-config-prompt-optimise
 description: Improve the Biome config onboarding prompt from real repository usage
 ---
 
+# Biome config prompt optimise
+
 You are improving an existing prompt named `biome-config-onboarding.prompt.md`.
 
 Use the results of a real repository run to make the onboarding prompt more reliable, more precise, and less ambiguous.

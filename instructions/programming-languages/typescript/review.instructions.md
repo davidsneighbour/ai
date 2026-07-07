@@ -3,6 +3,8 @@ description: TypeScript code review checklist and verification protocol
 applyTo: "**/*.{ts,tsx,mts,cts,astro}"
 ---
 
+# TypeScript code review
+
 Use these instructions when reviewing or validating TypeScript code.
 
 ## TR024 - Code Review Checklist

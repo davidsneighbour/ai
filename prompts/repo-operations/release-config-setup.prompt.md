@@ -3,6 +3,8 @@ name: prompts-repo-operations-release-config-setup
 description: Add or update release-it release procedures using @dnbhq/release-config
 ---
 
+# Release config setup
+
 You are working inside the current repository. Add or update the release procedure using `@dnbhq/release-config`.
 
 ## Goal
@@ -148,30 +150,30 @@ If an existing release configuration exists, migrate it deliberately.
 
 For every existing setting, classify it as one of these:
 
-| Existing setting                              | Action                                                |
+| Existing setting | Action |
 | --------------------------------------------- | ----------------------------------------------------- |
-| Directly supported by `@dnbhq/release-config` | Mirror it in `createReleaseConfig(...)` options       |
-| Supported through `overrides`                 | Mirror it under `overrides`                           |
-| Not supported                                 | Report it explicitly and explain what would be needed |
-| Obsolete after migration                      | Remove it                                             |
-| Unclear                                       | Leave it in place and report why                      |
+| Directly supported by `@dnbhq/release-config` | Mirror it in `createReleaseConfig(...)` options |
+| Supported through `overrides` | Mirror it under `overrides` |
+| Not supported | Report it explicitly and explain what would be needed |
+| Obsolete after migration | Remove it |
+| Unclear | Leave it in place and report why |
 
 Map features like this when possible:
 
-| Old feature                       | New location                     |
+| Old feature | New location |
 | --------------------------------- | -------------------------------- |
-| changelog file path               | `changelogFile`                  |
-| GitHub token env key              | `githubTokenRef`                 |
-| custom minor commit types         | `scopes.minorTypes`              |
-| custom patch commit types         | `scopes.patchTypes`              |
+| changelog file path | `changelogFile` |
+| GitHub token env key | `githubTokenRef` |
+| custom minor commit types | `scopes.minorTypes` |
+| custom patch commit types | `scopes.patchTypes` |
 | minor exclusions like `feat(fix)` | `scopes.minorExclusionSubscopes` |
-| package.json path                 | `repository.packageJsonPath`     |
-| repository fallback URL           | `repository.fallbackUrl`         |
-| git commit/tag/push settings      | `overrides.git`                  |
-| GitHub release settings           | `overrides.github`               |
-| npm publish settings              | `overrides.npm`                  |
-| plugin settings                   | `overrides.plugins`              |
-| release hooks                     | `overrides.hooks`                |
+| package.json path | `repository.packageJsonPath` |
+| repository fallback URL | `repository.fallbackUrl` |
+| git commit/tag/push settings | `overrides.git` |
+| GitHub release settings | `overrides.github` |
+| npm publish settings | `overrides.npm` |
+| plugin settings | `overrides.plugins` |
+| release hooks | `overrides.hooks` |
 
 Important: `@dnbhq/release-config` uses shallow merging for the main `git`, `github`, `npm`, and `plugins` objects. Do not assume deep merging. When overriding nested plugin settings, preserve required defaults explicitly.
 
@@ -284,14 +286,14 @@ If the installed `release-it` version does not support one of these CLI options,
 
 Define the scripts as:
 
-| Script          | Meaning                                                          |
+| Script | Meaning |
 | --------------- | ---------------------------------------------------------------- |
-| `release`       | normal CI-style release using configured changelog/version rules |
-| `release:dry`   | dry run without publishing changes                               |
-| `release:force` | re-run/update the current version/tag without incrementing       |
-| `release:patch` | force patch increment                                            |
-| `release:minor` | force minor increment                                            |
-| `release:major` | force major increment                                            |
+| `release` | normal CI-style release using configured changelog/version rules |
+| `release:dry` | dry run without publishing changes |
+| `release:force` | re-run/update the current version/tag without incrementing |
+| `release:patch` | force patch increment |
+| `release:minor` | force minor increment |
+| `release:major` | force major increment |
 
 ### Repository metadata
 
@@ -359,15 +361,15 @@ Respond with a table.
 
 Use this format:
 
-| Change                           |                Status | Details                                                                                            |
+| Change | Status | Details |
 | -------------------------------- | --------------------: | -------------------------------------------------------------------------------------------------- |
-| `.release-it.ts`                 |                  Done | Created TypeScript release config using `@dnbhq/release-config`                                    |
-| GitHub token                     |                  Done | Uses `GITHUB_TOKEN_CONTENT_PRIVATE`                                                                |
-| npm publishing                   |                  Done | Disabled                                                                                           |
-| Release scripts                  |                  Done | Added `release`, `release:dry`, `release:force`, `release:patch`, `release:minor`, `release:major` |
-| Existing config migration        |  Done/Partial/Skipped | Explain what was migrated or why not                                                               |
-| Removed obsolete packages/config |  Done/Partial/Skipped | List removals                                                                                      |
-| Validation                       | Passed/Failed/Skipped | Include command output summary                                                                     |
+| `.release-it.ts` | Done | Created TypeScript release config using `@dnbhq/release-config` |
+| GitHub token | Done | Uses `GITHUB_TOKEN_CONTENT_PRIVATE` |
+| npm publishing | Done | Disabled |
+| Release scripts | Done | Added `release`, `release:dry`, `release:force`, `release:patch`, `release:minor`, `release:major` |
+| Existing config migration | Done/Partial/Skipped | Explain what was migrated or why not |
+| Removed obsolete packages/config | Done/Partial/Skipped | List removals |
+| Validation | Passed/Failed/Skipped | Include command output summary |
 
 Then add one sentence in this exact style, adapted to the currently available features:
 

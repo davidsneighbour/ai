@@ -3,6 +3,8 @@ name: prompts-repo-operations-markdownlint-config-prompt-optimise
 description: Improve the markdownlint config onboarding prompt from real repository usage
 ---
 
+# Markdownlint config prompt optimise
+
 You are improving an existing prompt named `markdownlint-config-onboarding.prompt.md`.
 
 Use the results of a real repository run to make the onboarding prompt more reliable, more precise, and less ambiguous.
