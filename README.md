@@ -5,6 +5,7 @@
 This repository provides a portable structure for my AI assets that can be shared across ChatGPT, Codex, GitHub Copilot, and others.
 
 - [Structure](#structure)
+- [Further documentation](#further-documentation)
 - [CLI](#cli)
 - [Skills](#skills)
   - [Setup](#setup)
@@ -35,6 +36,12 @@ This repository provides a portable structure for my AI assets that can be share
 | `scripts/` | CLI runner and validators — see [scripts/README.md](scripts/README.md) |
 | `skills/` | agent skills |
 | `tasks/` | repeat task source files |
+
+## Further documentation
+
+- [scripts/README.md](scripts/README.md) — the `scripts/ai.ts` CLI and `scripts/ai-symlink.ts` symlink installer in detail.
+- [documentation/conventions.doc.md](documentation/conventions.doc.md) — prompt name conventions.
+- [documentation/external-tools.doc.md](documentation/external-tools.doc.md) — external tools useful alongside this repository.
 
 ## CLI
 
