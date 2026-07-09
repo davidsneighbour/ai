@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.0](https://github.com/davidsneighbour/ai/compare/v1.6.0...v1.7.0) (2026-07-09)
+
+### Instructions
+
+* document skill validator metadata policy ([#28](https://github.com/davidsneighbour/ai/issues/28)) ([2c50e77](https://github.com/davidsneighbour/ai/commit/2c50e77e1b681a2450cb433badff3a61da4f3267))
+
+### Skills
+
+* add project state report skill ([#28](https://github.com/davidsneighbour/ai/issues/28)) ([17a0885](https://github.com/davidsneighbour/ai/commit/17a0885b174193969c0c2eca71751f5409145646))
+
 ## [1.6.0](https://github.com/davidsneighbour/ai/compare/vv1.5.0...v1.6.0) (2026-07-07)
 
 ## [v1.5.0](https://github.com/davidsneighbour/ai/compare/v1.2.2...vv1.5.0) (2026-07-07)

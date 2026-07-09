@@ -1,7 +1,7 @@
 {
   "name": "@davidsneighbour/ai",
   "description": "AI prompts, skills, templates, and workflows f(or|rom) @davidsneighbour.",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "private": true,
   "bin": {
     "ai": "./scripts/ai.ts",
