@@ -47,6 +47,8 @@ TypeScript uses strict settings from `tsconfig.json` with NodeNext modules and n
 
 Prompt and instruction names must be lowercase kebab-case, unique, and match `^([a-z][a-z0-9]*)(-[a-z0-9]+)*$`. Skill directory names must match the `id` in `SKILL.md` front matter.
 
+Skill `SKILL.md` front matter intentionally includes repository-management fields such as `id`, `title`, `type`, and `inputs` when useful. The upstream `skill-creator` `quick_validate.py` script has a fixed allowlist of front matter keys and rejects these fields; that clash is known and accepted. Treat the repository-native validators (`npm run lint:skills`, `npm run ai:check`, and `npm run check`) as authoritative for this project rather than removing local metadata to satisfy the upstream quick validator.
+
 Markdown should use ATX headings, dash bullets, fenced backtick code blocks, ASCII text, and descriptive link text.
 
 ## Testing guidelines
