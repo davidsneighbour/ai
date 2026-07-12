@@ -25,6 +25,19 @@ The default target behaviour is:
 
 ## Available shared configs
 
+Before editing, consult the package documentation:
+
+- package page: [`@dnbhq/tsconfig` on npm](https://www.npmjs.com/package/@dnbhq/tsconfig)
+- package README.md: read the README shown on the package page, and read
+  `node_modules/@dnbhq/tsconfig/README.md` after installation when it is
+  available
+
+Use the package README as the current source for exported config subpaths,
+compiler option coverage, version notes, migration details, and
+package-specific caveats. If network access is not available, report that and
+continue from the installed package README or the baseline instructions in this
+prompt.
+
 Use only currently available configs from `@dnbhq/tsconfig`.
 
 | Shared config | Use for |

@@ -24,6 +24,18 @@ The default target behaviour is:
 
 ## Available shared config
 
+Before editing, consult the package documentation:
+
+- package page: [`@dnbhq/biome-config` on npm](https://www.npmjs.com/package/@dnbhq/biome-config)
+- package README.md: read the README shown on the package page, and read
+  `node_modules/@dnbhq/biome-config/README.md` after installation when it is
+  available
+
+Use the package README as the current source for exported config paths, version
+notes, migration details, and package-specific caveats. If network access is not
+available, report that and continue from the installed package README or the
+baseline instructions in this prompt.
+
 The shared package exports one config:
 
 ```json

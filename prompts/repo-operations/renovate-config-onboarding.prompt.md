@@ -22,6 +22,16 @@ The default target behaviour is:
 
 ## Available shared config
 
+Before editing, consult the preset documentation:
+
+- package page: [`dnbhq/renovate-config` on GitHub](https://github.com/dnbhq/renovate-config)
+- package README.md: read the repository `README.md` shown on the package page
+
+Use the README as the current source for preset names, included behaviour,
+version notes, migration details, and preset-specific caveats. If network access
+is not available, report that and continue from the baseline instructions in
+this prompt.
+
 Use the GitHub preset:
 
 ```json

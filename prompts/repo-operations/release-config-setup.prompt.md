@@ -23,6 +23,20 @@ The default target behaviour is:
 - use Conventional Commits to determine changelog grouping and release increments
 - configure `npm run release` and helper release scripts in `package.json`
 
+## Package documentation
+
+Before editing, consult the package documentation:
+
+- package page: [`@dnbhq/release-config` on npm](https://www.npmjs.com/package/@dnbhq/release-config)
+- package README.md: read the README shown on the package page, and read
+  `node_modules/@dnbhq/release-config/README.md` after installation when it is
+  available
+
+Use the package README as the current source for exported APIs, option names,
+merge behaviour, version notes, migration details, and package-specific caveats.
+If network access is not available, report that and continue from the installed
+package README or the baseline instructions in this prompt.
+
 ## Required first checks
 
 Before changing files, inspect the repository and report what you find:
