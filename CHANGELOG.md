@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.8.0](https://github.com/davidsneighbour/ai/compare/v1.7.0...v1.8.0) (2026-07-14)
+
+### Prompts
+
+* add config onboarding aggregator ([#29](https://github.com/davidsneighbour/ai/issues/29)) ([54b2fee](https://github.com/davidsneighbour/ai/commit/54b2feea73b88188e84ca6028ad35179893cdfca))
+
+### Instructions
+
+* organize AI asset folders ([#30](https://github.com/davidsneighbour/ai/issues/30)) ([be4660e](https://github.com/davidsneighbour/ai/commit/be4660e9b078631be54febfb6d9bd6e8aff011c6))
+
 ## [1.7.0](https://github.com/davidsneighbour/ai/compare/v1.6.0...v1.7.0) (2026-07-09)
 
 ### Instructions
