@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.1](https://github.com/davidsneighbour/ai/compare/v1.8.0...v1.8.1) (2026-07-14)
+
+### Chores
+
+* **ai-assets:** categorize agents and skills ([#30](https://github.com/davidsneighbour/ai/issues/30)) ([0fa072a](https://github.com/davidsneighbour/ai/commit/0fa072a3a3675ec0d9a1bb5de4b0190607186b1e))
+
 ## [1.8.0](https://github.com/davidsneighbour/ai/compare/v1.7.0...v1.8.0) (2026-07-14)
 
 ### Prompts
