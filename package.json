@@ -41,6 +41,18 @@
     "zod": "4.4.3",
     "zod-to-json-schema": "3.25.2"
   },
+  "overrides": {
+    "js-yaml": ">=4.2.0",
+    "lockfile-lint": {
+      "lockfile-lint-api": {
+        "@yarnpkg/parsers": {
+          "js-yaml": "^3.15.0"
+        }
+      }
+    },
+    "markdown-it": "^14.2.0",
+    "linkify-it": "^5.0.1"
+  },
   "scripts": {
     "ai:check": "node ./scripts/ai.ts check",
     "ai:check:release": "node ./scripts/ai.ts check --release",
