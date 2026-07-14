@@ -30,7 +30,7 @@ This repository provides a portable structure for my AI assets that can be share
 | Folder | Contents |
 | --- | --- |
 | `agents/` | `.agents` protocol sub-agent profiles |
-| `instructions/` | reusable instruction files |
+| `instructions/` | reusable instruction files — see [instructions/index.instructions.md](instructions/index.instructions.md) |
 | `memories/` | memory source files |
 | `prompts/` | prompt files grouped by purpose |
 | `schemas/` | validation schemas |
@@ -41,6 +41,7 @@ This repository provides a portable structure for my AI assets that can be share
 ## Further documentation
 
 - [scripts/README.md](scripts/README.md) — the `scripts/ai.ts` CLI and `scripts/ai-symlink.ts` symlink installer in detail.
+- [instructions/index.instructions.md](instructions/index.instructions.md) — instruction and prompt folder taxonomy.
 - [documentation/conventions.doc.md](documentation/conventions.doc.md) — prompt name conventions.
 - [documentation/external-tools.doc.md](documentation/external-tools.doc.md) — external tools useful alongside this repository.
 
@@ -146,14 +147,16 @@ Use this when prompt recommendation groups should be enabled or disabled indepen
 ```jsonc
 {
   "chat.promptFilesLocations": {
-    "prompts/extend-instructions/*.prompt.md": true,
-    "prompts/hugo/*.prompt.md": true,
-    "prompts/learning/*.prompt.md": true,
-    "prompts/node/*.prompt.md": true,
-    "prompts/obsidian/*.prompt.md": true,
-    "prompts/prompt-management/*.prompt.md": true,
-    "prompts/raindrop.io/*.prompt.md": true,
-    "prompts/repo-operations/*.prompt.md": true
+    "prompts/00-system/*.prompt.md": true,
+    "prompts/10-ai-assets/*.prompt.md": true,
+    "prompts/20-repository-workflows/*.prompt.md": true,
+    "prompts/30-quality-and-verification/*.prompt.md": true,
+    "prompts/40-languages-and-runtimes/*.prompt.md": true,
+    "prompts/50-frameworks-and-libraries/*.prompt.md": true,
+    "prompts/60-platforms-and-infrastructure/*.prompt.md": true,
+    "prompts/70-content-design-and-voice/*.prompt.md": true,
+    "prompts/80-knowledge-research-and-data/*.prompt.md": true,
+    "prompts/90-specialised-domains/*.prompt.md": true
   }
 }
 ```
@@ -174,7 +177,7 @@ This repository uses a two-step prompt pattern for applying shared DNBHQ configu
 
 The workflow starts with one generator prompt:
 
-- [`prompts/prompt-management/config-prompt-pair-generator.prompt.md`](./prompts/prompt-management/config-prompt-pair-generator.prompt.md)
+- [`prompts/10-ai-assets/config-prompt-pair-generator.prompt.md`](./prompts/10-ai-assets/config-prompt-pair-generator.prompt.md)
 
 That prompt analyses a shared configuration repository and creates a pair of reusable prompts:
 
@@ -185,23 +188,29 @@ The onboarding prompt is used inside a target repository. It inspects the curren
 
 The optimisation prompt is used after testing the onboarding prompt in one or more repositories. It takes follow-up changes, mistakes, failed commands, or manual corrections and turns them into a better version of the onboarding prompt.
 
+To onboard a repository to every available shared config package in one pass, use
+[`dnbhq-config-onboarding.prompt.md`](./prompts/20-repository-workflows/dnbhq-config-onboarding.prompt.md).
+That aggregate prompt discovers package onboarding prompts by filename, so future
+config packages are included when their onboarding prompt is added to
+`prompts/20-repository-workflows/`.
+
 ### Available config prompt pairs
 
 | Config | Onboarding prompt | Optimisation prompt |
 | --- | --- | --- |
-| Release config | [`release-config-setup.prompt.md`](./prompts/repo-operations/release-config-setup.prompt.md) | [`release-config-prompt-optimise.prompt.md`](./prompts/repo-operations/release-config-prompt-optimise.prompt.md) |
-| TypeScript config | [`tsconfig-onboarding.prompt.md`](./prompts/repo-operations/tsconfig-onboarding.prompt.md) | [`tsconfig-prompt-optimise.prompt.md`](./prompts/repo-operations/tsconfig-prompt-optimise.prompt.md) |
-| Renovate config | [`renovate-config-onboarding.prompt.md`](./prompts/repo-operations/renovate-config-onboarding.prompt.md) | [`renovate-config-prompt-optimise.prompt.md`](./prompts/repo-operations/renovate-config-prompt-optimise.prompt.md) |
-| Markdownlint config | [`markdownlint-config-onboarding.prompt.md`](./prompts/repo-operations/markdownlint-config-onboarding.prompt.md) | [`markdownlint-config-prompt-optimise.prompt.md`](./prompts/repo-operations/markdownlint-config-prompt-optimise.prompt.md) |
-| Biome config | [`biome-config-onboarding.prompt.md`](./prompts/repo-operations/biome-config-onboarding.prompt.md) | [`biome-config-prompt-optimise.prompt.md`](./prompts/repo-operations/biome-config-prompt-optimise.prompt.md) |
+| Release config | [`release-config-setup.prompt.md`](./prompts/20-repository-workflows/release-config-setup.prompt.md) | [`release-config-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/release-config-prompt-optimise.prompt.md) |
+| TypeScript config | [`tsconfig-onboarding.prompt.md`](./prompts/20-repository-workflows/tsconfig-onboarding.prompt.md) | [`tsconfig-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/tsconfig-prompt-optimise.prompt.md) |
+| Renovate config | [`renovate-config-onboarding.prompt.md`](./prompts/20-repository-workflows/renovate-config-onboarding.prompt.md) | [`renovate-config-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/renovate-config-prompt-optimise.prompt.md) |
+| Markdownlint config | [`markdownlint-config-onboarding.prompt.md`](./prompts/20-repository-workflows/markdownlint-config-onboarding.prompt.md) | [`markdownlint-config-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/markdownlint-config-prompt-optimise.prompt.md) |
+| Biome config | [`biome-config-onboarding.prompt.md`](./prompts/20-repository-workflows/biome-config-onboarding.prompt.md) | [`biome-config-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/biome-config-prompt-optimise.prompt.md) |
 
 ### Adding another shared config
 
 To add another shared configuration workflow:
 
-1. run [`config-prompt-pair-generator.prompt.md`](./prompts/prompt-management/config-prompt-pair-generator.prompt.md) with the shared config repository or package
-2. save the generated onboarding prompt in `prompts/repo-operations/`
-3. save the generated optimisation prompt in `prompts/repo-operations/`
+1. run [`config-prompt-pair-generator.prompt.md`](./prompts/10-ai-assets/config-prompt-pair-generator.prompt.md) with the shared config repository or package
+2. save the generated onboarding prompt in `prompts/20-repository-workflows/`
+3. save the generated optimisation prompt in `prompts/20-repository-workflows/`
 4. test the onboarding prompt in real repositories
 5. use the optimisation prompt to fold lessons from those runs back into the onboarding prompt
 
