@@ -4,7 +4,7 @@
 
 This repository is a structured registry of portable AI assets for prompts, skills, instructions, docs, and VS Code custom agents. The `scripts/ai.ts` CLI manages registry listing, validation, linting, schema export, and VS Code prompt-file integration.
 
-As of 2026-07-05, the registry release gate (`npm run ai:check:release`) is clean, but a separate check the release gate does not cover — `validate-skills` — is currently broken for three installable skills (issue #27). The Markdown-lint/scratch-scope issue (#17) has a fix implemented locally but not yet committed. Five open dependency-vulnerability issues (#22-#26) remain from an automated OSV scan and need manual review since all require major-version bumps or overrides. A closed issue (#21) claims a skill rename that isn't actually present in this repository's history — flagged for human review, not auto-corrected.
+As of 2026-07-14, the registry release gate (`npm run ai:check:release`) is clean, and the previously-tracked issues #17 (Markdown-lint scratch scope) and #27 (skill frontmatter validation) are both fixed and closed. However, the top-level `npm run check` quality gate — described in `CLAUDE.md` as the standard pre-commit/pre-release check — now fails on a clean `main` checkout: two skill directories vendored wholesale from third-party sources in a recent reorganization (`dnb-interface-design`, `dnb-site-audit`) violate this repo's Markdown lint rules (187 errors), and `npm run check`'s `&&` chaining means this also blocks `lint:markdown` and `test:ai-symlink` from running in a single invocation. This is newly tracked as #31. Five open dependency-vulnerability issues (#22-#26) remain from an automated OSV scan, unchanged since the last triage — all require a major-version bump, an `overrides` pin, or have no fix upstream yet. Issue #18 (TypeScript skill review/refactor) is still open; the skill directory rename it originally depended on is long done, but the content review itself hasn't started.
 
 ## Project health
 
@@ -13,35 +13,31 @@ As of 2026-07-05, the registry release gate (`npm run ai:check:release`) is clea
 | Release gate | Passes: `npm run ai:check:release` (0 errors, 0 warnings) |
 | Registry validation | Passes: `npm run ai:validate` |
 | Registry lint | Passes: `npm run ai:lint` |
-| Skill validation | **Fails**: `node ./scripts/ai.ts validate-skills --root skills --verbose` stops at the first error (`skills/dnb-interface-engineering/SKILL.md` missing `id`/`title`); two more files have the same defect (see #27). Not covered by the release gate. |
-| Skill Markdown lint | Fails: `npm run lint:skills:markdown` reports pre-existing style errors in several `SKILL.md` files (list style, headings, tables) — not yet tracked as an issue |
-| Broad Markdown lint | Fails: `npm run lint:markdown` now genuinely scans the repo (previously the glob only matched paths starting with "s") and surfaces ~38 files with pre-existing violations — not yet tracked as an issue |
+| Skill validation | Passes: `node ./scripts/ai.ts validate-skills --root skills --verbose` (24 skills validated) — #27 is fixed |
+| Skill Markdown lint | **Fails**: `npm run lint:skills:markdown` reports 187 errors across `dnb-interface-design/` and `dnb-site-audit/`, both vendored third-party content (see #31) |
+| Broad Markdown lint | Fails for the same reason (`npm run lint:markdown`); errors are confined to the two vendored skill directories, not spread across the repo |
+| Top-level `npm run check` | **Fails** (exit 1) — stops at the Markdown-lint step; `lint:markdown` and `test:ai-symlink` do not get a chance to run in the same invocation (see #31) |
 | Script formatting | Passes: `npx biome check scripts` |
-| Script test | Passes: `npm run test:ai-symlink` (8/8) |
-| Dependency vulnerabilities | 5 open, all requiring a major-version bump or `overrides` pin: #22 (elliptic, low), #23 (js-yaml, moderate), #24 (linkify-it, high), #25 (markdown-it 13.x, moderate), #26 (markdown-it 13.x/14.x, moderate) |
-| Working tree | Uncommitted fix for #17 staged: `.gitignore`, `package.json`, `.markdownlint-cli2.jsonc` |
-| Open issues | 7 |
-| CI | Not configured |
+| Type checking | Passes: `tsc --noEmit` |
+| Script test | Passes: `npm run test:ai-symlink` (8/8, run standalone) |
+| Dependency vulnerabilities | 5 open issues, all requiring a major-version bump, an `overrides` pin, or no fix yet: #22 (elliptic, low, no fix available), #23 (js-yaml, moderate, blocked by shared node), #24 (linkify-it, high, major bump), #25 (markdown-it 13.x, moderate, major bump), #26 (markdown-it 13.x/14.x, moderate, mixed). `npm audit` currently reports 11 total (3 low, 6 moderate, 2 high). |
+| Working tree | Clean |
+| Open issues | 6 |
+| CI | Not configured (no `.github/workflows/`) |
 
 ## Open issues
 
 ### Quality gates
 
-- **[#17](https://github.com/davidsneighbour/ai/issues/17) - fix: align markdown lint scope with ignored scratch files**
-  Fix is implemented in the working tree (not committed): `scratch/` added to `.gitignore`, new `.markdownlint-cli2.jsonc` with `gitignore: true`, broken `s**/*.{md,mdx}` glob corrected to `**/*.{md,mdx}`. Close once committed.
+- **[#31](https://github.com/davidsneighbour/ai/issues/31) - fix: npm run check fails — vendored skill content violates markdown lint (dnb-interface-design, dnb-site-audit)**
+  New this run. `dnb-interface-design` is a vendored external plugin (own `.claude-plugin/`, `LICENSE`, `FUNDING.yml`); `dnb-site-audit` also fails lint. Needs a decision: fix in place, exclude vendored paths from lint scope, or define a formal vendoring convention.
 
 ### Skills
 
-- **[#27](https://github.com/davidsneighbour/ai/issues/27) - fix: 3 installable skills fail validate-skills (missing id/title)**
-  `dnb-interface-engineering` (missing both), `dnb-markdown-formatting` and `dnb-voice` (missing `title`). Not caught by the release gate since `validate-skills` runs separately.
-
 - **[#18](https://github.com/davidsneighbour/ai/issues/18) - Review and refactor strict-typescript-check skill**
-  Still open; the skill has now been renamed (`skills/dnb-strict-typescript-check/`) but the content refactor has not happened.
+  Still open. The directory is now `skills/40-languages-and-runtimes/dnb-strict-typescript-check/` (rename done), but the content itself (4 bullet points) still hasn't been reviewed against `instructions/40-languages-and-runtimes/typescript/` for overlap/consolidation.
 
-- **[#21](https://github.com/davidsneighbour/ai/issues/21) - Rename strict TypeScript skill to dnb prefix** *(closed, disputed)*
-  Closed as completed citing commit `0a29a66`, which does not exist in this repository's history. The rename has since been done directly (`skills/strict-typescript-check/` → `skills/dnb-strict-typescript-check/`), independent of that disputed commit. The provenance discrepancy is still worth flagging to a human, but the rename itself is no longer outstanding.
-
-### Dependencies (OSV findings, all need a major bump or override pin)
+### Dependencies (OSV findings, all need a major bump, an override pin, or have no fix yet)
 
 - **[#22](https://github.com/davidsneighbour/ai/issues/22) - elliptic ECDSA signature risk (low)** — no fixed version exists yet upstream.
 - **[#23](https://github.com/davidsneighbour/ai/issues/23) - js-yaml quadratic DoS via merge keys (moderate)** — fix is a minor bump (4.1.1 → 4.2.0) but a shared/deduped node blocks auto-fix; needs an `overrides` pin.
@@ -51,29 +47,27 @@ As of 2026-07-05, the registry release gate (`npm run ai:check:release`) is clea
 
 ## Suggested order of work
 
-1. **#17** - Commit the already-implemented Markdown lint scope fix. Zero remaining risk, just needs a commit.
-2. **#27** - Fix the three skill frontmatter validation errors. Small, mechanical, and currently invisible to the release gate.
-3. **#18** - Rename is done (`skills/dnb-strict-typescript-check/`); remaining work is the content refactor itself.
-4. **#24** - Highest-severity dependency finding (linkify-it, high); evaluate the major-version bump path.
-5. **#23, #25, #26** - Remaining moderate dependency findings; group into one dependency-update pass since several share the same upstream chain (`markdownlint` → `markdown-it`/`linkify-it`).
-6. **#22** - Low severity, no fix available yet; revisit when elliptic ships a patched release.
+1. **#31** - Top-level `npm run check` is currently broken on a clean checkout; this is the highest-priority fix since it's the documented pre-commit/pre-release gate.
+2. **#18** - Rename is done; remaining work is the content refactor itself. Small and self-contained.
+3. **#24** - Highest-severity dependency finding (linkify-it, high); evaluate the major-version bump path.
+4. **#23, #25, #26** - Remaining moderate dependency findings; group into one dependency-update pass since several share the same upstream chain (`markdownlint` → `markdown-it`/`linkify-it`).
+5. **#22** - Low severity, no fix available yet; revisit when elliptic ships a patched release.
 
 ## Recent triage outcomes
 
-Created during this triage run (2026-07-05):
+Created during this triage run (2026-07-14):
 
-- **#27** - Tracks the three installable skills failing `validate-skills` due to missing `id`/`title`.
+- **#31** - Tracks `npm run check` failing due to Markdown-lint violations in two vendored skill directories.
 
-Commented on during this triage run (2026-07-05):
+Closed since the last triage run (verified fixed in the repository):
 
-- **#17** - Noted that a fix is implemented locally but uncommitted.
-- **#21** - Flagged that the cited completion commit doesn't exist in this repository.
+- **#17** - Markdown-lint scratch-scope fix is committed (`589557732cb7`, `ae543da22c73`).
+- **#27** - All three flagged skills now pass `validate-skills`; frontmatter was fixed.
 
-Already closed before this triage run:
+No changes needed this run:
 
-- **#16** - `lint:system` replaced by the `dnb-osv-scan` skill; consistent with current `package.json` (no `lint:system` script present).
-- **#19** - Issue-handling instruction published.
-- **#20** - Astro migration project skill added.
+- **#22-#26** - Dependency findings unchanged; still blocked on upstream fixes or need manual `overrides` pins.
+- **#18** - Still open, no new information to add.
 
 ## TODO inbox
 
@@ -81,5 +75,5 @@ Already closed before this triage run:
 
 ## Open clarification questions
 
-- **#17**: Confirm the working-tree fix should be committed as-is (it currently reveals ~38 files with pre-existing Markdown violations across the repo — should those be fixed in the same change, a follow-up issue, or left for `lint:markdown:fix`?).
+- **#31**: Should vendored third-party skill content (`dnb-interface-design`, and possibly `dnb-site-audit`) be fixed in place to satisfy this repo's Markdown lint rules, or excluded from lint scope under a formal "vendored" convention? Is `dnb-site-audit` actually vendored, or authored here and just needs a normal fix?
 - **#23/#25/#26**: Should shared, deduped dependency nodes blocked from auto-fix be resolved via `overrides` pins now, or batched into a single dependency-update PR later?
