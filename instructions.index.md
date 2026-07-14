@@ -64,5 +64,6 @@ entrypoint folder below the numbered category, for example
 | [`50-frameworks-and-libraries/wordpress/wordpress.instructions.md`](instructions/50-frameworks-and-libraries/wordpress/wordpress.instructions.md) | WordPress plugin and theme coding, security, and testing rules. |
 | [`60-platforms-and-infrastructure/debian-linux/debian-linux.instructions.md`](instructions/60-platforms-and-infrastructure/debian-linux/debian-linux.instructions.md) | Debian-based Linux administration and apt workflow guidance. |
 | [`70-content-design-and-voice/markdown/markdown-commonmark.instructions.md`](instructions/70-content-design-and-voice/markdown/markdown-commonmark.instructions.md) | CommonMark Markdown syntax rules. |
+| [`70-content-design-and-voice/markdown/markdown-formatting.instructions.md`](instructions/70-content-design-and-voice/markdown/markdown-formatting.instructions.md) | Repository Markdown formatting rules with stable rule identifiers. |
 | [`70-content-design-and-voice/markdown/markdown-gfm.instructions.md`](instructions/70-content-design-and-voice/markdown/markdown-gfm.instructions.md) | GitHub Flavored Markdown extensions on top of CommonMark. |
 | [`70-content-design-and-voice/voice/voice.instructions.md`](instructions/70-content-design-and-voice/voice/voice.instructions.md) | Baseline copy and wording rules for written files. |
