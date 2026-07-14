@@ -52,7 +52,8 @@ include:
 - In this repository, place prompt files directly inside the numbered
   top-level prompt folder that owns their primary subject. Keep the top-level
   folder taxonomy aligned with
-  [`../index.instructions.md`](../index.instructions.md).
+  [`../../instructions.index.md`](../../instructions.index.md), and update
+  [`../../prompts.index.md`](../../prompts.index.md) when prompt files move.
 - When flattening a prompt from a more specific folder, preserve important
   context in the filename, for example `hugo-upgrade.prompt.md` instead of
   `upgrade.prompt.md`.

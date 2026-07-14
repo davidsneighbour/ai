@@ -4,9 +4,10 @@
 
 This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot.
 
-- `prompts/` contains prompt Markdown files with YAML front matter.
-- `skills/` contains installable reusable skills. Each skill lives in its own directory and must include `SKILL.md`.
-- `instructions/` contains shared instruction files.
+- `agents/` contains `.agents` protocol sub-agent profiles grouped under numbered purpose folders. See `agents.index.md`.
+- `prompts/` contains prompt Markdown files with YAML front matter, grouped under numbered purpose folders. See `prompts.index.md`.
+- `skills/` contains installable reusable skills grouped under numbered purpose folders. Each skill lives in its own directory and must include `SKILL.md`. See `skills.index.md`.
+- `instructions/` contains shared instruction files grouped under numbered purpose folders. See `instructions.index.md`.
 - `ai/templates/` and `ai/workflows/` contain shared templates and workflow documents.
 - `schemas/` contains JSON schemas for prompts, skills, and docs.
 - `scripts/` contains the TypeScript CLI and validators.
@@ -37,9 +38,11 @@ Document a topic in a `README.md` next to what it describes, for example `script
 
 Every README.md in the repository, and every doc in `documentation/`, must be linked from the root `README.md` so nothing is undiscoverable.
 
+The root files `agents.index.md`, `instructions.index.md`, `prompts.index.md`, and `skills.index.md` are the discovery indexes for the four AI asset roots. Update the matching index in the same change whenever an agent, instruction, prompt, or skill is added, removed, renamed, moved, or recategorized.
+
 ## Resuming interrupted work
 
-Before starting repository work, agents must check for project-root `RESUME.md`. If it exists, they must read it, resolve or explicitly abandon the unfinished work, and remove `RESUME.md` before starting unrelated work. When available, follow `skills/dnb-resume-interrupted-work/SKILL.md` for the full protocol.
+Before starting repository work, agents must check for project-root `RESUME.md`. If it exists, they must read it, resolve or explicitly abandon the unfinished work, and remove `RESUME.md` before starting unrelated work. When available, follow `skills/20-repository-workflows/dnb-resume-interrupted-work/SKILL.md` for the full protocol.
 
 ## Coding style and naming conventions
 
@@ -55,7 +58,7 @@ Markdown should use ATX headings, dash bullets, fenced backtick code blocks, ASC
 
 For prompt, schema, or CLI changes, run `npm run ai:validate` and `npm run ai:check`. For skill changes, run `npm run lint:skills` or `npm run lint:skills:verbose`, plus `npm run lint:skills:markdown`.
 
-Name new skills as `skills/<skill-id>/SKILL.md`, where `<skill-id>` is lowercase kebab-case.
+Name new skills as `skills/<category>/<skill-id>/SKILL.md`, where `<category>` is one of the numbered folders in `skills.index.md` and `<skill-id>` is lowercase kebab-case.
 
 ## Commit and pull request guidelines
 

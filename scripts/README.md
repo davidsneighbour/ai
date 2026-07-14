@@ -36,7 +36,7 @@ This directory contains the tooling that manages the AI asset registry: validati
 | `show --id <id>` | Print one registry item by id. |
 | `validate` | Validate frontmatter against the Zod schema for each item's kind. |
 | `lint` | Check style and policy rules: unknown frontmatter keys, empty bodies, filename suffixes, required fields. |
-| `validate-skills` | Validate installable `skills/<id>/` directories independently of the registry classification. |
+| `validate-skills` | Validate installable `skills/<category>/<id>/` directories independently of the registry classification. |
 | `drift-report` | List frontmatter keys not recognised by any schema, grouped by key and by file. |
 | `export-schemas` | Write the Zod schemas to JSON Schema files under `schemas/`. |
 | `build-documentation` | Regenerate the prompt-file-locations section of `README.md` between its marker comments. |
@@ -90,12 +90,16 @@ A few checks are always hard errors, regardless of `--release`:
 - **missing-id** — agent files must have a non-empty `id`.
 - duplicate `id`/`name` values across the registry.
 
+Agent files may live under numbered category folders as
+`agents/<category>/<id>/agent.md`. The directory directly containing
+`agent.md` must still match the agent `id`.
+
 ### validate-skills
 
-Validates installable skill directories under `skills/<id>/` independently of the prompt/agent/doc/instruction registry:
+Validates installable skill directories under `skills/<category>/<id>/` independently of the prompt/agent/doc/instruction registry:
 
 - The skills root must exist.
-- Each direct child directory is treated as one skill.
+- Skill directories may be direct children for legacy compatibility or one level below a numbered category.
 - Each skill directory must contain `SKILL.md`.
 - `SKILL.md` must start with non-empty YAML frontmatter and a non-empty body.
 - Frontmatter must contain an `id` field.

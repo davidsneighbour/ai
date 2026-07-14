@@ -29,19 +29,22 @@ This repository provides a portable structure for my AI assets that can be share
 
 | Folder | Contents |
 | --- | --- |
-| `agents/` | `.agents` protocol sub-agent profiles |
-| `instructions/` | reusable instruction files — see [instructions/index.instructions.md](instructions/index.instructions.md) |
+| `agents/` | `.agents` protocol sub-agent profiles, grouped by purpose - see [agents.index.md](agents.index.md) |
+| `instructions/` | reusable instruction files, grouped by purpose - see [instructions.index.md](instructions.index.md) |
 | `memories/` | memory source files |
-| `prompts/` | prompt files grouped by purpose |
+| `prompts/` | prompt files grouped by purpose - see [prompts.index.md](prompts.index.md) |
 | `schemas/` | validation schemas |
 | `scripts/` | CLI runner and validators — see [scripts/README.md](scripts/README.md) |
-| `skills/` | agent skills |
+| `skills/` | agent skills, grouped by purpose - see [skills.index.md](skills.index.md) |
 | `tasks/` | repeat task source files |
 
 ## Further documentation
 
 - [scripts/README.md](scripts/README.md) — the `scripts/ai.ts` CLI and `scripts/ai-symlink.ts` symlink installer in detail.
-- [instructions/index.instructions.md](instructions/index.instructions.md) — instruction and prompt folder taxonomy.
+- [agents.index.md](agents.index.md) — agent profile folder taxonomy and current profile index.
+- [instructions.index.md](instructions.index.md) — shared AI asset folder taxonomy and current instruction index.
+- [prompts.index.md](prompts.index.md) — prompt folder taxonomy and current prompt index.
+- [skills.index.md](skills.index.md) — skill folder taxonomy and current skill index.
 - [documentation/conventions.doc.md](documentation/conventions.doc.md) — prompt name conventions.
 - [documentation/external-tools.doc.md](documentation/external-tools.doc.md) — external tools useful alongside this repository.
 
@@ -78,46 +81,46 @@ See [skills.sh](https://www.skills.sh/) for the full installer documentation, in
 
 ### Issue handling skills
 
-- [dnb-select-next-issue](skills/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance, without implementing it.
-- [dnb-work-on-issue](skills/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue by number, implement the required change, validate, and commit with a Conventional Commits message that closes the issue.
-- [dnb-work-on-next-issue](skills/dnb-work-on-next-issue/SKILL.md) — Orchestrate selecting and implementing the next suitable open GitHub issue without a specific issue number provided.
-- [dnb-work-through-issues](skills/dnb-work-through-issues/SKILL.md) — Continuously work through open GitHub issues until no suitable actionable issues remain, committing each fix individually.
+- [dnb-select-next-issue](skills/20-repository-workflows/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance, without implementing it.
+- [dnb-work-on-issue](skills/20-repository-workflows/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue by number, implement the required change, validate, and commit with a Conventional Commits message that closes the issue.
+- [dnb-work-on-next-issue](skills/20-repository-workflows/dnb-work-on-next-issue/SKILL.md) — Orchestrate selecting and implementing the next suitable open GitHub issue without a specific issue number provided.
+- [dnb-work-through-issues](skills/20-repository-workflows/dnb-work-through-issues/SKILL.md) — Continuously work through open GitHub issues until no suitable actionable issues remain, committing each fix individually.
 
 ### Project management skills
 
-- [dnb-astro-migration-project](skills/dnb-astro-migration-project/SKILL.md) — Bootstrap and run a parity-first migration of an existing website to Astro.
-- [dnb-dependency-maintenance](skills/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
-- [dnb-osv-scan](skills/dnb-osv-scan/SKILL.md) — Scan dependencies for known vulnerabilities with osv-scanner, auto-apply safe fixes, and file GitHub issues for the rest.
-- [dnb-project-state-report](skills/dnb-project-state-report/SKILL.md) — Analyse repository state, remote updates, GitHub activity, and recommended next actions.
-- [dnb-project-task-triage](skills/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
-- [dnb-quality-gate-organisation](skills/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
-- [dnb-resume-interrupted-work](skills/dnb-resume-interrupted-work/SKILL.md) — Manage a project-root RESUME.md handoff file that blocks new work until previously interrupted work is resolved.
+- [dnb-astro-migration-project](skills/50-frameworks-and-libraries/dnb-astro-migration-project/SKILL.md) — Bootstrap and run a parity-first migration of an existing website to Astro.
+- [dnb-dependency-maintenance](skills/20-repository-workflows/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
+- [dnb-osv-scan](skills/20-repository-workflows/dnb-osv-scan/SKILL.md) — Scan dependencies for known vulnerabilities with osv-scanner, auto-apply safe fixes, and file GitHub issues for the rest.
+- [dnb-project-state-report](skills/20-repository-workflows/dnb-project-state-report/SKILL.md) — Analyse repository state, remote updates, GitHub activity, and recommended next actions.
+- [dnb-project-task-triage](skills/20-repository-workflows/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
+- [dnb-quality-gate-organisation](skills/30-quality-and-verification/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
+- [dnb-resume-interrupted-work](skills/20-repository-workflows/dnb-resume-interrupted-work/SKILL.md) — Manage a project-root RESUME.md handoff file that blocks new work until previously interrupted work is resolved.
 
 ### Blog drafting skills
 
-- [dnb-blog-draft-meta-matter](skills/dnb-blog-draft-meta-matter/SKILL.md) — Prepare SEO-aware titles, slugs, descriptions, and summaries from a blog draft or topic.
-- [dnb-blog-draft-materialise](skills/dnb-blog-draft-materialise/SKILL.md) — Create or move a blog draft into the configured blog content path using a selected metadata option.
+- [dnb-blog-draft-meta-matter](skills/70-content-design-and-voice/dnb-blog-draft-meta-matter/SKILL.md) — Prepare SEO-aware titles, slugs, descriptions, and summaries from a blog draft or topic.
+- [dnb-blog-draft-materialise](skills/70-content-design-and-voice/dnb-blog-draft-materialise/SKILL.md) — Create or move a blog draft into the configured blog content path using a selected metadata option.
 
 ### Specification and testing skills
 
-- [dnb-behaviour-spec](skills/dnb-behaviour-spec/README.md) — Work from strict `Behaviour.spec.md` files as the source of truth for reviewing behaviour, generating tests, and validating implementation. See the skill README for the contract, workflow, examples, and stop conditions.
+- [dnb-behaviour-spec](skills/30-quality-and-verification/dnb-behaviour-spec/README.md) — Work from strict `Behaviour.spec.md` files as the source of truth for reviewing behaviour, generating tests, and validating implementation. See the skill README for the contract, workflow, examples, and stop conditions.
 
 ### Reference and documentation skills
 
-- [dnb-create-js-documentation](skills/dnb-create-js-documentation/SKILL.md) — Add or improve generated API documentation for JavaScript or TypeScript npm projects.
-- [dnb-markdown-formatting](skills/dnb-markdown-formatting/SKILL.md) — Decide whether strict CommonMark or GitHub Flavored Markdown rules apply to a Markdown file, then apply the matching instruction set.
-- [dnb-reference](skills/dnb-reference/SKILL.md) — Add or update strict references frontmatter on AI asset files.
-- [dnb-voice](skills/dnb-voice/SKILL.md) — Edit, rewrite, or review prose so it reads in Patrick's own voice.
+- [dnb-create-js-documentation](skills/40-languages-and-runtimes/dnb-create-js-documentation/SKILL.md) — Add or improve generated API documentation for JavaScript or TypeScript npm projects.
+- [dnb-markdown-formatting](skills/70-content-design-and-voice/dnb-markdown-formatting/SKILL.md) — Decide whether strict CommonMark or GitHub Flavored Markdown rules apply to a Markdown file, then apply the matching instruction set.
+- [dnb-reference](skills/10-ai-assets/dnb-reference/SKILL.md) — Add or update strict references frontmatter on AI asset files.
+- [dnb-voice](skills/70-content-design-and-voice/dnb-voice/SKILL.md) — Edit, rewrite, or review prose so it reads in Patrick's own voice.
 
 ### Engineering guideline skills
 
-- [dnb-interface-engineering](skills/dnb-interface-engineering/SKILL.md) — Design engineering principles for making interfaces feel polished.
-- [dnb-strict-typescript-check](skills/dnb-strict-typescript-check/SKILL.md) — Guidelines for strict TypeScript checks in generated code.
+- [dnb-interface-engineering](skills/70-content-design-and-voice/dnb-interface-engineering/SKILL.md) — Design engineering principles for making interfaces feel polished.
+- [dnb-strict-typescript-check](skills/40-languages-and-runtimes/dnb-strict-typescript-check/SKILL.md) — Guidelines for strict TypeScript checks in generated code.
 
 ### Social media posting
 
-- [dnb-post-into-void](skills/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from text supplied with the request or collected through questions.
-- [dnb-post-session-into-void](skills/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
+- [dnb-post-into-void](skills/70-content-design-and-voice/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from text supplied with the request or collected through questions.
+- [dnb-post-session-into-void](skills/70-content-design-and-voice/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
 
 <!-- ai:prompt-files-settings:start -->
 <!-- This section is generated by `npm run build:documentation` (`node ./scripts/ai.ts build-documentation`). Do not edit manually. -->

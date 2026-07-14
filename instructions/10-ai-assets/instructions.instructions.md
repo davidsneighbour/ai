@@ -25,7 +25,7 @@ following project conventions.
 
 In this repository, place instruction files under the numbered top-level
 folder that owns their primary subject. Use
-[`../index.instructions.md`](../index.instructions.md) as the source of truth
+[`../../instructions.index.md`](../../instructions.index.md) as the source of truth
 for the current folder map and instruction index.
 
 When a topic naturally touches two categories, keep the file in the most

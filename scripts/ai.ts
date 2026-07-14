@@ -459,7 +459,7 @@ Examples:
 
 validate-skills rules:
   - The skills root must exist.
-  - Each direct child directory is treated as one skill.
+  - Skill directories may be direct children or one level below a numbered category.
   - Each skill directory must contain SKILL.md.
   - SKILL.md must start with non-empty YAML frontmatter and a non-empty body.
   - Frontmatter must contain an id field.
@@ -723,7 +723,8 @@ async function runLint(options: CliOptions): Promise<void> {
 /**
  * Run the validate-skills command.
  *
- * This validates direct child directories that use Codex-style SKILL.md files.
+ * This validates categorized or legacy direct child directories that use
+ * Codex-style SKILL.md files.
  *
  * @param options CLI options.
  */
@@ -764,7 +765,7 @@ async function runValidateSkills(options: CliOptions): Promise<void> {
 }
 
 /**
- * Validate all direct child skill directories in a skills root.
+ * Validate all skill directories in a skills root.
  *
  * @param rootDirectory Skills root directory.
  * @param verbose Whether to print validated paths.
@@ -789,9 +790,16 @@ async function validateSkillDirectories(
 		withFileTypes: true,
 	});
 
-	const skillDirectories = entries
-		.filter((entry) => entry.isDirectory())
-		.map((entry) => path.join(absoluteRoot, entry.name))
+	const skillDirectories = (
+		await Promise.all(
+			entries
+				.filter((entry) => entry.isDirectory())
+				.map((entry) =>
+					findSkillDirectories(path.join(absoluteRoot, entry.name)),
+				),
+		)
+	)
+		.flat()
 		.sort((left, right) => left.localeCompare(right));
 
 	if (skillDirectories.length === 0) {
@@ -819,6 +827,36 @@ async function validateSkillDirectories(
 	}
 
 	return results;
+}
+
+/**
+ * Find direct or one-level categorized skill directories.
+ *
+ * @param directory Candidate directory under the skills root.
+ * @returns Skill directories containing a top-level SKILL.md.
+ */
+async function findSkillDirectories(directory: string): Promise<string[]> {
+	if (await fileExists(path.join(directory, "SKILL.md"))) {
+		return [directory];
+	}
+
+	const entries = await fs.readdir(directory, {
+		withFileTypes: true,
+	});
+
+	const nestedSkillDirectories: string[] = [];
+
+	for (const entry of entries) {
+		if (!entry.isDirectory()) continue;
+
+		const nestedDirectory = path.join(directory, entry.name);
+
+		if (await fileExists(path.join(nestedDirectory, "SKILL.md"))) {
+			nestedSkillDirectories.push(nestedDirectory);
+		}
+	}
+
+	return nestedSkillDirectories;
 }
 
 /**
@@ -1518,12 +1556,13 @@ async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
 	const markdownFiles = files.filter((filePath) => {
 		if (!filePath.endsWith(".md")) return false;
 
-		// Inside a nested skills directory, only SKILL.md at depth 1 is a registry item.
-		// Ancillary files in subdirs (references/, examples/, etc.) are not.
+		// Inside skills/, only installable direct or categorized SKILL.md files
+		// are registry items. Ancillary files in references/, examples/, bundled
+		// plugin folders, etc. are not.
 		const rel = path.relative(options.rootDir, filePath);
 		const parts = rel.split(path.sep);
-		if (parts[0] === "skills" && parts.length >= 3 && parts[2] !== "SKILL.md") {
-			return false;
+		if (parts[0] === "skills") {
+			return isRegistrySkillFile(parts);
 		}
 		return true;
 	});
@@ -1555,6 +1594,19 @@ async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
 
 	items.sort((left, right) => left.id.localeCompare(right.id));
 	return items;
+}
+
+/**
+ * Check whether a path under skills/ is a registry skill entrypoint.
+ *
+ * @param parts Repository-relative path parts.
+ * @returns True when the path is a direct or categorized SKILL.md entrypoint.
+ */
+function isRegistrySkillFile(parts: readonly string[]): boolean {
+	return (
+		(parts.length === 3 && parts[2] === "SKILL.md") ||
+		(parts.length === 4 && parts[3] === "SKILL.md")
+	);
 }
 
 /**
@@ -1849,7 +1901,7 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 			severity: release ? "error" : "warning",
 			code: "naming",
 			message:
-				"Agent file should use the .agents protocol path agents/<id>/agent.md.",
+				"Agent file should use the .agents protocol path agents/<category>/<id>/agent.md.",
 			file: item.relativePath,
 		});
 	}
@@ -1863,7 +1915,7 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 			severity: release ? "error" : "warning",
 			code: "naming",
 			message:
-				"Skill file should use the .skill.md suffix unless it is an installable skills/<id>/SKILL.md file.",
+				"Skill file should use the .skill.md suffix unless it is an installable skills/<category>/<id>/SKILL.md file.",
 			file: item.relativePath,
 		});
 	}
@@ -2119,6 +2171,25 @@ async function directoryExists(directory: string): Promise<boolean> {
 	try {
 		const stats = await fs.lstat(directory);
 		return stats.isDirectory();
+	} catch (error: unknown) {
+		if (isNodeError(error) && error.code === "ENOENT") {
+			return false;
+		}
+
+		throw error;
+	}
+}
+
+/**
+ * Check whether a file exists.
+ *
+ * @param filePath Absolute file path.
+ * @returns True when the path exists and is a file.
+ */
+async function fileExists(filePath: string): Promise<boolean> {
+	try {
+		const stats = await fs.lstat(filePath);
+		return stats.isFile();
 	} catch (error: unknown) {
 		if (isNodeError(error) && error.code === "ENOENT") {
 			return false;
