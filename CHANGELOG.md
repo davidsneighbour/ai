@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.9.0](https://github.com/davidsneighbour/ai/compare/v1.8.1...v1.9.0) (2026-07-15)
+
+### Features
+
+* **skills:** extend post-link social publishing ([#35](https://github.com/davidsneighbour/ai/issues/35)) ([785865b](https://github.com/davidsneighbour/ai/commit/785865baa851bcbdeff4a43cedc90be056ae5f48))
+* **skills:** unblock Threads and Tumblr direct posting via hosted OAuth callbacks ([74a3cd8](https://github.com/davidsneighbour/ai/commit/74a3cd8de12d8255e496bf352e3732095b43b7f3))
+
+### Bug Fixes
+
+* **markdown:** satisfy repository lint gate ([9800391](https://github.com/davidsneighbour/ai/commit/980039171c657b0fdb9c71d1505594e9a34bd61a)), closes [#31](https://github.com/davidsneighbour/ai/issues/31)
+
+### Instructions
+
+* add markdown formatting rules ([6aaae44](https://github.com/davidsneighbour/ai/commit/6aaae4489c1d6e65693610ed0dbe4674d725925d)), closes [#33](https://github.com/davidsneighbour/ai/issues/33)
+
+### Skills
+
+* add direct social posting APIs ([ff38c8a](https://github.com/davidsneighbour/ai/commit/ff38c8abc436991deeae44c961b6840120966a7d)), closes [#34](https://github.com/davidsneighbour/ai/issues/34)
+
+### Documentation
+
+* **index:** add repository index collector ([3e2aafe](https://github.com/davidsneighbour/ai/commit/3e2aafe7e7c0e0fecc2746733460e535de336a07)), closes [#32](https://github.com/davidsneighbour/ai/issues/32)
+
+### Build
+
+* **deps:** pin js-yaml, markdown-it, and linkify-it to patched versions ([5e7206d](https://github.com/davidsneighbour/ai/commit/5e7206d4589bab76d0f668d1a9739f46215602bb)), closes [#23](https://github.com/davidsneighbour/ai/issues/23) [#24](https://github.com/davidsneighbour/ai/issues/24) [#25](https://github.com/davidsneighbour/ai/issues/25)
+
+### Chores
+
+* **project:** update project plan ([0b0b962](https://github.com/davidsneighbour/ai/commit/0b0b9628d660b7c79e4c44e2da638474028efc54)), closes [23-#26](https://github.com/davidsneighbour/23-/issues/26) [#22](https://github.com/davidsneighbour/ai/issues/22)
+* **project:** update project plan ([c6cc7b9](https://github.com/davidsneighbour/ai/commit/c6cc7b91d4e48c5754a79d29fd292591b11ce653)), closes [#31](https://github.com/davidsneighbour/ai/issues/31) [22-#26](https://github.com/davidsneighbour/22-/issues/26) [#18](https://github.com/davidsneighbour/ai/issues/18)
+
 ## [1.8.1](https://github.com/davidsneighbour/ai/compare/v1.8.0...v1.8.1) (2026-07-14)
 
 ### Chores
