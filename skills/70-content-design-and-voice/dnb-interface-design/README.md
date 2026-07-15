@@ -1,27 +1,6 @@
-# Interface Design
+# Interface design
 
-<p align="center">
-  <strong>Craft · Memory · Consistency</strong>
-</p>
-
-<p align="center">
-  Build interfaces with intention. Remember decisions across sessions. Maintain systematic consistency.
-</p>
-
-<p align="center">
-  <em>For interface design — dashboards, apps, tools, admin panels. Not for marketing sites.</em>
-</p>
-
-<p align="center">
-  <a href="#installation">Install</a> ·
-  <a href="#how-it-works">How It Works</a> ·
-  <a href="https://interface-design.dev/examples.html">Examples</a> ·
-  <a href="https://interface-design.dev">Website</a>
-</p>
-
----
-
-## What This Does
+## What this does
 
 When you build UI with a coding agent, design decisions get made: spacing values, colors, depth strategy, surface elevation. Without structure, those decisions drift across sessions.
 
@@ -34,15 +13,17 @@ When you build UI with a coding agent, design decisions get made: spacing values
 
 Make choices once. Apply them consistently.
 
-## Before & After
+## Before & after
 
 **Without interface-design:**
+
 - Every session starts from scratch
-- Button heights drift (36px, 38px, 40px...)
-- Random spacing values (14px, 17px, 22px...)
+- Button heights drift (36px, 38px, 40px…)
+- Random spacing values (14px, 17px, 22px…)
 - No consistency across components
 
 **With interface-design:**
+
 - System loads automatically when the skill runs
 - Direction boards and paintovers when an image-generation tool is available
 - Patterns reused (Button: 36px, Card: 16px pad)
@@ -82,9 +63,9 @@ npx skills add https://github.com/dammyjay93/interface-design --skill interface-
 
 Review installed skills before use. Skills run with the same permissions as your coding agent.
 
-### Agent Notes
+### Agent notes
 
-#### Claude Code
+#### Claude code
 
 Recommended install:
 
@@ -114,11 +95,12 @@ npx skills add https://github.com/dammyjay93/interface-design --skill interface-
 The skills CLI installs Codex skills to `~/.agents/skills/interface-design`, which Codex scans. Restart Codex, or start a fresh Codex thread, if the skill does not appear immediately.
 
 Use the Codex slash command when available, invoke the skill explicitly in prompts, or let Codex invoke it when the request is clearly product UI work:
+
 - `/interface-design`
 - `use interface-design to build this dashboard`
 - `use interface-design design-review on the settings page`
 
-#### Other Skill-Compatible Agents
+#### Other skill-compatible agents
 
 Use the same CLI with an agent target:
 
@@ -126,15 +108,15 @@ Use the same CLI with an agent target:
 npx skills add https://github.com/dammyjay93/interface-design --skill interface-design --agent <agent-name> -g
 ```
 
-### Compatibility Matrix
+### Compatibility matrix
 
 | Agent | Install | Skill support | Slash commands | Notes |
-|-------|---------|---------------|----------------|-------|
+| --- | --- | --- | --- | --- |
 | Claude Code | `npx skills add ... --agent claude-code -g` | Yes | `/interface-design` | Plugin marketplace remains supported |
 | Codex | `npx skills add ... --agent codex -g` | Yes | `/interface-design` | Slash command and natural language both work |
 | All supported agents | `npx skills add ... --agent '*' -g -y` | Depends on agent | Depends on agent | Good for multi-agent setups |
 
-### Manual Fallback
+### Manual fallback
 
 If you cannot use `npx`, copy the core skill folder manually:
 
@@ -155,14 +137,15 @@ Restart the target agent after manual installation.
 
 ---
 
-## How It Works
+## How it works
 
-### The Flow
+### The flow
 
 When an agent uses interface-design:
 
 **If system.md exists:**
-```
+
+```plaintext
 ✓ Reads skill files and principles
 ✓ Loads .interface-design/system.md
 ✓ Applies established patterns
@@ -171,7 +154,8 @@ When an agent uses interface-design:
 ```
 
 **If no system.md:**
-```
+
+```markdown
 1. Reads skill files and principles
 2. Assesses project context
 3. Suggests direction, asks for confirmation
@@ -180,9 +164,9 @@ When an agent uses interface-design:
 6. Offers to save system
 ```
 
-### Example: First Session
+### Example: first session
 
-```
+```plaintext
 You: "Build a user dashboard with metrics cards"
 
 Agent:
@@ -209,9 +193,9 @@ Want me to save these patterns to .interface-design/system.md?
 ✓ System saved
 ```
 
-### Example: Second Session
+### Example: second session
 
-```
+```plaintext
 You: "Add a settings page"
 
 Agent:
@@ -231,7 +215,7 @@ The system **remembers** across sessions.
 
 ---
 
-## System File
+## System file
 
 After establishing direction, your decisions live in `.interface-design/system.md`:
 
@@ -270,9 +254,9 @@ This file is loaded by the interface-design skill when relevant. Claude Code and
 
 ---
 
-## Agent Usage
+## Agent usage
 
-### Claude Code
+### Claude code
 
 With the skills.sh install, invoke the skill directly or let Claude Code auto-invoke it:
 
@@ -291,7 +275,7 @@ If you installed through the Claude Code plugin flow, two command files in `.cla
 
 `design-review` is the design counterpart to a deep code-quality review — it judges focal point, hierarchy, typography, color, surfaces, states, and motion against the bar of a top design team, then tells you what to fix. `design-deslop` is the counterpart to a code-deslop pass — it finds the obvious tells of generated UI (generic tokens, defaulted fonts, timid palettes, identical cards, missing states, harsh borders) and cleans them up in place.
 
-### Codex Invocation
+### Codex invocation
 
 Codex uses the same skill content and can invoke it through the slash command or natural language:
 
@@ -306,12 +290,12 @@ For visual direction work, when an image-generation tool is available the skill 
 
 ---
 
-## Design Directions
+## Design directions
 
 The skill infers direction from project context, but you can customize:
 
 | Direction | Feel | Best For |
-|-----------|------|----------|
+| --- | --- | --- |
 | **Precision & Density** | Tight, technical, monochrome | Developer tools, admin dashboards |
 | **Warmth & Approachability** | Generous spacing, soft shadows | Collaborative tools, consumer apps |
 | **Sophistication & Trust** | Cool tones, layered depth | Finance, enterprise B2B |
@@ -326,6 +310,7 @@ The skill infers direction from project context, but you can customize:
 See live examples at **[interface-design.dev/examples.html](https://interface-design.dev/examples.html)**
 
 For system file templates, see `reference/examples/`:
+
 - **[system-precision.md](reference/examples/system-precision.md)** — Dashboard/admin interfaces
 - **[system-warmth.md](reference/examples/system-warmth.md)** — Collaborative/consumer apps
 
@@ -358,15 +343,3 @@ Your system.md files (if any) continue to work. Rename `.ds-engineer/` to `.inte
 **Consistency beats perfection.** A coherent system with "imperfect" values beats a scattered interface with "correct" ones.
 
 **Memory enables iteration.** When you can see what you decided and why, you can evolve intentionally instead of drifting accidentally.
-
----
-
-## License
-
-MIT — See [LICENSE](LICENSE)
-
----
-
-<p align="center">
-  <a href="https://interface-design.dev">Website</a> · <a href="https://github.com/Dammyjay93/interface-design">GitHub</a>
-</p>

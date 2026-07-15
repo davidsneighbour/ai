@@ -5,7 +5,7 @@ title: DNB Site Audit
 description: Audit a live website, staging deployment, or web project against the Website Specification checklist. Use for launch readiness, website quality reviews, technical SEO, accessibility, security headers, well-known URIs, agent readiness, performance, privacy, resilience, or internationalisation audits that require an evidence-backed report and prioritised remediation tasks.
 ---
 
-# Website Specification Audit
+## Website Specification audit
 
 Perform a comprehensive, non-mutating audit against the checklist in `references/checklist.md`.
 

@@ -17,7 +17,7 @@ This skill is self-contained: direction, visual hierarchy, design-system archite
 
 ---
 
-# The Problem
+## The Problem
 
 You will generate generic output. Your training has seen thousands of dashboards, and the patterns are strong. You can follow this entire process — explore the domain, name a signature, state your intent — and still produce a template: warm colors on cold structures, friendly fonts on generic layouts.
 
@@ -27,7 +27,7 @@ This happens because intent lives in prose, but code generation pulls from patte
 
 ---
 
-# Where Defaults Hide
+## Where Defaults Hide
 
 Defaults disguise themselves as infrastructure — the parts that feel like they just need to work, not be designed.
 
@@ -40,7 +40,7 @@ There are no structural decisions. Everything is design. The moment you stop ask
 
 ---
 
-# Intent First
+## Intent First
 
 Before touching code, answer these. Keep it a compact working brief unless the direction needs user confirmation.
 
@@ -54,7 +54,7 @@ If the prompt is too vague to identify the human, task, and feel, ask one concis
 
 ---
 
-# Product Domain Exploration
+## Product Domain Exploration
 
 This is where defaults get caught — or don't. Generic path: Task type → visual template → theme. Crafted path: Task type → product domain → signature → structure + expression. The difference is time spent in the product's world before any visual thinking.
 
@@ -69,7 +69,7 @@ This is where defaults get caught — or don't. Generic path: Task type → visu
 
 ---
 
-# Render It When You Can
+## Render It When You Can
 
 If an inline visual-rendering tool is available in the session (e.g. a `show_widget` / `visualize` tool that renders HTML or SVG inline in the conversation), prefer **showing** the design over describing it. A direction trapped in prose is a fraction as useful as one the person can look at. This is conditional: when no such tool is present (CI, headless agents, plain terminals), fall back to code, tokens, and a written proposal. Never assume the tool exists; check, then use it.
 
@@ -90,15 +90,15 @@ The point: collapse the loop between "here's my thinking" and "here's what it lo
 
 ---
 
-# Visual Hierarchy & Composition
+## Visual Hierarchy & Composition
 
 The single biggest driver of "this looks designed" versus "this looks generated." Defaults produce *flatness* — everything the same size, weight, and spacing, so nothing leads and the eye has nowhere to go. Craft produces *hierarchy* — the eye knows instantly what matters. These are concrete moves, not vibes.
 
-## One focal point per view
+### One focal point per view
 
 Every screen has one thing the user came to do. That thing dominates — through size, contrast, position, or the space around it. When everything competes equally, nothing wins and the interface reads like a parking lot. Before building, name the focal element out loud. Then make it win: bigger, higher-contrast, or ringed in whitespace. Demote everything else deliberately.
 
-## Type scale is a ratio, and weight beats size
+### Type scale is a ratio, and weight beats size
 
 Don't pick sizes by feel. Pick a ratio and step it: ~1.2 (minor third) for dense/calm UI, ~1.25 for most product UI, ~1.333 for expressive. From a 14–16px body that yields a *visibly* distinct scale, not 15/16/17 mush. A 14px base at 1.25: `caption 11 · body 14 · h4 16 · h3 18 · h2 22 · h1 28 · display 44+`. Round to whole pixels and to your spacing grid.
 
@@ -106,19 +106,19 @@ The Apple/Linear move: **weight and color do more hierarchy work than size.** A 
 
 Worked example — a metric, flat vs decided. *Flat:* `Revenue` / `$48,200` both 14px regular gray, three identical boxes, no focal point. *Decided:* `REVENUE` 11px/500/muted/tracked · `$48,200` 28px/600/primary/tabular-nums (the hero) · `↑12%` 12px/500/success. Same data, opposite legibility — the figure leads through size+weight+one accent, the label is demoted, secondary metrics drop to a lower tier.
 
-## Density is a decision, expressed in px
+### Density is a decision, expressed in px
 
 Linear is tight; Stripe is airy. Neither is default — both are *chosen*, and the choice is the same number repeated everywhere. Decide the density up front and name the values: a tool panel at 12–16px padding feels workbench-tight; the same card at 24px feels like a brochure. The same number can be right in one context and lazy in another. Pick deliberately, then hold it.
 
-## Spatial rhythm — breathe unevenly
+### Spatial rhythm — breathe unevenly
 
 Great interfaces don't space everything equally. Dense control zones give way to open content; heavy elements balance against light ones; the eye travels with purpose. Monotone layouts — same card size, same gap, same density everywhere — are the sound of no one deciding. Vary the rhythm on purpose: group tightly-related things, then put real air between groups.
 
-## Proportions speak
+### Proportions speak
 
 A 280px sidebar next to full-width content says "navigation serves content." A 360px sidebar says "these are peers." The specific number declares what matters. If you can't articulate what a proportion is saying, it isn't saying anything. Choose widths and ratios that state a relationship.
 
-## Distribution and restraint (the "expensive" look)
+### Distribution and restraint (the "expensive" look)
 
 - **~60/30/10**: a dominant neutral surface, a secondary tone, and ~10% accent. Color is a scarce resource — most of the screen is structure.
 - **One accent, used with intention**, beats five colors used without thought. Gray builds structure; color *communicates* (status, action, identity). Unmotivated color is noise.
@@ -127,9 +127,9 @@ A 280px sidebar next to full-width content says "navigation serves content." A 3
 
 ---
 
-# Craft Foundations
+## Craft Foundations
 
-## Subtle Layering (the backbone)
+### Subtle Layering (the backbone)
 
 Regardless of direction, this applies to everything. You should *barely notice the system working* — when you look at Vercel's dashboard you don't think "nice borders," you just understand the structure. Invisible craft is working craft.
 
@@ -143,21 +143,21 @@ Regardless of direction, this applies to everything. You should *barely notice t
 
 **The squint test:** blur your eyes at the interface. You should still perceive hierarchy — what's above what, where sections divide — but nothing should jump out. No harsh lines, no jarring shifts. Just quiet structure. Get this wrong and nothing else matters.
 
-## Infinite Expression
+### Infinite Expression
 
 Every pattern has infinite expressions — **no two interfaces should look the same.** A metric display could be a hero number, inline stat, sparkline, gauge, progress bar, comparison delta, or trend badge. Same sidebar width, same card grid, same icon-left-number-big-label-small metric boxes every time *signals AI-generated immediately* and is forgettable. Linear's cards don't look like Notion's; Vercel's metrics don't look like Stripe's. Same concepts, infinite expressions. Before building, ask: what's the ONE thing users do here, and what product solves a similar problem brilliantly?
 
-## Color Lives Somewhere
+### Color Lives Somewhere
 
 Every product exists in a world, and that world has colors. Before reaching for a palette, walk into the physical version of this space — what materials, what light, what objects? Your palette should feel like it came FROM somewhere, not applied TO something. Temperature is one axis; also ask quiet or loud, dense or spacious, serious or playful, geometric or organic. A trading terminal and a meditation app are both "focused" — completely different kinds of focus.
 
 ---
 
-# Before Writing Each Component
+## Before Writing Each Component
 
 **Every time** you write UI code — even small additions — state:
 
-```
+```text
 Intent:     [who is this human, what must they do, how should it feel]
 Hierarchy:  [the focal element, and how it wins — size / weight / contrast / space]
 Palette:    [colors from your exploration — and WHY they fit this world]
@@ -171,17 +171,17 @@ This checkpoint is mandatory. If you can't explain WHY for each, you're defaulti
 
 ---
 
-# Use What Exists
+## Use What Exists
 
 The most common way AI degrades a codebase: it hand-rolls what already exists. A bespoke `<div onClick>` "button" beside the project's real `Button`. A from-scratch dropdown with no keyboard support beside an installed primitive that has it. A 14-class Tailwind string copy-pasted onto every card instead of the component or token that's right there. Every one of these is the same failure — generating new instead of using what's present — and the result is inconsistent, inaccessible, and unmaintainable. **Before you build a control or style an element, look at what the project already gives you.**
 
-## Controls: native → primitive → hand-roll
+### Controls: native → primitive → hand-roll
 
 1. **Native HTML first** where it works. A `<button>` is a button; an `<a>` is a link; `<input type="text">`, `<dialog>`, `<details>` exist. Never `<div onClick>` something the platform already provides — you lose focus, keyboard, and semantics for free.
 2. **A battle-tested headless primitive** for anything stateful and hard to get right — select, combobox, dialog, popover, tooltip, dropdown menu, tabs, date picker. These ship keyboard navigation, focus management, ARIA, and collision/positioning that take days to reproduce correctly. Reach for what the ecosystem already trusts (e.g. Radix UI, React Aria, Ark, Headless UI, Vaul, `cmdk` in React; the equivalent accessible primitive in other frameworks), then style it to your direction. "Build custom" means *compose and style a primitive*, not write the behavior from scratch.
 3. **Hand-roll only as a genuine last resort** — no primitive fits, or there's no dependency budget. Then you owe the complete behavior contract: keyboard nav (arrow keys, Enter, Escape), focus trap/return, full ARIA roles and state, click-outside, and scroll-lock for overlays. A styled control missing these is broken, however good it looks.
 
-## Styling: system → component → token → utility
+### Styling: system → component → token → utility
 
 1. **If the project has a design system, use it.** shadcn/`Button`, a CVA variant set, a theme, a component library — use `<Button variant="…">` and the existing variants before writing a one-off. Match the codebase's styling convention (Tailwind, CSS modules, CSS-in-JS), don't introduce your own.
 2. **When a styled element repeats, extract a component.** The same utility string on nine buttons is duplication, not design. One component (or one CVA/variant) owns it; call sites stay clean. Extract on the second real reuse, not the first.
@@ -190,7 +190,7 @@ The most common way AI degrades a codebase: it hand-rolls what already exists. A
 
 ---
 
-# Design System Essentials
+## Design System Essentials
 
 The token, spacing, and depth architecture beneath every craft decision.
 
@@ -205,11 +205,11 @@ The token, spacing, and depth architecture beneath every craft decision.
 
 ---
 
-# Polish & Motion Essentials
+## Polish & Motion Essentials
 
 A hundred small details compound into "feels great." These are the highest-leverage ones — enough to ship genuinely polished UI.
 
-## Static polish
+### Static polish
 
 - **Concentric radius.** Nested rounded elements: `outerRadius = innerRadius + padding`. Same radius on parent and child is the most common thing that makes UI feel off.
 - **Tabular numbers.** Any dynamic number (counters, prices, timers, table columns) gets `font-variant-numeric: tabular-nums` to prevent layout shift.
@@ -221,7 +221,7 @@ A hundred small details compound into "feels great." These are the highest-lever
 - **Font smoothing.** `-webkit-font-smoothing: antialiased` on the root (macOS renders heavy otherwise).
 - **Image outlines.** 1px inset outline, pure `rgba(0,0,0,0.1)` light / `rgba(255,255,255,0.1)` dark — never a tinted near-black/white (reads as dirt on the edge).
 
-## Motion
+### Motion
 
 Motion should be felt, not watched. Fast, purposeful, and *never* in the way.
 
@@ -237,7 +237,7 @@ Motion should be felt, not watched. Fast, purposeful, and *never* in the way.
 
 ---
 
-# Avoid
+## Avoid
 
 - **Harsh borders** — if borders are the first thing you see, they're too strong
 - **Dramatic surface jumps** — elevation should be whisper-quiet
@@ -256,12 +256,14 @@ Motion should be felt, not watched. Fast, purposeful, and *never* in the way.
 
 ---
 
-# Workflow
+## Workflow
 
-## Communication
+### Communication
+
 Be invisible. Don't announce modes or narrate process. Never say "I'm in ESTABLISH MODE" or "Let me check system.md." Jump into the work; state suggestions with reasoning.
 
-## Execution discipline
+### Execution discipline
+
 Use this skill as a working discipline, not just advice. When editing UI:
 
 1. Inspect the existing app, design tokens, component patterns, and `.interface-design/system.md` if present.
@@ -271,10 +273,11 @@ Use this skill as a working discipline, not just advice. When editing UI:
 5. Verify visually for non-trivial UI. Use the inline render tool, a local browser, or screenshots at desktop and mobile widths; fix overlap, broken spacing, blank states, unreadable text, missing assets, and generic composition before presenting.
 6. Keep user-facing updates short. Don't expose long private design monologues — surface the useful recommendation or decision.
 
-## Suggest + Ask
+### Suggest + Ask
+
 Lead with exploration and recommendation, then confirm:
 
-```
+```text
 Domain:     [5+ concepts from the product's world]
 Color world:[5+ colors that exist in this domain]
 Signature:  [one element unique to this product]
@@ -284,11 +287,13 @@ Direction:  [approach connecting to the above]
 
 Then ask: "Does that direction feel right?" If an inline render tool is available, render a live specimen of the direction in the same message — show the palette, type, and signature, don't just name them.
 
-## Build flow
+### Build flow
+
 - **If `.interface-design/system.md` exists:** read it and apply — decisions are made.
 - **If not:** explore domain (all four outputs) → propose (reference all four) → confirm when the direction is ambiguous or costly to change → build → run the checks below → offer to save.
 
-## The checks (before showing)
+### The checks (before showing)
+
 Run these against your output; if any fails, iterate before presenting.
 
 - **Swap test** — swap your typeface for the usual one, your layout for a standard template: would anything feel different? Where swapping wouldn't matter is where you defaulted.
@@ -298,7 +303,7 @@ Run these against your output; if any fails, iterate before presenting.
 
 ---
 
-# After Completing a Task
+## After Completing a Task
 
 Always offer to save: "Want me to save these patterns for future sessions?" If yes, write to `.interface-design/system.md`:
 
@@ -312,7 +317,7 @@ Always offer to save: "Want me to save these patterns for future sessions?" If y
 
 ---
 
-# Commands
+## Commands
 
 - `/interface-design:design-review` — strict craft + hierarchy review of a build, with an approval bar; renders before/after when possible
 - `/interface-design:design-deslop` — fast, diff-scoped pass that strips visual slop from a branch

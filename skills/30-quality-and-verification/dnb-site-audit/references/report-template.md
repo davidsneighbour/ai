@@ -21,7 +21,7 @@ Summarise the overall condition, immediate risks, broad patterns, and confidence
 ## Coverage
 
 | Result | Count |
-|---|---:|
+| --- | ---: |
 | Pass | |
 | Fail | |
 | Partial | |
@@ -33,7 +33,7 @@ Summarise the overall condition, immediate risks, broad patterns, and confidence
 ## Results by category
 
 | Category | Pass | Fail | Partial | Manual | N/A | Blocked | Total |
-|---|---:|---:|---:|---:|---:|---:|---:|
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Foundations | | | | | | | 18 |
 | SEO | | | | | | | 14 |
 | Accessibility | | | | | | | 28 |
@@ -53,12 +53,12 @@ List P0 and P1 findings. Include ID, evidence, affected scope, and required resp
 ## Prioritised remediation backlog
 
 | Priority | IDs | Action | Affected scope | Acceptance criteria | Verification | Effort/owner |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 
 ## Complete checklist matrix
 
 | ID | Category | Source status | Result | Affected scope | Evidence | Action or follow-up |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 
 Every bundled checklist ID must appear exactly once.
 

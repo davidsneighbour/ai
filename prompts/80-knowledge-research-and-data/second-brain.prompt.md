@@ -7,7 +7,7 @@ description: Set up a local Obsidian second brain with Claude through an intervi
 
 > Two free apps and one prompt. Claude asks you a few questions, builds a folder of connected notes about your work, your projects and your people, and Obsidian shows it as a living graph. No code, no template to buy, and every file stays on your own computer.
 
-By Fionn Tobin · https://fionntobin.com/guides/second-brain-claude-obsidian
+By Fionn Tobin · [How to set up a Second Brain with Claude and Obsidian](https://fionntobin.com/guides/second-brain-claude-obsidian)
 
 ---
 
@@ -40,7 +40,7 @@ The part people miss: your second brain is just files on your own computer. No s
 
 ## The prompt
 
-```
+```text
 You're going to set up my personal second brain as a folder of linked notes I'll open in Obsidian.
 
 First, interview me. One question at a time, five questions max: what I do, what projects I'm juggling right now, who the key people are, and what I want this brain to help me with.
@@ -78,24 +78,25 @@ A second brain dies when it becomes a chore. Three habits, none longer than a mi
 
 And once a week, let Claude do the tidying:
 
-```
+```text
 Open my Second Brain folder. Read Inbox.md and my journal notes from this week. File each inbox item where it belongs, create notes for anything that deserves one, link them up, and give me a five-line summary of my week. Ask before you move anything.
 ```
 
 ## A few more to try
 
-```
+```text
 Read my whole Second Brain and tell me: what am I dropping? Which projects have gone quiet, which people have I not spoken to, what did I say I'd do that has no follow-up anywhere?
 ```
 
-```
+```text
 Here are my rough notes from a meeting I just had. Turn them into a proper note in my Second Brain, link it to the right project and people, and add any actions to my Inbox.
 ```
 
 ## The one rule
 
 Your second brain is exactly as private as your computer, so treat it that way. Everything stays in that one local folder: nothing is uploaded, and Claude asks before it moves or changes anything, because the prompt tells it to. Two things to keep it that way. Don't turn on sync or publishing features until you've thought about what's in there. And write about other people the way you'd be comfortable with them reading, because notes have a way of being seen. Your notes, your machine, your rules.
+
 ---
 
-From fionntobin.com. More free guides: https://fionntobin.com/guides
+From fionntobin.com. More free guides: [fionntobin.com/guides](https://fionntobin.com/guides)
 Follow along: TikTok @fionntobin · Instagram @fionn.tobin · YouTube @fionn-ai

@@ -21,7 +21,7 @@ Items: **18**
 - **Audit requirement:** Gather direct evidence using the listed methods. Apply the result-state rules in `../SKILL.md`; do not infer a pass from framework defaults.
 - **Failure output:** Identify affected URLs or files, explain the defect, specify the implementation change, define acceptance criteria, and provide a repeatable verification step.
 
-### FND-002 — The lang attribute on <html>
+### FND-002 — The lang attribute on `<html>`
 
 - **Source status:** Required
 - **Methods:** `html,browser,repo`
@@ -29,7 +29,7 @@ Items: **18**
 - **Audit requirement:** Gather direct evidence using the listed methods. Apply the result-state rules in `../SKILL.md`; do not infer a pass from framework defaults.
 - **Failure output:** Identify affected URLs or files, explain the defect, specify the implementation change, define acceptance criteria, and provide a repeatable verification step.
 
-### FND-003 — <meta charset>
+### FND-003 — `<meta charset>`
 
 - **Source status:** Required
 - **Methods:** `html,repo`
@@ -37,7 +37,7 @@ Items: **18**
 - **Audit requirement:** Gather direct evidence using the listed methods. Apply the result-state rules in `../SKILL.md`; do not infer a pass from framework defaults.
 - **Failure output:** Identify affected URLs or files, explain the defect, specify the implementation change, define acceptance criteria, and provide a repeatable verification step.
 
-### FND-004 — <meta viewport>
+### FND-004 — `<meta viewport>`
 
 - **Source status:** Required
 - **Methods:** `html,repo`
@@ -45,7 +45,7 @@ Items: **18**
 - **Audit requirement:** Gather direct evidence using the listed methods. Apply the result-state rules in `../SKILL.md`; do not infer a pass from framework defaults.
 - **Failure output:** Identify affected URLs or files, explain the defect, specify the implementation change, define acceptance criteria, and provide a repeatable verification step.
 
-### FND-005 — The <title> element
+### FND-005 — The `<title>` element
 
 - **Source status:** Required
 - **Methods:** `html,crawl,repo`
@@ -53,7 +53,7 @@ Items: **18**
 - **Audit requirement:** Gather direct evidence using the listed methods. Apply the result-state rules in `../SKILL.md`; do not infer a pass from framework defaults.
 - **Failure output:** Identify affected URLs or files, explain the defect, specify the implementation change, define acceptance criteria, and provide a repeatable verification step.
 
-### FND-006 — <meta name="description">
+### FND-006 — `<meta name="description">`
 
 - **Source status:** Recommended
 - **Methods:** `html,crawl,repo`
@@ -77,7 +77,7 @@ Items: **18**
 - **Audit requirement:** Gather direct evidence using the listed methods. Apply the result-state rules in `../SKILL.md`; do not infer a pass from framework defaults.
 - **Failure output:** Identify affected URLs or files, explain the defect, specify the implementation change, define acceptance criteria, and provide a repeatable verification step.
 
-### FND-009 — <meta name="theme-color">
+### FND-009 — `<meta name="theme-color">`
 
 - **Source status:** Recommended
 - **Methods:** `html,browser,repo`
@@ -85,7 +85,7 @@ Items: **18**
 - **Audit requirement:** Gather direct evidence using the listed methods. Apply the result-state rules in `../SKILL.md`; do not infer a pass from framework defaults.
 - **Failure output:** Identify affected URLs or files, explain the defect, specify the implementation change, define acceptance criteria, and provide a repeatable verification step.
 
-### FND-010 — <meta name="color-scheme">
+### FND-010 — `<meta name="color-scheme">`
 
 - **Source status:** Recommended
 - **Methods:** `html,css,browser,repo`

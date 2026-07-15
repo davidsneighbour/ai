@@ -2,8 +2,8 @@
 
 This skill adapts the structure, item titles, categories, and status levels of **The Website Specification checklist**.
 
-- Source: https://specification.website/checklist/
-- Project: https://github.com/jdevalk/specification.website
+- Source: [Website Specification checklist](https://specification.website/checklist/)
+- Project: [jdevalk/specification.website](https://github.com/jdevalk/specification.website)
 - Authors: Joost de Valk and contributors
 - Snapshot used for this adaptation: 2026-07-12
 - Source content licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
