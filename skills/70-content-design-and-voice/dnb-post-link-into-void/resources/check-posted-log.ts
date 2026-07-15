@@ -7,18 +7,44 @@ import { join, resolve } from "node:path";
 
 interface CliConfig {
 	url?: string;
+	targetNetworks: Network[];
 	logPath: string;
+}
+
+type Network =
+	| "mastodon"
+	| "bluesky"
+	| "linkedin"
+	| "nostr"
+	| "reddit"
+	| "threads"
+	| "tumblr";
+
+interface NetworkPostRecord {
+	url: string;
+	postedAt: string;
 }
 
 interface PostedRecord {
 	url: string;
 	canonicalUrl?: string;
-	mastodonUrl: string;
-	postedAt: string;
-	message: string;
+	mastodonUrl?: string;
+	postedAt?: string;
+	message?: string;
+	networks?: Partial<Record<Network, NetworkPostRecord>>;
+	messages?: Partial<Record<Network, string>>;
 }
 
 const DEFAULT_LOG_PATH = "~/.local/share/dnb-post-link-into-void/posted.jsonl";
+const SUPPORTED_NETWORKS = [
+	"mastodon",
+	"bluesky",
+	"linkedin",
+	"nostr",
+	"reddit",
+	"threads",
+	"tumblr",
+] as const;
 
 function printHelp(): void {
 	console.log(`
@@ -29,11 +55,12 @@ Usage:
 
 Options:
   --url <url>         URL to check. Required.
+  --to <networks>     Optional comma-separated networks to report against.
   --log-path <path>   Log file path. Default: ${DEFAULT_LOG_PATH}.
   --help               Show this help text.
 
 Output:
-  JSON on stdout: { alreadyPosted: boolean, record?: {...} }
+  JSON on stdout: { alreadyPosted: boolean, postedNetworks: string[], ... }
 `);
 }
 
@@ -53,8 +80,39 @@ function normaliseUrl(value: string): string {
 	return value.trim().replace(/\/+$/, "").toLowerCase();
 }
 
+function isNetwork(value: string): value is Network {
+	return (SUPPORTED_NETWORKS as readonly string[]).includes(value);
+}
+
+function parseNetworks(value: string): Network[] {
+	const networks = value
+		.split(",")
+		.map((network) => network.trim().toLowerCase())
+		.filter(Boolean);
+
+	if (networks.length === 0) {
+		throw new Error("--to must name at least one network.");
+	}
+
+	const result: Network[] = [];
+
+	for (const network of networks) {
+		if (!isNetwork(network)) {
+			throw new Error(
+				`Unknown network: ${network}. Supported networks here: ${SUPPORTED_NETWORKS.join(", ")}.`,
+			);
+		}
+
+		if (!result.includes(network)) {
+			result.push(network);
+		}
+	}
+
+	return result;
+}
+
 function parseArgs(argv: string[]): CliConfig {
-	const config: CliConfig = { logPath: DEFAULT_LOG_PATH };
+	const config: CliConfig = { logPath: DEFAULT_LOG_PATH, targetNetworks: [] };
 
 	for (let index = 0; index < argv.length; index += 1) {
 		const arg = argv[index];
@@ -68,6 +126,10 @@ function parseArgs(argv: string[]): CliConfig {
 
 			case "--url":
 				config.url = argv[++index];
+				break;
+
+			case "--to":
+				config.targetNetworks = parseNetworks(argv[++index] ?? "");
 				break;
 
 			case "--log-path":
@@ -113,24 +175,64 @@ async function readLog(logPath: string): Promise<PostedRecord[]> {
 	return records;
 }
 
+function hasPostedNetwork(record: PostedRecord, network: Network): boolean {
+	if (record.networks?.[network]) {
+		return true;
+	}
+
+	return network === "mastodon" && Boolean(record.mastodonUrl);
+}
+
 async function main(): Promise<void> {
 	const config = parseArgs(process.argv.slice(2));
 	const logPath = resolve(expandHomePath(config.logPath));
 	const records = await readLog(logPath);
 	const target = normaliseUrl(config.url as string);
 
-	const match = records.find(
+	const matches = records.filter(
 		(record) =>
 			normaliseUrl(record.url) === target ||
-			(record.canonicalUrl !== undefined && normaliseUrl(record.canonicalUrl) === target),
+			(record.canonicalUrl !== undefined &&
+				normaliseUrl(record.canonicalUrl) === target),
+	);
+	const networksToCheck =
+		config.targetNetworks.length > 0
+			? config.targetNetworks
+			: [...SUPPORTED_NETWORKS];
+	const postedNetworks = networksToCheck.filter((network) =>
+		matches.some((record) => hasPostedNetwork(record, network)),
+	);
+	const missingNetworks = networksToCheck.filter(
+		(network) => !postedNetworks.includes(network),
 	);
 
-	if (match) {
-		console.log(JSON.stringify({ alreadyPosted: true, record: match }, null, 2));
+	if (matches.length > 0) {
+		console.log(
+			JSON.stringify(
+				{
+					alreadyPosted: postedNetworks.length > 0,
+					postedNetworks,
+					missingNetworks,
+					records: matches,
+				},
+				null,
+				2,
+			),
+		);
 		return;
 	}
 
-	console.log(JSON.stringify({ alreadyPosted: false }, null, 2));
+	console.log(
+		JSON.stringify(
+			{
+				alreadyPosted: false,
+				postedNetworks,
+				missingNetworks,
+			},
+			null,
+			2,
+		),
+	);
 }
 
 main().catch((error: unknown) => {
