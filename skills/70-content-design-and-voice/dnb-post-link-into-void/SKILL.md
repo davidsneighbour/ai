@@ -31,11 +31,30 @@ Nostr support uses short text notes only. Crosspost requires Node.js v22 or
 newer, `NOSTR_PRIVATE_KEY`, and `NOSTR_RELAYS`; this repository already targets
 a newer Node version. Do not attach images to Nostr posts.
 
-The direct API integrations for Reddit, Threads, and Tumblr are text-only in
-this helper. Reddit posts are self posts with a title derived from the post
-text unless `--title` is supplied. Threads image posts require publicly hosted
-image URLs, so local screenshots are not attached there. Tumblr image posting
-is deliberately deferred until the text workflow is stable.
+The direct API integrations for Reddit, Threads, and Tumblr do not attach local
+screenshots. Reddit defaults to a link post that points at the source URL;
+after the link post is created, it adds the long post text as a top-level
+comment. Pass `--reddit-no-comment` only when the Reddit post should be just
+the link card, and pass `--reddit-post-type self` only when a Reddit self/text
+post is desired.
+Threads image posts require publicly hosted image URLs, so local screenshots
+are not attached there. Tumblr image posting is deliberately deferred until the
+text workflow is stable.
+
+Keep unsupported-network implementations isolated in their own resource
+scripts. `post-crosspost.ts` is the coordinator for network selection,
+message-file routing, duplicate logging, and Crosspost-backed networks. Direct
+API platform details live in:
+
+- `resources/post-reddit.ts`
+- `resources/post-threads.ts`
+- `resources/post-tumblr.ts`
+
+When a direct network breaks, patch and test the matching platform script
+first. The coordinator should only pass CLI arguments, run the script, parse
+its JSON result, and record the posted URL. The coordinator invokes these
+direct scripts with `node` so they do not depend on a globally installed
+`tsx`.
 
 Use configured networks from the environment. The helper reads the current
 process environment and the configured dotenv file, defaulting to `~/.env` via
@@ -48,7 +67,7 @@ posting setup, print the helper's configuration information and do not start a
 draft:
 
 ```bash
-tsx skills/70-content-design-and-voice/dnb-post-link-into-void/resources/post-crosspost.ts --info
+node skills/70-content-design-and-voice/dnb-post-link-into-void/resources/post-crosspost.ts --info
 ```
 
 The info output must include:
@@ -57,9 +76,9 @@ The info output must include:
 - the posted log path and whether it exists
 - configured supported networks
 - supported network settings: transport, Crosspost flag when applicable,
-  required environment variable option groups, missing environment variable
-  names, character limit, image support, network-specific draft suffix, and a
-  short description
+  direct script when applicable, required environment variable option groups,
+  missing environment variable names, character limit, image support,
+  network-specific draft suffix, and a short description
 - Crosspost-backed network names
 - direct API network names
 - unsupported network names, currently an empty list
@@ -111,7 +130,7 @@ Reject non-`http(s)` URLs and ask for a corrected one.
 1. **Fetch page metadata.**
 
    ```bash
-   tsx skills/70-content-design-and-voice/dnb-post-link-into-void/resources/fetch-link-metadata.ts --url "<url>"
+   node skills/70-content-design-and-voice/dnb-post-link-into-void/resources/fetch-link-metadata.ts --url "<url>"
    ```
 
    This returns JSON with `title`, `description`, `siteName`, `canonicalUrl`,
@@ -127,7 +146,7 @@ Reject non-`http(s)` URLs and ask for a corrected one.
 2. **Check the posted log before doing any more work.**
 
    ```bash
-   tsx skills/70-content-design-and-voice/dnb-post-link-into-void/resources/check-posted-log.ts \
+   node skills/70-content-design-and-voice/dnb-post-link-into-void/resources/check-posted-log.ts \
      --url "<canonicalUrl>"
    ```
 
@@ -148,7 +167,7 @@ Reject non-`http(s)` URLs and ask for a corrected one.
 3. **Take a screenshot.**
 
    ```bash
-   tsx skills/70-content-design-and-voice/dnb-post-link-into-void/resources/screenshot-site.ts \
+   node skills/70-content-design-and-voice/dnb-post-link-into-void/resources/screenshot-site.ts \
      --url "<url>" \
      --output scratch/dnb-post-link-into-void/<slug>.png
    ```
@@ -348,9 +367,16 @@ REDDIT_SUBREDDIT
 REDDIT_CLIENT_ID
 REDDIT_CLIENT_SECRET
 REDDIT_REFRESH_TOKEN
+THREADS_APP_ID
+THREADS_APP_SECRET
+THREADS_CLIENT_TOKEN
 THREADS_ACCESS_TOKEN
 THREADS_USER_ID
+THREADS_ACCESS_TOKEN_EXPIRES_AT
+THREADS_USERNAME
 TUMBLR_ACCESS_TOKEN
+TUMBLR_REFRESH_TOKEN
+TUMBLR_ACCESS_TOKEN_EXPIRES_AT
 TUMBLR_BLOG_IDENTIFIER
 ```
 
@@ -362,20 +388,50 @@ For Reddit, either provide a current `REDDIT_ACCESS_TOKEN` plus
 `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_REFRESH_TOKEN`,
 `REDDIT_USER_AGENT`, and `REDDIT_SUBREDDIT` so the helper can refresh an
 access token before posting. Optional `REDDIT_FLAIR_ID` is passed through when
-present.
+present. Reddit posts default to link posts using `--canonical-url`, falling
+back to `--source-url`; use `--reddit-link-url` to override the target or
+`--reddit-post-type self` to publish a self/text post instead. For Reddit link
+posts, the helper submits the link first, then posts the draft text as a
+top-level comment on the new Reddit post. Use `--reddit-no-comment` to skip
+that comment.
+
+If Reddit is missing `REDDIT_REFRESH_TOKEN`, use the companion
+`dnb-reddit-refresh-token` skill. It runs a local loopback OAuth callback
+server, verifies `state`, never prints the refresh token, and writes it to the
+configured dotenv file only when explicitly run with `--write-env`.
 
 For Threads, `THREADS_APP_ID`, `THREADS_APP_SECRET`, and
 `THREADS_CLIENT_TOKEN` are app credentials, not enough to publish by
 themselves. Posting needs `THREADS_ACCESS_TOKEN` and `THREADS_USER_ID`.
-Optional `THREADS_USERNAME` lets the helper print a best-effort public URL;
-otherwise it logs the returned Threads post id.
+Optional `THREADS_ACCESS_TOKEN_EXPIRES_AT` records when the current long-lived
+token should be refreshed, and optional `THREADS_USERNAME` lets the helper
+print a best-effort public URL; otherwise it logs the returned Threads post id.
+
+If Threads is missing `THREADS_ACCESS_TOKEN` or `THREADS_USER_ID`, or the
+stored long-lived token is expired, use the companion
+`dnb-threads-refresh-token` skill. It runs a local loopback OAuth callback
+server, verifies `state`, exchanges the short-lived token for a long-lived
+Threads token, never prints tokens, and writes the needed values to the
+configured dotenv file only when explicitly run with `--write-env`. If an
+existing long-lived token is still refreshable, run the companion with
+`--refresh-existing` to refresh it without a browser round trip.
 
 For Tumblr, `TUMBLR_CONSUMER_KEY` and `TUMBLR_CONSUMER_SECRET` are app
 credentials, not enough for this direct OAuth2 workflow. Posting needs
-`TUMBLR_ACCESS_TOKEN` and `TUMBLR_BLOG_IDENTIFIER`.
+`TUMBLR_ACCESS_TOKEN` and `TUMBLR_BLOG_IDENTIFIER`. Optional
+`TUMBLR_ACCESS_TOKEN_EXPIRES_AT` records when the current access token should
+be refreshed.
+
+If Tumblr is missing `TUMBLR_ACCESS_TOKEN`, `TUMBLR_REFRESH_TOKEN`, or
+`TUMBLR_BLOG_IDENTIFIER`, or the stored token is expired, use the companion
+`dnb-tumblr-refresh-token` skill. It runs a local loopback OAuth callback
+server, verifies `state`, never prints tokens, and writes the needed values to
+the configured dotenv file only when explicitly run with `--write-env`. If an
+existing refresh token is available, run the companion with
+`--refresh-existing` to refresh without a browser round trip.
 
 ```bash
-tsx skills/70-content-design-and-voice/dnb-post-link-into-void/resources/post-crosspost.ts \
+node skills/70-content-design-and-voice/dnb-post-link-into-void/resources/post-crosspost.ts \
   --message-file scratch/dnb-post-link-into-void/<slug>.md \
   --image scratch/dnb-post-link-into-void/<slug>.png \
   --image-alt "Concise screenshot description" \
@@ -401,7 +457,8 @@ explicit network-specific files:
 ```
 
 The helper skips `--image` and `--image-alt` for Nostr, Reddit, Threads, and
-Tumblr because those integrations are text-only here.
+Tumblr. Reddit uses a link post by default rather than uploading the local
+screenshot as media, then adds the long post text as a comment.
 
 Pass `--force` only when the user explicitly wants to repost to a network that
 is already logged. Pass `--no-log` only if the user explicitly does not want

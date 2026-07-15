@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 
 interface CliConfig {
 	url?: string;
@@ -31,7 +31,7 @@ function printHelp(): void {
 Fetch title, description, tags, and canonical URL from a web page.
 
 Usage:
-  tsx fetch-link-metadata.ts --url https://example.com/post
+  node fetch-link-metadata.ts --url https://example.com/post
 
 Options:
   --url <url>            Page to fetch. Required.
@@ -146,7 +146,9 @@ function extractCanonical(html: string): string | undefined {
 
 function firstMeta(metas: MetaTag[], keys: string[]): string | undefined {
 	for (const key of keys) {
-		const found = metas.find((meta) => meta.name === key || meta.property === key);
+		const found = metas.find(
+			(meta) => meta.name === key || meta.property === key,
+		);
 
 		if (found) {
 			return found.content;
@@ -195,12 +197,15 @@ async function main(): Promise<void> {
 		});
 
 		if (!response.ok) {
-			throw new Error(`Request failed: ${response.status} ${response.statusText}`);
+			throw new Error(
+				`Request failed: ${response.status} ${response.statusText}`,
+			);
 		}
 
 		const html = await response.text();
 		const metas = extractMetaTags(html);
-		const finalUrl = response.url.length > 0 ? response.url : (config.url as string);
+		const finalUrl =
+			response.url.length > 0 ? response.url : (config.url as string);
 
 		const result: LinkMetadata = {
 			requestedUrl: config.url as string,

@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 
 import { spawn } from "node:child_process";
 import { constants as fsConstants } from "node:fs";
@@ -13,6 +13,7 @@ import {
 } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { basename, dirname, extname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 type Network =
 	| "mastodon"
@@ -23,10 +24,12 @@ type Network =
 	| "threads"
 	| "tumblr";
 type NetworkTransport = "crosspost" | "direct";
+type RedditPostType = "link" | "self";
 
 interface NetworkConfig {
 	transport: NetworkTransport;
 	flag?: string;
+	directScript?: string;
 	requiredEnv: string[];
 	alternativeRequiredEnv?: string[][];
 	maxChars: number;
@@ -39,6 +42,9 @@ interface CliConfig {
 	messageFile?: string;
 	networkMessageFiles: Partial<Record<Network, string>>;
 	title?: string;
+	redditPostType?: RedditPostType;
+	redditLinkUrl?: string;
+	redditNoComment: boolean;
 	image?: string;
 	imageAlt?: string;
 	dotenvPath: string;
@@ -56,11 +62,6 @@ interface CommandResult {
 	exitCode: number;
 	stdout: string;
 	stderr: string;
-}
-
-interface DirectPublishContext {
-	config: CliConfig;
-	dotenvValues: Record<string, string>;
 }
 
 interface NetworkPostRecord {
@@ -120,6 +121,7 @@ const SUPPORTED_NETWORKS: Record<Network, NetworkConfig> = {
 	},
 	reddit: {
 		transport: "direct",
+		directScript: "post-reddit.ts",
 		requiredEnv: [
 			"REDDIT_ACCESS_TOKEN",
 			"REDDIT_USER_AGENT",
@@ -137,10 +139,11 @@ const SUPPORTED_NETWORKS: Record<Network, NetworkConfig> = {
 		maxChars: 40_000,
 		supportsImages: false,
 		description:
-			"Direct Reddit self post via OAuth. Uses --title or derives a title from the post text.",
+			"Direct Reddit link or self post via OAuth. Link posts add the message as a top-level comment.",
 	},
 	threads: {
 		transport: "direct",
+		directScript: "post-threads.ts",
 		requiredEnv: ["THREADS_ACCESS_TOKEN", "THREADS_USER_ID"],
 		maxChars: 500,
 		supportsImages: false,
@@ -149,6 +152,7 @@ const SUPPORTED_NETWORKS: Record<Network, NetworkConfig> = {
 	},
 	tumblr: {
 		transport: "direct",
+		directScript: "post-tumblr.ts",
 		requiredEnv: ["TUMBLR_ACCESS_TOKEN", "TUMBLR_BLOG_IDENTIFIER"],
 		maxChars: 4096,
 		supportsImages: false,
@@ -159,6 +163,7 @@ const SUPPORTED_NETWORKS: Record<Network, NetworkConfig> = {
 const DEFAULT_DOTENV_PATH = "~/.env";
 const DEFAULT_LOG_PATH = "~/.local/share/dnb-post-link-into-void/posted.jsonl";
 const LOGGED_MESSAGE_PREVIEW_LENGTH = 200;
+const RESOURCE_DIR = dirname(fileURLToPath(import.meta.url));
 const CROSSPOST_NETWORKS = (
 	Object.keys(SUPPORTED_NETWORKS) as Network[]
 ).filter((network) => SUPPORTED_NETWORKS[network].transport === "crosspost");
@@ -172,9 +177,9 @@ Post a confirmed message using @humanwhocodes/crosspost or direct network APIs,
 and record each network in the shared "posted into the void" log.
 
 Usage:
-  tsx post-crosspost.ts --message-file ./message.txt --image ./shot.png --image-alt "..." --source-url https://example.com/post
-  tsx post-crosspost.ts --message-file ./message.txt --message-file-bluesky ./message.bluesky.txt --message-file-nostr ./message.nostr.txt --to mastodon,bluesky,nostr
-  tsx post-crosspost.ts --info
+  node post-crosspost.ts --message-file ./message.txt --image ./shot.png --image-alt "..." --source-url https://example.com/post
+  node post-crosspost.ts --message-file ./message.txt --message-file-bluesky ./message.bluesky.txt --message-file-nostr ./message.nostr.txt --to mastodon,bluesky,nostr
+  node post-crosspost.ts --info
 
 Options:
   --info                             Print configuration info and exit.
@@ -188,6 +193,9 @@ Options:
   --message-file-threads <path>      Threads-specific message text.
   --message-file-tumblr <path>       Tumblr-specific message text.
   --title <text>                     Optional post title for networks that require one, currently Reddit.
+  --reddit-post-type <link|self>     Reddit post type. Default: link when a URL is available, otherwise self.
+  --reddit-link-url <url>            Reddit link-post URL. Default: canonical/source URL.
+  --reddit-no-comment                For Reddit link posts, skip commenting with the message text.
   --to <networks>                    Comma-separated networks. Default: all configured supported networks.
   --image <path>                     Optional image path.
   --image-alt <text>                 Required when --image is used.
@@ -218,7 +226,10 @@ Required environment by network:
 
 Notes:
   - CROSSPOST_DOTENV is set to ~/.env unless already present.
-  - Nostr, Reddit, Threads, and Tumblr posts are text-only in this helper.
+  - Reddit defaults to link posts for URL shares. Use --reddit-post-type self
+    to create a self/text post instead. Link posts add the message as a comment
+    unless --reddit-no-comment is used.
+  - Nostr, Threads, and Tumblr posts are text-only in this helper.
   - Threads image posts require publicly hosted image URLs and are not wired here.
   - When --source-url is given, each successful network publish appends one JSON
     line to the log so future runs can post only to missing networks.
@@ -284,20 +295,46 @@ function parseNetworks(value: string): Network[] {
 	return result;
 }
 
+function parseRedditPostType(value: string): RedditPostType {
+	const normalised = value.trim().toLowerCase();
+
+	if (normalised === "link" || normalised === "self") {
+		return normalised;
+	}
+
+	throw new Error("--reddit-post-type must be either link or self.");
+}
+
+function requireArg(argv: string[], index: number, flag: string): string {
+	const value = argv[index];
+
+	if (!value) {
+		throw new Error(`${flag} needs a value.`);
+	}
+
+	return value;
+}
+
 function parseArgs(argv: string[]): CliConfig {
 	const config: CliConfig = {
 		networkMessageFiles: {},
 		targetNetworks: [],
 		dotenvPath: DEFAULT_DOTENV_PATH,
 		logPath: DEFAULT_LOG_PATH,
+		redditNoComment: false,
 		noLog: false,
 		dryRun: false,
 		force: false,
 		info: false,
 	};
+	let index = 0;
+	const nextValue = (flag: string): string => {
+		index += 1;
+		return requireArg(argv, index, flag);
+	};
 
-	for (let index = 0; index < argv.length; index += 1) {
-		const arg = argv[index];
+	for (; index < argv.length; index += 1) {
+		const arg = argv[index] ?? "";
 
 		switch (arg) {
 			case "--help":
@@ -311,71 +348,83 @@ function parseArgs(argv: string[]): CliConfig {
 				break;
 
 			case "--message":
-				config.message = argv[++index];
+				config.message = nextValue(arg);
 				break;
 
 			case "--message-file":
-				config.messageFile = argv[++index];
+				config.messageFile = nextValue(arg);
 				break;
 
 			case "--message-file-mastodon":
-				config.networkMessageFiles.mastodon = argv[++index];
+				config.networkMessageFiles.mastodon = nextValue(arg);
 				break;
 
 			case "--message-file-bluesky":
-				config.networkMessageFiles.bluesky = argv[++index];
+				config.networkMessageFiles.bluesky = nextValue(arg);
 				break;
 
 			case "--message-file-linkedin":
-				config.networkMessageFiles.linkedin = argv[++index];
+				config.networkMessageFiles.linkedin = nextValue(arg);
 				break;
 
 			case "--message-file-nostr":
-				config.networkMessageFiles.nostr = argv[++index];
+				config.networkMessageFiles.nostr = nextValue(arg);
 				break;
 
 			case "--message-file-reddit":
-				config.networkMessageFiles.reddit = argv[++index];
+				config.networkMessageFiles.reddit = nextValue(arg);
 				break;
 
 			case "--message-file-threads":
-				config.networkMessageFiles.threads = argv[++index];
+				config.networkMessageFiles.threads = nextValue(arg);
 				break;
 
 			case "--message-file-tumblr":
-				config.networkMessageFiles.tumblr = argv[++index];
+				config.networkMessageFiles.tumblr = nextValue(arg);
 				break;
 
 			case "--title":
-				config.title = argv[++index];
+				config.title = nextValue(arg);
+				break;
+
+			case "--reddit-post-type":
+				config.redditPostType = parseRedditPostType(nextValue(arg));
+				break;
+
+			case "--reddit-link-url":
+				config.redditLinkUrl = nextValue(arg);
+				break;
+
+			case "--reddit-no-comment":
+				config.redditNoComment = true;
 				break;
 
 			case "--to":
-				config.targetNetworks = parseNetworks(argv[++index] ?? "");
+				config.targetNetworks = parseNetworks(nextValue(arg));
 				break;
 
 			case "--image":
-				config.image = argv[++index];
+				config.image = nextValue(arg);
 				break;
 
 			case "--image-alt":
-				config.imageAlt = argv[++index];
+				config.imageAlt = nextValue(arg);
 				break;
 
 			case "--dotenv":
-				config.dotenvPath = argv[++index] ?? DEFAULT_DOTENV_PATH;
+				config.dotenvPath = nextValue(arg);
 				break;
 
 			case "--source-url":
-				config.sourceUrl = argv[++index];
+				config.sourceUrl = nextValue(arg);
 				break;
 
 			case "--canonical-url":
-				config.canonicalUrl = argv[++index];
+				config.canonicalUrl = nextValue(arg);
 				break;
 
 			case "--log-path":
-				config.logPath = argv[++index] ?? DEFAULT_LOG_PATH;
+				config.logPath = nextValue(arg);
 				break;
 
 			case "--force":
@@ -483,13 +532,6 @@ function envHasValue(
 	return Boolean(process.env[name] || dotenvValues[name]);
 }
 
-function getEnvValue(
-	name: string,
-	dotenvValues: Record<string, string>,
-): string | undefined {
-	return process.env[name] || dotenvValues[name];
-}
-
 function envRequirementGroups(networkConfig: NetworkConfig): string[][] {
 	return [
 		networkConfig.requiredEnv,
@@ -560,6 +602,7 @@ async function printInfo(
 					configured: missingEnv.length === 0,
 					transport: networkConfig.transport,
 					flag: networkConfig.flag,
+					directScript: networkConfig.directScript,
 					maxChars: networkConfig.maxChars,
 					supportsImages: networkConfig.supportsImages,
 					description: networkConfig.description,
@@ -884,7 +927,6 @@ async function recordPostedNetwork(
 	const postedAt = new Date().toISOString();
 	const record: PostedRecord = {
 		url: config.sourceUrl,
-		canonicalUrl: config.canonicalUrl,
 		postedAt,
 		message: messagePreview(prepared.message),
 		networks: {
@@ -897,6 +939,10 @@ async function recordPostedNetwork(
 			[prepared.network]: messagePreview(prepared.message),
 		},
 	};
+
+	if (config.canonicalUrl) {
+		record.canonicalUrl = config.canonicalUrl;
+	}
 
 	if (prepared.network === "mastodon") {
 		record.mastodonUrl = publishedUrl;
@@ -931,328 +977,100 @@ function commandForNetwork(
 	return args;
 }
 
-function requireEnvValue(
-	name: string,
-	dotenvValues: Record<string, string>,
-): string {
-	const value = getEnvValue(name, dotenvValues);
-
-	if (!value) {
-		throw new Error(`Missing required environment variable: ${name}`);
-	}
-
-	return value;
+interface DirectScriptResult {
+	url?: string;
+	postUrl?: string;
+	commentUrl?: string;
+	id?: string;
+	dryRun?: boolean;
 }
 
-function redactSecrets(
-	text: string,
-	dotenvValues: Record<string, string>,
-): string {
-	let redacted = text;
-	const values = [
-		...Object.values(dotenvValues),
-		...Object.values(process.env).filter(
-			(value): value is string => typeof value === "string",
-		),
-	]
-		.filter((value) => value.length >= 8)
-		.sort((a, b) => b.length - a.length);
+function directScriptPath(network: Network): string {
+	const script = SUPPORTED_NETWORKS[network].directScript;
 
-	for (const value of values) {
-		redacted = redacted.split(value).join("[redacted]");
+	if (!script) {
+		throw new Error(`${network} does not have a direct API script.`);
 	}
 
-	return redacted;
+	return join(RESOURCE_DIR, script);
 }
 
-async function responseBodyPreview(response: Response): Promise<string> {
-	const text = await response.text();
-	return text.length > 1000 ? `${text.slice(0, 1000)}...` : text;
-}
-
-async function fetchJson(
-	url: string,
-	init: RequestInit,
-	label: string,
-	dotenvValues: Record<string, string>,
-): Promise<unknown> {
-	const response = await fetch(url, init);
-	const body = await responseBodyPreview(response);
-
-	if (!response.ok) {
-		throw new Error(
-			`${label} failed with HTTP ${response.status}: ${redactSecrets(body, dotenvValues)}`,
-		);
-	}
-
-	if (!body.trim()) {
-		return {};
-	}
-
-	try {
-		return JSON.parse(body);
-	} catch {
-		throw new Error(
-			`${label} returned non-JSON response: ${redactSecrets(body, dotenvValues)}`,
-		);
+function addOptionalArg(
+	args: string[],
+	flag: string,
+	value: string | undefined,
+): void {
+	if (value) {
+		args.push(flag, value);
 	}
 }
 
-function asRecord(value: unknown): Record<string, unknown> {
-	return value && typeof value === "object"
-		? (value as Record<string, unknown>)
-		: {};
-}
-
-function firstString(...values: unknown[]): string | undefined {
-	for (const value of values) {
-		if (typeof value === "string" && value.trim()) {
-			return value;
-		}
-
-		if (typeof value === "number" && Number.isFinite(value)) {
-			return String(value);
-		}
-	}
-
-	return undefined;
-}
-
-function deriveTitle(
-	message: string,
-	explicitTitle: string | undefined,
-): string {
-	const title =
-		explicitTitle?.trim() ??
-		message
-			.split("\n")
-			.map((line) => line.trim())
-			.find(Boolean) ??
-		"Shared link";
-
-	return [...title].slice(0, 300).join("");
-}
-
-async function getRedditAccessToken(
-	dotenvValues: Record<string, string>,
-): Promise<string> {
-	const accessToken = getEnvValue("REDDIT_ACCESS_TOKEN", dotenvValues);
-
-	if (accessToken) {
-		return accessToken;
-	}
-
-	const clientId = requireEnvValue("REDDIT_CLIENT_ID", dotenvValues);
-	const clientSecret = requireEnvValue("REDDIT_CLIENT_SECRET", dotenvValues);
-	const refreshToken = requireEnvValue("REDDIT_REFRESH_TOKEN", dotenvValues);
-	const userAgent = requireEnvValue("REDDIT_USER_AGENT", dotenvValues);
-	const body = new URLSearchParams({
-		grant_type: "refresh_token",
-		refresh_token: refreshToken,
-	});
-	const json = asRecord(
-		await fetchJson(
-			"https://www.reddit.com/api/v1/access_token",
-			{
-				method: "POST",
-				headers: {
-					Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
-					"Content-Type": "application/x-www-form-urlencoded",
-					"User-Agent": userAgent,
-				},
-				body,
-			},
-			"Reddit access-token refresh",
-			dotenvValues,
-		),
-	);
-	const refreshedToken = firstString(json.access_token);
-
-	if (!refreshedToken) {
-		throw new Error("Reddit access-token refresh did not return access_token.");
-	}
-
-	return refreshedToken;
-}
-
-async function postReddit(
+function commandForDirectNetwork(
 	prepared: PreparedMessage,
-	context: DirectPublishContext,
-): Promise<string> {
-	const { config, dotenvValues } = context;
-	const token = await getRedditAccessToken(dotenvValues);
-	const subreddit = requireEnvValue("REDDIT_SUBREDDIT", dotenvValues);
-	const userAgent = requireEnvValue("REDDIT_USER_AGENT", dotenvValues);
-	const body = new URLSearchParams({
-		api_type: "json",
-		kind: "self",
-		resubmit: "true",
-		sendreplies: "true",
-		sr: subreddit,
-		text: prepared.message,
-		title: deriveTitle(prepared.message, config.title),
-	});
-	const flairId = getEnvValue("REDDIT_FLAIR_ID", dotenvValues);
+	config: CliConfig,
+	effectiveDotenvPath: string,
+): string[] {
+	const args = [
+		directScriptPath(prepared.network),
+		"--message-file",
+		prepared.filePath,
+		"--dotenv",
+		resolve(expandHomePath(effectiveDotenvPath)),
+	];
 
-	if (flairId) {
-		body.set("flair_id", flairId);
+	if (config.dryRun) {
+		args.push("--dry-run");
 	}
 
-	const json = asRecord(
-		await fetchJson(
-			"https://oauth.reddit.com/api/submit",
-			{
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${token}`,
-					"Content-Type": "application/x-www-form-urlencoded",
-					"User-Agent": userAgent,
-				},
-				body,
-			},
-			"Reddit submit",
-			dotenvValues,
-		),
-	);
-	const responseJson = asRecord(json.json);
-	const errors = responseJson.errors;
-
-	if (Array.isArray(errors) && errors.length > 0) {
-		throw new Error(
-			`Reddit submit returned errors: ${redactSecrets(JSON.stringify(errors), dotenvValues)}`,
-		);
-	}
-
-	const data = asRecord(responseJson.data);
-	const url = firstString(data.url, data.permalink);
-
-	if (url?.startsWith("/")) {
-		return `https://www.reddit.com${url}`;
-	}
-
-	return url ?? "unknown";
-}
-
-async function postThreads(
-	prepared: PreparedMessage,
-	context: DirectPublishContext,
-): Promise<string> {
-	const { dotenvValues } = context;
-	const userId = requireEnvValue("THREADS_USER_ID", dotenvValues);
-	const accessToken = requireEnvValue("THREADS_ACCESS_TOKEN", dotenvValues);
-	const createBody = new URLSearchParams({
-		access_token: accessToken,
-		media_type: "TEXT",
-		text: prepared.message,
-	});
-
-	const created = asRecord(
-		await fetchJson(
-			`https://graph.threads.net/v1.0/${encodeURIComponent(userId)}/threads`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded",
-				},
-				body: createBody,
-			},
-			"Threads media container creation",
-			dotenvValues,
-		),
-	);
-	const creationId = firstString(created.id);
-
-	if (!creationId) {
-		throw new Error("Threads media container creation did not return id.");
-	}
-
-	const publishBody = new URLSearchParams({
-		access_token: accessToken,
-		creation_id: creationId,
-	});
-	const published = asRecord(
-		await fetchJson(
-			`https://graph.threads.net/v1.0/${encodeURIComponent(userId)}/threads_publish`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded",
-				},
-				body: publishBody,
-			},
-			"Threads publish",
-			dotenvValues,
-		),
-	);
-	const username = getEnvValue("THREADS_USERNAME", dotenvValues);
-	const postId = firstString(published.id);
-
-	if (username && postId) {
-		return `https://www.threads.net/@${username}/post/${postId}`;
-	}
-
-	return postId ? `threads:${postId}` : "unknown";
-}
-
-async function postTumblr(
-	prepared: PreparedMessage,
-	context: DirectPublishContext,
-): Promise<string> {
-	const { dotenvValues } = context;
-	const accessToken = requireEnvValue("TUMBLR_ACCESS_TOKEN", dotenvValues);
-	const blogIdentifier = requireEnvValue(
-		"TUMBLR_BLOG_IDENTIFIER",
-		dotenvValues,
-	);
-	const json = asRecord(
-		await fetchJson(
-			`https://api.tumblr.com/v2/blog/${encodeURIComponent(blogIdentifier)}/posts`,
-			{
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					content: [
-						{
-							text: prepared.message,
-							type: "text",
-						},
-					],
-					state: "published",
-				}),
-			},
-			"Tumblr post creation",
-			dotenvValues,
-		),
-	);
-	const response = asRecord(json.response);
-	const url = firstString(response.post_url, response.url);
-	const id = firstString(response.id, json.id);
-
-	return (
-		url ?? (id ? `https://www.tumblr.com/${blogIdentifier}/${id}` : "unknown")
-	);
-}
-
-async function publishDirectNetwork(
-	prepared: PreparedMessage,
-	context: DirectPublishContext,
-): Promise<string> {
 	switch (prepared.network) {
 		case "reddit":
-			return postReddit(prepared, context);
+			addOptionalArg(args, "--title", config.title);
+			addOptionalArg(args, "--source-url", config.sourceUrl);
+			addOptionalArg(args, "--canonical-url", config.canonicalUrl);
+			addOptionalArg(args, "--reddit-link-url", config.redditLinkUrl);
+
+			if (config.redditPostType) {
+				args.push("--reddit-post-type", config.redditPostType);
+			}
+
+			if (config.redditNoComment) {
+				args.push("--reddit-no-comment");
+			}
+			break;
 
 		case "threads":
-			return postThreads(prepared, context);
-
 		case "tumblr":
-			return postTumblr(prepared, context);
+			break;
 
 		default:
 			throw new Error(`${prepared.network} is not a direct API network.`);
 	}
+
+	return args;
+}
+
+function parseDirectScriptResult(output: string): DirectScriptResult {
+	const jsonLine = output
+		.split("\n")
+		.map((line) => line.trim())
+		.reverse()
+		.find((line) => line.startsWith("{") && line.endsWith("}"));
+
+	if (!jsonLine) {
+		throw new Error(`Direct API script did not return JSON:\n${output.trim()}`);
+	}
+
+	return JSON.parse(jsonLine) as DirectScriptResult;
+}
+
+function directResultUrl(result: DirectScriptResult): string {
+	const primary = result.url ?? result.postUrl ?? result.id ?? "unknown";
+
+	if (result.commentUrl) {
+		return `${primary} (comment: ${result.commentUrl})`;
+	}
+
+	return primary;
 }
 
 async function main(): Promise<void> {
@@ -1330,7 +1148,14 @@ async function main(): Promise<void> {
 						`Command: npx ${args.map((arg) => JSON.stringify(arg)).join(" ")}`,
 					);
 				} else {
-					console.log(`Direct API: ${networkConfig.description}`);
+					const args = commandForDirectNetwork(
+						prepared,
+						config,
+						effectiveDotenvPath,
+					);
+					console.log(
+						`Command: node ${args.map((arg) => JSON.stringify(arg)).join(" ")}`,
+					);
 				}
 				console.log(`Characters: ${[...prepared.message].length}`);
 				console.log(`CROSSPOST_DOTENV: ${env.CROSSPOST_DOTENV}`);
@@ -1355,10 +1180,24 @@ async function main(): Promise<void> {
 
 				url = extractFirstUrl(combinedOutput) ?? "unknown";
 			} else {
-				url = await publishDirectNetwork(prepared, {
+				const args = commandForDirectNetwork(
+					prepared,
 					config,
-					dotenvValues,
-				});
+					effectiveDotenvPath,
+				);
+				const result = await runCommand("node", args, env);
+				const combinedOutput = [result.stdout, result.stderr]
+					.filter(Boolean)
+					.join("\n")
+					.trim();
+
+				if (result.exitCode !== 0) {
+					throw new Error(
+						`Direct API script failed for ${prepared.network} with exit code ${result.exitCode}.\n${combinedOutput}`,
+					);
+				}
+
+				url = directResultUrl(parseDirectScriptResult(combinedOutput));
 			}
 
 			await recordPostedNetwork(config, prepared, url);

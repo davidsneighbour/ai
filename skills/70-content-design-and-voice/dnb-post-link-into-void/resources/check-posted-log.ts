@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 
 import { constants as fsConstants } from "node:fs";
 import { access, readFile } from "node:fs/promises";
@@ -51,7 +51,7 @@ function printHelp(): void {
 Check whether a URL has already been posted, using the shared post log.
 
 Usage:
-  tsx check-posted-log.ts --url https://example.com/post
+  node check-posted-log.ts --url https://example.com/post
 
 Options:
   --url <url>         URL to check. Required.

@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 
 import { spawn } from "node:child_process";
 import { constants as fsConstants } from "node:fs";
@@ -29,7 +29,7 @@ function printHelp(): void {
 Capture a screenshot of a web page using Playwright.
 
 Usage:
-  tsx screenshot-site.ts --url https://example.com --output ./shot.png
+  node screenshot-site.ts --url https://example.com --output ./shot.png
 
 Options:
   --url <url>          Page to capture. Required.
@@ -162,14 +162,21 @@ async function main(): Promise<void> {
 	args.push(config.url as string, outputPath);
 
 	const result = await runCommand("npx", args);
-	const combinedOutput = [result.stdout, result.stderr].filter(Boolean).join("\n").trim();
+	const combinedOutput = [result.stdout, result.stderr]
+		.filter(Boolean)
+		.join("\n")
+		.trim();
 
 	if (result.exitCode !== 0) {
-		throw new Error(`Screenshot capture failed with exit code ${result.exitCode}.\n${combinedOutput}`);
+		throw new Error(
+			`Screenshot capture failed with exit code ${result.exitCode}.\n${combinedOutput}`,
+		);
 	}
 
 	await access(outputPath, fsConstants.R_OK).catch(() => {
-		throw new Error(`Screenshot was not created at: ${outputPath}\n${combinedOutput}`);
+		throw new Error(
+			`Screenshot was not created at: ${outputPath}\n${combinedOutput}`,
+		);
 	});
 
 	const stats = await stat(outputPath);
