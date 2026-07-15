@@ -3,6 +3,9 @@ node_modules/
 *.log
 .DS_Store
 
+# netlify cli per-directory link state (auth-site/*)
+.netlify/
+
 # ai assistant configurations local
 .claude/settings.local.json
 .claude/skills

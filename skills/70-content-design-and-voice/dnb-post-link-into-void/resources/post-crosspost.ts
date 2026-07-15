@@ -155,9 +155,9 @@ const SUPPORTED_NETWORKS: Record<Network, NetworkConfig> = {
 		directScript: "post-tumblr.ts",
 		requiredEnv: ["TUMBLR_ACCESS_TOKEN", "TUMBLR_BLOG_IDENTIFIER"],
 		maxChars: 4096,
-		supportsImages: false,
+		supportsImages: true,
 		description:
-			"Direct Tumblr Neue Post Format text post via OAuth2 bearer token.",
+			"Direct Tumblr Neue Post Format post via OAuth2 bearer token, with optional local image attachment.",
 	},
 };
 const DEFAULT_DOTENV_PATH = "~/.env";
@@ -229,8 +229,13 @@ Notes:
   - Reddit defaults to link posts for URL shares. Use --reddit-post-type self
     to create a self/text post instead. Link posts add the message as a comment
     unless --reddit-no-comment is used.
-  - Nostr, Threads, and Tumblr posts are text-only in this helper.
+  - Nostr and Threads posts are text-only in this helper.
   - Threads image posts require publicly hosted image URLs and are not wired here.
+  - Threads does not reliably auto-detect a URL inside the message text via
+    the API, so --canonical-url (falling back to --source-url) is passed
+    through as the Threads link_attachment, producing a link preview card.
+  - Tumblr supports --image as a local file upload via NPF multipart, added
+    to the post as its own image content block ahead of the text block.
   - When --source-url is given, each successful network publish appends one JSON
     line to the log so future runs can post only to missing networks.
 `);
@@ -1039,7 +1044,18 @@ function commandForDirectNetwork(
 			break;
 
 		case "threads":
+			addOptionalArg(
+				args,
+				"--link-attachment",
+				config.canonicalUrl ?? config.sourceUrl,
+			);
+			break;
+
 		case "tumblr":
+			if (config.image) {
+				addOptionalArg(args, "--image", resolve(expandHomePath(config.image)));
+				addOptionalArg(args, "--image-alt", config.imageAlt);
+			}
 			break;
 
 		default:

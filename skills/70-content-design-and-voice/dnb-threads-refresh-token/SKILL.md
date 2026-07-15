@@ -41,9 +41,10 @@ node skills/70-content-design-and-voice/dnb-threads-refresh-token/scripts/create
 
 The script enforces the core safety checks:
 
-- loopback-only redirect URI: `https://127.0.0.1`, `https://localhost`,
-  `https://[::1]`, or the same hosts over `http://` when explicitly supplied
-- per-run random OAuth `state` with callback verification
+- redirect URI must be `http://` or `https://`; a hosted (non-loopback) URI
+  must be `https://` and switches to the interactive paste flow instead of a
+  local server
+- per-run random OAuth `state` with callback verification, in both flows
 - no token printing
 - explicit `--write-env` before requesting or refreshing a token
 - HTTPS loopback by default with a temporary self-signed certificate, because
@@ -54,21 +55,27 @@ The script enforces the core safety checks:
 
 ## Required Threads app setup
 
-The user needs a Meta app with Threads API enabled. Configure the app's OAuth
-redirect URI to match this helper's default, unless the user chooses a
-different loopback URI:
+The user needs a Meta app with Threads API enabled. Meta rejects
+`localhost`/`127.0.0.1` redirect URIs for this app type
+(`URL Blocked: This redirect failed because the redirect URI is not
+whitelisted`), so the app's OAuth redirect URI must be the hosted callback
+microsite in `auth-site/`, not a loopback URI. See
+[`auth-site/README.md`](auth-site/README.md) for deployment and the current
+live URL. Register the `/callback` path on that domain as the app's redirect
+URI, e.g.:
 
 ```text
-https://127.0.0.1:8766/callback
+https://cute-starlight-2d4b0e.netlify.app/callback
 ```
 
-Threads requires the redirect URI in the authorization request to match the app
-registration exactly, including host, port, path, and trailing slash. If
-Threads shows a redirect URI error, ask the user for the registered redirect
-URI and rerun with `--host`, `--port`, `--callback-path`, or `--redirect-uri`.
-If the browser shows a certificate warning after authorization, continue to
-the local callback page; the helper uses a temporary self-signed certificate
-only for the loopback server.
+Threads requires the redirect URI in the authorization request to match the
+app registration exactly, including host, path, and trailing slash. Pass the
+same URI to the helper with `--redirect-uri`; a non-loopback `--redirect-uri`
+switches the helper from the local-server flow to the hosted flow: it opens
+(or prints) the authorization URL, then prompts for the full callback URL
+(or bare `code`) to paste from the hosted page once Threads redirects there.
+If Threads shows a redirect URI error, ask the user for the registered
+redirect URI and rerun with `--redirect-uri` matching it exactly.
 
 Existing required app credentials in `~/.env`:
 
@@ -93,18 +100,23 @@ threads_basic,threads_content_publish
 
 1. Confirm the user wants to write to `~/.env`. Writing outside the repository
    requires explicit approval in sandboxed Codex sessions.
-2. Run the helper with existing dotenv values:
+2. Run the helper with the hosted redirect URI (see
+   [`auth-site/README.md`](auth-site/README.md) for the current deployed
+   URL):
 
    ```bash
    node skills/70-content-design-and-voice/dnb-threads-refresh-token/scripts/create-threads-refresh-token.ts \
-     --write-env
+     --write-env \
+     --redirect-uri "https://cute-starlight-2d4b0e.netlify.app/callback"
    ```
 
 3. If the browser cannot open, rerun with `--no-open` and ask the user to open
    the printed authorization URL manually. The URL must not contain secrets.
-4. After Threads redirects to the local callback page, report only the safe
-   summary printed by the script: dotenv path, updated key names, user id, and
-   expiry time.
+4. After Threads redirects to the hosted callback page, the script prompts
+   for the full callback URL (or bare `code`); paste it from the browser or
+   from the "Copy" button on the hosted page. Report only the safe summary
+   printed by the script afterward: dotenv path, updated key names, user id,
+   and expiry time.
 5. Verify the posting skill sees Threads as configured:
 
    ```bash
@@ -136,18 +148,23 @@ Use these when defaults do not match the Threads app:
 ```bash
 --app-id "<id>"
 --app-secret "<secret>"
---host "localhost"
---port 8080
---callback-path "/callback"
---redirect-uri "https://127.0.0.1:8766/callback"
---https-key "./localhost-key.pem"
---https-cert "./localhost-cert.pem"
+--redirect-uri "https://cute-starlight-2d4b0e.netlify.app/callback"  # hosted flow (default for this app)
+--host "localhost"                        # loopback flow only, if Meta ever allows it again
+--port 8080                               # loopback flow only
+--callback-path "/callback"               # loopback flow only
+--https-key "./localhost-key.pem"         # loopback flow only
+--https-cert "./localhost-cert.pem"       # loopback flow only
 --scope "threads_basic,threads_content_publish"
 --dotenv "~/.env"
 --refresh-existing
 --fix-permissions
 --no-open
 ```
+
+A non-loopback `--redirect-uri` (any host other than `127.0.0.1`,
+`localhost`, or `::1`) always switches to the hosted paste flow; loopback
+options (`--host`, `--port`, `--callback-path`, `--https-key`,
+`--https-cert`) only apply when falling back to the local-server flow.
 
 Use `--fix-permissions` only when the user agrees to chmod the dotenv file to
 `0600`.

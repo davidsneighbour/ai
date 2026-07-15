@@ -11,6 +11,8 @@ posting workflow; this file is only a quick operator map.
 - LinkedIn through Crosspost
 - Nostr through Crosspost
 - Reddit through `resources/post-reddit.ts`
+- Threads through `resources/post-threads.ts`
+- Tumblr through `resources/post-tumblr.ts`
 
 Reddit uses:
 
@@ -21,28 +23,30 @@ node skills/70-content-design-and-voice/dnb-reddit-refresh-token/scripts/create-
 
 It stores `REDDIT_REFRESH_TOKEN` in `~/.env` without printing it.
 
-## WIP Networks
+Threads and Tumblr both reject `localhost`/`127.0.0.1` OAuth redirect URIs,
+so their token helpers use a hosted Netlify callback microsite instead of a
+local loopback server. See each skill's `auth-site/README.md` for the
+current deployed callback URL and deploy commands:
 
-Threads and Tumblr have direct posting scripts, but their OAuth setup is
-currently blocked on localhost callback restrictions from the provider app
-settings.
+- `skills/70-content-design-and-voice/dnb-threads-refresh-token/auth-site/README.md`
+- `skills/70-content-design-and-voice/dnb-tumblr-refresh-token/auth-site/README.md`
 
-Use the restart notes before resuming:
+```bash
+node skills/70-content-design-and-voice/dnb-threads-refresh-token/scripts/create-threads-refresh-token.ts \
+  --write-env \
+  --redirect-uri "<threads auth-site URL>/callback"
 
-- `skills/70-content-design-and-voice/dnb-threads-refresh-token/THREADS_RESTART.md`
-- `skills/70-content-design-and-voice/dnb-tumblr-refresh-token/TUMBLR_RESTART.md`
-
-The planned direction for both is a tiny hosted Netlify callback page on a
-real HTTPS domain. The hosted page must not store or exchange tokens; it should
-only receive the OAuth `code` and `state` and hand them back to the local
-helper/user. Token exchange and `~/.env` writes stay local.
-
-## Footer Test Post
-
-The footer.design post has already been published to the working networks.
-When Threads and Tumblr auth are ready, the prepared drafts are:
-
-```text
-scratch/dnb-post-link-into-void/footer-the-only-footer-gallery-on-earth.md
-scratch/dnb-post-link-into-void/footer-the-only-footer-gallery-on-earth.threads.md
+node skills/70-content-design-and-voice/dnb-tumblr-refresh-token/scripts/create-tumblr-refresh-token.ts \
+  --write-env \
+  --redirect-uri "<tumblr auth-site URL>/callback"
 ```
+
+Both store their tokens in `~/.env` without printing them. The hosted
+callback page is a static, client-side-only page; it never stores or
+transmits the OAuth `code`/`state` anywhere itself.
+
+Threads text posts do not reliably auto-attach a link preview via the API,
+so `post-crosspost.ts` passes `--canonical-url`/`--source-url` through as
+`--link-attachment` for Threads automatically. Tumblr posts support an
+optional `--image`/`--image-alt` local file attachment via NPF multipart
+upload (not a hosted image URL).

@@ -14,19 +14,29 @@ import {
 
 const DEFAULT_DOTENV_PATH = "~/.env";
 
+interface ThreadsConfig extends CommonDirectConfig {
+	linkAttachment?: string;
+}
+
 function printHelp(): void {
 	console.log(`
 Post to Threads using the official media-container and publish API.
 
 Usage:
   node post-threads.ts --message-file ./message.md
+  node post-threads.ts --message-file ./message.md --link-attachment "https://example.com/"
 
 Options:
-  --message <text>       Message text to publish.
-  --message-file <path>  File containing message text.
-  --dotenv <path>        Dotenv path. Default: ${DEFAULT_DOTENV_PATH}.
-  --dry-run              Print JSON describing the post without publishing.
-  --help                 Show this help text.
+  --message <text>            Message text to publish.
+  --message-file <path>       File containing message text.
+  --link-attachment <url>     URL to attach as a link preview card. Threads
+                               does not reliably auto-detect URLs inside
+                               --message text via the API, so pass the post's
+                               source/canonical URL explicitly to get a
+                               preview card.
+  --dotenv <path>             Dotenv path. Default: ${DEFAULT_DOTENV_PATH}.
+  --dry-run                   Print JSON describing the post without publishing.
+  --help                      Show this help text.
 `);
 }
 
@@ -40,8 +50,8 @@ function requireArg(argv: string[], index: number, flag: string): string {
 	return value;
 }
 
-function parseArgs(argv: string[]): CommonDirectConfig {
-	const config: CommonDirectConfig = {
+function parseArgs(argv: string[]): ThreadsConfig {
+	const config: ThreadsConfig = {
 		dotenvPath: DEFAULT_DOTENV_PATH,
 		dryRun: false,
 	};
@@ -67,6 +77,10 @@ function parseArgs(argv: string[]): CommonDirectConfig {
 
 			case "--message-file":
 				config.messageFile = nextValue(arg);
+				break;
+
+			case "--link-attachment":
+				config.linkAttachment = nextValue(arg);
 				break;
 
 			case "--dotenv":
@@ -120,6 +134,7 @@ async function postThreads(): Promise<void> {
 			network: "threads",
 			dryRun: true,
 			characters: [...message].length,
+			linkAttachment: config.linkAttachment,
 		});
 		return;
 	}
@@ -132,6 +147,10 @@ async function postThreads(): Promise<void> {
 		media_type: "TEXT",
 		text: message,
 	});
+
+	if (config.linkAttachment) {
+		createBody.set("link_attachment", config.linkAttachment);
+	}
 	const created = asRecord(
 		await fetchJson(
 			`https://graph.threads.net/v1.0/${encodeURIComponent(userId)}/threads`,

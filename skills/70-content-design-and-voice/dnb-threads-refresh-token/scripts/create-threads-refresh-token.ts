@@ -20,6 +20,7 @@ import {
 import { createServer as createHttpsServer } from "node:https";
 import { homedir, platform, tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
+import { createInterface } from "node:readline/promises";
 
 interface CliConfig {
 	appId?: string;
@@ -86,22 +87,30 @@ const ENV_KEYS = [
 
 function printHelp(): void {
 	console.log(`
-Create or refresh a long-lived Threads API access token using a loopback-only
-local callback server.
+Create or refresh a long-lived Threads API access token, either via a
+loopback-only local callback server or a hosted HTTPS callback page (see
+auth-site/). Meta rejects loopback redirect URIs for this app, so pass
+--redirect-uri pointing at the hosted callback microsite.
 
 Usage:
-  node create-threads-refresh-token.ts --write-env
+  node create-threads-refresh-token.ts --write-env --redirect-uri "https://<site>.netlify.app/callback"
   node create-threads-refresh-token.ts --write-env --refresh-existing
 
 Options:
   --app-id <id>            Threads app ID. Default: THREADS_APP_ID.
   --app-secret <secret>    Threads app secret. Default: THREADS_APP_SECRET.
-  --host <host>            Loopback callback host. Default: ${DEFAULT_REDIRECT_HOST}
-  --port <port>            Loopback callback port. Default: ${DEFAULT_REDIRECT_PORT}
-  --callback-path <path>   Loopback callback path. Default: ${DEFAULT_CALLBACK_PATH}
-  --redirect-uri <uri>     Loopback redirect URI registered in the Threads app.
-                           Overrides --host/--port/--callback-path.
+  --redirect-uri <uri>     Redirect URI registered in the Threads app.
+                           A non-loopback https:// URI (e.g. the hosted
+                           auth-site callback) switches to the paste flow:
+                           after authorizing, paste the callback URL or code
+                           when prompted. Overrides --host/--port/--callback-path.
                            Default: ${DEFAULT_REDIRECT_URI}
+  --host <host>            Loopback callback host (loopback flow only).
+                           Default: ${DEFAULT_REDIRECT_HOST}
+  --port <port>            Loopback callback port (loopback flow only).
+                           Default: ${DEFAULT_REDIRECT_PORT}
+  --callback-path <path>   Loopback callback path (loopback flow only).
+                           Default: ${DEFAULT_CALLBACK_PATH}
   --https-key <path>       Private key for an HTTPS loopback callback server.
   --https-cert <path>      Certificate for an HTTPS loopback callback server.
                            Defaults to a temporary self-signed certificate.
@@ -112,14 +121,17 @@ Options:
   --write-env              Required. Store token values in the dotenv file.
   --fix-permissions        chmod the dotenv file to 0600 before writing if needed.
   --no-open                Print the authorization URL instead of opening a browser.
-  --timeout-ms <ms>        Callback wait timeout. Default: ${DEFAULT_TIMEOUT_MS}
+  --timeout-ms <ms>        Loopback callback wait timeout. Default: ${DEFAULT_TIMEOUT_MS}
   --help                   Show this help.
 
 Security:
-  - Tokens and authorization codes are never printed to stdout/stderr.
-  - Only loopback redirect hosts are accepted.
-  - HTTPS loopback is the default because Threads blocks insecure login pages.
-  - The OAuth state parameter is generated per run and verified on callback.
+  - Tokens and authorization codes are never printed to stdout/stderr; the
+    hosted paste flow only echoes back what you paste in, interactively.
+  - Redirect URIs must be http(s)://; hosted (non-loopback) URIs must be https.
+  - HTTPS loopback is the default for the local-server flow because Threads
+    blocks insecure login pages.
+  - The OAuth state parameter is generated per run and verified on callback,
+    in both the local-server and hosted paste flows.
   - The dotenv file must be private (0600) unless --fix-permissions is used.
 `);
 }
@@ -358,24 +370,31 @@ function buildLoopbackRedirectUri(config: CliConfig): string {
 	return `https://${config.redirectHost}:${config.redirectPort}${config.callbackPath}`;
 }
 
-function assertLoopbackRedirect(redirectUri: string): URL {
+const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost", "::1", "[::1]"]);
+
+function isLoopbackHost(hostname: string): boolean {
+	return LOOPBACK_HOSTS.has(hostname);
+}
+
+function parseRedirectUri(redirectUri: string): URL {
 	const url = new URL(redirectUri);
-	const loopbackHosts = new Set(["127.0.0.1", "localhost", "::1", "[::1]"]);
 
 	if (url.protocol !== "http:" && url.protocol !== "https:") {
-		throw new Error(
-			"Redirect URI must use http:// or https:// for local loopback OAuth.",
-		);
+		throw new Error("Redirect URI must use http:// or https://.");
 	}
 
-	if (!loopbackHosts.has(url.hostname)) {
-		throw new Error(
-			"Redirect URI must use a loopback host: 127.0.0.1, localhost, or ::1.",
-		);
+	if (isLoopbackHost(url.hostname)) {
+		if (!url.port) {
+			throw new Error(
+				"A loopback redirect URI must include an explicit local port.",
+			);
+		}
+
+		return url;
 	}
 
-	if (!url.port) {
-		throw new Error("Redirect URI must include an explicit local port.");
+	if (url.protocol !== "https:") {
+		throw new Error("A hosted (non-loopback) redirect URI must use https://.");
 	}
 
 	return url;
@@ -949,20 +968,76 @@ async function writeDotenvValues(
 	await chmod(resolved, 0o600);
 }
 
+async function promptForHostedCallbackCode(
+	expectedState: string,
+): Promise<string> {
+	const rl = createInterface({ input: process.stdin, output: process.stdout });
+
+	try {
+		const pasted = (
+			await rl.question(
+				"Paste the full callback URL shown on the hosted page (or just the code): ",
+			)
+		).trim();
+
+		if (!pasted) {
+			throw new Error("No callback URL or code was entered.");
+		}
+
+		if (!pasted.includes("://")) {
+			// Bare code paste: no state to verify against, trust the operator.
+			return pasted;
+		}
+
+		const callbackUrl = new URL(pasted);
+		const error = callbackUrl.searchParams.get("error");
+
+		if (error) {
+			const description =
+				callbackUrl.searchParams.get("error_description") ??
+				callbackUrl.searchParams.get("error_message");
+			throw new Error(
+				`Threads returned OAuth error: ${error}${description ? ` (${description})` : ""}`,
+			);
+		}
+
+		const state = callbackUrl.searchParams.get("state");
+
+		if (state !== expectedState) {
+			throw new Error("OAuth state mismatch. Refusing to continue.");
+		}
+
+		const code = callbackUrl.searchParams.get("code");
+
+		if (!code) {
+			throw new Error("The pasted callback URL did not include a code.");
+		}
+
+		return code;
+	} finally {
+		rl.close();
+	}
+}
+
 async function createNewToken(
 	config: CliConfig,
 ): Promise<{ accessToken: string; userId: string; expiresAt?: string }> {
-	const redirectUrl = assertLoopbackRedirect(config.redirectUri);
+	const redirectUrl = parseRedirectUri(config.redirectUri);
+	const hosted = !isLoopbackHost(redirectUrl.hostname);
 	const state = randomBytes(24).toString("base64url");
 	const authorizationUrl = buildAuthorizationUrl(config, state);
-	const authorizationServer = await startAuthorizationServer(
-		config,
-		redirectUrl,
-		state,
-		config.timeoutMs,
-	);
+	const authorizationServer = hosted
+		? undefined
+		: await startAuthorizationServer(
+				config,
+				redirectUrl,
+				state,
+				config.timeoutMs,
+			);
 
-	await authorizationServer.ready;
+	if (authorizationServer) {
+		await authorizationServer.ready;
+	}
 
 	if (config.noOpen) {
 		console.log("Open this Threads authorization URL in your browser:");
@@ -972,11 +1047,19 @@ async function createNewToken(
 		console.log("Opened Threads authorization in your browser.");
 	}
 
-	console.log(
-		`Waiting for callback on ${redirectUrl.origin}${redirectUrl.pathname}. No tokens will be printed.`,
-	);
-
-	const code = await authorizationServer.code;
+	const code = hosted
+		? await (async () => {
+				console.log(
+					`After authorizing, Threads will redirect to ${redirectUrl.origin}${redirectUrl.pathname}. No tokens will be printed.`,
+				);
+				return promptForHostedCallbackCode(state);
+			})()
+		: await (async () => {
+				console.log(
+					`Waiting for callback on ${redirectUrl.origin}${redirectUrl.pathname}. No tokens will be printed.`,
+				);
+				return (authorizationServer as AuthorizationServer).code;
+			})();
 	const shortLived = await exchangeCodeForShortLivedToken(config, code);
 	const longLived = await exchangeForLongLivedToken(
 		config,

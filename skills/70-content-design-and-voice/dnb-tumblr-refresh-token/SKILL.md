@@ -41,9 +41,10 @@ node skills/70-content-design-and-voice/dnb-tumblr-refresh-token/scripts/create-
 
 The script enforces the core safety checks:
 
-- loopback-only redirect URI: `http://127.0.0.1`, `http://localhost`, or
-  `http://[::1]`
-- per-run random OAuth `state` with callback verification
+- redirect URI must be `http://` or `https://`; a hosted (non-loopback) URI
+  must be `https://` and switches to the interactive paste flow instead of a
+  local server
+- per-run random OAuth `state` with callback verification, in both flows
 - no token printing
 - explicit `--write-env` before requesting or refreshing a token
 - private dotenv permissions; refuses to write if the file is group/other
@@ -58,17 +59,25 @@ The user needs a Tumblr app at:
 https://www.tumblr.com/oauth/apps
 ```
 
-Register this OAuth2 redirect URI unless the user chooses a different loopback
-URI:
+Tumblr does not accept `localhost`/`127.0.0.1` redirect URIs for this app, so
+the app's OAuth callback URL must be the hosted callback microsite in
+`auth-site/`, not a loopback URI. See
+[`auth-site/README.md`](auth-site/README.md) for deployment and the current
+live URL. Register the `/callback` path on that domain as the app's OAuth
+Callback URL, e.g.:
 
 ```text
-http://127.0.0.1:8767/callback
+https://boisterous-wisp-bf8cd6.netlify.app/callback
 ```
 
 Tumblr requires the redirect URI in the authorization request to match the app
-registration exactly, including host, port, path, and trailing slash. If
-Tumblr shows a redirect URI error, ask the user for the registered redirect
-URI and rerun with `--host`, `--port`, `--callback-path`, or `--redirect-uri`.
+registration exactly, including host, path, and trailing slash. Pass the same
+URI to the helper with `--redirect-uri`; a non-loopback `--redirect-uri`
+switches the helper from the local-server flow to the hosted flow: it opens
+(or prints) the authorization URL, then prompts for the full callback URL
+(or bare `code`) to paste from the hosted page once Tumblr redirects there.
+If Tumblr shows a redirect URI error, ask the user for the registered
+redirect URI and rerun with `--redirect-uri` matching it exactly.
 
 Existing required app credentials in `~/.env`:
 
@@ -92,18 +101,23 @@ basic write offline_access
 
 1. Confirm the user wants to write to `~/.env`. Writing outside the repository
    requires explicit approval in sandboxed Codex sessions.
-2. Run the helper with existing dotenv values:
+2. Run the helper with the hosted redirect URI (see
+   [`auth-site/README.md`](auth-site/README.md) for the current deployed
+   URL):
 
    ```bash
    node skills/70-content-design-and-voice/dnb-tumblr-refresh-token/scripts/create-tumblr-refresh-token.ts \
-     --write-env
+     --write-env \
+     --redirect-uri "https://boisterous-wisp-bf8cd6.netlify.app/callback"
    ```
 
 3. If the browser cannot open, rerun with `--no-open` and ask the user to open
    the printed authorization URL manually. The URL must not contain secrets.
-4. After Tumblr redirects to the local callback page, report only the safe
-   summary printed by the script: dotenv path, updated key names, blog
-   identifier, and expiry time.
+4. After Tumblr redirects to the hosted callback page, the script prompts for
+   the full callback URL (or bare `code`); paste it from the browser or from
+   the "Copy" button on the hosted page. Report only the safe summary printed
+   by the script afterward: dotenv path, updated key names, blog identifier,
+   and expiry time.
 5. Verify the posting skill sees Tumblr as configured:
 
    ```bash
@@ -134,10 +148,10 @@ Use these when defaults do not match the Tumblr app:
 ```bash
 --consumer-key "<key>"
 --consumer-secret "<secret>"
---host "localhost"
---port 8080
---callback-path "/callback"
---redirect-uri "http://127.0.0.1:8767/callback"
+--redirect-uri "https://boisterous-wisp-bf8cd6.netlify.app/callback"  # hosted flow (default for this app)
+--host "localhost"                        # loopback flow only, if Tumblr ever allows it again
+--port 8080                               # loopback flow only
+--callback-path "/callback"               # loopback flow only
 --scope "basic write offline_access"
 --blog-identifier "<blog-name-or-uuid>"
 --dotenv "~/.env"
@@ -145,6 +159,11 @@ Use these when defaults do not match the Tumblr app:
 --fix-permissions
 --no-open
 ```
+
+A non-loopback `--redirect-uri` (any host other than `127.0.0.1`,
+`localhost`, or `::1`) always switches to the hosted paste flow; loopback
+options (`--host`, `--port`, `--callback-path`) only apply when falling back
+to the local-server flow.
 
 Use `--fix-permissions` only when the user agrees to chmod the dotenv file to
 `0600`.
