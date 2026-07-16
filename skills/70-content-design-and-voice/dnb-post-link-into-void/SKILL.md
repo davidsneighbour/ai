@@ -48,6 +48,15 @@ requires a paid tier to publish, so this skill does not call it at all. See
 link-based workaround, which only activates when the user explicitly names
 Twitter or X.
 
+Patreon is likewise never included in the default `post` command, the
+multi-network confirmation table, or the posted-log dedup checks. Patreon has
+no public post-creation API for third-party apps and no stable composer URL
+to navigate to directly, so this skill drives a real browser through
+Playwright instead: it clicks Patreon's own Post button to mint a new draft,
+fills it in, and stops before the publish button. See
+[Patreon browser-assisted posting](#patreon-browser-assisted-posting) below,
+which only activates when the user explicitly names Patreon.
+
 Keep unsupported-network implementations isolated in their own resource
 scripts. `post-crosspost.ts` is the coordinator for network selection,
 message-file routing, duplicate logging, and Crosspost-backed networks. Direct
@@ -586,6 +595,145 @@ user explicitly names Twitter or X, for example "post this to twitter" or
 4. Do not record this in the posted log and do not tell the user the post was
    published. Report only that the intent link was generated (and opened, if
    requested); the actual publish happens outside this session.
+
+## Patreon browser-assisted posting
+
+Patreon has no public API for creating posts on a third-party app's behalf,
+so this skill never calls a Patreon API and Patreon is not part of the `post`
+command, the network readiness table, or the posted-log dedup checks
+described above. Only start this flow when the user explicitly names
+Patreon, for example "post this to patreon" or "post to patreon" — never
+offer it as part of the default network list.
+
+This flow drives a real, visible browser through the Playwright MCP tools
+available in this session (not a spawned Node script) so it can fill the
+actual composer form. It never automates the login step and never stores or
+reads a Patreon username or password anywhere, including `.env`: login pages
+are exactly where sites run bot detection (CAPTCHA, device checks, 2FA), a
+scripted login risks getting the account flagged or locked, and a stored
+password is a full-account credential, far more sensitive than the
+post-scoped session it would replace. The human always completes login by
+hand in the automated browser window.
+
+Patreon has no stable "new post" composer URL to store and reuse: clicking
+the Post nav button (the sidebar item with the `IconPosts` icon and the
+label "Post") mints a brand-new draft with a fresh, one-time URL every time
+it is clicked. Never save, hardcode, or reuse a composer URL observed from a
+previous run — always reach the composer by clicking the Post button, and
+always locate that button by its accessible role and name from a live
+snapshot, never by CSS class name. Patreon's class names in the rendered DOM
+(for example `sc-c7e2141-1`, `frEUhw`) are build-hashed and churn on every
+deploy, so a selector copied from one session will not survive to the next.
+
+1. **Resolve configuration.**
+
+   ```bash
+   node skills/70-content-design-and-voice/dnb-post-link-into-void/resources/patreon-config.ts
+   ```
+
+   This reads `PATREON_LOGIN_URL` (optional, defaults to
+   `https://www.patreon.com/login`) and `PATREON_DASHBOARD_URL` (optional, no
+   default) from the configured dotenv file and prints `{ network, loginUrl,
+   dashboardUrl }`. `PATREON_DASHBOARD_URL` only needs to be set if the page
+   Patreon lands you on right after login does not already show the Post nav
+   button — for example if the account also has a fan-facing landing page.
+   Leave it unset and rely on step 4's fallback unless a run demonstrates it
+   is needed.
+
+2. **Open the browser and check login state.** Navigate to `loginUrl` in a
+   visible (non-headless) browser session. Take a snapshot. If the page
+   already shows a creator-area page rather than a login form, the existing
+   session is still valid — skip to step 4.
+
+3. **Hand off for manual login.** If a login form is showing, tell the user
+   the browser is open on Patreon's login page and ask them to log in
+   themselves (credentials, 2FA, CAPTCHA, whatever Patreon asks for), then
+   reply with something like `go ahead` when done. Do not read, fill, or
+   guess at any username or password field yourself. Wait for that reply
+   before continuing; do not poll or retry login-state checks in a loop.
+
+4. **Reach a page with the Post nav button.** Take a snapshot of the current
+   page. If it shows the Post nav button, stay here. If not and
+   `dashboardUrl` was resolved in step 1, navigate there and snapshot again.
+   If the button still is not visible, ask the user to navigate to a
+   creator-area page where it is, then continue.
+
+5. **Click Post to mint a new draft.** Click the Post nav button found in
+   step 4. This immediately creates a new post on Patreon's side and
+   navigates to its one-time composer URL — treat that URL as disposable,
+   never reused across runs. If this flow is cancelled or fails after this
+   click, tell the user an empty draft may have been left in their Patreon
+   posts list and that they may want to delete it manually.
+
+6. **Derive the title, body, and tags from the draft.** Take a snapshot of
+   the fresh composer to see the live fields — do not rely on selectors from
+   a previous run, since Patreon's DOM can change between sessions. Start
+   from the draft text at `<slug>.md` (or a `<slug>.patreon.md` variant, same
+   convention as the other networks' short variants, if the user wants
+   Patreon-specific wording), but do not paste it in verbatim:
+
+   - **Title.** Write a short, distinct headline, not the draft's full first
+     paragraph verbatim — a full sentence lifted as-is reads as an oversized
+     wall of bold text in Patreon's composer. Target roughly 70-80
+     characters, one line, no trailing period. For example, a draft opening
+     with "Footer.design is a whole gallery for the bit of the website
+     people usually treat as the cupboard under the stairs: useful..."
+     becomes a title like "footer.design - a collection of design
+     inspirations for website footers". Use the user's own title if they
+     gave one instead.
+   - **Body.** Use the rest of the draft text, excluding the trailing
+     hashtag line (a line consisting only of `#tag #tag ...`) — those move
+     to the tags field in the next bullet instead of staying in the post
+     text. Do not edit the underlying `<slug>.md` file to remove the
+     hashtag line; this exclusion only applies to what gets typed into the
+     Patreon body field.
+   - **Tags.** Take the same hashtags, strip the leading `#` from each, and
+     enter them one at a time into the composer's "Add tags" field.
+
+   If the composer exposes a file/image upload control, attach the
+   screenshot (`<slug>.png`) — clicking the toolbar's Image button opens an
+   in-panel picker with its own "Browse" button; that inner "Browse" button
+   is what triggers the actual native file chooser Playwright can hand
+   files to, not the toolbar button itself. If no image control is found in
+   the snapshot, skip the image and say so in the report rather than failing
+   the run.
+
+7. **Confirm the URL is a real link, not plain text.** Patreon's editor has
+   auto-linked a bare URL on its own line asynchronously in testing, a
+   second or two after typing — take a snapshot after a short wait and check
+   whether the URL now appears as a `link` node with the right `href`. Only
+   if it is still plain text after that, select it (click into the line,
+   `End`, `Shift+Home`) and use the toolbar's Link control to link it
+   manually. When deleting the hashtag line from the body (previous step),
+   removing the trailing empty paragraph can occasionally touch the
+   paragraph above it — take a snapshot afterward and confirm the URL
+   paragraph is still intact with its link before moving on.
+
+8. **Add the post to the creator's "Links" collection, if it already
+   exists.** Open the "Add to collection" control and check its current
+   selection. If a collection named "Links" is already listed, select it
+   (leave it selected if the account setup already defaults to it). If no
+   such collection exists yet, tell the user rather than creating a new
+   collection yourself — creating a persistent, audience-visible collection
+   is a bigger step than selecting an existing one and should be a decision
+   the user makes explicitly.
+
+9. **Show the filled form for review.** Take a fresh snapshot or screenshot
+   of the composer after filling it and present it to the user the same way
+   the confirmation table shows other networks' drafts, so they can see
+   exactly what was typed into the live page.
+
+10. **Stop before publishing.** Never click Publish, Post, Submit, or any
+    equivalent control in the Patreon composer, no matter what confirmation
+    phrase the user gives in this flow — publishing is always a manual click
+    the human makes themselves. Leave the browser tab open on the filled
+    composer and tell the user it is ready for them to review and publish.
+
+11. **Do not log this as posted.** Since the skill never confirms the post
+    went live, do not write a Patreon record to the posted log described
+    under [Publishing](#publishing). Report only that the draft was filled
+    in and is ready for manual review and publishing, not that it was
+    published.
 
 ## Final checks
 

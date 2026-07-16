@@ -50,3 +50,19 @@ so `post-crosspost.ts` passes `--canonical-url`/`--source-url` through as
 `--link-attachment` for Threads automatically. Tumblr posts support an
 optional `--image`/`--image-alt` local file attachment via NPF multipart
 upload (not a hosted image URL).
+
+## Browser-Assisted networks (not an API integration)
+
+- Patreon through Playwright MCP, driven live by the agent — see
+  [Patreon browser-assisted
+  posting](SKILL.md#patreon-browser-assisted-posting) in the skill itself.
+
+Patreon has no public post-creation API for third-party apps and no stable
+composer URL — clicking Patreon's own Post nav button mints a fresh draft
+with a one-time URL every time, so that URL can never be stored or reused.
+The flow clicks that button itself instead. `.env` only needs
+`PATREON_LOGIN_URL` (optional, overrides the default login page) and
+`PATREON_DASHBOARD_URL` (optional, only if the post-login landing page does
+not already show the Post nav button). No Patreon username or password is
+ever stored — login happens by hand in the automated browser window, and the
+skill always stops before the final Publish click.
