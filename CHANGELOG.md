@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.10.0](https://github.com/davidsneighbour/ai/compare/v1.9.0...v1.10.0) (2026-07-16)
+
+### Features
+
+* **skills:** add manual X/Twitter posting via web-intent link ([2144567](https://github.com/davidsneighbour/ai/commit/21445677b5d080e5ec0e6307723f339a7fa84d6c))
+
 ## [1.9.0](https://github.com/davidsneighbour/ai/compare/v1.8.1...v1.9.0) (2026-07-15)
 
 ### Features
