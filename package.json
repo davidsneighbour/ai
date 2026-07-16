@@ -7,6 +7,9 @@
     "ai": "./scripts/ai.ts",
     "ai-symlink": "./scripts/ai-symlink.ts"
   },
+  "dependencies": {
+    "twitter-text": "3.1.0"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.5.2",
     "@dnbhq/markdownlint-config": "0.2.8",
@@ -20,6 +23,7 @@
     "@secretlint/secretlint-rule-preset-recommend": "13.0.2",
     "@secretlint/secretlint-rule-secp256k1-privatekey": "13.0.2",
     "@types/node": "26.1.0",
+    "@types/twitter-text": "3.1.10",
     "cspell": "10.0.1",
     "lint-staged": "17.0.8",
     "lockfile-lint": "5.0.0",

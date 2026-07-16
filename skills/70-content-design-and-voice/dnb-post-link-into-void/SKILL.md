@@ -41,6 +41,13 @@ Threads image posts require publicly hosted image URLs, so local screenshots
 are not attached there. Tumblr image posting is deliberately deferred until the
 text workflow is stable.
 
+X (Twitter) is not a supported network above and is never included in the
+default `post` command or the multi-network confirmation table. The X API
+requires a paid tier to publish, so this skill does not call it at all. See
+[X (Twitter) manual posting](#x-twitter-manual-posting) below for the
+link-based workaround, which only activates when the user explicitly names
+Twitter or X.
+
 Keep unsupported-network implementations isolated in their own resource
 scripts. `post-crosspost.ts` is the coordinator for network selection,
 message-file routing, duplicate logging, and Crosspost-backed networks. Direct
@@ -514,6 +521,71 @@ The helper enforces these limits before publishing. If the main draft is too
 long for Bluesky, Nostr, Threads, or Tumblr, create or ask the user to edit the
 matching network-specific file before posting there. If Reddit needs a better
 title than the first line of the post, pass `--title` when publishing.
+
+## X (Twitter) manual posting
+
+X's posting API requires a paid developer tier, so this skill never calls it
+and X/Twitter is not part of the `post` command, the network readiness table,
+or the posted-log dedup checks described above. Only start this flow when the
+user explicitly names Twitter or X, for example "post this to twitter" or
+"post to x" — never offer it as part of the default network list.
+
+1. Check whether the existing draft (`<slug>.md`) already fits in 280
+   characters including the URL and hashtags. If it does not, write a short
+   variant to:
+
+   ```text
+   scratch/dnb-post-link-into-void/<slug>.twitter.md
+   ```
+
+   Keep the `canonicalUrl` (or `finalUrl`) in the text itself — that is the
+   only way an image preview can appear, since the intent link below cannot
+   attach a local file. X only renders a card image if the linked page
+   exposes its own `og:image`/`twitter:image` metadata; if the fetched
+   metadata from step 1 had no `ogImage`, tell the user the tweet will be
+   text-and-link only, with no image preview.
+
+   Do not eyeball the 280-character budget by counting the raw text. X counts
+   length using its own weighted-character algorithm, which the next step
+   validates for real, but the most common trap worth avoiding while drafting
+   is: X auto-detects any bare domain-like substring as a link and always
+   counts it as exactly 23 characters, no matter how long or short it really
+   is. A brand name that happens to read like a domain (e.g. "Footer.design")
+   trips this even when it is only mentioned in prose, not meant as a link —
+   it gets t.co-shortened to 23 characters same as the real URL, which can
+   inflate the total well past what a plain character count suggests. Prefer
+   not repeating the site's own domain-styled name in the body text when the
+   real URL is already in the post.
+
+2. Build the web-intent link:
+
+   ```bash
+   node skills/70-content-design-and-voice/dnb-post-link-into-void/resources/post-twitter-intent.ts \
+     --message-file scratch/dnb-post-link-into-void/<slug>.twitter.md
+   ```
+
+   This validates the message with X's own weighted-length algorithm (via the
+   official `twitter-text` package), not a raw character count, and prints
+   JSON with `intentUrl`, `characters` (raw), `weightedLength` (what X
+   actually enforces), `maxChars` (280 by default), `detectedUrls` (every
+   substring X will treat as a link, including accidental domain-like
+   mentions), and `opened`. The script fails if `weightedLength` is over the
+   limit and lists `detectedUrls` in the error so the cause is visible;
+   shorten or reword the `.twitter.md` variant and rerun rather than
+   truncating on its behalf or trusting a manual character count.
+
+3. Ask the user whether to open the link now or just receive it:
+
+   - To open a browser directly, add `--open` to the same command.
+   - Otherwise, hand the printed `intentUrl` to the user as a Markdown link
+     so they can open it themselves.
+
+   Either way, the user still has to review the prefilled compose dialog and
+   press "Post" themselves — nothing is published automatically.
+
+4. Do not record this in the posted log and do not tell the user the post was
+   published. Report only that the intent link was generated (and opened, if
+   requested); the actual publish happens outside this session.
 
 ## Final checks
 
