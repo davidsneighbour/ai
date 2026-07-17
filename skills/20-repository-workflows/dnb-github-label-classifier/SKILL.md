@@ -214,6 +214,10 @@ When asked to apply labels through GitHub tooling:
 
 Never close an issue merely because `status:done` or `resolution:completed` appears appropriate unless the user asked to close it or the surrounding workflow explicitly authorises closure.
 
+Applying existing repository labels to issues does not authorise creating new
+repository labels. Create repository labels only after the user explicitly
+confirms that labels should be created.
+
 ## Required output
 
 For analysis-only requests, return:
@@ -258,6 +262,10 @@ Before finishing, verify:
 ## Taxonomy provisioning
 
 Use `scripts/label-manager.sh` to create or update the canonical labels in one or more repositories.
+
+Do not run taxonomy provisioning with `--apply` unless the user explicitly
+confirms that repository labels should be created or updated. Run audit-only or
+dry-run mode first when current label state is uncertain.
 
 After every run, the manager audits the repository and reports:
 

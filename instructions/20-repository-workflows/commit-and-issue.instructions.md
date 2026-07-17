@@ -81,6 +81,10 @@ If no suitable issue exists and the work will modify tracked files or intentiona
 
 Do not invent new labels unless explicitly asked. Prefer existing repository labels.
 
+Creating repository labels is a separate action from applying existing labels to
+issues. Create labels only after the user explicitly confirms that labels should
+be created.
+
 ## During implementation
 
 Keep the change focused on the referenced issue.
