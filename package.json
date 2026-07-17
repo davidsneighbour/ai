@@ -11,7 +11,7 @@
     "twitter-text": "3.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.2",
+    "@biomejs/biome": "2.5.3",
     "@dnbhq/markdownlint-config": "0.2.8",
     "@github/markdownlint-github": "0.8.3",
     "@release-it/conventional-changelog": "11.0.1",
