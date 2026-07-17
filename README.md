@@ -81,6 +81,7 @@ See [skills.sh](https://www.skills.sh/) for the full installer documentation, in
 
 ### Issue handling skills
 
+- [dnb-github-label-classifier](skills/20-repository-workflows/dnb-github-label-classifier/SKILL.md) — Analyse GitHub issue text or metadata and select or apply labels from the category:value taxonomy.
 - [dnb-select-next-issue](skills/20-repository-workflows/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance, without implementing it.
 - [dnb-work-on-issue](skills/20-repository-workflows/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue by number, implement the required change, validate, and commit with a Conventional Commits message that closes the issue.
 - [dnb-work-on-next-issue](skills/20-repository-workflows/dnb-work-on-next-issue/SKILL.md) — Orchestrate selecting and implementing the next suitable open GitHub issue without a specific issue number provided.
