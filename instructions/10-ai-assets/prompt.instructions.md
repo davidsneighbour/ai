@@ -54,6 +54,10 @@ include:
   folder taxonomy aligned with
   [`../../instructions.index.md`](../../instructions.index.md), and update
   [`../../prompts.index.md`](../../prompts.index.md) when prompt files move.
+- Use [`../../memories/glossary.md`](../../memories/glossary.md) as the
+  canonical source for repository terms such as prompts, instructions, skills,
+  memories, agents, branches, leaves, and structural nodes. Link to glossary
+  entries when a prompt depends on a repository-specific term.
 - When flattening a prompt from a more specific folder, preserve important
   context in the filename, for example `hugo-upgrade.prompt.md` instead of
   `upgrade.prompt.md`.

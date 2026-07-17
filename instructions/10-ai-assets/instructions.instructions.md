@@ -28,6 +28,11 @@ folder that owns their primary subject. Use
 [`../../instructions.index.md`](../../instructions.index.md) as the source of truth
 for the current folder map and instruction index.
 
+Use [`../../memories/glossary.md`](../../memories/glossary.md) as the canonical
+source for repository terms such as instructions, prompts, skills, memories,
+agents, branches, leaves, and structural nodes. Link to glossary entries when
+an instruction file depends on a repository-specific term.
+
 When a topic naturally touches two categories, keep the file in the most
 specific owner category and add references from adjacent guidance instead of
 duplicating rules. For example, TypeScript testing belongs under

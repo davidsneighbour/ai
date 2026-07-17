@@ -31,7 +31,7 @@ This repository provides a portable structure for my AI assets that can be share
 | --- | --- |
 | `agents/` | `.agents` protocol sub-agent profiles, grouped by purpose - see [agents.index.md](agents.index.md) |
 | `instructions/` | reusable instruction files, grouped by purpose - see [instructions.index.md](instructions.index.md) |
-| `memories/` | memory source files |
+| `memories/` | memory source files, including the [repository glossary](memories/glossary.md) |
 | `prompts/` | prompt files grouped by purpose - see [prompts.index.md](prompts.index.md) |
 | `schemas/` | validation schemas |
 | `scripts/` | CLI runner and validators — see [scripts/README.md](scripts/README.md) |
@@ -45,6 +45,7 @@ This repository provides a portable structure for my AI assets that can be share
 - [instructions.index.md](instructions.index.md) — shared AI asset folder taxonomy and current instruction index.
 - [prompts.index.md](prompts.index.md) — prompt folder taxonomy and current prompt index.
 - [skills.index.md](skills.index.md) — skill folder taxonomy and current skill index.
+- [memories/glossary.md](memories/glossary.md) — canonical meanings for recurring repository terms.
 - [documentation/conventions.doc.md](documentation/conventions.doc.md) — prompt name conventions.
 - [documentation/external-tools.doc.md](documentation/external-tools.doc.md) — external tools useful alongside this repository.
 

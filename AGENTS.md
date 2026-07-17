@@ -8,6 +8,7 @@ This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot
 - `prompts/` contains prompt Markdown files with YAML front matter, grouped under numbered purpose folders. See `prompts.index.md`.
 - `skills/` contains installable reusable skills grouped under numbered purpose folders. Each skill lives in its own directory and must include `SKILL.md`. See `skills.index.md`.
 - `instructions/` contains shared instruction files grouped under numbered purpose folders. See `instructions.index.md`.
+- `memories/` contains durable memory source files, including the repository glossary. See `memories/glossary.md`.
 - `ai/templates/` and `ai/workflows/` contain shared templates and workflow documents.
 - `schemas/` contains JSON schemas for prompts, skills, and docs.
 - `scripts/` contains the TypeScript CLI and validators.
@@ -37,6 +38,8 @@ There is no `npm test` script; run `npm run check` as the top-level quality gate
 Document a topic in a `README.md` next to what it describes, for example `scripts/README.md` for everything under `scripts/`. Use `documentation/` only when a topic has no single home in the repository or spans multiple scattered locations.
 
 Every README.md in the repository, and every doc in `documentation/`, must be linked from the root `README.md` so nothing is undiscoverable.
+
+Use `memories/glossary.md` as the canonical source for recurring repository terms in documentation, instructions, prompts, skills, memories, and agent profiles. Update it when a term's repository meaning is added or changed.
 
 The root files `agents.index.md`, `instructions.index.md`, `prompts.index.md`, and `skills.index.md` are the discovery indexes for the four AI asset roots. Update the matching index in the same change whenever an agent, instruction, prompt, or skill is added, removed, renamed, moved, or recategorized.
 
