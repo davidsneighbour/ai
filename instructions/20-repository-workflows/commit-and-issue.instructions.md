@@ -171,13 +171,32 @@ If the commit does not fully solve the issue:
 - list what remains
 - mention any new follow-up issues
 
+## Linking commit hashes
+
+Whenever a commit hash is reported, present it as a link to that commit's page
+on GitHub, not as a bare hash.
+
+Derive the link from the repository's GitHub remote (for example `origin`) and
+the full commit hash:
+
+```text
+https://github.com/<owner>/<repo>/commit/<full-hash>
+```
+
+Build this link even when the commit has not been pushed yet. The URL is valid
+as soon as the commit is pushed, and reporting it now saves a lookup later.
+Do not omit the link merely because the current branch has not been pushed.
+
+If the repository has no GitHub remote, report the bare commit hash instead
+and note that no GitHub link is available.
+
 ## Required final summary
 
 When reporting completed work, include:
 
 - issue number
 - whether the issue was closed or kept open
-- commit hash if available
+- commit hash if available, linked per [Linking commit hashes](#linking-commit-hashes)
 - tracked files changed
 - intentionally added untracked files
 - untracked files ignored, removed, or left alone
