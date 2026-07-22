@@ -100,7 +100,7 @@ Keep the prompt aligned with the currently available shared preset.
 Known shared preset behaviour:
 
 - consumed through `github>dnbhq/renovate-config`
-- root config file convention is `renovate.json5`
+- config file convention is `.github/renovate.json5` - not in project root
 - provides `config:recommended`
 - sets semantic commits to `chore`
 - disables Dependency Dashboard

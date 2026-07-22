@@ -13,7 +13,7 @@ Onboard the repository to the shared Renovate preset.
 
 The default target behaviour is:
 
-- create or update `renovate.json5` in the repository root
+- create or update `renovate.json5` in the folder `.github`
 - extend `github>dnbhq/renovate-config`
 - preserve required project-specific Renovate overrides
 - remove obsolete duplicated settings already provided by the shared preset
@@ -125,13 +125,13 @@ Before changing files, inspect the repository and report what you find:
 
 Use this classification for every existing setting:
 
-| Existing setting | Action |
+| Existing setting                                   | Action                       |
 | -------------------------------------------------- | ---------------------------- |
-| Already provided by `github>dnbhq/renovate-config` | Remove local duplicate |
-| Project-specific and still required | Preserve locally |
-| Overrides shared preset intentionally | Preserve locally and explain |
-| Obsolete or unused | Remove |
-| Ambiguous | Preserve and report why |
+| Already provided by `github>dnbhq/renovate-config` | Remove local duplicate       |
+| Project-specific and still required                | Preserve locally             |
+| Overrides shared preset intentionally              | Preserve locally and explain |
+| Obsolete or unused                                 | Remove                       |
+| Ambiguous                                          | Preserve and report why      |
 
 Do not blindly delete package rules. Many package rules are project-specific.
 
@@ -168,6 +168,8 @@ Prefer `renovate.json5` over `renovate.json` because it allows comments and is a
 
 Do not create both `renovate.json` and `renovate.json5`.
 
+Create `renovate.json5` in the folder `.github`. Create the folder if it does not exist yet.
+
 ## Cleanup
 
 After updating the config:
@@ -188,7 +190,7 @@ If the repository is an npm project, add a validation script only when useful:
 ```json
 {
   "scripts": {
-    "renovate:validate": "renovate-config-validator renovate.json5"
+    "renovate:validate": "renovate-config-validator .github/renovate.json5"
   }
 }
 ```
@@ -204,7 +206,7 @@ Run the safest available validation.
 Preferred command:
 
 ```bash
-npx --yes renovate-config-validator renovate.json5
+npx --yes renovate-config-validator .github/renovate.json5
 ```
 
 If that command is not available, use the currently valid Renovate validator invocation for the installed Renovate version and report the exact command used.
@@ -225,14 +227,14 @@ Respond with a table.
 
 Use this format:
 
-| Change | Status | Details |
-| ------------------------- | --------------------: | ---------------------------------------- |
-| Config file | Done | Created or updated `renovate.json5` |
-| Shared preset | Done | Extends `github>dnbhq/renovate-config` |
-| Existing config migration | Done/Partial/Skipped | Explain what was migrated |
-| Local overrides | Done/None | List preserved project-specific settings |
-| Cleanup | Done/Partial/Skipped | List removed duplicate files/settings |
-| Validation | Passed/Failed/Skipped | Include command output summary |
+| Change                    |                Status | Details                                     |
+| ------------------------- | --------------------: | ------------------------------------------- |
+| Config file               |                  Done | Created or updated `.github/renovate.json5` |
+| Shared preset             |                  Done | Extends `github>dnbhq/renovate-config`      |
+| Existing config migration |  Done/Partial/Skipped | Explain what was migrated                   |
+| Local overrides           |             Done/None | List preserved project-specific settings    |
+| Cleanup                   |  Done/Partial/Skipped | List removed duplicate files/settings       |
+| Validation                | Passed/Failed/Skipped | Include command output summary              |
 
 Then add one sentence in this exact style, adapted to this repository:
 
