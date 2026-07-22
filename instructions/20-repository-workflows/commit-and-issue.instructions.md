@@ -183,6 +183,13 @@ the full commit hash:
 https://github.com/<owner>/<repo>/commit/<full-hash>
 ```
 
+Get the full hash from actual command output — `git rev-parse HEAD` or the
+hash printed by `git commit`/`git log` — never by typing it from memory or by
+extending a short hash with guessed characters. A short hash (as printed by
+`git commit`) is not a substring of the true hash's remaining characters and
+must not be padded, truncated, or completed by guesswork; either use the
+short hash exactly as printed or resolve the full hash with `git rev-parse`.
+
 Build this link even when the commit has not been pushed yet. The URL is valid
 as soon as the commit is pushed, and reporting it now saves a lookup later.
 Do not omit the link merely because the current branch has not been pushed.
