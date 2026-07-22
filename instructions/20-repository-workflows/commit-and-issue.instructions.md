@@ -177,18 +177,15 @@ Whenever a commit hash is reported, present it as a link to that commit's page
 on GitHub, not as a bare hash.
 
 Derive the link from the repository's GitHub remote (for example `origin`) and
-the full commit hash:
+the short commit hash printed by `git commit`:
 
 ```text
-https://github.com/<owner>/<repo>/commit/<full-hash>
+https://github.com/<owner>/<repo>/commit/<short-hash>
 ```
 
-Get the full hash from actual command output — `git rev-parse HEAD` or the
-hash printed by `git commit`/`git log` — never by typing it from memory or by
-extending a short hash with guessed characters. A short hash (as printed by
-`git commit`) is not a substring of the true hash's remaining characters and
-must not be padded, truncated, or completed by guesswork; either use the
-short hash exactly as printed or resolve the full hash with `git rev-parse`.
+Use the short hash exactly as printed by `git commit` — do not extend, pad, or
+complete it with guessed characters, and do not type a hash from memory.
+GitHub resolves a short hash to the correct commit on its own.
 
 Build this link even when the commit has not been pushed yet. The URL is valid
 as soon as the commit is pushed, and reporting it now saves a lookup later.
