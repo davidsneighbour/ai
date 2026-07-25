@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.11.0](https://github.com/davidsneighbour/ai/compare/v1.10.0...v1.11.0) (2026-07-25)
+
+### Features
+
+* **skills:** add Playwright-driven Patreon posting to post-link-into-void ([c259431](https://github.com/davidsneighbour/ai/commit/c259431bc795da4d58645caf166699699051fd00))
+
+### Prompts
+
+* move renovate.json5 target from repo root to .github ([93c184e](https://github.com/davidsneighbour/ai/commit/93c184e3deaef92410e2ab2cf27097cc3d46d0e8))
+
+### Instructions
+
+* forbid guessing full commit hashes for GitHub links ([69d35c5](https://github.com/davidsneighbour/ai/commit/69d35c5e1621004960ce305cce86a269eb35d0dc))
+* require confirmation before creating labels ([e0a5b72](https://github.com/davidsneighbour/ai/commit/e0a5b72a33f55e9cedb0f99a9fce40ca41bd8c54)), closes [#37](https://github.com/davidsneighbour/ai/issues/37)
+* require GitHub-linked commit hashes in final summaries ([8a1fcf0](https://github.com/davidsneighbour/ai/commit/8a1fcf00de20e1620c9ea7906f21e8ea001636b8))
+* use short commit hash for GitHub links, not full hash ([f8c7581](https://github.com/davidsneighbour/ai/commit/f8c7581f4b8f87fec958ffa0d28d514c8ab92204))
+
+### Skills
+
+* add GitHub label classifier ([3f340a4](https://github.com/davidsneighbour/ai/commit/3f340a45285403dbe79d43344f4d051aefa84e62)), closes [#36](https://github.com/davidsneighbour/ai/issues/36)
+
+### Documentation
+
+* add repository glossary ([#41](https://github.com/davidsneighbour/ai/issues/41)) ([dee08e1](https://github.com/davidsneighbour/ai/commit/dee08e12932c097ac40f259d3241b1447fe83f22))
+* **fix:** move from ROADMAP to PROJECT and update skill ([57d4199](https://github.com/davidsneighbour/ai/commit/57d419993ff064412e477d0f88b38b6fecabaa38))
+
 ## [1.10.0](https://github.com/davidsneighbour/ai/compare/v1.9.0...v1.10.0) (2026-07-16)
 
 ### Features
