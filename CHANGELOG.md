@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.12.0](https://github.com/davidsneighbour/ai/compare/v1.11.0...v1.12.0) (2026-07-28)
+
+### Skills
+
+* add dnb-llm-visibility and list it in docs ([17d93d8](https://github.com/davidsneighbour/ai/commit/17d93d87a9db0d6390646fc8d960e336359ad152))
+
 ## [1.11.0](https://github.com/davidsneighbour/ai/compare/v1.10.0...v1.11.0) (2026-07-25)
 
 ### Features
