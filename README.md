@@ -117,6 +117,7 @@ See [skills.sh](https://www.skills.sh/) for the full installer documentation, in
 ### Engineering guideline skills
 
 - [dnb-interface-engineering](skills/70-content-design-and-voice/dnb-interface-engineering/SKILL.md) — Design engineering principles for making interfaces feel polished.
+- [dnb-llm-visibility](skills/10-ai-assets/dnb-llm-visibility/SKILL.md) — Make websites, docs, blogs, or landing pages visible and readable to LLMs and AI agents.
 - [dnb-strict-typescript-check](skills/40-languages-and-runtimes/dnb-strict-typescript-check/SKILL.md) — Guidelines for strict TypeScript checks in generated code.
 
 ### Social media posting
