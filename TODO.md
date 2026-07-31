@@ -1,8 +1,7 @@
 # TODO.md
 
-This is a tracked inbox for rough ideas, review candidates, and open follow-up
-items that still need human sorting.
-
-## New
+This file is the scratch pad inbox for rough, unclear, or intentionally unprocessed
+notes. GitHub Issues are the source of truth for actionable work; see `ROADMAP.md`
+for the generated issue index.
 
 <!-- All current actionable items have been moved to GitHub Issues. -->
