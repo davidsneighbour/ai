@@ -95,12 +95,15 @@
     "dictionaryDefinitions": [
       {
         "name": "custom",
-        "path": "./.vscode/dictionary.txt",
+        "path": "./.vscode/cspell/dictionary.txt",
         "addWords": true
       }
     ],
     "dictionaries": [
       "custom"
+    ],
+    "import": [
+      ".vscode/cspell/preferred-terms.json"
     ]
   },
   "simple-git-hooks": {

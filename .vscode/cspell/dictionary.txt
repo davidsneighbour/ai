@@ -6,3 +6,4 @@ smol-toml
 unrepresentable
 VSCode
 wishlist
+worktree
