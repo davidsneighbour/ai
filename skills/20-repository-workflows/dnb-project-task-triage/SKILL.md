@@ -2,7 +2,7 @@
 id: dnb-project-task-triage
 name: dnb-project-task-triage
 title: DNB Project Task Triage
-description: "Maintains the repository task-tracking system by syncing the local TODO.md scratchpad with GitHub Issues and regenerating the local PROJECT.md dashboard. Use when asked to check project status, update task tracking, sync todos with GitHub, regenerate the project dashboard, or recommend next steps. Triggers on: 'check status', 'project status', 'sync todos', 'update project', 'update roadmap', 'triage tasks', 'what's next', 'next steps'."
+description: "Maintains the repository task-tracking system by syncing the local TODO.md scratch pad with GitHub Issues and regenerating the local PROJECT.md dashboard. Use when asked to check project status, update task tracking, sync todos with GitHub, regenerate the project dashboard, or recommend next steps. Triggers on: 'check status', 'project status', 'sync todos', 'update project', 'update roadmap', 'triage tasks', 'what's next', 'next steps'."
 ---
 
 Use this procedure when asked to check the status of a repository, update project tracking, sync TODO items with GitHub Issues, regenerate the project dashboard, or recommend next steps.
@@ -43,7 +43,7 @@ This repository uses three tracking layers:
    - Only unclear, non-actionable, or intentionally unprocessed notes should remain in `/TODO.md`.
    - It is local working state and must not be committed.
 
-## Permanent Information
+## Permanent information
 
 Before removing, replacing, or regenerating local project-management content, check whether it contains information that must be preserved permanently.
 
@@ -58,7 +58,7 @@ Move durable information to the appropriate tracked location:
 
 Do not leave durable project knowledge only in `/PROJECT.md` or `/TODO.md`.
 
-## Local File Setup
+## Local file setup
 
 `/PROJECT.md` and `/TODO.md` must be excluded from version control.
 
@@ -81,9 +81,9 @@ git update-index --assume-unchanged PROJECT.md
 
 These flags create hidden local index state and are not an acceptable replacement for proper ignore rules.
 
-### Existing Repository Migration
+### Existing repository migration
 
-When `/ROADMAP.md` already exists:
+An older version of this skill used `/ROADMAP.md` instead of `/PROJECT.md` to present the current state of the project. If `/ROADMAP.md` exists:
 
 1. Preserve its current local content.
 2. Rename it to `/PROJECT.md`.
@@ -106,7 +106,7 @@ The migration may require one repository configuration commit containing only ap
 - skill or instruction references
 - tracked documentation explaining the local workflow
 
-Do not commit `/PROJECT.md` or `/TODO.md` as part of the migration.
+DO NOT commit `/PROJECT.md` or `/TODO.md` as part of the migration.
 
 ## Procedure
 
@@ -118,6 +118,7 @@ Do not commit `/PROJECT.md` or `/TODO.md` as part of the migration.
    - Ensure `/PROJECT.md` and `/TODO.md` are ignored.
    - Ensure neither file remains tracked by Git.
    - Create empty local files only when they are needed and do not already exist.
+   - NEVER commit `/PROJECT.md` or `/TODO.md` to the index.
 
 2. Read the current tracking state.
 
@@ -158,13 +159,13 @@ Do not commit `/PROJECT.md` or `/TODO.md` as part of the migration.
 
    - Each new issue must include:
 
-     - context
-     - problem or goal
-     - expected outcome
-     - relevant references
-     - acceptance criteria
-     - known dependencies
-     - clarification questions where requirements are unclear
+      - context
+      - problem or goal
+      - expected outcome
+      - relevant references
+      - acceptance criteria
+      - known dependencies
+      - clarification questions where requirements are unclear
 
    - Do not guess missing requirements.
 
@@ -235,7 +236,7 @@ Do not commit `/PROJECT.md` or `/TODO.md` as part of the migration.
    - Remove items converted into GitHub Issues.
    - Remove items already covered by existing GitHub Issues.
    - Remove duplicate or obsolete notes.
-   - Keep only notes that are unclear, non-actionable, intentionally not ready for issue creation, or useful as scratchpad material.
+   - Keep only notes that are unclear, non-actionable, intentionally not ready for issue creation, or useful as scratch pad material.
    - Add short clarification markers for remaining unclear notes where helpful.
    - Do not stage or commit `/TODO.md`.
 
@@ -272,7 +273,7 @@ The routine may update:
 During initial setup or migration, it may also update:
 
 - `.gitignore`
-- repository instructions that refer to `ROADMAP.md`
+- repository instructions that refer to `PROJECT.md`
 - tracked documentation describing the project-management workflow
 
 Do not implement source-code changes unless explicitly asked.
