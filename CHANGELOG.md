@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.13.0](https://github.com/davidsneighbour/ai/compare/v1.12.0...v1.13.0) (2026-08-13)
+
+### Bug Fixes
+
+* **dnb-project-task-triage:** update task triage skill rules ([7c31e98](https://github.com/davidsneighbour/ai/commit/7c31e9814197145e4a1c4c5617395f7e82031846))
+* **skills:** remove skill directory symlink setup ([8fcbb21](https://github.com/davidsneighbour/ai/commit/8fcbb21a34b0493e45fad85bfb759f3f8392bb90)), closes [#58](https://github.com/davidsneighbour/ai/issues/58)
+
+### Skills
+
+* add dnb-manage-node-version-policy and fix markdown lint ([a0d06f4](https://github.com/davidsneighbour/ai/commit/a0d06f49e7f6168ddaecdb9e763ad44e36018578))
+
+### Build
+
+* **deps-dev:** Bump @dnbhq/markdownlint-config from 0.2.8 to 0.2.11 ([#57](https://github.com/davidsneighbour/ai/issues/57)) ([3fddf47](https://github.com/davidsneighbour/ai/commit/3fddf475715559df9c28442128bbd799c5499a5e))
+* **deps-dev:** bump fast-uri from 3.1.4 to 3.1.5 in the npm_and_yarn group across 1 directory ([#56](https://github.com/davidsneighbour/ai/issues/56)) ([25c10e9](https://github.com/davidsneighbour/ai/commit/25c10e9ed8e61feb3c3add40afe3be63907d4dc1))
+* **deps-dev:** bump js-yaml from 3.15.0 to 3.15.1 in the npm_and_yarn group across 1 directory ([#59](https://github.com/davidsneighbour/ai/issues/59)) ([7eaed98](https://github.com/davidsneighbour/ai/commit/7eaed98b459403991dd8afadfed5602c541fe37e))
+* **deps-dev:** Bump linkify-it from 5.0.1 to 5.0.2 ([#42](https://github.com/davidsneighbour/ai/issues/42)) ([493c6b4](https://github.com/davidsneighbour/ai/commit/493c6b499cfe6ac4eacf2cf36d3ecb8b278b4288))
+* **deps:** Bump fast-uri from 3.1.2 to 3.1.4 ([#45](https://github.com/davidsneighbour/ai/issues/45)) ([3597f2c](https://github.com/davidsneighbour/ai/commit/3597f2c41e60e30872ac3f51b09e683b210b8ce0))
+* **deps:** update dependencies ([e361a4b](https://github.com/davidsneighbour/ai/commit/e361a4b816f5bf151ab5894fd3183146d8bd855e))
+* **deps:** update dependencies ([6a98d99](https://github.com/davidsneighbour/ai/commit/6a98d99f5c2dbc4f790054555777bf8e0a26694d))
+* **deps:** update dependencies ([306c704](https://github.com/davidsneighbour/ai/commit/306c70435fa38e737099c6052a87d02335505927))
+* **fix:** remove local skills-lock.json ([b93983c](https://github.com/davidsneighbour/ai/commit/b93983c250c7eac527dcf1f24ac7f5f9ef26f139))
+
+### Linting and Maintenance
+
+* **cspell:** add preferred terms to cspell configuration ([db4de8c](https://github.com/davidsneighbour/ai/commit/db4de8c3b30dee9a86f5713a2fe93a3d662775a1))
+* **secretlint:** remove unused packages and configs ([6206792](https://github.com/davidsneighbour/ai/commit/620679239a0d164ae73423bf1d1ed2a4763f0d2e))
+
+### Chores
+
+* **project:** update project plan ([79a7dfe](https://github.com/davidsneighbour/ai/commit/79a7dfe9b5ca3f8abfbbea9091c86e97c1cadd9f))
+
 ## [1.12.0](https://github.com/davidsneighbour/ai/compare/v1.11.0...v1.12.0) (2026-07-28)
 
 ### Skills
