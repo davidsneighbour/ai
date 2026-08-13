@@ -123,8 +123,6 @@ See [skills.sh](https://www.skills.sh/) for the full installer documentation, in
 ### Social media posting
 
 - [dnb-post-into-void](skills/70-content-design-and-voice/dnb-post-into-void/SKILL.md) — Prepare and publish a casual Mastodon post from text supplied with the request or collected through questions.
-- [dnb-post-link-into-void](skills/70-content-design-and-voice/dnb-post-link-into-void/SKILL.md) — Draft and publish a confirmed social post from a URL, with per-network duplicate tracking and direct-network helpers.
-  See [direct network credentials](skills/70-content-design-and-voice/dnb-post-link-into-void/README.md) for the current direct API setup map.
 - [dnb-post-session-into-void](skills/70-content-design-and-voice/dnb-post-session-into-void/SKILL.md) — Draft and publish a confirmed Mastodon post from the current AI session context.
 
 <!-- ai:prompt-files-settings:start -->

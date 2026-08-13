@@ -54,11 +54,7 @@
         "dnb-llm-visibility",
         "dnb-markdown-formatting",
         "dnb-post-into-void",
-        "dnb-post-link-into-void",
         "dnb-post-session-into-void",
-        "dnb-reddit-refresh-token",
-        "dnb-threads-refresh-token",
-        "dnb-tumblr-refresh-token",
         "dnb-voice"
       ]
     }

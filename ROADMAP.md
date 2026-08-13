@@ -30,14 +30,6 @@ actionable notes to promote.
 
 ## Open issues
 
-### Active skill work
-
-- **[#35](https://github.com/davidsneighbour/ai/issues/35) - Extend post-link skill social network publishing**
-  The core split into direct-network scripts was committed and pushed in
-  `785865baa851`, but the issue remains open because Threads and Tumblr still
-  need hosted HTTPS callback auth flows. Keep this as the main in-progress
-  implementation thread for `dnb-post-link-into-void` publishing.
-
 ### Skills
 
 - **[#18](https://github.com/davidsneighbour/ai/issues/18) - Review and refactor strict-typescript-check skill**
