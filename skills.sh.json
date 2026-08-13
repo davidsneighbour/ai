@@ -6,6 +6,7 @@
       "title": "Issue Workflows",
       "description": "Skills for triaging, selecting, and working through GitHub issues.",
       "skills": [
+        "dnb-github-label-classifier",
         "dnb-project-task-triage",
         "dnb-select-next-issue",
         "dnb-work-on-issue",
@@ -19,17 +20,46 @@
       "skills": [
         "dnb-create-js-documentation",
         "dnb-dependency-maintenance",
+        "dnb-manage-node-version-policy",
+        "dnb-osv-scan",
+        "dnb-project-state-report",
         "dnb-quality-gate-organisation",
+        "dnb-resume-interrupted-work",
+        "dnb-site-audit",
         "dnb-reference"
+      ]
+    },
+    {
+      "title": "Languages and Frameworks",
+      "description": "Skills for language-specific and framework-specific implementation work.",
+      "skills": [
+        "dnb-astro-migration-project",
+        "dnb-strict-typescript-check"
+      ]
+    },
+    {
+      "title": "Specifications and Verification",
+      "description": "Skills for behaviour specs, quality gates, and validation workflows.",
+      "skills": [
+        "dnb-behaviour-spec"
       ]
     },
     {
       "title": "Writing and Publishing",
       "description": "Skills for voice editing and Social Media post preparation.",
       "skills": [
-        "dnb-voice",
+        "dnb-blog-draft-materialise",
+        "dnb-blog-draft-meta-matter",
+        "dnb-interface-engineering",
+        "dnb-llm-visibility",
+        "dnb-markdown-formatting",
         "dnb-post-into-void",
-        "dnb-post-session-into-void"
+        "dnb-post-link-into-void",
+        "dnb-post-session-into-void",
+        "dnb-reddit-refresh-token",
+        "dnb-threads-refresh-token",
+        "dnb-tumblr-refresh-token",
+        "dnb-voice"
       ]
     }
   ]

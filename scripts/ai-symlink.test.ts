@@ -22,7 +22,7 @@ const scriptPath = fileURLToPath(new URL("./ai-symlink.ts", import.meta.url));
 const repoRoot = path.dirname(path.dirname(scriptPath));
 const sourceAgentGuidelinesPath = path.join(repoRoot, "AGENTS.md");
 const sourceAgentsPath = path.join(repoRoot, "agents");
-const sourceSkillsPath = path.join(repoRoot, "skills");
+const sourceTasksPath = path.join(repoRoot, "tasks");
 
 async function makeTempDir(t: TestContext, prefix: string): Promise<string> {
 	const directory = await fs.mkdtemp(path.join(os.tmpdir(), `${prefix}-`));
@@ -65,10 +65,6 @@ function getExitCode(error: ExecFileException | null): number {
 	return 1;
 }
 
-async function assertSkillsLinkPointsToSource(linkPath: string): Promise<void> {
-	await assertDirectoryLinkPointsToSource(linkPath, sourceSkillsPath);
-}
-
 async function assertDirectoryLinkPointsToSource(
 	linkPath: string,
 	sourcePath: string,
@@ -98,10 +94,10 @@ test("parseLinkDefinitions reads the selected linking section", () => {
 		{
 			linking: {
 				global: {
-					skills: ".agents/skills",
+					tasks: ".agents/tasks",
 				},
 				local: {
-					skills: [".workspace/skills", ".claude/skills"],
+					tasks: [".workspace/tasks", ".agents/tasks"],
 				},
 			},
 		},
@@ -111,12 +107,12 @@ test("parseLinkDefinitions reads the selected linking section", () => {
 
 	assert.deepEqual(definitions, [
 		{
-			sourceRelativePath: "skills",
-			targetRelativePath: ".workspace/skills",
+			sourceRelativePath: "tasks",
+			targetRelativePath: ".workspace/tasks",
 		},
 		{
-			sourceRelativePath: "skills",
-			targetRelativePath: ".claude/skills",
+			sourceRelativePath: "tasks",
+			targetRelativePath: ".agents/tasks",
 		},
 	]);
 });
@@ -128,7 +124,7 @@ test("parseLinkDefinitions rejects empty target arrays", () => {
 				{
 					linking: {
 						global: {
-							skills: [],
+							tasks: [],
 						},
 					},
 				},
@@ -141,16 +137,16 @@ test("parseLinkDefinitions rejects empty target arrays", () => {
 
 test("requireSafeRelativePath rejects paths that could escape the base", () => {
 	for (const unsafePath of [
-		"/tmp/skills",
-		"C:/tmp/skills",
-		"../skills",
-		"./skills",
-		"skills/..",
-		"skills//codex",
-		"~/skills",
-		"skills/~codex",
-		"skills/codex plugin",
-		"skills\tcodex",
+		"/tmp/tasks",
+		"C:/tmp/tasks",
+		"../tasks",
+		"./tasks",
+		"tasks/..",
+		"tasks//codex",
+		"~/tasks",
+		"tasks/~codex",
+		"tasks/codex plugin",
+		"tasks\tcodex",
 	]) {
 		assert.throws(
 			() => requireSafeRelativePath(unsafePath, "test path", "config.toml"),
@@ -165,15 +161,15 @@ test("formatGitignorePath returns a gitignore-compatible target path", () => {
 		formatGitignorePath(
 			{
 				action: "created",
-				sourcePath: "/repo/skills",
-				sourceRelativePath: "skills",
+				sourcePath: "/repo/tasks",
+				sourceRelativePath: "tasks",
 				sourceKind: "directory",
-				targetPath: path.join("/workspace", ".agents", "skills"),
-				targetRelativePath: ".agents/skills",
+				targetPath: path.join("/workspace", ".agents", "tasks"),
+				targetRelativePath: ".agents/tasks",
 			},
 			"/workspace",
 		),
-		".agents/skills/",
+		".agents/tasks/",
 	);
 });
 
@@ -198,33 +194,31 @@ test("local mode creates configured symlinks", async (t) => {
 	const cwd = await makeTempDir(t, "ai-linker-local");
 	const agentsMdPath = path.join(cwd, ".agents", "agents.md");
 	const agentsPath = path.join(cwd, ".agents", "agents");
-	const linkPath = path.join(cwd, ".agents", "skills");
-	const claudeSkillsPath = path.join(cwd, ".claude", "skills");
+	const tasksPath = path.join(cwd, ".agents", "tasks");
 	const result = await runLinker(["local", "--verbose"], cwd);
 
 	assert.equal(result.exitCode, 0, result.stderr);
 	await assertFileLinkPointsToSource(agentsMdPath, sourceAgentGuidelinesPath);
 	await assertDirectoryLinkPointsToSource(agentsPath, sourceAgentsPath);
-	await assertSkillsLinkPointsToSource(linkPath);
-	await assertSkillsLinkPointsToSource(claudeSkillsPath);
+	await assertDirectoryLinkPointsToSource(tasksPath, sourceTasksPath);
 });
 
 test("local mode recognises existing correct symlinks", async (t) => {
 	const cwd = await makeTempDir(t, "ai-linker-existing");
-	const linkPath = path.join(cwd, ".agents", "skills");
+	const linkPath = path.join(cwd, ".agents", "tasks");
 
 	assert.equal((await runLinker(["local"], cwd)).exitCode, 0);
 
 	const result = await runLinker(["--mode", "local", "--verbose"], cwd);
 
 	assert.equal(result.exitCode, 0, result.stderr);
-	await assertSkillsLinkPointsToSource(linkPath);
+	await assertDirectoryLinkPointsToSource(linkPath, sourceTasksPath);
 });
 
 test("local mode only replaces a mismatched symlink with force", async (t) => {
 	const cwd = await makeTempDir(t, "ai-linker-force");
 	const wrongTarget = await makeTempDir(t, "ai-linker-wrong-target");
-	const linkPath = path.join(cwd, ".agents", "skills");
+	const linkPath = path.join(cwd, ".agents", "tasks");
 
 	await fs.mkdir(path.dirname(linkPath), { recursive: true });
 	await fs.symlink(wrongTarget, linkPath, "dir");
@@ -237,5 +231,5 @@ test("local mode only replaces a mismatched symlink with force", async (t) => {
 	const forceResult = await runLinker(["local", "--force", "--verbose"], cwd);
 
 	assert.equal(forceResult.exitCode, 0, forceResult.stderr);
-	await assertSkillsLinkPointsToSource(linkPath);
+	await assertDirectoryLinkPointsToSource(linkPath, sourceTasksPath);
 });

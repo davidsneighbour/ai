@@ -15,14 +15,12 @@ endMarker = "<!-- ai:prompt-files-settings:end -->"
 
 [linking.global]
 "AGENTS.md" = ".agents/agents.md"
-skills = [".agents/skills", ".claude/skills"]
 agents = ".agents/agents"
 tasks = ".agents/tasks"
 memories = ".agents/memories"
 
 [linking.local]
 "AGENTS.md" = ".agents/agents.md"
-skills = [".agents/skills", ".claude/skills"]
 agents = ".agents/agents"
 tasks = ".agents/tasks"
 memories = ".agents/memories"

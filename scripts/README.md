@@ -1,6 +1,6 @@
 # scripts/
 
-This directory contains the tooling that manages the AI asset registry: validation, linting, schema export, README generation, VS Code setup, and the symlink installer used to expose repository assets under `.agents`-protocol paths.
+This directory contains the tooling that manages the AI asset registry: validation, linting, schema export, README generation, VS Code setup, and the symlink installer used to expose repository assets under configured agent paths.
 
 - [scripts/ai.ts](#scriptsaits)
   - [Commands](#commands)
@@ -132,7 +132,7 @@ Writes `chat.promptFilesLocations` into `.vscode/settings.json`:
 
 ## scripts/ai-symlink.ts
 
-`ai-symlink.ts` creates the symlinks that expose this repository's assets at the paths other tools expect (the `.agents` protocol, Claude Code's `.claude/skills`, and so on). It reads the `[linking.global]` / `[linking.local]` tables in `config.toml` from the repository root detected from the script location.
+`ai-symlink.ts` creates the symlinks that expose this repository's configured non-skill assets at the paths other tools expect. It reads the `[linking.global]` / `[linking.local]` tables in `config.toml` from the repository root detected from the script location.
 
 Installed as the `ai-symlink` bin (see `package.json`); run directly with `node ./scripts/ai-symlink.ts`.
 
@@ -143,17 +143,17 @@ Each entry in `[linking.global]` / `[linking.local]` maps:
 - the left side (key) to a source file or directory relative to the repository root
 - the right side (value) to one target path, or an array of target paths, relative to the selected base path
 
-Use a quoted string for one target, or a string array when the same source should be linked to multiple tool-specific locations. For the current config, sources follow the `.agents` protocol (`AGENTS.md` → `.agents/agents.md`, `skills/` → `.agents/skills/` and `.claude/skills/`, `agents/` → `.agents/agents/`, `tasks/` → `.agents/tasks/`, `memories/` → `.agents/memories/`).
+Use a quoted string for one target, or a string array when the same source should be linked to multiple tool-specific locations. For the current config, sources follow the agent asset layout (`AGENTS.md` -> `.agents/agents.md`, `agents/` -> `.agents/agents/`, `tasks/` -> `.agents/tasks/`, `memories/` -> `.agents/memories/`).
 
 ### Modes
 
 ```bash
-node ./scripts/ai-symlink.ts global   # link into $HOME (e.g. ~/.agents/skills)
+node ./scripts/ai-symlink.ts global   # link into $HOME (e.g. ~/.agents/agents)
 node ./scripts/ai-symlink.ts local    # link into the current project (cwd)
 node ./scripts/ai-symlink.ts --mode global --force --verbose
 ```
 
-In global mode, targets are created under `~/.agents/` (and `~/.claude/skills/`, etc.). In local mode they're created under `<cwd>/.agents/`. When no mode is given, the script defaults to global.
+In global mode, targets are created under `~/.agents/`. In local mode they're created under `<cwd>/.agents/`. When no mode is given, the script defaults to global.
 
 ### Existing targets and safety
 
@@ -164,7 +164,7 @@ Configured paths are checked strictly: every path must be relative, and the scri
 ### Options
 
 - `--force` — replace an existing wrong or broken symlink at the target path.
-- `--verbose` — print the list of created or replaced symlinks in gitignore-style path form (e.g. `.agents/skills/` for a directory, `.agents/agents.md` for a file).
+- `--verbose` — print the list of created or replaced symlinks in gitignore-style path form (e.g. `.agents/agents/` for a directory, `.agents/agents.md` for a file).
 
 ### Testing
 
