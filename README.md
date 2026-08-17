@@ -20,8 +20,8 @@ This repository provides a portable structure for my AI assets that can be share
   - [Option 1: one recursive glob](#option-1-one-recursive-glob)
   - [Option 2: individual folder entries](#option-2-individual-folder-entries)
 - [Licensed content](#licensed-content)
-- [Shared config onboarding prompts](#shared-config-onboarding-prompts)
-  - [Available config prompt pairs](#available-config-prompt-pairs)
+- [Shared config skill](#shared-config-skill)
+  - [Supported shared configs](#supported-shared-configs)
   - [Adding another shared config](#adding-another-shared-config)
 - [License](#license)
 
@@ -91,6 +91,7 @@ See [skills.sh](https://www.skills.sh/) for the full installer documentation, in
 ### Project management skills
 
 - [dnb-astro-migration-project](skills/50-frameworks-and-libraries/dnb-astro-migration-project/SKILL.md) — Bootstrap and run a parity-first migration of an existing website to Astro.
+- [dnb-dnbhq-configs](skills/20-repository-workflows/dnb-dnbhq-configs/SKILL.md) — Audit and initialise shared DNBHQ repository configuration packages from a registry-backed workflow.
 - [dnb-dependency-maintenance](skills/20-repository-workflows/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
 - [dnb-osv-scan](skills/20-repository-workflows/dnb-osv-scan/SKILL.md) — Scan dependencies for known vulnerabilities with osv-scanner, auto-apply safe fixes, and file GitHub issues for the rest.
 - [dnb-project-state-report](skills/20-repository-workflows/dnb-project-state-report/SKILL.md) — Analyse repository state, remote updates, GitHub activity, and recommended next actions.
@@ -177,50 +178,45 @@ These links into 404s are by design.
 - [Emil.md](https://animations.dev/learn/emil-skill)
 - [Animations.dev Skill](https://animations.dev/learn/animation-theory/animations-and-ai#installation)
 
-## Shared config onboarding prompts
+## Shared config skill
 
-This repository uses a two-step prompt pattern for applying shared DNBHQ configuration packages to other projects.
+This repository uses one installable skill for applying shared DNBHQ configuration packages to other projects:
 
-The workflow starts with one generator prompt:
+- [dnb-dnbhq-configs](skills/20-repository-workflows/dnb-dnbhq-configs/SKILL.md)
 
-- [`prompts/10-ai-assets/config-prompt-pair-generator.prompt.md`](./prompts/10-ai-assets/config-prompt-pair-generator.prompt.md)
+The skill audits a target repository, reads the package registry, checks package README.md files for current defaults, and then initialises only the selected shared configuration packages. Package-specific procedures live in resource files under [`skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/).
 
-That prompt analyses a shared configuration repository and creates a pair of reusable prompts:
+The package registry is the source of truth for configurable packages:
 
-1. an onboarding prompt that applies the shared config to the current project
-2. an optimisation prompt that improves the onboarding prompt after real-world usage
+- [`package-registry.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/package-registry.md)
 
-The onboarding prompt is used inside a target repository. It inspects the current project, applies the shared configuration, migrates existing setup where possible, removes obsolete fragments, adds useful scripts, validates the result, and reports the completed changes.
+Use the skill commands:
 
-The optimisation prompt is used after testing the onboarding prompt in one or more repositories. It takes follow-up changes, mistakes, failed commands, or manual corrections and turns them into a better version of the onboarding prompt.
+- `/dnb-dnbhq-configs audit` to inspect current shared configuration state without editing files
+- `/dnb-dnbhq-configs init` to initialise selected shared configuration packages
 
-To onboard a repository to every available shared config package in one pass, use
-[`dnbhq-config-onboarding.prompt.md`](./prompts/20-repository-workflows/dnbhq-config-onboarding.prompt.md).
-That aggregate prompt discovers package onboarding prompts by filename, so future
-config packages are included when their onboarding prompt is added to
-`prompts/20-repository-workflows/`.
+### Supported shared configs
 
-### Available config prompt pairs
-
-| Config | Onboarding prompt | Optimisation prompt |
-| --- | --- | --- |
-| Release config | [`release-config-setup.prompt.md`](./prompts/20-repository-workflows/release-config-setup.prompt.md) | [`release-config-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/release-config-prompt-optimise.prompt.md) |
-| TypeScript config | [`tsconfig-onboarding.prompt.md`](./prompts/20-repository-workflows/tsconfig-onboarding.prompt.md) | [`tsconfig-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/tsconfig-prompt-optimise.prompt.md) |
-| Renovate config | [`renovate-config-onboarding.prompt.md`](./prompts/20-repository-workflows/renovate-config-onboarding.prompt.md) | [`renovate-config-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/renovate-config-prompt-optimise.prompt.md) |
-| Markdownlint config | [`markdownlint-config-onboarding.prompt.md`](./prompts/20-repository-workflows/markdownlint-config-onboarding.prompt.md) | [`markdownlint-config-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/markdownlint-config-prompt-optimise.prompt.md) |
-| Biome config | [`biome-config-onboarding.prompt.md`](./prompts/20-repository-workflows/biome-config-onboarding.prompt.md) | [`biome-config-prompt-optimise.prompt.md`](./prompts/20-repository-workflows/biome-config-prompt-optimise.prompt.md) |
+| Config | Resource |
+| --- | --- |
+| Biome config | [`biome.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/biome.md) |
+| Markdownlint config | [`markdownlint.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/markdownlint.md) |
+| Release config | [`release.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/release.md) |
+| Renovate config | [`renovate.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/renovate.md) |
+| TypeScript config | [`typescript.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/typescript.md) |
+| Other registry packages | [`other.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/other.md) |
 
 ### Adding another shared config
 
 To add another shared configuration workflow:
 
-1. run [`config-prompt-pair-generator.prompt.md`](./prompts/10-ai-assets/config-prompt-pair-generator.prompt.md) with the shared config repository or package
-2. save the generated onboarding prompt in `prompts/20-repository-workflows/`
-3. save the generated optimisation prompt in `prompts/20-repository-workflows/`
-4. test the onboarding prompt in real repositories
-5. use the optimisation prompt to fold lessons from those runs back into the onboarding prompt
+1. add the package to [`package-registry.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/package-registry.md)
+2. point the entry to an existing package resource, or add a dedicated resource under `resources/packages/`
+3. include current README.md, package metadata, migration, validation, and cleanup guidance
+4. assign a registry `Weight` only when the package must run before other configs
+5. run the skill validation checks
 
-This keeps shared configuration rollouts repeatable while still allowing each prompt to improve from actual repository usage.
+This keeps shared configuration rollouts repeatable while centralising package-specific behaviour in the skill.
 
 ## License
 
