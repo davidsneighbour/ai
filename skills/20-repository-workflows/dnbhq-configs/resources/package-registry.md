@@ -1,6 +1,6 @@
 # Package registry
 
-Add one section per supported shared configuration package. This registry is the single source of truth for configurable packages handled by `dnb-dnbhq-configs`.
+Add one section per supported shared configuration package. This registry is the single source of truth for configurable packages handled by `dnbhq-configs`.
 
 Registry fields:
 

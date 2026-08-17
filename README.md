@@ -91,7 +91,7 @@ See [skills.sh](https://www.skills.sh/) for the full installer documentation, in
 ### Project management skills
 
 - [dnb-astro-migration-project](skills/50-frameworks-and-libraries/dnb-astro-migration-project/SKILL.md) — Bootstrap and run a parity-first migration of an existing website to Astro.
-- [dnb-dnbhq-configs](skills/20-repository-workflows/dnb-dnbhq-configs/SKILL.md) — Audit and initialise shared DNBHQ repository configuration packages from a registry-backed workflow.
+- [dnbhq-configs](skills/20-repository-workflows/dnbhq-configs/SKILL.md) — Audit and initialise shared DNBHQ repository configuration packages from a registry-backed workflow.
 - [dnb-dependency-maintenance](skills/20-repository-workflows/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
 - [dnb-osv-scan](skills/20-repository-workflows/dnb-osv-scan/SKILL.md) — Scan dependencies for known vulnerabilities with osv-scanner, auto-apply safe fixes, and file GitHub issues for the rest.
 - [dnb-project-state-report](skills/20-repository-workflows/dnb-project-state-report/SKILL.md) — Analyse repository state, remote updates, GitHub activity, and recommended next actions.
@@ -182,35 +182,35 @@ These links into 404s are by design.
 
 This repository uses one installable skill for applying shared DNBHQ configuration packages to other projects:
 
-- [dnb-dnbhq-configs](skills/20-repository-workflows/dnb-dnbhq-configs/SKILL.md)
+- [dnbhq-configs](skills/20-repository-workflows/dnbhq-configs/SKILL.md)
 
-The skill audits a target repository, reads the package registry, checks package README.md files for current defaults, and then initialises only the selected shared configuration packages. Package-specific procedures live in resource files under [`skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/).
+The skill audits a target repository, reads the package registry, checks package README.md files for current defaults, and then initialises only the selected shared configuration packages. Package-specific procedures live in resource files under [`skills/20-repository-workflows/dnbhq-configs/resources/packages/`](skills/20-repository-workflows/dnbhq-configs/resources/packages/).
 
 The package registry is the source of truth for configurable packages:
 
-- [`package-registry.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/package-registry.md)
+- [`package-registry.md`](skills/20-repository-workflows/dnbhq-configs/resources/package-registry.md)
 
 Use the skill commands:
 
-- `/dnb-dnbhq-configs audit` to inspect current shared configuration state without editing files
-- `/dnb-dnbhq-configs init` to initialise selected shared configuration packages
+- `/dnbhq-configs audit` to inspect current shared configuration state without editing files
+- `/dnbhq-configs init` to initialise selected shared configuration packages
 
 ### Supported shared configs
 
 | Config | Resource |
 | --- | --- |
-| Biome config | [`biome.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/biome.md) |
-| Markdownlint config | [`markdownlint.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/markdownlint.md) |
-| Release config | [`release.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/release.md) |
-| Renovate config | [`renovate.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/renovate.md) |
-| TypeScript config | [`typescript.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/typescript.md) |
-| Other registry packages | [`other.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/packages/other.md) |
+| Biome config | [`biome.md`](skills/20-repository-workflows/dnbhq-configs/resources/packages/biome.md) |
+| Markdownlint config | [`markdownlint.md`](skills/20-repository-workflows/dnbhq-configs/resources/packages/markdownlint.md) |
+| Release config | [`release.md`](skills/20-repository-workflows/dnbhq-configs/resources/packages/release.md) |
+| Renovate config | [`renovate.md`](skills/20-repository-workflows/dnbhq-configs/resources/packages/renovate.md) |
+| TypeScript config | [`typescript.md`](skills/20-repository-workflows/dnbhq-configs/resources/packages/typescript.md) |
+| Other registry packages | [`other.md`](skills/20-repository-workflows/dnbhq-configs/resources/packages/other.md) |
 
 ### Adding another shared config
 
 To add another shared configuration workflow:
 
-1. add the package to [`package-registry.md`](skills/20-repository-workflows/dnb-dnbhq-configs/resources/package-registry.md)
+1. add the package to [`package-registry.md`](skills/20-repository-workflows/dnbhq-configs/resources/package-registry.md)
 2. point the entry to an existing package resource, or add a dedicated resource under `resources/packages/`
 3. include current README.md, package metadata, migration, validation, and cleanup guidance
 4. assign a registry `Weight` only when the package must run before other configs

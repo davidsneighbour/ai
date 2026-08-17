@@ -1,6 +1,6 @@
 ---
-id: dnb-dnbhq-configs
-name: dnb-dnbhq-configs
+id: dnbhq-configs
+name: dnbhq-configs
 title: DNBHQ repository configuration maintenance
 type: skill
 description: Audit DNBHQ repository configuration and coordinate selected package-specific maintenance workflows.
@@ -24,7 +24,7 @@ This is the managing skill. It must:
 
 ## Commands
 
-### `/dnb-dnbhq-configs audit`
+### `/dnbhq-configs audit`
 
 Audit is read-only. It must:
 
@@ -45,7 +45,7 @@ The audit response must include:
 
 Do not edit files, install packages, run write-mode formatters, or stage changes during audit.
 
-### `/dnb-dnbhq-configs init`
+### `/dnbhq-configs init`
 
 Init sets up selected shared configuration packages. It may receive prose instructions that name packages to include, packages to leave out, migration preferences, validation limits, or repository-specific constraints.
 
