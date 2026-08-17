@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.15.0](https://github.com/davidsneighbour/ai/compare/v1.14.0...v1.15.0) (2026-08-17)
+
+### Instructions
+
+* add session primer, prune stubs, split framework rules into skills ([9ac8931](https://github.com/davidsneighbour/ai/commit/9ac8931043bcf3243e3689b3d64ffc444c487b34))
+
+### Build
+
+* **vscode:** fix prompt files location to match repo layout ([d159dfe](https://github.com/davidsneighbour/ai/commit/d159dfe27f4dead8585fddd216e5c01235ba500d))
+
 ## [1.14.0](https://github.com/davidsneighbour/ai/compare/v1.13.0...v1.14.0) (2026-08-17)
 
 ### Skills
