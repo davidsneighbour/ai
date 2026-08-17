@@ -19,6 +19,7 @@
       "description": "Skills for documentation, dependencies, references, and code quality.",
       "skills": [
         "dnb-create-js-documentation",
+        "dnb-dnbhq-configs",
         "dnb-dependency-maintenance",
         "dnb-manage-node-version-policy",
         "dnb-osv-scan",
