@@ -1,12 +1,5 @@
 {
   "explorer.fileNesting.enabled": true,
-  "explorer.fileNesting.patterns": {
-    "*.ts": "${capture}.js, ${capture}.test.ts, ${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-    "README.md": "CHANGELOG.md, CONTRIBUTING.md, LICENSE*, AGENTS*, ROADMAP.md, TODO.md",
-    "package.json": "package-lock.json, .release-it.ts, .markdownlint*, lint-staged.config.*, tsconfig.*, .editorconfig, .nvmrc,biome.json, .secretlint*, config.toml",
-    "skills.sh.json": "skills-lock.json",
-    "index.md": "*.index.md"
-  },
   "cSpell.customDictionaries": {
     "workspace-dictionary": {
       "name": "workspace-dictionary",
