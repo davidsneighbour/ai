@@ -7,7 +7,7 @@ This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot
 - `agents/` contains `.agents` protocol sub-agent profiles grouped under numbered purpose folders. See `agents.index.md`.
 - `prompts/` contains prompt Markdown files with YAML front matter, grouped under numbered purpose folders. See `prompts.index.md`.
 - `skills/` contains installable reusable skills grouped under numbered purpose folders. Each skill lives in its own directory and must include `SKILL.md`. See `skills.index.md`.
-- `instructions/` contains shared instruction files grouped under numbered purpose folders. See `instructions.index.md`.
+- `instructions/` contains shared instruction files grouped under numbered purpose folders. See `instructions.index.md` for the full file-by-file index, and read `instructions/index.instructions.md` at the start of a session for a short orientation to the folder and its `applyTo` scoping model.
 - `memories/` contains durable memory source files, including the repository glossary. See `memories/glossary.md`.
 - `ai/templates/` and `ai/workflows/` contain shared templates and workflow documents.
 - `schemas/` contains JSON schemas for prompts, skills, and docs.

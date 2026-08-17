@@ -113,10 +113,12 @@ See [skills.sh](https://www.skills.sh/) for the full installer documentation, in
 - [dnb-create-js-documentation](skills/40-languages-and-runtimes/dnb-create-js-documentation/SKILL.md) — Add or improve generated API documentation for JavaScript or TypeScript npm projects.
 - [dnb-markdown-formatting](skills/70-content-design-and-voice/dnb-markdown-formatting/SKILL.md) — Decide whether strict CommonMark or GitHub Flavored Markdown rules apply to a Markdown file, then apply the matching instruction set.
 - [dnb-reference](skills/10-ai-assets/dnb-reference/SKILL.md) — Add or update strict references frontmatter on AI asset files.
+- [dnb-tailwindplus-elements](skills/50-frameworks-and-libraries/dnb-tailwindplus-elements/SKILL.md) — Tailwind Plus Elements UI component library reference; confirms the dependency is present before applying.
 - [dnb-voice](skills/70-content-design-and-voice/dnb-voice/SKILL.md) — Edit, rewrite, or review prose so it reads in Patrick's own voice.
 
 ### Engineering guideline skills
 
+- [dnb-astro-architecture](skills/50-frameworks-and-libraries/dnb-astro-architecture/SKILL.md) — Astro 5+ architecture and development standards; confirms the project is Astro-based before applying.
 - [dnb-interface-engineering](skills/70-content-design-and-voice/dnb-interface-engineering/SKILL.md) — Design engineering principles for making interfaces feel polished.
 - [dnb-llm-visibility](skills/10-ai-assets/dnb-llm-visibility/SKILL.md) — Make websites, docs, blogs, or landing pages visible and readable to LLMs and AI agents.
 - [dnb-strict-typescript-check](skills/40-languages-and-runtimes/dnb-strict-typescript-check/SKILL.md) — Guidelines for strict TypeScript checks in generated code.

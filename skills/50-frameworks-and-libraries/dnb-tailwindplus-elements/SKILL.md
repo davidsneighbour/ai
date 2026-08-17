@@ -1,10 +1,11 @@
 ---
-name: "Tailwind Plus Elements"
-description: "Documentation for Tailwind Plus Elements UI component library"
-applyTo: "**/*.astro,**/*.ts"
+id: dnb-tailwindplus-elements
+name: dnb-tailwindplus-elements
+title: DNB Tailwind Plus Elements
+description: Documentation for the Tailwind Plus Elements UI component library (autocomplete, command palette, dialog, disclosure, dropdown menu, popover, select, tabs). Use when the project actually depends on @tailwindplus/elements - check package.json or the CDN script tag before applying; the file extensions this touches (.ts, .astro) are not unique to Tailwind Plus projects.
 ---
 
-# Tailwind Plus Elements Documentation
+## Overview
 
 Tailwind Plus Elements is a JavaScript UI component library that powers all the interactive behavior in our HTML snippets. It has no dependencies on JavaScript frameworks like React, and works with any modern stack—Next.js, Rails, Laravel, Svelte, Astro, or even plain HTML.
 

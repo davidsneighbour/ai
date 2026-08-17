@@ -1,12 +1,14 @@
 ---
-description: Astro development standards and best practices for content-driven, server-first websites (Astro 5+).
-applyTo: "**/*.astro, **/*.ts, **/*.js, **/*.md, **/*.mdx"
+id: dnb-astro-architecture
+name: dnb-astro-architecture
+title: DNB Astro Architecture
+description: Astro development standards and best practices for content-driven, server-first websites (Astro 5+). Use when building, reviewing, or advising on an Astro project - content collections, islands architecture, routing, view transitions, or general project structure. Confirm the project is actually Astro-based (astro.config.mjs, .astro files, or an astro dependency in package.json) before applying; file extensions like .ts, .js, or .md alone do not imply Astro.
 references:
   - name: Astro documentation
     src: https://docs.astro.build
 ---
 
-# Astro architecture and development standards
+## Overview
 
 Instructions for building Astro applications that follow the content-driven,
 server-first architecture with modern best practices.
@@ -53,8 +55,8 @@ server-first architecture with modern best practices.
   Layer API.
 
 For TypeScript-specific rules and a type reference, see
-`typescript.instructions.md` and `typescript-reference.instructions.md` in
-this directory.
+`typescript.instructions.md` and `typescript-reference.instructions.md`
+under `instructions/50-frameworks-and-libraries/astro/`.
 
 ## Component design
 

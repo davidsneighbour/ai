@@ -39,6 +39,33 @@ duplicating rules. For example, TypeScript testing belongs under
 `40-languages-and-runtimes/typescript/`; general quality guidance may point to
 that file.
 
+### Subtopic: folder vs. single file
+
+A numbered top-level folder (`xx-topic/`) gets a subtopic folder only when
+more than one instruction file covers that subtopic. If a subtopic has
+exactly one file, keep it directly inside the numbered folder - do not
+create a single-file subfolder for it.
+
+When a subtopic folder does contain more than one file, add an entry-point
+file inside that folder named `<subtopic>-index.instructions.md` (for
+example `typescript-index.instructions.md`, not a bare
+`index.instructions.md`) - the registry derives a file's id from its bare
+filename, not its path, so multiple `index.instructions.md` files across
+different folders collide on the same id and fail `ai:lint`. The entry
+point is not itself a rule set; it explains what each sibling file covers,
+how they relate (read order, precedence, narrower vs. broader scope), and
+links out to any related skill when framework detection can't be done from
+an `applyTo` glob alone. See
+`instructions/40-languages-and-runtimes/typescript/typescript-index.instructions.md`
+and
+`instructions/50-frameworks-and-libraries/astro/astro-index.instructions.md`
+for worked examples, and the repository root
+`instructions/index.instructions.md` for the same pattern applied at the
+folder root (unique already, since nothing else in the tree is named
+`index.instructions.md`). Apply this pattern to any other subtopic folder
+once it grows past one file, rather than introducing a separate
+meta-instruction file for it.
+
 ## Required frontmatter
 
 Every instruction file must include YAML frontmatter with these fields:
