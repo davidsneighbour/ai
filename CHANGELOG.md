@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.14.0](https://github.com/davidsneighbour/ai/compare/v1.13.0...v1.14.0) (2026-08-17)
+
+### Skills
+
+* migrate shared config prompts to skill ([b9e75b6](https://github.com/davidsneighbour/ai/commit/b9e75b676451dea0e1d857e287050e50bbe49bfe)), closes [#60](https://github.com/davidsneighbour/ai/issues/60)
+* remove posthaste-moved social skills ([904bff4](https://github.com/davidsneighbour/ai/commit/904bff404b8a9485adf88200d3d5645f8d126d56)), references [#35](https://github.com/davidsneighbour/ai/issues/35)
+* rename dnbhq config skill ([2a4f775](https://github.com/davidsneighbour/ai/commit/2a4f7750cf6b95d89d64983c4be9bd0ba0bf4606)), closes [#62](https://github.com/davidsneighbour/ai/issues/62)
+
+### Build
+
+* **vscode:** update todo tree configuration ([51472d4](https://github.com/davidsneighbour/ai/commit/51472d4085b1ec6e1b3221523f1241da7d61e170))
+
 ## [1.13.0](https://github.com/davidsneighbour/ai/compare/v1.12.0...v1.13.0) (2026-08-13)
 
 ### Bug Fixes
