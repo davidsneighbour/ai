@@ -95,7 +95,7 @@ See [skills.sh](https://www.skills.sh/) for the full installer documentation, in
 - [dnb-dependency-maintenance](skills/20-repository-workflows/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
 - [dnb-osv-scan](skills/20-repository-workflows/dnb-osv-scan/SKILL.md) — Scan dependencies for known vulnerabilities with osv-scanner, auto-apply safe fixes, and file GitHub issues for the rest.
 - [dnb-project-state-report](skills/20-repository-workflows/dnb-project-state-report/SKILL.md) — Analyse repository state, remote updates, GitHub activity, and recommended next actions.
-- [dnb-project-task-triage](skills/20-repository-workflows/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating ROADMAP.md.
+- [dnb-project-task-triage](skills/20-repository-workflows/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating PROJECT.md.
 - [dnb-quality-gate-organisation](skills/30-quality-and-verification/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
 - [dnb-resume-interrupted-work](skills/20-repository-workflows/dnb-resume-interrupted-work/SKILL.md) — Manage a project-root RESUME.md handoff file that blocks new work until previously interrupted work is resolved.
 

@@ -17,3 +17,7 @@ scratch/
 
 # Temporary agent resume scratch file
 RESUME.md
+
+# Local project-management working files
+/PROJECT.md
+/TODO.md

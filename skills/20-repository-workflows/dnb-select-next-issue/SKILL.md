@@ -15,7 +15,7 @@ This skill is selection-only.
 It must:
 
 - inspect open GitHub issues through the GitHub CLI
-- read `ROADMAP.md` when present
+- read `PROJECT.md` when present
 - rank issues by priority, roadmap relevance, clarity, and suitability
 - return exactly one issue number
 - make no code changes
@@ -80,13 +80,13 @@ gh issue list \
   --json number,title,labels,assignees,updatedAt,createdAt,body,url
 ```
 
-If `ROADMAP.md` exists, read it before ranking issues.
+If `PROJECT.md` exists, read it before ranking issues.
 
 ```bash
-test -f ROADMAP.md && sed -n '1,240p' ROADMAP.md
+test -f PROJECT.md && sed -n '1,240p' PROJECT.md
 ```
 
-Use `ROADMAP.md` to identify:
+Use `PROJECT.md` to identify:
 
 - explicit recommendations
 - priority sections
@@ -95,15 +95,15 @@ Use `ROADMAP.md` to identify:
 - topics marked as next, active, urgent, important, planned, or deferred
 - repeated topics that match open issues
 
-Do not edit `ROADMAP.md`.
+Do not edit `PROJECT.md`.
 
 ## Ranking rules
 
 Rank open issues by:
 
 1. explicit priority labels, for example `priority:critical`, `priority:high`, `prio:critical`, `prio:high`, `P0`, or `P1`
-2. direct mention in `ROADMAP.md`
-3. topic alignment with `ROADMAP.md`
+2. direct mention in `PROJECT.md`
+3. topic alignment with `PROJECT.md`
 4. clear acceptance criteria
 5. clear bug report, feature request, documentation task, or maintenance task
 6. suitability for implementation in the current repository
@@ -156,7 +156,7 @@ Example:
 ```text
 Selected issue: #123
 Title: Fix token refresh after session expiry
-Reason: High-priority bug, mentioned in ROADMAP.md, clear reproduction steps, and safe local validation path.
+Reason: High-priority bug, mentioned in PROJECT.md, clear reproduction steps, and safe local validation path.
 ```
 
 If no issue can be selected, use this format:

@@ -99,13 +99,13 @@ If the issue is closed, do not reopen or work on it unless the user explicitly a
 
 If the issue does not exist or cannot be accessed, report the error and stop.
 
-If `ROADMAP.md` exists, read it for context only.
+If `PROJECT.md` exists, read it for context only.
 
 ```bash
-test -f ROADMAP.md && sed -n '1,240p' ROADMAP.md
+test -f PROJECT.md && sed -n '1,240p' PROJECT.md
 ```
 
-Use `ROADMAP.md` to understand:
+Use `PROJECT.md` to understand:
 
 - related milestones
 - project priorities
@@ -113,7 +113,7 @@ Use `ROADMAP.md` to understand:
 - implementation direction
 - constraints or sequencing notes
 
-Do not switch to another issue based on `ROADMAP.md`.
+Do not switch to another issue based on `PROJECT.md`.
 
 ## Issue suitability rules
 

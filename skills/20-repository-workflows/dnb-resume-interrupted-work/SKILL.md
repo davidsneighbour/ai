@@ -136,7 +136,7 @@ Never leave a stale `RESUME.md` in the repository after the interruption has bee
 
 `RESUME.md` is a temporary scratch file for resuming interrupted work in the near future. It is not a durable project-planning file, not a backlog, and not a file that should normally become part of the code base.
 
-Do not include `RESUME.md` in git commits unless the user explicitly asks for it to be committed. Do not offer to add `RESUME.md` to a commit. If a task needs durable tracking, move the relevant information into an issue, `TODO.md`, `ROADMAP.md`, or another appropriate project-tracking location, then remove `RESUME.md`.
+Do not include `RESUME.md` in git commits unless the user explicitly asks for it to be committed. Do not offer to add `RESUME.md` to a commit. If a task needs durable tracking, move the relevant information into an issue, `TODO.md`, `PROJECT.md`, or another appropriate project-tracking location, then remove `RESUME.md`.
 
 ## Registration Rule
 
