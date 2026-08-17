@@ -264,7 +264,8 @@ Registry fields:
 ## `@dnbhq/lintstaged-config`
 
 - Repository: `https://github.com/dnbhq/lintstaged-config`
-- npm package: `@dnbhq/lintstaged-config` (expected; verify once package metadata exists)
+- npm package: `@dnbhq/lintstaged-config`
+- Weight: `20`
 - Package resource: `resources/packages/other.md`
 - Removable packages:
   - none until package metadata and exported config paths are verified
