@@ -81,7 +81,7 @@
   "diffEditor.wordWrap": "on",
   "notebook.output.wordWrap": false,
   "chat.promptFilesLocations": {
-    "ai/prompts": true
+    "prompts/**/*.prompt.md": true
   },
   "markdownlint.configFile": "./node_modules/@dnbhq/markdownlint-config/.markdownlint-cli2.jsonc",
   "markdown.extension.tableFormatter.enabled": false,
