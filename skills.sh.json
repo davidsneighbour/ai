@@ -3,29 +3,12 @@
   "notGrouped": "bottom",
   "groupings": [
     {
-      "title": "Issue Workflows",
-      "description": "Skills for triaging, selecting, and working through GitHub issues.",
-      "skills": [
-        "dnb-github-label-classifier",
-        "dnb-project-task-triage",
-        "dnb-select-next-issue",
-        "dnb-work-on-issue",
-        "dnb-work-on-next-issue",
-        "dnb-work-through-issues"
-      ]
-    },
-    {
       "title": "Repository Maintenance",
       "description": "Skills for documentation, dependencies, references, and code quality.",
       "skills": [
         "dnb-create-js-documentation",
         "dnbhq-configs",
-        "dnb-dependency-maintenance",
-        "dnb-manage-node-version-policy",
-        "dnb-osv-scan",
-        "dnb-project-state-report",
         "dnb-quality-gate-organisation",
-        "dnb-resume-interrupted-work",
         "dnb-site-audit",
         "dnb-reference"
       ]

@@ -45,7 +45,7 @@ The root files `agents.index.md`, `instructions.index.md`, `prompts.index.md`, a
 
 ## Resuming interrupted work
 
-Before starting repository work, agents must check for project-root `RESUME.md`. If it exists, they must read it, resolve or explicitly abandon the unfinished work, and remove `RESUME.md` before starting unrelated work. When available, follow `skills/20-repository-workflows/dnb-resume-interrupted-work/SKILL.md` for the full protocol.
+Before starting repository work, agents must check for project-root `RESUME.md`. If it exists, they must read it, resolve or explicitly abandon the unfinished work, and remove `RESUME.md` before starting unrelated work.
 
 ## Coding style and naming conventions
 

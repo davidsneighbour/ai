@@ -9,7 +9,6 @@ This repository provides a portable structure for my AI assets that can be share
 - [CLI](#cli)
 - [Skills](#skills)
   - [Setup](#setup)
-  - [Issue handling skills](#issue-handling-skills)
   - [Project management skills](#project-management-skills)
   - [Blog drafting skills](#blog-drafting-skills)
   - [Specification and testing skills](#specification-and-testing-skills)
@@ -69,7 +68,7 @@ This repository provides a portable structure for my AI assets that can be share
 Install one skill by id:
 
 ```bash
-npx skills add davidsneighbour/ai/skills --skill dnb-project-task-triage --yes
+npx skills add davidsneighbour/ai/skills --skill dnbhq-configs --yes
 ```
 
 Install all skills:
@@ -80,24 +79,11 @@ npx skills add davidsneighbour/ai/skills --skill '*' --yes
 
 See [skills.sh](https://www.skills.sh/) for the full installer documentation, including updating, global installs, and other skill sources.
 
-### Issue handling skills
-
-- [dnb-github-label-classifier](skills/20-repository-workflows/dnb-github-label-classifier/SKILL.md) — Analyse GitHub issue text or metadata and select or apply labels from the category:value taxonomy.
-- [dnb-select-next-issue](skills/20-repository-workflows/dnb-select-next-issue/SKILL.md) — Select one suitable open GitHub issue by priority and roadmap relevance, without implementing it.
-- [dnb-work-on-issue](skills/20-repository-workflows/dnb-work-on-issue/SKILL.md) — Inspect a specific GitHub issue by number, implement the required change, validate, and commit with a Conventional Commits message that closes the issue.
-- [dnb-work-on-next-issue](skills/20-repository-workflows/dnb-work-on-next-issue/SKILL.md) — Orchestrate selecting and implementing the next suitable open GitHub issue without a specific issue number provided.
-- [dnb-work-through-issues](skills/20-repository-workflows/dnb-work-through-issues/SKILL.md) — Continuously work through open GitHub issues until no suitable actionable issues remain, committing each fix individually.
-
 ### Project management skills
 
 - [dnb-astro-migration-project](skills/50-frameworks-and-libraries/dnb-astro-migration-project/SKILL.md) — Bootstrap and run a parity-first migration of an existing website to Astro.
 - [dnbhq-configs](skills/20-repository-workflows/dnbhq-configs/SKILL.md) — Audit and initialise shared DNBHQ repository configuration packages from a registry-backed workflow.
-- [dnb-dependency-maintenance](skills/20-repository-workflows/dnb-dependency-maintenance/SKILL.md) — Safely maintain npm dependencies in a single-package repository or npm monorepo.
-- [dnb-osv-scan](skills/20-repository-workflows/dnb-osv-scan/SKILL.md) — Scan dependencies for known vulnerabilities with osv-scanner, auto-apply safe fixes, and file GitHub issues for the rest.
-- [dnb-project-state-report](skills/20-repository-workflows/dnb-project-state-report/SKILL.md) — Analyse repository state, remote updates, GitHub activity, and recommended next actions.
-- [dnb-project-task-triage](skills/20-repository-workflows/dnb-project-task-triage/SKILL.md) — Maintain the repository task-tracking system by syncing TODO.md with GitHub Issues and regenerating PROJECT.md.
 - [dnb-quality-gate-organisation](skills/30-quality-and-verification/dnb-quality-gate-organisation/SKILL.md) — Name repository quality-check commands consistently.
-- [dnb-resume-interrupted-work](skills/20-repository-workflows/dnb-resume-interrupted-work/SKILL.md) — Manage a project-root RESUME.md handoff file that blocks new work until previously interrupted work is resolved.
 
 ### Blog drafting skills
 

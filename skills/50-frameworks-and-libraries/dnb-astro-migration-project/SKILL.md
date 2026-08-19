@@ -18,7 +18,7 @@ The migration process is documentation-led and GitHub-Issue-backed. Do not start
 - Work on `migration` or a branch whose name starts with `migration`, unless the user explicitly chooses another branch.
 - Treat GitHub Issues as the source of truth for actionable work when GitHub is available.
 - Treat `ROADMAP.md` as a generated project index and `TODO.md` as a scratchpad inbox.
-- Use the `dnb-project-task-triage` skill whenever the user asks for status, next steps, project triage, roadmap updates, TODO sync, or GitHub issue sync.
+- Use a project task-triage workflow whenever the user asks for status, next steps, project triage, roadmap updates, TODO sync, or GitHub issue sync.
 - Ask only one blocking clarification question at a time. Record the answer in `MIGRATION.md`, `MIGRATION.status.md`, `PROJECT.md`, or a GitHub Issue before continuing.
 - Separate parity work from improvements. Preserve existing behavior first; create post-parity issues for better implementations.
 
@@ -43,8 +43,8 @@ Create or update these files during project bootstrap:
 - `README.md`: human project overview and local commands.
 - `MIGRATION.md`: authoritative migration operating instructions.
 - `MIGRATION.status.md`: route, asset, system, redirect, form, widget, and accepted-disparity tracker.
-- `ROADMAP.md`: generated overview managed through `dnb-project-task-triage` when available.
-- `TODO.md`: scratchpad inbox managed through `dnb-project-task-triage` when available.
+- `ROADMAP.md`: generated overview managed through the project task-triage workflow when available.
+- `TODO.md`: scratchpad inbox managed through the project task-triage workflow when available.
 
 Do not hand-maintain `ROADMAP.md` or `TODO.md` when the task-triage workflow is available. Update `MIGRATION.status.md` directly when route or system statuses change.
 
@@ -65,6 +65,6 @@ Before finishing any migration task, review whether the change requires updates 
 - `PROJECT.md`;
 - `AGENTS.md`;
 - GitHub Issues;
-- `ROADMAP.md` or `TODO.md` through `dnb-project-task-triage`.
+- `ROADMAP.md` or `TODO.md` through the project task-triage workflow.
 
 Commits should be topic-coherent and reference related issues with `closes #123`, `see #123`, or similar wording.

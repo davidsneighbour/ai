@@ -10,7 +10,7 @@ Use this reference when bootstrapping or maintaining the migration issue tree, `
 - `ROADMAP.md` is a generated project index and status cache.
 - `TODO.md` is a scratchpad inbox for rough notes that are not actionable yet.
 
-Use `dnb-project-task-triage` for status, roadmap regeneration, TODO sync, and issue reconciliation when it is available.
+Use the project task-triage workflow for status, roadmap regeneration, TODO sync, and issue reconciliation when it is available.
 
 ## Bootstrap Milestones
 
@@ -89,7 +89,7 @@ When regenerating `ROADMAP.md`, include:
 - open clarification questions;
 - recommended next steps.
 
-Prefer generating this through `dnb-project-task-triage`. If that workflow is unavailable, state that the file was manually updated and why.
+Prefer generating this through the project task-triage workflow. If that workflow is unavailable, state that the file was manually updated and why.
 
 ## TODO.md Procedure
 

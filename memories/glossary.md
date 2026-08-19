@@ -40,8 +40,8 @@ one or more child branches, one or more [leaves](#leaves), or a mix of both.
 
 Branches are not [leaves](#leaves), because their primary purpose is
 organisation rather than being the final item. For example,
-`skills/20-repository-workflows/` is a branch because it groups workflow skill
-leaves.
+`skills/70-content-design-and-voice/` is a branch because it groups content and
+voice skill leaves.
 
 ### Instructions
 

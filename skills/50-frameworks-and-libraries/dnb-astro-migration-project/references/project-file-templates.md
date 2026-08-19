@@ -22,7 +22,7 @@ For migration work, the agent MUST read these files first:
 
 Then the agent MUST inspect the relevant GitHub Issues. GitHub Issues are the source of truth for actionable migration work.
 
-If the user asks for status, next steps, project triage, roadmap updates, or TODO/GitHub issue sync, the agent MUST use the `dnb-project-task-triage` skill when available.
+If the user asks for status, next steps, project triage, roadmap updates, or TODO/GitHub issue sync, the agent MUST use the project task-triage workflow when available.
 
 ## Branch Rules
 
@@ -42,7 +42,7 @@ Agents MUST preserve user changes in the worktree.
 
 Agents MUST keep commits topic-coherent and reference related GitHub Issues with `closes #123`, `see #123`, or similar wording.
 
-Agents MUST NOT hand-maintain `ROADMAP.md` or `TODO.md` outside the `dnb-project-task-triage` workflow when that workflow is available.
+Agents MUST NOT hand-maintain `ROADMAP.md` or `TODO.md` outside the project task-triage workflow when that workflow is available.
 
 Before finishing migration work, agents MUST review whether the change requires updates to `MIGRATION.md`, `MIGRATION.status.md`, `PROJECT.md`, `ROADMAP.md`, `TODO.md`, `AGENTS.md`, or GitHub Issues.
 ```
@@ -123,8 +123,8 @@ The terms MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY are used as described in R
 - First milestone: visual, behavioral, content, metadata, URL, asset, form, and redirect parity.
 - Progress tracker: `MIGRATION.status.md`.
 - Project task source of truth: GitHub Issues.
-- Generated project overview: `ROADMAP.md`, managed by `dnb-project-task-triage` when available.
-- Scratchpad inbox: `TODO.md`, managed by `dnb-project-task-triage` when available.
+- Generated project overview: `ROADMAP.md`, managed by the project task-triage workflow when available.
+- Scratchpad inbox: `TODO.md`, managed by the project task-triage workflow when available.
 
 ## Agent Startup Checklist
 
@@ -158,7 +158,7 @@ Commits MUST reference relevant issue numbers.
 
 GitHub Issues are authoritative. `ROADMAP.md` is a generated project index. `TODO.md` is a scratchpad inbox.
 
-Do not hand-maintain `ROADMAP.md` or `TODO.md` when `dnb-project-task-triage` is available.
+Do not hand-maintain `ROADMAP.md` or `TODO.md` when the project task-triage workflow is available.
 
 ## Tracking File Review
 
@@ -222,7 +222,7 @@ None yet.
 ```markdown
 # Project Roadmap
 
-This file is generated and maintained by the `dnb-project-task-triage` workflow when available. GitHub Issues are the source of truth.
+This file is generated and maintained by the project task-triage workflow when available. GitHub Issues are the source of truth.
 
 Current migration work is governed by `MIGRATION.md`, with route and system progress tracked in `MIGRATION.status.md`.
 

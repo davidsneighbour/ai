@@ -36,7 +36,7 @@ folder so the repository's individual prompt-folder setup mode can discover
 them by direct child folder. Agent and skill assets keep their protocol
 entrypoint folder below the numbered category, for example
 `agents/20-repository-workflows/repository-maintainer/agent.md` and
-`skills/20-repository-workflows/dnb-work-on-issue/SKILL.md`.
+`skills/20-repository-workflows/dnbhq-configs/SKILL.md`.
 
 | Folder | Purpose |
 | --- | --- |
