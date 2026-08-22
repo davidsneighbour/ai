@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A structured registry of portable AI assets (prompts, skills, instructions, docs) for use with ChatGPT, Codex, GitHub Copilot, and Claude Code. The `scripts/ai.ts` CLI manages validation, linting, schema export, and VS Code integration.
+A structured registry of portable AI assets (prompts, instructions, agents, docs, memories, templates, and workflows) for use with ChatGPT, Codex, GitHub Copilot, and Claude Code. The `scripts/ai.ts` CLI manages validation, linting, schema export, and VS Code integration. Installable skills live in the external collection repositories listed in `skills.index.md`.
 
 ## Common commands
 
@@ -14,9 +14,6 @@ node ./scripts/ai.ts validate
 
 # Lint for style and policy issues (suffix, empty body, drift)
 node ./scripts/ai.ts lint
-
-# Validate installable skill directories
-node ./scripts/ai.ts validate-skills --verbose
 
 # Full health check (validation + linting); use before commits and releases
 node ./scripts/ai.ts check --release
@@ -39,11 +36,7 @@ node ./scripts/ai.ts setup --prompts --mode glob
 # Run AI asset linting via npm alias
 npm run ai:lint
 
-# Lint skills and skill Markdown
-npm run lint:skills
-npm run lint:skills:markdown
-
-# Full combined quality gate (Biome, TypeScript, AI registry check, skills, repo-wide Markdown lint, ai-symlink tests)
+# Full combined quality gate (Biome, TypeScript, AI registry check, repo-wide Markdown lint, ai-symlink tests)
 npm run check
 ```
 
@@ -72,7 +65,6 @@ Registry Markdown files are scanned from the managed asset directories:
 
 Files are classified by path:
 
-- **skill** — path contains `/skills/` or frontmatter says `type: skill`
 - **agent** — path contains `/agents/`
 - **doc** — path contains `/documentation/`
 - **instruction** — path contains `/instructions/`
@@ -83,8 +75,6 @@ The data model lives in `scripts/lib/ai-schema.ts` (Zod schemas). The CLI in `sc
 ### File naming conventions
 
 - Prompts: `<name>.prompt.md`
-- Skills (registry entries): `<name>.skill.md`
-- Installable skills: `skills/<skill-id>/SKILL.md` where the directory name matches the `id` field
 - Agents: `<name>.agent.md`
 - Docs: `<name>.doc.md`
 
@@ -96,20 +86,14 @@ Every file needs YAML frontmatter and a non-empty Markdown body. Prompt files us
 
 Prompt-specific optional fields: `argument-hint` (string), `agent` (string), `model` (string), `skills` (string array), `tools` (string array), and `strict` (boolean). Do not use `id` or `title` in prompt frontmatter.
 
-Docs and installable skills still use `id`, `title`, and `description` according to their schemas.
+Docs use `id`, `title`, and `description` according to their schema.
 
 Agent-specific optional fields follow the VS Code custom agent format: `name`, `argument-hint`, `tools`, `agents`, `model`, `handoffs`, and `target`.
 
-### Installable skills (`skills/<id>/`)
+### External Skills
 
-Each installable skill is a directory with a `SKILL.md`. The directory name must match the `id` in frontmatter. Install patterns:
-
-```bash
-npx skills add davidsneighbour/ai/skills --skill '*' --yes          # all skills
-npx skills add davidsneighbour/ai/skills --skill <id> --yes         # one skill
-npx skills add davidsneighbour/ai/skills --skill '*' --global --yes # globally
-npx skills add emilkowalski/skill --yes                             # external repository
-```
+Do not add installable skills to this repository. Put new skills in one of the
+external collection repositories listed in `skills.index.md`.
 
 ### Config-driven paths (`config.toml`)
 
@@ -123,10 +107,9 @@ Strict mode throughout (`tsconfig.json`). Biome for formatting: tabs, double quo
 
 1. Create/edit a file in a managed asset directory with the correct suffix and frontmatter.
 2. Run `node ./scripts/ai.ts validate` then `node ./scripts/ai.ts lint`.
-3. For skill directory changes: `node ./scripts/ai.ts validate-skills`.
-4. Run `node ./scripts/ai.ts check --release` before committing.
-5. If the data model in `scripts/lib/ai-schema.ts` changed: run `node ./scripts/ai.ts export-schemas`.
-6. If prompt folder layout changed: run `node ./scripts/ai.ts build-documentation`.
+3. Run `node ./scripts/ai.ts check --release` before committing.
+4. If the data model in `scripts/lib/ai-schema.ts` changed: run `node ./scripts/ai.ts export-schemas`.
+5. If prompt folder layout changed: run `node ./scripts/ai.ts build-documentation`.
 
 ## File location shorthands
 
@@ -140,8 +123,6 @@ Current mappings:
 | "instruction file in `<path>`" | `instructions/<path>` |
 | "local prompt file in `<path>`" | `.vscode/prompts/<path>` |
 | "prompt file in `<path>`" | `prompts/<path>` |
-| "local skills file in `<path>`" | `.vscode/skills/<path>` |
-| "skills file in `<path>`" | `skills/<path>` |
 | "local docs file in `<path>`" | `.vscode/docs/<path>` |
 | "docs file in `<path>`" | `documentation/<path>` |
 

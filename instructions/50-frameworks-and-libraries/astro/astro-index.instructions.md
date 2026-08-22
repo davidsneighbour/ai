@@ -1,6 +1,6 @@
 ---
 name: Astro instructions entry point
-description: Overview of the Astro instruction files in this folder, what each one covers, and where the broader Astro architecture guidance now lives.
+description: Overview of the Astro instruction files in this folder, what each one covers, and where broader Astro architecture guidance now lives.
 applyTo: "**/*.astro, **/*.ts"
 ---
 
@@ -8,13 +8,14 @@ applyTo: "**/*.astro, **/*.ts"
 
 This folder holds Astro-specific TypeScript rules. It intentionally does
 not include general Astro architecture, content-collection, or
-project-standards guidance - that content moved to the
-[`dnb-astro-architecture`](../../../skills/50-frameworks-and-libraries/dnb-astro-architecture/SKILL.md)
-skill, because "is this actually an Astro project" cannot be answered from
-an `applyTo` glob on `.ts`/`.js`/`.md` files alone. A `.ts` file matches
-that glob whether or not the project uses Astro; a skill lets the agent
-judge from real project signals (`astro.config.mjs`, `.astro` files, an
-`astro` dependency) before applying framework-specific rules.
+project-standards guidance - that content belongs in external skills,
+because "is this actually an Astro project" cannot be answered from an
+`applyTo` glob on `.ts`/`.js`/`.md` files alone. A `.ts` file matches that
+glob whether or not the project uses Astro; a skill lets the agent judge
+from real project signals (`astro.config.mjs`, `.astro` files, an `astro`
+dependency) before applying framework-specific rules. See the collection
+repositories listed in
+[`skills.index.md`](../../../skills.index.md).
 
 | File | Covers | Applies to |
 | --- | --- | --- |
@@ -32,5 +33,5 @@ it - see that folder's
 for the generic TypeScript rule set.
 
 For framework-level Astro guidance (architecture, content collections,
-routing, performance, deployment), invoke the `dnb-astro-architecture`
-skill once the project is confirmed to be Astro-based.
+routing, performance, deployment), use the relevant external skill collection
+once the project is confirmed to be Astro-based.

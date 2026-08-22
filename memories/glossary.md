@@ -40,8 +40,8 @@ one or more child branches, one or more [leaves](#leaves), or a mix of both.
 
 Branches are not [leaves](#leaves), because their primary purpose is
 organisation rather than being the final item. For example,
-`skills/70-content-design-and-voice/` is a branch because it groups content and
-voice skill leaves.
+`instructions/70-content-design-and-voice/` is a branch because it groups
+content and voice instruction leaves.
 
 ### Instructions
 
@@ -61,11 +61,10 @@ Leaves are [structural nodes](#structural-nodes) that represent the concrete
 item being organised. A leaf may be a single file or a folder-backed package,
 depending on the asset type.
 
-In the [skills](#skills) tree, a leaf is the skill package itself: the folder
-that contains `SKILL.md` plus any accompanying files or folders for that skill.
-In another tree, a leaf might be a [prompt](#prompts) file, an
-[instruction](#instructions) file, an [agent](#agents) profile folder, or
-another final item defined by that tree.
+In this repository, a leaf might be a [prompt](#prompts) file, an
+[instruction](#instructions) file, an [agent](#agents) profile folder, a memory
+file, or another final item defined by that tree. Installable skill leaves now
+live in external collection repositories instead of this repository.
 
 Leaves are not [branches](#branches), because they are the item at the end of
 the classification path rather than a grouping layer for other items.
@@ -96,9 +95,9 @@ workflow, validation, and handoff logic for repeated expert execution.
 
 Skills are reusable workflow packages that teach an AI assistant how to perform
 a bounded class of work, including when to use the skill, what context to read,
-what steps to follow, and how to validate the result. In this repository,
-installable skills live under `skills/`, each skill directory contains a
-`SKILL.md`, and the skill list is indexed from `skills.index.md`.
+what steps to follow, and how to validate the result. This repository no longer
+contains installable skills; `skills.index.md` points to the external collection
+repositories that own them.
 
 Skills are not [prompts](#prompts), because they are installed capability
 packages rather than one-time requests. Skills are not [agents](#agents),

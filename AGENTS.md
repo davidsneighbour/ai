@@ -6,11 +6,11 @@ This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot
 
 - `agents/` contains `.agents` protocol sub-agent profiles grouped under numbered purpose folders. See `agents.index.md`.
 - `prompts/` contains prompt Markdown files with YAML front matter, grouped under numbered purpose folders. See `prompts.index.md`.
-- `skills/` contains installable reusable skills grouped under numbered purpose folders. Each skill lives in its own directory and must include `SKILL.md`. See `skills.index.md`.
+- `skills.index.md` points to the external skill collection repositories. This repository no longer contains installable skills.
 - `instructions/` contains shared instruction files grouped under numbered purpose folders. See `instructions.index.md` for the full file-by-file index, and read `instructions/index.instructions.md` at the start of a session for a short orientation to the folder and its `applyTo` scoping model.
 - `memories/` contains durable memory source files, including the repository glossary. See `memories/glossary.md`.
 - `ai/templates/` and `ai/workflows/` contain shared templates and workflow documents.
-- `schemas/` contains JSON schemas for prompts, skills, and docs.
+- `schemas/` contains JSON schemas for prompts, agents, instructions, and docs.
 - `scripts/` contains the TypeScript CLI and validators.
 - `documentation/` contains notes that have no single home elsewhere in the repository, or that touch multiple scattered locations. Topic-specific documentation belongs next to its topic instead — see "Documentation conventions" below.
 
@@ -19,13 +19,13 @@ This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot
 Use Node from `.nvmrc`; `package.json` requires Node `>=25`.
 
 - `npm install` installs project dependencies.
-- `npm run check` runs the full combined quality gate: Biome, TypeScript, the AI registry check, skill validation, repository-wide Markdown lint, and the `ai-symlink` test suite.
+- `npm run check` runs the full combined quality gate: Biome, TypeScript, the AI registry check, repository-wide Markdown lint, and the `ai-symlink` test suite.
 - `npm run ai:list` lists registered AI assets.
 - `npm run ai:validate` validates prompt and registry data.
 - `npm run ai:lint` runs AI asset linting.
 - `npm run ai:check` runs the standard repository checks.
 - `npm run ai:check:release` runs stricter release checks.
-- `npm run lint` validates skills and skill Markdown.
+- `npm run lint` runs AI asset linting and repository-wide Markdown lint.
 - `npm run lint:code` runs Biome against `scripts/`.
 - `npm run lint:markdown` runs markdownlint for Markdown files.
 - `npm run validate:types` runs `tsc --noEmit`.
@@ -41,7 +41,7 @@ Every README.md in the repository, and every doc in `documentation/`, must be li
 
 Use `memories/glossary.md` as the canonical source for recurring repository terms in documentation, instructions, prompts, skills, memories, and agent profiles. Update it when a term's repository meaning is added or changed.
 
-The root files `agents.index.md`, `instructions.index.md`, `prompts.index.md`, and `skills.index.md` are the discovery indexes for the four AI asset roots. Update the matching index in the same change whenever an agent, instruction, prompt, or skill is added, removed, renamed, moved, or recategorized.
+The root files `agents.index.md`, `instructions.index.md`, `prompts.index.md`, and `skills.index.md` are the discovery indexes for local AI asset roots and external skill collections. Update the matching index in the same change whenever an agent, instruction, prompt, or collection reference is added, removed, renamed, moved, or recategorized.
 
 ## Resuming interrupted work
 
@@ -51,17 +51,15 @@ Before starting repository work, agents must check for project-root `RESUME.md`.
 
 TypeScript uses strict settings from `tsconfig.json` with NodeNext modules and no emit. Biome is configured for tabs and double quotes in JavaScript and TypeScript. Run `npx biome check scripts` before changing TypeScript-heavy code.
 
-Prompt and instruction names must be lowercase kebab-case, unique, and match `^([a-z][a-z0-9]*)(-[a-z0-9]+)*$`. Skill directory names must match the `id` in `SKILL.md` front matter.
+Prompt and instruction names must be lowercase kebab-case, unique, and match `^([a-z][a-z0-9]*)(-[a-z0-9]+)*$`.
 
-Skill `SKILL.md` front matter intentionally includes repository-management fields such as `id`, `title`, `type`, and `inputs` when useful. The upstream `skill-creator` `quick_validate.py` script has a fixed allowlist of front matter keys and rejects these fields; that clash is known and accepted. Treat the repository-native validators (`npm run lint:skills`, `npm run ai:check`, and `npm run check`) as authoritative for this project rather than removing local metadata to satisfy the upstream quick validator.
+Do not add installable skills to this repository. Put new skills in one of the external collection repositories listed in `skills.index.md`.
 
 Markdown should use ATX headings, dash bullets, fenced backtick code blocks, ASCII text, and descriptive link text.
 
 ## Testing guidelines
 
-For prompt, schema, or CLI changes, run `npm run ai:validate` and `npm run ai:check`. For skill changes, run `npm run lint:skills` or `npm run lint:skills:verbose`, plus `npm run lint:skills:markdown`.
-
-Name new skills as `skills/<category>/<skill-id>/SKILL.md`, where `<category>` is one of the numbered folders in `skills.index.md` and `<skill-id>` is lowercase kebab-case.
+For prompt, schema, or CLI changes, run `npm run ai:validate` and `npm run ai:check`. For repository-wide validation, run `npm run check`.
 
 ## Commit and pull request guidelines
 

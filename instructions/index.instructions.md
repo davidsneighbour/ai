@@ -31,7 +31,7 @@ added, rather than treating an empty category as unavailable.
 | `20-repository-workflows` | Commits, issues, `package.json`, resuming interrupted work. | Repo-wide (`**/*.*`) |
 | `30-quality-and-verification` | Tool-neutral verification protocol before returning results. | Repo-wide (`**/*.*`) |
 | `40-languages-and-runtimes` | JavaScript, TypeScript, shell - language and runtime rules. | Language file extensions |
-| `50-frameworks-and-libraries` | Astro, WordPress. Astro architecture and Tailwind Plus content live in skills instead - see the caveat below. | Framework file types |
+| `50-frameworks-and-libraries` | Astro, WordPress. Framework-wide content lives in external skills instead - see the caveat below. | Framework file types |
 | `60-platforms-and-infrastructure` | Debian/Linux administration. | Repo-wide (`**`) |
 | `70-content-design-and-voice` | Markdown (CommonMark/GFM/repo formatting), editorial voice. | `*.md`, repo-wide |
 | `80-knowledge-research-and-data` | Research, learning, note-taking, bookmark, data, and knowledge-work workflows. | No files yet |
@@ -47,15 +47,16 @@ it as binding.
 
 Astro architecture standards and Tailwind Plus Elements documentation used
 to live here under the same problem (matching every `.ts`/`.astro` file
-regardless of framework) and were moved to skills instead, because a skill
-is invoked by an agent's judgment rather than a blind glob match:
-`dnb-astro-architecture` and `dnb-tailwindplus-elements` under
-`skills/50-frameworks-and-libraries/`. Invoke them only after confirming the
-framework is in use (`astro.config.mjs`/`.astro` files/an `astro`
-dependency; a `@tailwindplus/elements` dependency or CDN script tag).
-`instructions/50-frameworks-and-libraries/astro/` still holds the
-Astro-specific TypeScript files, since those extend the generic TypeScript
-rules the same way regardless of which Astro features a project uses.
+regardless of framework) and were moved to external skills instead, because
+a skill is invoked by an agent's judgment rather than a blind glob match.
+Use the collection repositories listed in
+[`skills.index.md`](../skills.index.md), and invoke framework skills only
+after confirming the framework is in use (`astro.config.mjs`/`.astro`
+files/an `astro` dependency; a `@tailwindplus/elements` dependency or CDN
+script tag). `instructions/50-frameworks-and-libraries/astro/` still holds
+the Astro-specific TypeScript files, since those extend the generic
+TypeScript rules the same way regardless of which Astro features a project
+uses.
 
 ## Folder structure pattern
 

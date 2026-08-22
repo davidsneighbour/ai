@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Shared input field schema used by prompts and skills.
+ * Shared input field schema used by prompts.
  */
 export const InputFieldSchema = z.object({
 	required: z.boolean().optional(),
@@ -150,29 +150,6 @@ export const InstructionSchema = z
 	.strict();
 
 /**
- * Skill schema.
- */
-export const SkillSchema = z
-	.object({
-		id: z.string().min(1),
-		title: z.string().min(1),
-		type: z.literal("skill").optional(),
-		description: z.string().min(1),
-		version: z.string().optional(),
-		tags: z.array(z.string()).optional(),
-		inputs: z.record(z.string(), InputFieldSchema).optional(),
-		// installable-skill extended fields
-		name: z.string().min(1).optional(),
-		category: z.string().optional(),
-		triggers: z.array(z.string()).optional(),
-		input_types: z.array(z.string()).optional(),
-		output_types: z.array(z.string()).optional(),
-		strict: z.boolean().optional(),
-		references: ReferencesSchema,
-	})
-	.strict();
-
-/**
  * Documentation schema.
  */
 export const DocSchema = z
@@ -189,12 +166,7 @@ export const DocSchema = z
 /**
  * Registry item kinds.
  */
-export type RegistryItemKind =
-	| "agent"
-	| "prompt"
-	| "skill"
-	| "instruction"
-	| "doc";
+export type RegistryItemKind = "agent" | "prompt" | "instruction" | "doc";
 
 /**
  * Allowed frontmatter keys per kind.
@@ -241,27 +213,10 @@ export const AllowedKeys: Record<RegistryItemKind, Set<string>> = {
 		"source",
 		"references",
 	]),
-	skill: new Set([
-		"id",
-		"name",
-		"title",
-		"type",
-		"description",
-		"version",
-		"tags",
-		"inputs",
-		"category",
-		"triggers",
-		"input_types",
-		"output_types",
-		"strict",
-		"references",
-	]),
 	doc: new Set(["id", "title", "description", "tags", "version", "references"]),
 };
 
 export type AgentFrontmatter = z.infer<typeof AgentSchema>;
 export type PromptFrontmatter = z.infer<typeof PromptSchema>;
-export type SkillFrontmatter = z.infer<typeof SkillSchema>;
 export type DocFrontmatter = z.infer<typeof DocSchema>;
 export type InstructionFrontmatter = z.infer<typeof InstructionSchema>;

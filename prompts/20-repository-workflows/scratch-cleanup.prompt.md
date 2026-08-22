@@ -40,7 +40,6 @@ For each scratch item, check whether equivalent content already exists in the co
 
 - `instructions/` for instruction files
 - `prompts/` for prompt files
-- `skills/` for skill directories
 - `ai/workflows/`, `ai/templates/`, `documentation/` for structured documents
 
 Check for identical or near-identical content, not just identical filenames. A scratch file with the same substance as a committed file is a candidate for deletion, not promotion.

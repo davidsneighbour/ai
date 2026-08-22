@@ -30,13 +30,12 @@ for the full rule, and `typescript/` and `astro/` for worked examples.
 
 ## Shared top-level folders
 
-Use the same numbered top-level folders under `instructions/`, `prompts/`,
-`agents/`, and `skills/`. Prompt files stay directly inside the numbered prompt
-folder so the repository's individual prompt-folder setup mode can discover
-them by direct child folder. Agent and skill assets keep their protocol
-entrypoint folder below the numbered category, for example
-`agents/20-repository-workflows/repository-maintainer/agent.md` and
-`skills/20-repository-workflows/dnbhq-configs/SKILL.md`.
+Use the same numbered top-level folders under `instructions/`, `prompts/`, and
+`agents/`. Prompt files stay directly inside the numbered prompt folder so the
+repository's individual prompt-folder setup mode can discover them by direct
+child folder. Agent assets keep their protocol entrypoint folder below the
+numbered category, for example
+`agents/20-repository-workflows/repository-maintainer/agent.md`.
 
 | Folder | Purpose |
 | --- | --- |
@@ -72,7 +71,7 @@ entrypoint folder below the numbered category, for example
 | [`40-languages-and-runtimes/typescript/review.instructions.md`](instructions/40-languages-and-runtimes/typescript/review.instructions.md) | TypeScript code-review checklist and verification rules. |
 | [`40-languages-and-runtimes/typescript/testing.instructions.md`](instructions/40-languages-and-runtimes/typescript/testing.instructions.md) | TypeScript, JavaScript, Vitest, and Playwright testing rules. |
 | [`40-languages-and-runtimes/typescript/typescript-programming.instructions.md`](instructions/40-languages-and-runtimes/typescript/typescript-programming.instructions.md) | Core strict TypeScript programming rules and examples. |
-| [`50-frameworks-and-libraries/astro/astro-index.instructions.md`](instructions/50-frameworks-and-libraries/astro/astro-index.instructions.md) | Entry point for the Astro folder; points to the `dnb-astro-architecture` skill for framework-level guidance. |
+| [`50-frameworks-and-libraries/astro/astro-index.instructions.md`](instructions/50-frameworks-and-libraries/astro/astro-index.instructions.md) | Entry point for the Astro folder; points to external skill collections for framework-level guidance. |
 | [`50-frameworks-and-libraries/astro/typescript-reference.instructions.md`](instructions/50-frameworks-and-libraries/astro/typescript-reference.instructions.md) | Astro TypeScript type reference and official docs pointers. |
 | [`50-frameworks-and-libraries/astro/typescript.instructions.md`](instructions/50-frameworks-and-libraries/astro/typescript.instructions.md) | Astro-specific TypeScript rules extending the generic TypeScript instructions. |
 | [`50-frameworks-and-libraries/wordpress/wordpress.instructions.md`](instructions/50-frameworks-and-libraries/wordpress/wordpress.instructions.md) | WordPress plugin and theme coding, security, and testing rules. |
@@ -82,13 +81,10 @@ entrypoint folder below the numbered category, for example
 | [`70-content-design-and-voice/markdown/markdown-gfm.instructions.md`](instructions/70-content-design-and-voice/markdown/markdown-gfm.instructions.md) | GitHub Flavored Markdown extensions on top of CommonMark. |
 | [`70-content-design-and-voice/voice/voice.instructions.md`](instructions/70-content-design-and-voice/voice/voice.instructions.md) | Baseline copy and wording rules for written files. |
 
-Astro architecture standards and Tailwind Plus Elements documentation are not
-in this folder. `applyTo` globs match file extensions, not framework
-presence, so both moved to skills, which an agent invokes only after judging
-the framework is actually in use:
-[`dnb-astro-architecture`](skills/50-frameworks-and-libraries/dnb-astro-architecture/SKILL.md)
-and
-[`dnb-tailwindplus-elements`](skills/50-frameworks-and-libraries/dnb-tailwindplus-elements/SKILL.md).
-`instructions/50-frameworks-and-libraries/astro/` keeps only the
-TypeScript-integration files, which extend the generic TypeScript rules the
-same way regardless of which parts of Astro a project uses.
+Astro architecture standards and Tailwind Plus Elements documentation are not in
+this folder. `applyTo` globs match file extensions, not framework presence, so
+framework-level guidance belongs in external skills that an agent invokes only
+after judging the framework is actually in use. See the collection repositories
+listed in [`skills.index.md`](skills.index.md). This folder keeps only the
+TypeScript-integration files, which extend the generic TypeScript rules the same
+way regardless of which parts of Astro a project uses.

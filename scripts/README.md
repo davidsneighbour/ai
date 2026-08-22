@@ -8,7 +8,6 @@ This directory contains the tooling that manages the AI asset registry: validati
   - [Classification](#classification)
   - [validate](#validate)
   - [lint](#lint)
-  - [validate-skills](#validate-skills)
   - [check](#check)
   - [drift-report](#drift-report)
   - [export-schemas](#export-schemas)
@@ -31,12 +30,11 @@ This directory contains the tooling that manages the AI asset registry: validati
 
 | Command | Purpose |
 | --- | --- |
-| `help` | Print usage, options, and `validate-skills` rules. |
+| `help` | Print usage and options. |
 | `list` | List all registry items. |
 | `show --id <id>` | Print one registry item by id. |
 | `validate` | Validate frontmatter against the Zod schema for each item's kind. |
 | `lint` | Check style and policy rules: unknown frontmatter keys, empty bodies, filename suffixes, required fields. |
-| `validate-skills` | Validate installable `skills/<category>/<id>/` directories independently of the registry classification. |
 | `drift-report` | List frontmatter keys not recognised by any schema, grouped by key and by file. |
 | `export-schemas` | Write the Zod schemas to JSON Schema files under `schemas/`. |
 | `build-documentation` | Regenerate the prompt-file-locations section of `README.md` between its marker comments. |
@@ -47,7 +45,7 @@ This directory contains the tooling that manages the AI asset registry: validati
 
 | Option | Effect |
 | --- | --- |
-| `--root <path>` | Registry root (default: repository root); for `validate-skills`, the skills root (default: `./skills`). |
+| `--root <path>` | Registry root (default: repository root). |
 | `--schemas <path>` | Schema output directory for `export-schemas` (default: `./schemas`). |
 | `--id <id>` | Item id, required by `show`. |
 | `--mode glob\|folders` | Prompt setup mode for `setup --prompts`. |
@@ -62,13 +60,12 @@ This directory contains the tooling that manages the AI asset registry: validati
 
 Files are scanned from the managed asset directories (`prompts/`, `instructions/`, `agents/`, `documentation/`, `ai/templates/`, `ai/workflows/`, all resolved from the repository root) and classified by path, checked in this order:
 
-1. `type: skill` in frontmatter, or a path containing `/skills/` → **skill**
-2. Path containing `/agents/` → **agent**
-3. Path containing `/documentation/` → **doc**
-4. Path containing `/instructions/` → **instruction**
-5. Anything else → **prompt** (the fallback)
+1. Path containing `/agents/` → **agent**
+2. Path containing `/documentation/` → **doc**
+3. Path containing `/instructions/` → **instruction**
+4. Anything else → **prompt** (the fallback)
 
-Each kind validates against its own Zod schema (`PromptSchema`, `AgentSchema`, `SkillSchema`, `DocSchema`, `InstructionSchema` in [lib/ai-schema.ts](lib/ai-schema.ts)).
+Each kind validates against its own Zod schema (`PromptSchema`, `AgentSchema`, `DocSchema`, `InstructionSchema` in [lib/ai-schema.ts](lib/ai-schema.ts)).
 
 ### validate
 
@@ -80,7 +77,7 @@ Style and policy checks, each emitted as a warning by default and promoted to an
 
 - **schema-drift** — unknown frontmatter key not defined by the schema.
 - **empty-body** — the Markdown body is empty after trimming.
-- **naming** — wrong file suffix for the kind (`.doc.md`, `.instructions.md`, `.prompt.md`, `.skill.md`, or the `.agents` protocol's `agent.md` / `SKILL.md` filenames).
+- **naming** — wrong file suffix for the kind (`.doc.md`, `.instructions.md`, `.prompt.md`, or the `.agents` protocol's `agent.md` filename).
 - **location** — instruction files must live under an `instructions/` directory (subfolders allowed).
 
 A few checks are always hard errors, regardless of `--release`:
@@ -93,19 +90,6 @@ A few checks are always hard errors, regardless of `--release`:
 Agent files may live under numbered category folders as
 `agents/<category>/<id>/agent.md`. The directory directly containing
 `agent.md` must still match the agent `id`.
-
-### validate-skills
-
-Validates installable skill directories under `skills/<category>/<id>/` independently of the prompt/agent/doc/instruction registry:
-
-- The skills root must exist.
-- Skill directories may be direct children for legacy compatibility or one level below a numbered category.
-- Each skill directory must contain `SKILL.md`.
-- `SKILL.md` must start with non-empty YAML frontmatter and a non-empty body.
-- Frontmatter must contain an `id` field.
-- The skill directory name must match the frontmatter `id`.
-- If `name` exists, it must match `id`.
-- `id` must match `/^[a-z0-9-]+$/`.
 
 ### check
 
@@ -174,7 +158,7 @@ Tested by `scripts/ai-symlink.test.ts` (`npm run test:ai-symlink`), using tempor
 
 | File | Purpose |
 | --- | --- |
-| [ai-schema.ts](lib/ai-schema.ts) | Zod schemas for the data model: `PromptSchema`, `AgentSchema`, `SkillSchema`, `DocSchema`, `InstructionSchema`, plus shared fragments (`ReferenceSchema`, `InputFieldSchema`). Source of truth for both validation and `export-schemas`. |
+| [ai-schema.ts](lib/ai-schema.ts) | Zod schemas for the data model: `PromptSchema`, `AgentSchema`, `DocSchema`, `InstructionSchema`, plus shared fragments (`ReferenceSchema`, `InputFieldSchema`). Source of truth for both validation and `export-schemas`. |
 | [config.ts](lib/config.ts) | Loads and parses `config.toml`'s `[paths]`, `[prompts]`, and `[readme.promptFilesSettings]` sections into a typed `RepositoryConfig`, used by `build-documentation` and `setup --prompts`. |
 
 ## npm script reference
@@ -190,10 +174,9 @@ Tested by `scripts/ai-symlink.test.ts` (`npm run test:ai-symlink`), using tempor
 | `ai:show` | `node ./scripts/ai.ts show` |
 | `ai:validate` | `node ./scripts/ai.ts validate` |
 | `build:documentation` | `node ./scripts/ai.ts build-documentation` |
-| `check` | `npm run lint:code && npm run validate:types && npm run ai:check && npm run lint && npm run lint:markdown && npm run test:ai-symlink` — the repository-wide quality gate |
+| `check` | `npm run lint:code && npm run validate:types && npm run ai:check && npm run lint:markdown && npm run test:ai-symlink` — the repository-wide quality gate |
 | `lint:code` | `biome check scripts` |
-| `lint:skills` | `node ./scripts/ai.ts validate-skills --root skills` |
-| `lint:skills:verbose` | `node ./scripts/ai.ts validate-skills --root skills --verbose` |
+| `lint` | `npm run ai:lint && npm run lint:markdown` |
 | `setup`, `setup:prompts` | `node ./scripts/ai.ts setup --prompts` |
 | `setup:prompts:glob` | `node ./scripts/ai.ts setup --prompts --mode glob` |
 | `setup:prompts:folders` | `node ./scripts/ai.ts setup --prompts --mode folders` |

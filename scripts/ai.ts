@@ -12,9 +12,7 @@ import {
 	DocSchema,
 	InstructionSchema,
 	PromptSchema,
-	ReferencesSchema,
 	type RegistryItemKind,
-	SkillSchema,
 } from "./lib/ai-schema.ts";
 import {
 	buildFolderPromptGlob,
@@ -35,7 +33,6 @@ type CommandName =
 	| "show"
 	| "validate"
 	| "lint"
-	| "validate-skills"
 	| "drift-report"
 	| "export-schemas"
 	| "build-documentation"
@@ -154,32 +151,6 @@ const REPOSITORY_ASSET_DIRECTORIES = [
 ];
 
 /**
- * Standalone skill frontmatter accepted by SKILL.md-based skill directories.
- */
-const SkillDirectoryFrontmatterSchema = z
-	.object({
-		id: z.string().min(1),
-		name: z.string().min(1).optional(),
-		description: z.string().min(1).max(1024).optional(),
-		references: ReferencesSchema,
-	})
-	.passthrough();
-
-type SkillDirectoryFrontmatter = z.infer<
-	typeof SkillDirectoryFrontmatterSchema
->;
-
-/**
- * Validation result for a SKILL.md skill directory.
- */
-interface SkillDirectoryValidationResult {
-	skillDirectory: string;
-	skillName: string;
-	skillFile: string;
-	frontmatter: SkillDirectoryFrontmatter;
-}
-
-/**
  * Main entrypoint.
  */
 async function main(): Promise<void> {
@@ -201,9 +172,6 @@ async function main(): Promise<void> {
 				return;
 			case "lint":
 				await runLint(options);
-				return;
-			case "validate-skills":
-				await runValidateSkills(options);
 				return;
 			case "drift-report":
 				await runDriftReport(options);
@@ -261,12 +229,9 @@ function parseArgs(argv: string[]): CliOptions {
 
 	const options: CliOptions = {
 		command,
-		rootDir:
-			command === "validate-skills"
-				? defaultSkillsRoot()
-				: defaultRegistryRoot(),
+		rootDir: defaultRegistryRoot(),
 		schemaDir: defaultSchemaRoot(),
-		useRepositoryAssetFilter: command !== "validate-skills",
+		useRepositoryAssetFilter: true,
 		json: argv.includes("--json"),
 		verbose: argv.includes("--verbose"),
 		includeContent: !argv.includes("--no-content"),
@@ -347,7 +312,6 @@ function isCommandName(value: string): value is CommandName {
 		value === "show" ||
 		value === "validate" ||
 		value === "lint" ||
-		value === "validate-skills" ||
 		value === "drift-report" ||
 		value === "export-schemas" ||
 		value === "build-documentation" ||
@@ -377,15 +341,6 @@ function parsePromptSetupMode(value: string): PromptSetupMode {
  */
 function defaultRegistryRoot(): string {
 	return getScriptRepoRoot();
-}
-
-/**
- * Default SKILL.md skill root directory.
- *
- * @returns Absolute path to `skills`.
- */
-function defaultSkillsRoot(): string {
-	return path.resolve(getScriptRepoRoot(), "skills");
 }
 
 /**
@@ -425,7 +380,6 @@ Commands:
   show --id <id>
   validate
   lint
-  validate-skills
   drift-report
   export-schemas
   build-documentation
@@ -433,7 +387,7 @@ Commands:
   check
 
 Options:
-  --root <path>           Registry root (default: current repository); for validate-skills, skills root (default: ./skills)
+  --root <path>           Registry root (default: current repository)
   --schemas <path>        Schema output directory (default: ./schemas)
   --id <id>               Item id for show
   --mode glob|folders     Prompt setup mode for setup --prompts
@@ -450,22 +404,12 @@ Examples:
   ${commandName} show --id test-from-behaviour-spec
   ${commandName} validate
   ${commandName} lint
-  ${commandName} validate-skills --verbose
   ${commandName} drift-report
   ${commandName} export-schemas
   ${commandName} build-documentation --verbose
   ${commandName} setup --prompts --mode glob
   ${commandName} check --release
 
-validate-skills rules:
-  - The skills root must exist.
-  - Skill directories may be direct children or one level below a numbered category.
-  - Each skill directory must contain SKILL.md.
-  - SKILL.md must start with non-empty YAML frontmatter and a non-empty body.
-  - Frontmatter must contain an id field.
-  - The skill directory name must match the frontmatter id.
-  - If name exists, it must match id.
-  - id must match /^[a-z0-9-]+$/.
 `);
 }
 
@@ -721,255 +665,6 @@ async function runLint(options: CliOptions): Promise<void> {
 }
 
 /**
- * Run the validate-skills command.
- *
- * This validates categorized or legacy direct child directories that use
- * Codex-style SKILL.md files.
- *
- * @param options CLI options.
- */
-async function runValidateSkills(options: CliOptions): Promise<void> {
-	const results = await validateSkillDirectories(
-		options.rootDir,
-		options.verbose,
-	);
-
-	if (options.json) {
-		console.log(
-			JSON.stringify(
-				{
-					summary: {
-						skills: results.length,
-						root: path.relative(process.cwd(), options.rootDir),
-					},
-					results: results.map((result) => ({
-						skillName: result.skillName,
-						skillDirectory: path.relative(process.cwd(), result.skillDirectory),
-						skillFile: path.relative(process.cwd(), result.skillFile),
-						frontmatter: result.frontmatter,
-					})),
-				},
-				null,
-				2,
-			),
-		);
-		return;
-	}
-
-	console.log(
-		`Validated ${results.length} skill(s) in ${path.relative(
-			process.cwd(),
-			options.rootDir,
-		)}.`,
-	);
-}
-
-/**
- * Validate all skill directories in a skills root.
- *
- * @param rootDirectory Skills root directory.
- * @param verbose Whether to print validated paths.
- * @returns Validated skill directory results.
- */
-async function validateSkillDirectories(
-	rootDirectory: string,
-	verbose: boolean,
-): Promise<SkillDirectoryValidationResult[]> {
-	const absoluteRoot = path.resolve(process.cwd(), rootDirectory);
-	const rootStat = await fs.stat(absoluteRoot).catch((error: unknown) => {
-		throw new Error(
-			`Skills root does not exist: ${absoluteRoot}. ${getErrorMessage(error)}`,
-		);
-	});
-
-	if (!rootStat.isDirectory()) {
-		throw new Error(`Skills root is not a directory: ${absoluteRoot}`);
-	}
-
-	const entries = await fs.readdir(absoluteRoot, {
-		withFileTypes: true,
-	});
-
-	const skillDirectories = (
-		await Promise.all(
-			entries
-				.filter((entry) => entry.isDirectory())
-				.map((entry) =>
-					findSkillDirectories(path.join(absoluteRoot, entry.name)),
-				),
-		)
-	)
-		.flat()
-		.sort((left, right) => left.localeCompare(right));
-
-	if (skillDirectories.length === 0) {
-		throw new Error(`No skill directories found in: ${absoluteRoot}`);
-	}
-
-	const seenIds = new Set<string>();
-	const results: SkillDirectoryValidationResult[] = [];
-
-	for (const skillDirectory of skillDirectories) {
-		const result = await validateSkillDirectory(skillDirectory);
-
-		if (seenIds.has(result.frontmatter.id)) {
-			throw new Error(`Duplicate skill id found: ${result.frontmatter.id}`);
-		}
-
-		seenIds.add(result.frontmatter.id);
-		results.push(result);
-
-		if (verbose) {
-			console.log(
-				`Validated: ${path.relative(process.cwd(), result.skillFile)}`,
-			);
-		}
-	}
-
-	return results;
-}
-
-/**
- * Find direct or one-level categorized skill directories.
- *
- * @param directory Candidate directory under the skills root.
- * @returns Skill directories containing a top-level SKILL.md.
- */
-async function findSkillDirectories(directory: string): Promise<string[]> {
-	if (await fileExists(path.join(directory, "SKILL.md"))) {
-		return [directory];
-	}
-
-	const entries = await fs.readdir(directory, {
-		withFileTypes: true,
-	});
-
-	const nestedSkillDirectories: string[] = [];
-
-	for (const entry of entries) {
-		if (!entry.isDirectory()) continue;
-
-		const nestedDirectory = path.join(directory, entry.name);
-
-		if (await fileExists(path.join(nestedDirectory, "SKILL.md"))) {
-			nestedSkillDirectories.push(nestedDirectory);
-		}
-	}
-
-	return nestedSkillDirectories;
-}
-
-/**
- * Validate one SKILL.md skill directory.
- *
- * @param skillDirectory Absolute path to the skill directory.
- * @returns Validated skill metadata.
- */
-async function validateSkillDirectory(
-	skillDirectory: string,
-): Promise<SkillDirectoryValidationResult> {
-	const skillName = path.basename(skillDirectory);
-	const skillFile = path.join(skillDirectory, "SKILL.md");
-	const skillFileStat = await fs.stat(skillFile).catch((error: unknown) => {
-		throw new Error(
-			`${skillDirectory}: Missing SKILL.md. ${getErrorMessage(error)}`,
-		);
-	});
-
-	if (!skillFileStat.isFile()) {
-		throw new Error(`${skillFile}: SKILL.md must be a file.`);
-	}
-
-	const content = await fs.readFile(skillFile, "utf8");
-	const extracted = extractSkillFrontmatter(content, skillFile);
-	const parsed = SkillDirectoryFrontmatterSchema.safeParse(
-		extracted.frontmatter,
-	);
-
-	if (!parsed.success) {
-		throw new Error(
-			`${skillFile}: Invalid frontmatter: ${z.prettifyError(parsed.error)}`,
-		);
-	}
-
-	const frontmatter = parsed.data;
-
-	if (!/^[a-z0-9-]+$/u.test(frontmatter.id)) {
-		throw new Error(
-			`${skillFile}: Frontmatter id "${frontmatter.id}" must match /^[a-z0-9-]+$/.`,
-		);
-	}
-
-	if (skillName !== frontmatter.id) {
-		throw new Error(
-			`${skillFile}: Skill directory "${skillName}" must match frontmatter id "${frontmatter.id}".`,
-		);
-	}
-
-	if (frontmatter.name !== undefined && frontmatter.name !== frontmatter.id) {
-		throw new Error(
-			`${skillFile}: Optional frontmatter name "${frontmatter.name}" must match id "${frontmatter.id}".`,
-		);
-	}
-
-	return {
-		skillDirectory,
-		skillName,
-		skillFile,
-		frontmatter,
-	};
-}
-
-/**
- * Extract YAML frontmatter and Markdown body from a SKILL.md file.
- *
- * @param content Raw SKILL.md content.
- * @param filePath File path used for error messages.
- * @returns Parsed frontmatter and Markdown body.
- */
-function extractSkillFrontmatter(
-	content: string,
-	filePath: string,
-): {
-	frontmatter: unknown;
-	body: string;
-} {
-	if (!content.startsWith("---\n")) {
-		throw new Error(`${filePath}: SKILL.md must start with YAML frontmatter.`);
-	}
-
-	const closingFenceIndex = content.indexOf("\n---", 4);
-
-	if (closingFenceIndex === -1) {
-		throw new Error(
-			`${filePath}: YAML frontmatter is missing its closing --- fence.`,
-		);
-	}
-
-	const yamlContent = content.slice(4, closingFenceIndex).trim();
-	const body = content.slice(closingFenceIndex + 4).trim();
-
-	if (yamlContent.length === 0) {
-		throw new Error(`${filePath}: YAML frontmatter must not be empty.`);
-	}
-
-	if (body.length === 0) {
-		throw new Error(`${filePath}: Markdown body must not be empty.`);
-	}
-
-	try {
-		return {
-			frontmatter: yaml.parse(yamlContent),
-			body,
-		};
-	} catch (error: unknown) {
-		throw new Error(
-			`${filePath}: Failed to parse YAML frontmatter: ${getErrorMessage(error)}`,
-		);
-	}
-}
-
-/**
  * Run the drift-report command.
  *
  * @param options CLI options.
@@ -1034,10 +729,6 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 		target: "draft-7",
 	});
 
-	const skillSchemaJson = z.toJSONSchema(SkillSchema, {
-		target: "draft-7",
-	});
-
 	const docSchemaJson = z.toJSONSchema(DocSchema, {
 		target: "draft-7",
 	});
@@ -1054,10 +745,6 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 		"Generated from scripts/ai.ts. Do not edit manually.",
 	);
 	addGeneratedComment(
-		skillSchemaJson,
-		"Generated from scripts/ai.ts. Do not edit manually.",
-	);
-	addGeneratedComment(
 		docSchemaJson,
 		"Generated from scripts/ai.ts. Do not edit manually.",
 	);
@@ -1068,7 +755,6 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 
 	const promptOutputPath = path.join(options.schemaDir, "prompt.schema.json");
 	const agentOutputPath = path.join(options.schemaDir, "agent.schema.json");
-	const skillOutputPath = path.join(options.schemaDir, "skill.schema.json");
 	const docOutputPath = path.join(options.schemaDir, "doc.schema.json");
 	const instructionOutputPath = path.join(
 		options.schemaDir,
@@ -1083,11 +769,6 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 	await fs.writeFile(
 		agentOutputPath,
 		`${JSON.stringify(agentSchemaJson, null, 2)}\n`,
-		"utf8",
-	);
-	await fs.writeFile(
-		skillOutputPath,
-		`${JSON.stringify(skillSchemaJson, null, 2)}\n`,
 		"utf8",
 	);
 	await fs.writeFile(
@@ -1108,7 +789,6 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 					written: [
 						promptOutputPath,
 						agentOutputPath,
-						skillOutputPath,
 						docOutputPath,
 						instructionOutputPath,
 					],
@@ -1122,7 +802,6 @@ async function runExportSchemas(options: CliOptions): Promise<void> {
 
 	console.log(`[ok] ${path.relative(process.cwd(), promptOutputPath)}`);
 	console.log(`[ok] ${path.relative(process.cwd(), agentOutputPath)}`);
-	console.log(`[ok] ${path.relative(process.cwd(), skillOutputPath)}`);
 	console.log(`[ok] ${path.relative(process.cwd(), docOutputPath)}`);
 	console.log(`[ok] ${path.relative(process.cwd(), instructionOutputPath)}`);
 }
@@ -1553,19 +1232,7 @@ async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
 	const files = options.useRepositoryAssetFilter
 		? await walkRepositoryAssetDirectories(options.rootDir)
 		: await walkDirectory(options.rootDir);
-	const markdownFiles = files.filter((filePath) => {
-		if (!filePath.endsWith(".md")) return false;
-
-		// Inside skills/, only installable direct or categorized SKILL.md files
-		// are registry items. Ancillary files in references/, examples/, bundled
-		// plugin folders, etc. are not.
-		const rel = path.relative(options.rootDir, filePath);
-		const parts = rel.split(path.sep);
-		if (parts[0] === "skills") {
-			return isRegistrySkillFile(parts);
-		}
-		return true;
-	});
+	const markdownFiles = files.filter((filePath) => filePath.endsWith(".md"));
 	const items: RegistryItem[] = [];
 
 	for (const absolutePath of markdownFiles) {
@@ -1594,19 +1261,6 @@ async function loadRegistryItems(options: CliOptions): Promise<RegistryItem[]> {
 
 	items.sort((left, right) => left.id.localeCompare(right.id));
 	return items;
-}
-
-/**
- * Check whether a path under skills/ is a registry skill entrypoint.
- *
- * @param parts Repository-relative path parts.
- * @returns True when the path is a direct or categorized SKILL.md entrypoint.
- */
-function isRegistrySkillFile(parts: readonly string[]): boolean {
-	return (
-		(parts.length === 3 && parts[2] === "SKILL.md") ||
-		(parts.length === 4 && parts[3] === "SKILL.md")
-	);
 }
 
 /**
@@ -1643,7 +1297,7 @@ async function loadRegistryItem(
 ): Promise<RegistryItem> {
 	const content = await fs.readFile(absolutePath, "utf8");
 	const { frontmatter, body } = parseFrontmatter(content);
-	const kind = detectKind(absolutePath, frontmatter);
+	const kind = detectKind(absolutePath);
 	const relativePath = path.relative(rootDir, absolutePath);
 	const id =
 		kind === "prompt"
@@ -1710,23 +1364,9 @@ function parseFrontmatter(content: string): {
  * Detect item kind.
  *
  * @param absolutePath Absolute file path.
- * @param frontmatter Frontmatter object.
  * @returns Detected kind.
  */
-function detectKind(
-	absolutePath: string,
-	frontmatter: FrontmatterRecord,
-): RegistryItemKind {
-	const explicitType = getStringField(frontmatter, "type");
-
-	if (explicitType === "skill") {
-		return "skill";
-	}
-
-	if (absolutePath.includes(`${path.sep}skills${path.sep}`)) {
-		return "skill";
-	}
-
+function detectKind(absolutePath: string): RegistryItemKind {
 	if (absolutePath.includes(`${path.sep}agents${path.sep}`)) {
 		return "agent";
 	}
@@ -1752,13 +1392,11 @@ function validateRegistryItem(item: RegistryItem): ValidationResult {
 	const schema =
 		item.kind === "agent"
 			? AgentSchema
-			: item.kind === "skill"
-				? SkillSchema
-				: item.kind === "doc"
-					? DocSchema
-					: item.kind === "instruction"
-						? InstructionSchema
-						: PromptSchema;
+			: item.kind === "doc"
+				? DocSchema
+				: item.kind === "instruction"
+					? InstructionSchema
+					: PromptSchema;
 
 	const result = schema.safeParse(item.frontmatter);
 	const issues: ValidationIssue[] = [];
@@ -1902,20 +1540,6 @@ function lintRegistryItem(item: RegistryItem, release: boolean): LintResult {
 			code: "naming",
 			message:
 				"Agent file should use the .agents protocol path agents/<category>/<id>/agent.md.",
-			file: item.relativePath,
-		});
-	}
-
-	if (
-		item.kind === "skill" &&
-		!item.absolutePath.endsWith(".skill.md") &&
-		path.basename(item.absolutePath) !== "SKILL.md"
-	) {
-		issues.push({
-			severity: release ? "error" : "warning",
-			code: "naming",
-			message:
-				"Skill file should use the .skill.md suffix unless it is an installable skills/<category>/<id>/SKILL.md file.",
 			file: item.relativePath,
 		});
 	}
@@ -2181,25 +1805,6 @@ async function directoryExists(directory: string): Promise<boolean> {
 }
 
 /**
- * Check whether a file exists.
- *
- * @param filePath Absolute file path.
- * @returns True when the path exists and is a file.
- */
-async function fileExists(filePath: string): Promise<boolean> {
-	try {
-		const stats = await fs.lstat(filePath);
-		return stats.isFile();
-	} catch (error: unknown) {
-		if (isNodeError(error) && error.code === "ENOENT") {
-			return false;
-		}
-
-		throw error;
-	}
-}
-
-/**
  * Get a string field from a frontmatter record.
  *
  * @param record Frontmatter record.
@@ -2226,7 +1831,6 @@ function deriveIdFromFilename(absolutePath: string): string {
 		.replace(/\.prompt\.md$/u, "")
 		.replace(/\.agent\.md$/u, "")
 		.replace(/^agent\.md$/u, path.basename(path.dirname(absolutePath)))
-		.replace(/\.skill\.md$/u, "")
 		.replace(/\.instructions\.md$/u, "")
 		.replace(/\.md$/u, "");
 }
