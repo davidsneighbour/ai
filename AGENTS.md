@@ -1,4 +1,4 @@
-# Repository Guidelines
+# Repository guidelines
 
 ## Project structure and module organization
 
@@ -6,7 +6,6 @@ This repository stores reusable AI assets for ChatGPT, Codex, and GitHub Copilot
 
 - `agents/` contains `.agents` protocol sub-agent profiles grouped under numbered purpose folders. See `agents.index.md`.
 - `prompts/` contains prompt Markdown files with YAML front matter, grouped under numbered purpose folders. See `prompts.index.md`.
-- `skills.index.md` points to the external skill collection repositories. This repository no longer contains installable skills.
 - `instructions/` contains shared instruction files grouped under numbered purpose folders. See `instructions.index.md` for the full file-by-file index, and read `instructions/index.instructions.md` at the start of a session for a short orientation to the folder and its `applyTo` scoping model.
 - `memories/` contains durable memory source files, including the repository glossary. See `memories/glossary.md`.
 - `ai/templates/` and `ai/workflows/` contain shared templates and workflow documents.
@@ -41,7 +40,7 @@ Every README.md in the repository, and every doc in `documentation/`, must be li
 
 Use `memories/glossary.md` as the canonical source for recurring repository terms in documentation, instructions, prompts, skills, memories, and agent profiles. Update it when a term's repository meaning is added or changed.
 
-The root files `agents.index.md`, `instructions.index.md`, `prompts.index.md`, and `skills.index.md` are the discovery indexes for local AI asset roots and external skill collections. Update the matching index in the same change whenever an agent, instruction, prompt, or collection reference is added, removed, renamed, moved, or recategorized.
+The root files `agents.index.md`, `instructions.index.md`, and `prompts.index.md` are the discovery indexes for local AI asset roots and external skill collections. Update the matching index in the same change whenever an agent, instruction, prompt, or collection reference is added, removed, renamed, moved, or recategorized.
 
 ## Resuming interrupted work
 
@@ -53,7 +52,7 @@ TypeScript uses strict settings from `tsconfig.json` with NodeNext modules and n
 
 Prompt and instruction names must be lowercase kebab-case, unique, and match `^([a-z][a-z0-9]*)(-[a-z0-9]+)*$`.
 
-Do not add installable skills to this repository. Put new skills in one of the external collection repositories listed in `skills.index.md`.
+Do not add installable skills to this repository. Put new skills in one of the external collection repositories listed in `README.md`.
 
 Markdown should use ATX headings, dash bullets, fenced backtick code blocks, ASCII text, and descriptive link text.
 

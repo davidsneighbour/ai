@@ -9,4 +9,3 @@ to find from one place.
 - [Externals index](externals.index.md) - notes about regularly used external AI assets.
 - [Instructions index](instructions.index.md) - instruction folder taxonomy and current instruction files.
 - [Prompts index](prompts.index.md) - prompt folder taxonomy and current prompt files.
-- [Skills index](skills.index.md) - external skill collection index.

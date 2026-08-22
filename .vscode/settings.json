@@ -78,11 +78,7 @@
   },
   "markdownlint.configFile": "./node_modules/@dnbhq/markdownlint-config/.markdownlint-cli2.jsonc",
   "markdown.extension.tableFormatter.enabled": false,
-  "chat.agentSkillsLocations": {
-    "ai/skills": true
-  },
   "better-todo-tree.filtering.excludeGlobs": [
-    "**/node_modules/*/**",
-    "skills/*/**"
+    "**/node_modules/*/**"
   ]
 }

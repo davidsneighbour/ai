@@ -7,7 +7,7 @@ This repository provides a portable structure for my AI assets that can be share
 - [Structure](#structure)
 - [Further documentation](#further-documentation)
 - [CLI](#cli)
-- [Skill collections](#skill-collections)
+- [The cabinet of @davidsneighbour's skills](#the-cabinet-of-davidsneighbours-skills)
 - [VS code prompt file recommendations](#vs-code-prompt-file-recommendations)
   - [Option 1: one recursive glob](#option-1-one-recursive-glob)
   - [Option 2: individual folder entries](#option-2-individual-folder-entries)
@@ -46,14 +46,12 @@ This repository provides a portable structure for my AI assets that can be share
 - Configure VS Code prompt file locations: `node ./scripts/ai.ts setup --prompts --mode glob`
 - Run the standard repository AI checks: `node ./scripts/ai.ts check --release`
 
-## Skill Collections
+## The cabinet of @davidsneighbour's skills
 
-Skills no longer live in this repository. This repo now keeps prompts,
+Skills don not live in this repository. This repo now keeps prompts,
 instructions, agents, memories, templates, workflows, schemas, and the tooling
 that validates those assets. Installable skill packages live in the collection
 repositories below.
-
-## The cabinet of @davidsneighbour's skills
 
 | Exhibit | Skill |
 | :---: | :--- |

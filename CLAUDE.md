@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A structured registry of portable AI assets (prompts, instructions, agents, docs, memories, templates, and workflows) for use with ChatGPT, Codex, GitHub Copilot, and Claude Code. The `scripts/ai.ts` CLI manages validation, linting, schema export, and VS Code integration. Installable skills live in the external collection repositories listed in `skills.index.md`.
+A structured registry of portable AI assets (prompts, instructions, agents, docs, memories, templates, and workflows) for use with ChatGPT, Codex, GitHub Copilot, and Claude Code. The `scripts/ai.ts` CLI manages validation, linting, schema export, and VS Code integration. Installable skills live in the external collection repositories listed in `README.md`.
 
 ## Common commands
 
@@ -93,7 +93,7 @@ Agent-specific optional fields follow the VS Code custom agent format: `name`, `
 ### External Skills
 
 Do not add installable skills to this repository. Put new skills in one of the
-external collection repositories listed in `skills.index.md`.
+external collection repositories listed in `README.md`.
 
 ### Config-driven paths (`config.toml`)
 

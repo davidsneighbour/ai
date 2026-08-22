@@ -6,12 +6,11 @@ interface ConventionalCommit {
 	notes?: unknown[];
 }
 
-const minorTypes = new Set(["feat", "prompts", "instructions", "skills"]);
+const minorTypes = new Set(["feat", "prompts", "instructions"]);
 
 const patchTypes = new Set([
 	"prompts",
 	"instructions",
-	"skills",
 	"fix",
 	"docs",
 	"build",
@@ -63,7 +62,6 @@ const config = {
 					{ type: "fix", section: "Bug Fixes" },
 					{ type: "prompts", section: "Prompts" },
 					{ type: "instructions", section: "Instructions" },
-					{ type: "skills", section: "Skills" },
 					{ type: "docs", section: "Documentation" },
 					{ type: "build", section: "Build" },
 					{ type: "ci", section: "Linting and Maintenance" },
