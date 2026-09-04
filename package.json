@@ -33,7 +33,7 @@
     "remark-parse": "11.0.0",
     "remark-stringify": "11.0.0",
     "secretlint": "13.0.4",
-    "simple-git-hooks": "2.13.1",
+    "simple-git-hooks": "2.14.0",
     "smol-toml": "1.8.0",
     "typescript": "7.0.2",
     "unified": "11.0.5",
