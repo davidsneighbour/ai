@@ -29,7 +29,7 @@
     "markdownlint-rule-relative-links": "5.1.2",
     "markdownlint-rule-search-replace": "1.2.0",
     "markdownlint-rule-title-case-style": "0.4.3",
-    "release-it": "21.0.2",
+    "release-it": "21.1.1",
     "remark-parse": "11.0.0",
     "remark-stringify": "11.0.0",
     "secretlint": "13.0.4",
