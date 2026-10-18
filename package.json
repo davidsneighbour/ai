@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.10",
-    "@dnbhq/markdownlint-config": "0.2.11",
+    "@dnbhq/markdownlint-config": "2.0.0",
     "@github/markdownlint-github": "0.8.3",
     "@release-it/conventional-changelog": "12.0.0",
     "@secretlint/secretlint-rule-no-dotenv": "13.0.4",
